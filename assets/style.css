@@ -1,0 +1,209 @@
+body {
+    background-color: #F3F3F3;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+.bgColor {
+    background-color: #F3F3F3;
+}
+
+.highlightMove {
+    background-color: #D1E4F6;
+}
+
+.banner, .badge-light, .btn-light {
+    background-color: #DCDCDC;
+}
+
+.whiteSquare {
+    background-color: #F0D9B5;
+}
+
+.blackSquare {
+    background-color: #B58863;
+}
+
+
+.highlightWhiteSquare {
+    background-color: #CDD26A;
+}
+
+.highlightBlackSquare {
+    background-color: #AAA23A;
+}
+
+#GameText, #EngineVariationDiv {
+    overflow-y: auto;
+    font-family: "pgn4web ChessSansUsual";
+}
+
+#GameSideToMove {
+    visibility: hidden;
+}
+
+.playerName {
+    font-weight: 900;
+    font-size: 20px;
+    vertical-align:middle;
+    display: table-cell;
+    padding-left: 5px;
+}
+
+.clock {
+    font-weight: 600;
+    font-size: 23px;
+}
+
+#GameBlackRating, #GameWhiteRating {
+    margin-top: -5px;
+}
+
+a {
+    color: inherit;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #F3F3F3;
+}
+
+.dropdown-item {
+    padding: 0.25rem 0.75rem;
+}
+
+textarea, .dropdown-item {
+    font-family: monospace;
+    font-size: 13px;
+}
+
+input, select, #DownloadModalBtn, #SettingsBtn {
+    height: 30px;
+    font-family: monospace;
+    font-size: 13px;
+}
+
+.copyBtn, #GithubBtn {
+    height: 40px;
+}
+
+.colorTitle {
+    width: 30px;
+    height: 30px;
+    border: 1px outset lightgray;
+}
+
+#WhiteSquareName {
+    background-color: #FFFFFF;
+}
+
+#BlackSquareName {
+    background-color: #000000;
+}
+
+#GameWhite, #GameBlack, #GameWhiteClock, #GameBlackClock {
+    white-space: nowrap;
+}
+
+#GameSelSelect {
+    width: 100% !important;
+}
+
+#GameBoard {
+    user-select: none;
+}
+
+.variation:nth-of-type(3n) {
+    display: block;
+}
+
+a.move {
+    display: inline-block;
+    width: 35%;
+    padding: 2px 5px;
+    margin-left: 3px;
+}
+
+a.move:hover {
+    background-color: #1B78D0;
+    color: white;
+}
+
+span.move {
+    color: #B3B3B3;
+    text-align: center;
+    display: inline-block;
+    width: 15%;
+    padding: 2px 0px;
+}
+
+#EngineEvalDiv {
+    height: 48px;
+    background-color:#DCDCDC;
+    border-radius: .25rem .25rem 0 0;
+}
+
+#EngineVariationDiv {
+    background-color: #FFFFFF;
+    line-height:1.5em;
+    height:3em;
+    overflow:hidden;
+    display: none;
+}
+
+#Snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #595959;
+    color: #FFFFFF; 
+    text-align: center; 
+    border-radius: .25rem;
+    padding: 16px; 
+    position: fixed; 
+    z-index: 2000; 
+    left: 50%; 
+    bottom: 60px;
+}
+
+#Snackbar.show {
+    visibility: visible; 
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 60px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 60px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 60px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 60px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+/*
+ *  pgn4web javascript chessboard
+ *  copyright (C) 2009-2012 Paolo Casaschi
+ *  see README file and http://pgn4web.casaschi.net
+ *  for credits, license and more details
+ */
+
+@font-face {
+    font-family: "pgn4web ChessSansUsual";
+    src:
+        url('fonts/ChessSansUsual.eot'),
+        url('fonts/ChessSansUsuald41d.eot?#iefix') format('embedded-opentype'),
+        url('fonts/ChessSansUsual.woff') format('woff'),
+        url('fonts/ChessSansUsual.ttf') format('truetype'),
+        url('fonts/ChessSansUsual.svg#ChessSansUsual') format('svg');
+}
