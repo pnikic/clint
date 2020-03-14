@@ -42,9 +42,9 @@ You can also do further customization in the same function. To edit the general 
 * This website is based on [pgn4web][2]
 * The engine currently used is Stockfish compiled to JavaScript. The release is obtained from [stockfish.js][3]
 * Icons present on the website are from the [Noun Project][5] and [Wikimedia][6]
-* The above items remains subject to their original licenses (if any).
+* The above items remains subject to their original licenses (if any)
 * Remaining clint code is Copyright (c) 2020 Patrick Nikić (see [LICENSE][7] file)
-* You are free to use clint for your website. You are encouraged to notify me if you are using clint.
+* You are free to use clint for your website. You are encouraged to notify me if you are using clint
 
 ### Future work:
 * Translation
