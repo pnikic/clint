@@ -9,7 +9,7 @@ var started = false;        // Boolean indicating wheter a PGN file was loaded o
 //=========================================================== 
 // Settings
 //=========================================================== 
-SetImagePath("../pgn4web-3.03/images");
+SetImagePath("../pgn4web-3.04/images");
 SetAutoplayDelay(1000);
 SetHighlightOption(true);
 SetTouchEventEnabled(false);
@@ -254,7 +254,7 @@ var engine;
 var toMove;
 var engineStatus = 0
 var icons = ["assets/images/toggleButton.png",  // OFF
-             "assets/images/toggleButton2.png"] // ON
+             "assets/images/toggleButton1.png"] // ON
 
 function initializeEngine() {
     engine = new Worker("assets/js/stockfish.js");

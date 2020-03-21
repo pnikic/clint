@@ -41,7 +41,7 @@ You can also do further customization in the same function. To edit the general 
 ### Credits and license
 * This website is based on [pgn4web][2]
 * The engine currently used is Stockfish compiled to JavaScript. The release is obtained from [stockfish.js][3]
-* Icons present on the website are from the [Noun Project][5] and [Wikimedia][6]
+* Icons present on the website are made by [PixelPerfect][8] and [Freepik][9] from [Flaticon][5], or from [Wikimedia][6]
 * The above items remains subject to their original licenses (if any)
 * Remaining clint code is Copyright (c) 2020 Patrick Nikić (see [LICENSE][7] file)
 * You are free to use clint for your website. You are encouraged to notify me if you are using clint
@@ -60,6 +60,8 @@ You can also do further customization in the same function. To edit the general 
 [2]: http://pgn4web.casaschi.net/
 [3]: https://github.com/niklasf/stockfish.js
 [4]: https://en.wikipedia.org/wiki/42nd_Chess_Olympiad
-[5]: https://thenounproject.com/
+[5]: https://www.flaticon.com/
 [6]: https://www.wikimedia.org/
 [7]: https://github.com/pnikic/clint/blob/master/LICENSE
+[8]: https://www.flaticon.com/authors/pixel-perfect
+[9]: https://www.flaticon.com/authors/freepik
