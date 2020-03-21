@@ -16,13 +16,15 @@ A demo is available on: http://hrvatski-sahovski-savez.hr/ftp/sucelje_patrick/
 ### Usage
 * Clone the repository on your web server
 * Download [pgn4web][2] on your web server
-* Edit the `pgn4web.js` path in `index.html` (in my case, pgn4web-3.03 is placed one directory up)
+* Edit the `pgn4web.js` path and the fonts path in `index.html` (in my case, pgn4web-3.04 is placed one directory up)
 ```html
-<script src="../pgn4web-3.03/pgn4web.js"></script>
+<script src="../pgn4web-3.04/pgn4web.js"></script>
+...
+<link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansUsual.css">
 ```
 and the image path for the pieces in `assets/js/setup.js`
 ```javascript
-SetImagePath("../pgn4web-3.03/images");
+SetImagePath("../pgn4web-3.04/images");
 ```
 
 * Upload / broadcast your PGN files on the server, and define their locations in `assets/js/setup.js` in the `operaterSettings()` function. For instance:
