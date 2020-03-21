@@ -7,6 +7,7 @@
               content="Live chess broadcast with pgn4web">
         <meta name='viewport' 
               content='width=device-width user-scalable=no'/>
+        <link rel="shortcut icon" href="favicon.ico">
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet"
@@ -15,12 +16,25 @@
               crossorigin="anonymous">
 
         <!-- =========================================================== -->
-        <!--  Paths to pgn4web.js, setup.js, style.css and title -->
+        <!--  Title in address bar -->
         <!-- =========================================================== -->
-        <script src="../pgn4web-3.03/pgn4web.js"></script>
+        <title>Clint</title>
+
+        <!-- =========================================================== -->
+        <!--  Paths to resources -->
+        <!-- =========================================================== -->
+        <!--  Paths to pgn4web.js, setup.js, style.css -->
+        <script src="../pgn4web-3.04/pgn4web.js"></script>
         <script src="assets/js/setup.js"></script>
         <link rel="stylesheet" type="text/css" href="assets/style.css">
-        <title>Turnir (adresna traka)</title>
+
+        <!--  Paths to fonts -->
+        <!--  Font can be changed in assets/style.css on the line with elements: -->
+        <!--    #GameText, #EngineVariationDiv { ... } -->
+        <link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansUsual.css">
+        <link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansMerida.css">
+        <link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansPiratf.css">
+        <!--  Note that pgn4web includes more fonts. Check the pgn4web-x.yz/fonts directory -->
         <!-- =========================================================== -->
     </head>
 
@@ -92,8 +106,7 @@
                             <div class="mr-auto col-7 text-left">
                                 <div class="row">
                                     <div id="PlayerPlace1"
-                                         class="col-12 playerName"
-                                         title="Crni">
+                                         class="col-12 playerName">
                                         <div id="GameBlack"></div>
                                     </div>
                                     <div id="RatingPlace1"
@@ -129,8 +142,7 @@
                             <div class="mr-auto col-7 text-left">
                                 <div class="row">
                                     <div id="PlayerPlace2"
-                                         class="col-12 playerName"
-                                         title="Bijeli">
+                                         class="col-12 playerName">
                                         <div id="GameWhite"></div>
                                     </div>
                                     <div id="RatingPlace2"
