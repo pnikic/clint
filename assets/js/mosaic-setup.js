@@ -11,11 +11,18 @@ let displayedGame = "";
 //===========================================================
 // Adjust the size of a miniboard
 adjustBoardSize(300);
+// Set touch gestures (for mobile phones)
+SetTouchEventEnabled(false);
+// Shortcuts on the chessboard (after clicking a square)
+clearShortcutSquares("abcdefgh", "12345678");
 // Parameters are: delay in minutes, alertFlag (display debug messages)
 SetLiveBroadcast(.25, false, false);
 // Set active PGN (by default, it will be set up by the parent of the iframe)
 //SetPgnUrl("pgn/old/r1.pgn");
 
+//===========================================================
+// Main part of the program
+//===========================================================
 function adjustBoardSize(boardWidth) {
     // The piece images are defined in the following sizes (see /images subfolders in pgn4web-x.yz)
     let squareSizes = [300, 144, 128, 112, 96, 88, 80, 72, 64, 60,

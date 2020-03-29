@@ -1,24 +1,18 @@
-/* Global configuration of colors */
+/************************************************************
+   Global configuration of colors 
+ ************************************************************/
 :root {
     --bg-color: #F3F3F3;
     --first-color: #DCDCDC;
+    --white-square: #F0D9B5;
+    --black-square: #B58863;
+    --highlight-white-sq: #CDD26A;
+    --highlight-black-sq: #AAA23A;
 }
 
-.whiteSquare {
-    background-color: #F0D9B5;
-}
-
-.blackSquare {
-    background-color: #B58863;
-}
-
-.highlightWhiteSquare {
-    background-color: #CDD26A;
-}
-
-.highlightBlackSquare {
-    background-color: #AAA23A;
-}
+/************************************************************
+   General
+ ************************************************************/
 
 .firstColor {
     background-color: var(--first-color);
@@ -28,7 +22,6 @@
     background-color: var(--bg-color);
 }
 
-/* General */
 .h-65 {
     height: 65%;
 }
@@ -128,6 +121,22 @@ span.move {
 /* Game board styles */
 #GameBoard {
     user-select: none;
+}
+
+.whiteSquare {
+    background-color: var(--white-square);
+}
+
+.blackSquare {
+    background-color: var(--black-square);
+}
+
+.highlightWhiteSquare {
+    background-color: var(--highlight-white-sq);
+}
+
+.highlightBlackSquare {
+    background-color: var(--highlight-black-sq);
 }
 
 .playerName {

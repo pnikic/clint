@@ -33,9 +33,9 @@ and the image path for the pieces in `assets/js/setup.js`
 SetImagePath("../pgn4web-3.04/images");
 ```
 
-* Upload / broadcast your PGN files on the server, and define their locations in `assets/js/setup.js` in the `operaterSettings()` function. For instance:
+* Upload / broadcast your PGN files on the server, and define their locations in `assets/js/setup.js` in the `operatorSettings()` function. For instance:
 ```javascript
-function operaterSettings() {
+function operatorSettings() {
     allPGNs.push(["Round 1 - dd/mm/yyyy hh:mm", "pgn/r1.pgn"])
     //...
 }
@@ -46,7 +46,7 @@ In `index.html` you can:
 * add / edit buttons for hyperlinks
 
 In `assets/js/setup.js` you can configure:
-* in `operaterSettings()` edit the links to already defined buttons and name of the operator
+* in `operatorSettings()` edit the links to already defined buttons and name of the operator
 * some default options (such as autoplay delay, move highlighting etc.)
 * number of miniboards with the height and width (in pixels) of the <iframe> in which the miniboard will be embedded
 ```javascript

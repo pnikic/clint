@@ -41,7 +41,7 @@ let miniboardHeight = 410;
 //=========================================================== 
 SetPgnUrl("pgn/r1.pgn"); // Active PGN (current round)
 
-function operaterSettings() {
+function operatorSettings() {
     // All rounds
     allPGNs.push(["1. kolo - dd/mm/gggg ss:mm", "pgn/r1.pgn"]);
     allPGNs.push(["2. kolo - dd/mm/gggg ss:mm", "pgn/r2.pgn"]);
@@ -58,8 +58,8 @@ function operaterSettings() {
     document.getElementById("PhotoLink").href = "https://www.example.com";
     // Link for tournament details (can be a link to a local file)
     document.getElementById("Raspis").href = "https://www.example.com";
-    // Paragraph for operater
-    document.getElementById("OperaterPar").innerHTML = "operater: " + "&lt; ime operatera &gt;";
+    // Paragraph for operator
+    document.getElementById("OperatorPar").innerHTML = "operater: " + "&lt; ime operatera &gt;";
 }
 
 //=========================================================== 
@@ -72,7 +72,7 @@ function customFunctionOnPgnGameLoad() {
         // Code in this block exectues only once
 
         // Set up hyperlinks, PGN files etc.
-        operaterSettings();
+        operatorSettings();
 
         // Set up round select menu (for single- and multi-board view)
         let selectRoundElem = document.getElementById("PgnFileSelect");
