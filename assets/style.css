@@ -1,19 +1,7 @@
-body {
-    background-color: #F3F3F3;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    text-align: center;
-}
-
-.bgColor {
-    background-color: #F3F3F3;
-}
-
-.highlightMove {
-    background-color: #D1E4F6;
-}
-
-.banner, .badge-light, .btn-light {
-    background-color: #DCDCDC;
+/* Global configuration of colors */
+:root {
+    --bg-color: #F3F3F3;
+    --first-color: #DCDCDC;
 }
 
 .whiteSquare {
@@ -24,13 +12,70 @@ body {
     background-color: #B58863;
 }
 
-
 .highlightWhiteSquare {
     background-color: #CDD26A;
 }
 
 .highlightBlackSquare {
     background-color: #AAA23A;
+}
+
+.firstColor {
+    background-color: var(--first-color);
+}
+
+.bgColor {
+    background-color: var(--bg-color);
+}
+
+/* General */
+.h-65 {
+    height: 65%;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+.banner {
+    border-radius: 0 0 .25rem .25rem;
+}
+
+.banner, .badge-light, .btn-light {
+    background-color: var(--first-color);
+}
+
+.btn-light:focus {
+    box-shadow: none;
+}
+
+.btn-light:not(:disabled):not(.disabled):active:focus {
+    box-shadow: none;
+}
+
+a {
+    color: inherit;
+}
+
+.dropdown-item:active {
+    background-color: #F3F3F3;
+}
+
+.dropdown-item {
+    height: 30px;
+    padding: 0.25rem 0.75rem;
+}
+
+textarea, input {
+    font-family: monospace;
+    font-size: 13px;
+}
+
+/* PGN text styles */
+.highlightMove {
+    background-color: #D1E4F6;
 }
 
 #GameText, #EngineVariationDiv {
@@ -40,80 +85,6 @@ body {
 
 #GameSideToMove {
     visibility: hidden;
-}
-
-.playerName {
-    font-weight: 900;
-    font-size: 20px;
-    vertical-align:middle;
-    display: table-cell;
-    padding-left: 5px;
-}
-
-.clock {
-    font-weight: 600;
-    font-size: 23px;
-}
-
-#GameBlackRating, #GameWhiteRating {
-    margin-top: -5px;
-}
-
-a {
-    color: inherit;
-}
-
-.dropdown-item.active, .dropdown-item:active {
-    background-color: #F3F3F3;
-}
-
-.dropdown-item {
-    padding: 0.25rem 0.75rem;
-}
-
-textarea, .dropdown-item {
-    font-family: monospace;
-    font-size: 13px;
-}
-
-input, select, #DownloadModalBtn, #SettingsBtn {
-    height: 30px;
-    font-family: monospace;
-    font-size: 13px;
-}
-
-.copyBtn, #GithubBtn {
-    height: 40px;
-}
-
-.colorTitle {
-    width: 30px;
-    height: 30px;
-    border: 1px outset lightgray;
-}
-
-#WhiteSquareName {
-    background-color: #FFFFFF;
-}
-
-#BlackSquareName {
-    background-color: #000000;
-}
-
-#GameWhite, #GameBlack, #GameWhiteClock, #GameBlackClock {
-    white-space: nowrap;
-}
-
-#GameSelSelect {
-    width: 100% !important;
-}
-
-#GameBoard {
-    user-select: none;
-}
-
-.variation:nth-of-type(3n) {
-    display: block;
 }
 
 a.move {
@@ -136,20 +107,87 @@ span.move {
     padding: 2px 0px;
 }
 
+.variation:nth-of-type(3n) {
+    display: block;
+}
+
 #EngineEvalDiv {
     height: 48px;
-    background-color:#DCDCDC;
+    background-color: var(--first-color);
     border-radius: .25rem .25rem 0 0;
 }
 
 #EngineVariationDiv {
     background-color: #FFFFFF;
-    line-height:1.5em;
-    height:3em;
-    overflow:hidden;
+    line-height: 1.5em;
+    height: 3em;
+    overflow: hidden;
     display: none;
 }
 
+/* Game board styles */
+#GameBoard {
+    user-select: none;
+}
+
+.playerName {
+    font-weight: 900;
+    font-size: 20px;
+    vertical-align: iddle;
+    display: table-cell;
+    padding-left: 5px;
+}
+
+.clock {
+    font-size: 21px;
+}
+
+#GameBlackRating, #GameWhiteRating {
+    margin-top: -5px;
+}
+
+.colorTitle {
+    width: 30px;
+    height: 30px;
+    border: 1px outset lightgray;
+}
+
+#WhiteSquareName {
+    background-color: #FFFFFF;
+}
+
+#BlackSquareName {
+    background-color: #000000;
+}
+
+#GameWhite, #GameBlack, #GameWhiteClock, #GameBlackClock {
+    white-space: nowrap;
+}
+
+.h-30p, #GameSelectMenu, #PgnFileSelect, #DownloadModalBtn, #SettingsBtn {
+    height: 30px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+#GameSelSelect {
+    width: 100% !important;
+}
+
+.custom-select {
+    background-color:  var(--first-color);
+    color: black;
+}
+
+.custom-select:focus {
+    border-color:  var(--first-color);
+}
+
+.h-40p, #GithubBtn, #MultiboardModalBtn {
+    height: 40px;
+}
+
+/* Snackbar styles */
 #Snackbar {
     visibility: hidden;
     min-width: 250px;
@@ -189,4 +227,60 @@ span.move {
 @keyframes fadeout {
     from {bottom: 60px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
+}
+
+/* Miniboard styles */
+iframe {
+    border: 0;
+}
+
+.playerNameTile {
+    font-weight: 600;
+    font-size: 15px;
+    padding: 0px 0px 0px 3px;
+}
+
+.clockTile {
+    font-size: 15px;
+    padding: 0px 2px 0px 0px;
+}
+
+.fullBorder {
+    border: 1px solid #000000;
+}
+
+.sideBorder {
+    border-right: 1px solid #000000;
+    border-left: 1px solid #000000;
+}
+
+.resultTileW {
+    color: #000000;
+    background-color: #FFFFFF;
+    border-right: 1px solid #000000;
+}
+
+.resultTileB {
+    background-color: #000000;
+    color: #FFFFFF;
+    border-right: 1px solid #000000;
+}
+
+#GamesSelectionContainer{
+    max-height: 450px;
+    overflow-y: scroll;
+}
+
+#ControlPanel {
+    border-top: 0;
+}
+
+.controlPanelBtn {
+    width: 20%;
+    border: 0;
+    border-radius: 0;
+}
+
+.controlPanelBtn:focus {
+    outline: none;
 }

@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type"
+              content="text/html; charset=UTF-8">
+        <title>Chessboard tile</title>
+        <link rel="shortcut icon" href="favicon.ico">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet"
+              href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+              integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+              crossorigin="anonymous">
+
+        <!-- =========================================================== -->
+        <!--  Paths to resources -->
+        <!-- =========================================================== -->
+        <script src="../pgn4web-3.04/pgn4web.js"></script>
+        <link rel="stylesheet" type="text/css" href="assets/style.css">
+        <!-- =========================================================== -->
+    </head>
+
+    <body>
+        <!-- =========================================================== -->
+        <!--  Board with information about players -->
+        <!-- =========================================================== -->
+        <div id="Miniboard"
+             class="m-auto">
+            <center>
+                <div id="BlackInfo"
+                     class="row w-100 fullBorder firstColor">
+                    <div id="ResultBlack"
+                         class="col-1 p-0 resultTileB">
+                    </div>
+                    <div class="col-7 text-left playerNameTile"
+                         id="GameBlack">
+                    </div>
+                    <div id="ClockPlace1" class="col-4 clockTile text-right">
+                        <div id="GameBlackClock"></div>
+                    </div>
+                </div>
+                <div id="GameBoard" class="sideBorder">
+                </div>
+                <div id="WhiteInfo"
+                     class="row w-100 fullBorder firstColor">
+                    <div id="ResultWhite"
+                         class="col-1 p-0 resultTileW">
+                    </div>
+                    <div class="col-7 text-left playerNameTile"
+                         id="GameWhite">
+                    </div>
+                    <div id="ClockPlace2" class="col-4 clockTile text-right">
+                        <div id="GameWhiteClock"></div>
+                    </div>
+                </div>
+            </center>
+
+            <!-- =========================================================== -->
+            <!--  Navigation panel -->
+            <!-- =========================================================== -->
+            <div id="ControlPanel"
+                 class="row m-0 fullBorder"
+                 style="background-color: gray;">
+                <button type="button"
+                        class="btn btn-light controlPanelBtn"
+                        onclick="GoToMove(StartPlyVar[0], 0);">&lt;&lt;
+                </button>
+                <button type="button"
+                        class="btn btn-light controlPanelBtn"
+                        onclick="GoToMove(CurrentPly - 1);">&lt;
+                </button>
+                <button type="button"
+                        class="btn btn-light controlPanelBtn"
+                        onclick="GoToMove(CurrentPly + 1);">&gt;
+                </button>
+                <button type="button"
+                        class="btn btn-light controlPanelBtn"
+                        onclick="GoToMove(StartPlyVar[0] + PlyNumberVar[0], 0);">&gt;&gt;
+                </button>
+                <button type="button"
+                        class="btn btn-light controlPanelBtn"
+                        onclick="flipMiniboard()">⟳
+                </button>
+            </div>
+        </div>
+
+        <div class="d-none" id="GameResult"></div>
+
+        <!-- Setup script for miniboard -->
+        <script src="assets/js/mosaic-setup.js"></script>
+
+        <!-- Optional Bootstrap JS -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+                integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+                integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+                crossorigin="anonymous"></script>
+    </body>    
+</html>
