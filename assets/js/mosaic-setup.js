@@ -133,5 +133,9 @@ function toggleControlPanel() {
     }
 }
 
+function toggleHighlight() {
+    SetHighlight(!highlightOption);
+}
+
 // At the end of the script, inform the parent that the page is loaded
 messageToParent(window.frameElement.id + "Ready");

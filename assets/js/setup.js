@@ -565,6 +565,15 @@ function toggleControlPanels() {
     }
 }
 
+function toggleMoveHighlight() {
+    // Toggle move highlighting for each miniboard
+    let iframes = document.querySelectorAll("iframe");
+
+    for(let i = 0; i < iframes.length; i++) {
+        iframes[i].contentWindow.toggleHighlight();
+    }
+}
+
 function updateModalContent() {
     document.getElementById("MaxSelected").innerHTML = numberMiniboards;
     document.getElementById("CountSelected").innerHTML = chosenGames.length;
