@@ -10,7 +10,9 @@ let displayedGame = "";
 // Settings
 //===========================================================
 // Adjust the size of a miniboard
-adjustBoardSize(300);
+// adjustBoardSize(300);
+
+SetImagePath("../pgn4web-3.04/images/");
 // Set touch gestures (for mobile phones)
 SetTouchEventEnabled(false);
 // Shortcuts on the chessboard (after clicking a square)
@@ -35,6 +37,7 @@ function adjustBoardSize(boardWidth) {
 
     document.getElementById("Miniboard").setAttribute("style", "width: " + String(fit * 8 + 2) + "px;");
     SetImagePath("../pgn4web-3.04/images/alpha/" + String(fit));
+    Init(currentGame);
 }
 
 function messageToParent(msg) {

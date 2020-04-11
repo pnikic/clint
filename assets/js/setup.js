@@ -580,6 +580,7 @@ function changeFramesPGN(val) {
         // Change PGN for all miniboards
         let iframes = document.querySelectorAll("iframe");
         for(let i = 0; i < iframes.length; i++) {
+            iframes[i].style.display = "";
             iframes[i].contentWindow.changePgn(newPgnUrl);
         }
 
@@ -588,6 +589,8 @@ function changeFramesPGN(val) {
         for (let i = 0; i < numberMiniboards; ++i) {
             chosenGames[i] = i;
         }
+
+        maximizeIframesTiles();
     }
 
     // Restart live broadcast
@@ -663,12 +666,18 @@ function updateDisplayGames() {
 
     // Render chosen games in order of appearing in the PGN file
     let iframes = document.querySelectorAll("iframe");
-    for(let i = 0; i < iframes.length; i++) {
-        iframes[i].contentWindow.Init(chosenGames[i]);
+    for(let i = 0; i < chosenGames.length; i++) {
+        iframes[i].style.display = "";
+    }
+
+    for (let i = chosenGames.length; i < iframes.length; ++i) {
+        iframes[i].style.display = "none";
     }
 
     // Scroll modal games list to top
     document.getElementById("GamesSelectionContainer").scrollTop = 0;
+
+    maximizeIframesTiles();
 }
 
 function handleCheckboxClick(evt) {
@@ -681,8 +690,9 @@ function handleCheckboxClick(evt) {
     }
 
     let chosenCount = document.getElementById("CountSelected");
-    chosenCount.innerHTML = chosenGames.length;
-    if (Number(chosenCount.innerHTML) != numberMiniboards) {
+    let cnt = chosenGames.length;
+    chosenCount.innerHTML = cnt;
+    if (cnt > numberMiniboards || cnt == 0) {
         chosenCount.style.setProperty("color", "red");
         document.getElementById("multiboardSaveBtn").disabled = true;
     }
@@ -690,6 +700,25 @@ function handleCheckboxClick(evt) {
         chosenCount.style.setProperty("color", "");
         document.getElementById("multiboardSaveBtn").disabled = false;
     }
+}
+
+function resizeIframes(size) {
+    let iframes = document.querySelectorAll("iframe");
+
+    for(let i = 0; i < chosenGames.length; i++) {
+        iframes[i].width = size;
+        iframes[i].height = size + 90;
+        iframes[i].contentWindow.adjustBoardSize(size - 5);
+        iframes[i].contentWindow.Init(chosenGames[i]);
+    }
+}
+
+function maximizeIframesTiles() {
+    // Number of games per row, depending of number of chosen games
+    let gamesPerRow = [1, 1, 2, 3, 2, 3, 3];
+    let gpr = gamesPerRow[chosenGames.length];
+    let tileWidth = parseInt(document.getElementById("IframesContainer").offsetWidth / gpr);
+    resizeIframes(tileWidth);
 }
 
 function toggleView(ind) {
