@@ -471,6 +471,9 @@ function snackbarMessage(msg) {
 }
 
 function toggleAutoplay() {
+    if (CurrentPly == PlyNumber)
+        return;
+
     document.getElementById("AutoPlayBtn").innerHTML = isAutoPlayOn ? "▶" : "⏸";
     SetAutoPlay(!isAutoPlayOn);
 }
