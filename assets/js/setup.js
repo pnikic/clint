@@ -28,6 +28,8 @@ SetLiveBroadcast(.25, false);
 // Set the game on first or last move based on first argument: "start" or "end".
 // This function call is only relevant for startup. Otherwise check the changePGN(...) function
 SetInitialHalfmove("end", true);
+// Number of minutes before round for enabling current round selection
+let minsBeforeRound = 45;
 
 //----------------------------------------------------------
 // Multiple boards view
@@ -42,11 +44,18 @@ let miniboardHeight = 410;
 SetPgnUrl("pgn/r1.pgn"); // Active PGN (current round)
 
 function operatorSettings() {
-    // All rounds
-    allPGNs.push(["1. kolo - dd/mm/gggg ss:mm", "pgn/r1.pgn"]);
-    allPGNs.push(["2. kolo - dd/mm/gggg ss:mm", "pgn/r2.pgn"]);
-    allPGNs.push(["3. kolo - dd/mm/gggg ss:mm", "pgn/r3.pgn"]);
-    allPGNs.push(["4. kolo - dd/mm/gggg ss:mm", "pgn/r4.pgn"]);
+    // Define starting time and PGN files for all rounds
+    let roundsInfo = [];
+
+    // Every element is of format:
+    //  [ [year, month, day, hours, minutes], path/to/pgn ]
+    roundsInfo.push([[2020, 4, 11, 13, 00], "pgn/r1.pgn"]);
+    roundsInfo.push([[2020, 4, 12, 16, 00], "pgn/r2.pgn"]);
+    roundsInfo.push([[2020, 4, 13, 16, 00], "pgn/r3.pgn"]);
+    roundsInfo.push([[2020, 4, 14, 09, 30], "pgn/r4.pgn"]);
+    generateAllPGNs(roundsInfo);
+
+    // Additional PGN files
     allPGNs.push(["Arhiva", "pgn/all.pgn"]);
 
     // PGN download buttons
@@ -64,7 +73,25 @@ function operatorSettings() {
 
 //=========================================================== 
 // Main part of the program
-//=========================================================== 
+//===========================================================
+function pad(str, totalChars, padChar) {
+    return (totalChars > str.length ? String(padChar).repeat(totalChars - str.length) : "") +  str;
+}
+
+function dateToString(date) {
+    return String(date.getDate() + "/" + String(date.getMonth() + 1)) + "/" + String(date.getFullYear())
+        + " " + pad(String(date.getHours()), 2, "0") + ":" + pad(String(date.getMinutes()), 2, "0");
+}
+
+function generateAllPGNs(roundsInfo) {
+    for (let i = 0; i < roundsInfo.length; ++i) {
+        let fst = roundsInfo[i][0];
+        let date = new Date(fst[0], fst[1] - 1, fst[2], fst[3], fst[4]);
+        let roundName = String(i + 1) + ". kolo - " + dateToString(date);
+        allPGNs.push([roundName, roundsInfo[i][1], date]);
+    }
+}
+
 function customFunctionOnPgnGameLoad() {
     // Overriding the function from pgn4web.js that will run after loading a PGN
     
@@ -77,11 +104,17 @@ function customFunctionOnPgnGameLoad() {
         // Set up round select menu (for single- and multi-board view)
         let selectRoundElem = document.getElementById("PgnFileSelect");
         let mbSelectRoundElem = document.getElementById("MultiboardFileSelect");
+        let now = new Date();
 
         for (let i = 0; i < allPGNs.length; ++i){
             let option = document.createElement("option");
             option.value = String(i);
             option.innerHTML = allPGNs[i][0];
+            // If the round will start at later point in time, disable its selection
+            if (allPGNs[i].length > 2 && new Date(allPGNs[i][2].getTime() - minsBeforeRound * 60000) > now) {
+                option.disabled = true;
+            }
+
             selectRoundElem.appendChild(option);
             mbSelectRoundElem.appendChild(option.cloneNode(true));
         }
