@@ -36,7 +36,11 @@ body {
     border-radius: 0 0 .25rem .25rem;
 }
 
-.banner, .badge-light, .btn-light {
+.footer {
+    border-radius: .25rem;
+}
+
+.banner, .footer, .badge-light, .btn-light {
     background-color: var(--first-color);
 }
 
@@ -142,8 +146,6 @@ span.move {
 .playerName {
     font-weight: 900;
     font-size: 20px;
-    vertical-align: iddle;
-    display: table-cell;
     padding-left: 5px;
 }
 
