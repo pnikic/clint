@@ -69,6 +69,8 @@ function operatorSettings() {
     document.getElementById("Raspis").href = "https://www.example.com";
     // Paragraph for operator
     document.getElementById("OperatorPar").innerHTML = "operater: " + "&lt; ime operatera &gt;";
+    // Operator contact
+    document.getElementById("OperatorEmail").href = "mailto:" + "operator@mailserver.com";
 }
 
 //=========================================================== 
