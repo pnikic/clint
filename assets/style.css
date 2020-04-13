@@ -254,6 +254,7 @@ iframe {
 .clockTile {
     font-size: 15px;
     padding: 0px 2px 0px 0px;
+    background-color: var(--first-color);
 }
 
 .fullBorder {

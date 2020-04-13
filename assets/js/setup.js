@@ -6,6 +6,7 @@
 let allPGNs = [];          // Array of PGN files to be filled
 let started = false;       // Boolean indicating whether a PGN file was loaded once
 let displayedGame = "";    // Currently displayed game
+let viewType = 0;
 
 //=========================================================== 
 // Settings
@@ -14,7 +15,8 @@ let displayedGame = "";    // Currently displayed game
 // Single board view
 //----------------------------------------------------------
 // Path to /images folder of pgn4web
-SetImagePath("../pgn4web-3.04/images");
+SetImageType("svg");
+SetImagePath("../pgn4web-3.04/images/svgchess");
 // Set delay for autoplay of the game (in milliseconds)
 SetAutoplayDelay(1000);
 // Set starting value for move highlighting
@@ -35,8 +37,8 @@ let minsBeforeRound = 45;
 // Multiple boards view
 //----------------------------------------------------------
 let numberMiniboards = 6;
-let miniboardWidth = 330;
-let miniboardHeight = 410;
+let miniboardWidth = 230;
+let miniboardHeight = miniboardWidth + 90;
 
 //=========================================================== 
 // Information about rounds and tournament
@@ -168,28 +170,26 @@ function getDisplayedGame() {
 }
 
 function adjustSquareSize(scale = 1) {
+    // Cancel the style for boardTable element set by pgn4web
+    let boardTable = document.getElementById("boardTable");
+    boardTable.style.setProperty("width", "");
+    boardTable.style.setProperty("height", "");
+
     // Set up square sizes, and height/width of game and engine evaluation texts,
     //  according to the screen size
-    let boardWidth = scale * document.getElementById("GameBoard").clientWidth;
+    let winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    let winWidth = document.getElementById("GameBoard").clientWidth;
+    let boardWidth = scale * Math.min(winHeight, winWidth);
     let width = String(Math.floor(boardWidth / 8));
 
-    ws = document.getElementsByClassName("whiteSquare");
-    bs = document.getElementsByClassName("blackSquare");
-    ps = document.getElementsByClassName("pieceImage");
+    let targetClass = ["whiteSquare", "blackSquare", "highlightWhiteSquare", "highlightBlackSquare", "pieceImage"];
 
-    for (i = 0; i < ws.length; ++i){
-        ws[i].setAttribute("width", width);
-        ws[i].setAttribute("height", width);
-    }
-
-    for (i = 0; i < bs.length; ++i){
-        bs[i].setAttribute("width", width);
-        bs[i].setAttribute("height", width);
-    }
-
-    for (i = 0; i < ps.length; ++i){
-        ps[i].setAttribute("width", width);
-        ps[i].setAttribute("height", width);
+    for (let i = 0; i < targetClass.length; ++i) {
+        let collection = document.getElementsByClassName(targetClass[i]);
+        for (let j = 0; j < collection.length; ++j) {
+            collection[j].setAttribute("width", width);
+            collection[j].setAttribute("height", width);
+        }
     }
 
     // Set height/width of game text divs and engine evaluation divs
@@ -203,10 +203,8 @@ function adjustSquareSize(scale = 1) {
 
     let engineDiv = document.getElementById("EngineEvalDiv");
     let engineLineDiv = document.getElementById("EngineVariationDiv");
-    
-    // https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device
-    let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches || window.innerWidth < 960;
-    if (!isMobile) {
+
+    if (!isMobile()) {
         engineLineDiv.style.setProperty("width", movesWidth + "px");
         engineDiv.style.setProperty("width", movesWidth + "px");
     }
@@ -549,6 +547,7 @@ function restartBroadcast() {
 //===========================================================
 let iframesGenerated = false;
 let iframesLoaded = Array(numberMiniboards).fill(0);
+let controlPanelOption = true;
 
 // Array of displayed games, used for choose games modal
 // By default, the first games are loaded
@@ -561,11 +560,20 @@ function generateIframes() {
     // Generate the <iframe> elements
     let iframesDiv = document.getElementById("IframesContainer");
     for (let i = 0; i < numberMiniboards; ++i) {
+        // Add <br> elements between iframes
+        if (i > 0) {
+            let br = document.createElement("br");
+            br.id = "br" + String(i - 1);
+            br.style.display = "none";
+            iframesDiv.appendChild(br);
+        }
+
         let frame = document.createElement("iframe");
         frame.id = "frame" + String(i);
         frame.width = String(miniboardWidth);
         frame.height = String(miniboardHeight);
         frame.src = "mosaic-tile.html";
+        frame.style.display = "none";
         iframesDiv.appendChild(frame);
     }
 }
@@ -575,22 +583,21 @@ function changeFramesPGN(val) {
     val = Number(val);
 
     if (val >= 0 && val < allPGNs.length) {
-        let newPgnUrl = allPGNs[val][1];
-
-        // Change PGN for all miniboards
-        let iframes = document.querySelectorAll("iframe");
-        for(let i = 0; i < iframes.length; i++) {
-            iframes[i].style.display = "";
-            iframes[i].contentWindow.changePgn(newPgnUrl);
-        }
-
         // Readjust chosenGames array to select the first games
         chosenGames = Array(numberMiniboards);
         for (let i = 0; i < numberMiniboards; ++i) {
             chosenGames[i] = i;
         }
 
-        maximizeIframesTiles();
+        maximizeIframesTiles(controlPanelOption);
+
+        // Change PGN for all miniboards
+        let newPgnUrl = allPGNs[val][1];
+        let iframes = document.querySelectorAll("iframe");
+        for(let i = 0; i < iframes.length; i++) {
+            iframes[i].style.display = "";
+            iframes[i].contentWindow.changePgn(newPgnUrl);
+        }
     }
 
     // Restart live broadcast
@@ -598,12 +605,16 @@ function changeFramesPGN(val) {
 }
 
 function toggleControlPanels() {
+    controlPanelOption = !controlPanelOption;
+
     // Display or hide the navigation buttons for each miniboard
     let iframes = document.querySelectorAll("iframe");
 
     for(let i = 0; i < iframes.length; i++) {
         iframes[i].contentWindow.toggleControlPanel();
     }
+
+    maximizeIframesTiles(controlPanelOption);
 }
 
 function toggleMoveHighlight() {
@@ -677,7 +688,10 @@ function updateDisplayGames() {
     // Scroll modal games list to top
     document.getElementById("GamesSelectionContainer").scrollTop = 0;
 
-    maximizeIframesTiles();
+    maximizeIframesTiles(controlPanelOption);
+    
+    // Restart live broadcast
+    restartBroadcast();
 }
 
 function handleCheckboxClick(evt) {
@@ -702,27 +716,73 @@ function handleCheckboxClick(evt) {
     }
 }
 
-function resizeIframes(size) {
-    let iframes = document.querySelectorAll("iframe");
+function activateLineBreaks(rows) {
+    // According to number of games to be displayed, and number of rows
+    //   activate <br/> elements to display boards in their rows
 
+    for (let i = 0; i < numberMiniboards - 1; ++i) {
+        let el = document.getElementById("br" + String(i));
+        el.style.display = "none";
+    }
+
+    let gamesPerRow = Math.ceil(chosenGames.length / rows);
+    let ind = gamesPerRow - 1;
+    while (ind < numberMiniboards - 1) {
+        let el = document.getElementById("br" + String(ind));
+        el.style.display = "";
+        ind += gamesPerRow;
+    }
+}
+
+function maximizeIframesTiles(withPanel = true) {
+    // Do not attempt tiling on mobile phones
+    // It makes no sense to display all boards on a single mobile screen
+    if (isMobile()) {
+        return;
+    }
+
+    // Maximum width and height for displaying all miniboards
+    var width = document.getElementById("MultiBoardView").offsetWidth;
+    // https://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
+    let height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+    // Find best layout
+    let size = -1;
+    let bestRow = -1;
+
+    // Try put all boards in 1, 2, 3, ... rows and see what gives biggest boards
+    for (let rows = 1; rows <= chosenGames.length; ++rows) {
+        let gamesPerRow = Math.ceil(chosenGames.length / rows);
+        let optimalTileWidth = parseInt(.975 * width / gamesPerRow);
+        let optimalTileHeight = parseInt(.975 * height / rows);
+        if (size < Math.min(optimalTileHeight, optimalTileWidth)) {
+            size = Math.min(optimalTileHeight, optimalTileWidth);
+            bestRow = rows;
+        }
+    }
+
+    // Toggle line breaks, to have boards in respective rows
+    activateLineBreaks(bestRow);
+
+    // Calculate iframes dimensions
+    // There are additional pixels for the control panel (37px) and the player names (2 x 26px)
+    let additional = 52 + (withPanel ? 37 : 0);
+    size = size - additional;
+    // We set the board some pixels smaller to have some margins around the board
+    let resize = .975 * size;
+
+    let iframes = document.querySelectorAll("iframe");
     for(let i = 0; i < chosenGames.length; i++) {
         iframes[i].width = size;
-        iframes[i].height = size + 90;
-        iframes[i].contentWindow.adjustBoardSize(size - 5);
+        iframes[i].height = size + additional;
+        iframes[i].contentWindow.adjustBoardSize(resize);
         iframes[i].contentWindow.Init(chosenGames[i]);
     }
 }
 
-function maximizeIframesTiles() {
-    // Number of games per row, depending of number of chosen games
-    let gamesPerRow = [1, 1, 2, 3, 2, 3, 3];
-    let gpr = gamesPerRow[chosenGames.length];
-    let tileWidth = parseInt(document.getElementById("IframesContainer").offsetWidth / gpr);
-    resizeIframes(tileWidth);
-}
-
 function toggleView(ind) {
     // Change from single to multiple board view or vice versa
+    viewType = ind;
 
     if (ind == 0) {
         // Change to single board view
@@ -748,6 +808,15 @@ function toggleView(ind) {
     restartBroadcast()
 }
 
+function resizeCallback() {
+    if (viewType == 0) {
+        adjustSquareSize();
+    }
+    else {
+        maximizeIframesTiles(controlPanelOption);
+    }
+}
+
 // Iframe0 will send messages when it changes it's PGN so the "select game" modal can be updated
 window.addEventListener("message", receiveMessage, false);
 
@@ -767,7 +836,13 @@ function receiveMessage(evt) {
 
         // If all iframes are loaded, load first PGN file
         if (iframesLoaded.reduce((a, b) => a + b) == numberMiniboards) {
+
             changeFramesPGN(0);
         }
     }
+}
+
+function isMobile() {
+    // https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device
+    return window.matchMedia("only screen and (max-width: 760px)").matches || window.innerWidth < 960;
 }

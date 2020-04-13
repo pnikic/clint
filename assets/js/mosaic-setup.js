@@ -5,14 +5,14 @@
 //=========================================================== 
 let started = false;
 let displayedGame = "";
+let lastBoardWidth;
+let controlPanelOption = true;
 
 //===========================================================
 // Settings
 //===========================================================
-// Adjust the size of a miniboard
-// adjustBoardSize(300);
-
-SetImagePath("../pgn4web-3.04/images/");
+SetImageType("svg");
+SetImagePath("../pgn4web-3.04/images/svgchess");
 // Set touch gestures (for mobile phones)
 SetTouchEventEnabled(false);
 // Shortcuts on the chessboard (after clicking a square)
@@ -25,19 +25,37 @@ SetLiveBroadcast(.25, false, false);
 //===========================================================
 // Main part of the program
 //===========================================================
-function adjustBoardSize(boardWidth) {
-    // The piece images are defined in the following sizes (see /images subfolders in pgn4web-x.yz)
-    let squareSizes = [300, 144, 128, 112, 96, 88, 80, 72, 64, 60,
-                       56, 52, 48, 47, 46, 45, 44, 43, 42, 41, 40,
-                       39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29,
-                       28, 27, 26, 25, 24, 23, 22, 21, 20];
-    let fit = squareSizes.find(x => x < boardWidth / 8);
-    if (!fit)
-        fit = squareSizes[squareSizes.length - 1];
+function adjustBoardSize(boardWidth = undefined) {
+    if (boardWidth == undefined) {
+        // If no board width is given, fill the whole parent window
+        let nameHeight = document.getElementById("WhiteInfo").offsetHeight;
+        let cpHeight = document.getElementById("ControlPanel").offsetHeight;
+        let mWidth = window.frameElement.width;
+        let mHeight = window.frameElement.height - 2 * nameHeight - cpHeight;
+        boardWidth = Math.min(mWidth, mHeight);
+    }
 
-    document.getElementById("Miniboard").setAttribute("style", "width: " + String(fit * 8 + 2) + "px;");
-    SetImagePath("../pgn4web-3.04/images/alpha/" + String(fit));
-    Init(currentGame);
+    // Cancel the style for boardTable element set by pgn4web
+    let boardTable = document.getElementById("boardTable");
+    boardTable.style.setProperty("width", "");
+    boardTable.style.setProperty("height", "");
+
+    lastBoardWidth = boardWidth;
+    let width = parseInt(boardWidth / 8);
+
+    // Resize all the squares and pieces in the chess board
+    let targetClass = ["whiteSquare", "blackSquare", "highlightWhiteSquare", "highlightBlackSquare", "pieceImage"];
+
+    for (let i = 0; i < targetClass.length; ++i) {
+        let collection = document.getElementsByClassName(targetClass[i]);
+        for (let j = 0; j < collection.length; ++j) {
+            collection[j].setAttribute("width", width);
+            collection[j].setAttribute("height", width);
+        }
+    }
+
+    // The width of the game board is 8 * fit, and the borders are 2 additional pixels
+    document.getElementById("Miniboard").setAttribute("style", "width: " + String(width * 8 + 2) + "px;");
 }
 
 function messageToParent(msg) {
@@ -79,8 +97,11 @@ function customFunctionOnPgnGameLoad() {
     // Overriding the function from pgn4web.js that will run after loading a game
 
     if (!started) {
-        displayedGame = getDisplayedMinigame();
         started = true;
+        displayedGame = getDisplayedMinigame();
+        adjustBoardSize(lastBoardWidth);
+        // Inform the parent that the page is loaded
+        messageToParent(window.frameElement.id + "Ready");
     }
 
     let resultElem = document.getElementById("GameResult");
@@ -107,7 +128,7 @@ function customFunctionOnPgnGameLoad() {
 
 function getDisplayedMinigame() {
     return gameWhite[currentGame] + " - " + gameBlack[currentGame] + ", "
-         + (gameDate.length ? gameDate[currentGame] : "");
+        + (gameDate.length ? gameDate[currentGame] : "");
 }
 
 function flipMiniboard() {
@@ -124,11 +145,14 @@ function flipMiniboard() {
     }
 
     FlipBoard();
+    adjustBoardSize(lastBoardWidth);
 }
 
 function toggleControlPanel() {
+    controlPanelOption = !controlPanelOption;
+
     let panel = document.getElementById("ControlPanel");
-    if (panel.style.display == "") {
+    if (!controlPanelOption) {
         panel.style.display = "none";
     }
     else {
@@ -139,6 +163,3 @@ function toggleControlPanel() {
 function toggleHighlight() {
     SetHighlight(!highlightOption);
 }
-
-// At the end of the script, inform the parent that the page is loaded
-messageToParent(window.frameElement.id + "Ready");
