@@ -7,6 +7,7 @@ let allPGNs = [];          // Array of PGN files to be filled
 let started = false;       // Boolean indicating whether a PGN file was loaded once
 let displayedGame = "";    // Currently displayed game
 let viewType = 0;
+let scaleOption = 1;
 
 //=========================================================== 
 // Settings
@@ -128,7 +129,7 @@ function customFunctionOnPgnGameLoad() {
         started = true;
     }
 
-    adjustSquareSize();
+    adjustSquareSize(scaleOption);
 
     // Add Elo ratings
     customPgnHeaderTag("WhiteElo", "GameWhiteRating");
@@ -170,6 +171,11 @@ function getDisplayedGame() {
 }
 
 function adjustSquareSize(scale = 1) {
+    if (isNaN(scale)) {
+        return;
+    }
+
+    scaleOption = scale;
     // Cancel the style for boardTable element set by pgn4web
     let boardTable = document.getElementById("boardTable");
     boardTable.style.setProperty("width", "");
@@ -179,7 +185,7 @@ function adjustSquareSize(scale = 1) {
     //  according to the screen size
     let winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
     let winWidth = document.getElementById("GameBoard").clientWidth;
-    let boardWidth = scale * Math.min(winHeight, winWidth);
+    let boardWidth = scaleOption * Math.min(winHeight, winWidth);
     let width = String(Math.floor(boardWidth / 8));
 
     let targetClass = ["whiteSquare", "blackSquare", "highlightWhiteSquare", "highlightBlackSquare", "pieceImage"];
@@ -308,7 +314,7 @@ function flipBoard() {
     document.getElementById('ClockPlace2').appendChild(IsRotated ? clkW : clkB);
 
     FlipBoard();  // This function call will refresh all the default tags (GameWhite, GameWhiteClock etc)...
-    adjustSquareSize(); // ...and also mess up with piece image sizes, so we resize them
+    adjustSquareSize(scaleOption); // ...and also mess up with piece image sizes, so we resize them
     adjustDrawSign();
 }
 
@@ -810,7 +816,7 @@ function toggleView(ind) {
 
 function resizeCallback() {
     if (viewType == 0) {
-        adjustSquareSize();
+        adjustSquareSize(scaleOption);
     }
     else {
         maximizeIframesTiles(controlPanelOption);
