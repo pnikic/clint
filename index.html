@@ -242,9 +242,9 @@
                             <div class="dropdown-menu dropdown-menu-right text-right p-0"
                                  aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item"
-                                   onclick="flipBoard();">Okreni ploču
-                                    <img src="assets/images/rotate.png"
-                                         alt="rotate"
+                                   onclick="toggleView(1);">Više ploča
+                                    <img src="assets/images/squares.png"
+                                         alt="multiple boards"
                                          class="h-100 pl-2">
                                 </a>
                                 <a class="dropdown-item"
@@ -253,30 +253,34 @@
                                          alt="highlight"
                                          class="h-100 pl-2">
                                 </a>
-                                <a class="dropdown-item">Brzina reprodukcije (sec)
-                                    <input type="number"
-                                           value="1"
-                                           min="0.5"
-                                           max="30"
-                                           step="0.5"
-                                           style="width: 5em"
-                                           class="pl-2"
-                                           onchange="SetAutoplayDelay(this.value*1000);"/>
+                                <a class="dropdown-item">Automatska reprodukcija (sec)
+                                    <button type="button"
+                                            class="btn btn-light dropdownItemBtn"
+                                            onclick="setAutoplayDelay(event, -1);">-
+                                    </button>
+                                    <span id="AutoplayDelaySpan"
+                                          class="d-inline-block text-center"></span>
+                                    <button type="button"
+                                            class="btn btn-light dropdownItemBtn"
+                                            onclick="setAutoplayDelay(event, 1);">+
+                                    </button>
                                 </a>
                                 <a class="dropdown-item">Veličina ploče
-                                    <input type="number"
-                                           value="1"
-                                           min="0.7"
-                                           max="1.1"
-                                           step="0.1"
-                                           style="width: 5em"
-                                           class="pl-2"
-                                           onchange="adjustSquareSize(this.value);"/>
+                                    <button type="button"
+                                            class="btn btn-light dropdownItemBtn"
+                                            onclick="setBoardSize(event, -1);">-
+                                    </button>
+                                    <span id="BoardSizeSpan"
+                                          class="d-inline-block text-center"></span>
+                                    <button type="button"
+                                            class="btn btn-light dropdownItemBtn"
+                                            onclick="setBoardSize(event, 1);">+
+                                    </button>
                                 </a>
                                 <a class="dropdown-item"
-                                   onclick="toggleView(1);">Više ploča
-                                    <img src="assets/images/squares.png"
-                                         alt="multiple boards"
+                                   onclick="flipBoard();">Okreni ploču
+                                    <img src="assets/images/rotate.png"
+                                         alt="rotate"
                                          class="h-100 pl-2">
                                 </a>
                             </div>

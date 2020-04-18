@@ -19,7 +19,8 @@ let scaleOption = 1;
 SetImageType("svg");
 SetImagePath("../pgn4web-3.04/images/svgchess");
 // Set delay for autoplay of the game (in milliseconds)
-SetAutoplayDelay(1000);
+let autoplayDelay = 1000;
+SetAutoplayDelay(autoplayDelay);
 // Set starting value for move highlighting
 SetHighlightOption(true);
 // Set touch gestures (for mobile phones)
@@ -126,6 +127,9 @@ function customFunctionOnPgnGameLoad() {
 
         changePGN(-1); // This actually (re)starts live broadcast
         displayedGame = getDisplayedGame();
+        // Display numbers in settings dropdown
+        document.getElementById("AutoplayDelaySpan").innerHTML = String(autoplayDelay / 1000);
+        document.getElementById("BoardSizeSpan").innerHTML = scaleOption;
         started = true;
     }
 
@@ -220,6 +224,22 @@ function adjustSquareSize(scale = 1) {
     }
 }
 
+function setBoardSize(evt, change) {
+    // Do not close the parent dropodown menu
+    evt.stopPropagation();
+
+    // This function is called with +1 or -1, depending on the user input
+    let step = 0.1;
+    scaleOption += change * step;
+    scaleOption = parseFloat(scaleOption).toFixed(1);
+
+    let minSize = 0.7;
+    let maxSize = 1.1;
+    scaleOption = Math.min(Math.max(scaleOption, minSize), maxSize);
+    adjustSquareSize(scaleOption);
+    document.getElementById("BoardSizeSpan").innerHTML = scaleOption;
+}
+
 function customFunctionOnMove() {
     // Overriding the function from pgn4web.js that will run after each move
 
@@ -246,7 +266,7 @@ function customFunctionOnMove() {
     useEngine();
 
     // Update autoplay button (e.g. in case of clicking on move in PGN window)
-    document.getElementById("AutoPlayBtn").innerHTML = isAutoPlayOn ? "&#9646;&#9646;" : "&#9654;";
+    setAutoplayButton();
 }
 
 function changePGN(val) {
@@ -509,12 +529,33 @@ function snackbarMessage(msg) {
     }, 3000);
 }
 
+function setAutoplayButton() {
+    let play = "&#9654;";
+    let pause = "|&nbsp;|";
+    document.getElementById("AutoPlayBtn").innerHTML = isAutoPlayOn ? pause : play;
+}
+
 function toggleAutoplay() {
     if (CurrentPly == PlyNumber)
         return;
 
-    document.getElementById("AutoPlayBtn").innerHTML = isAutoPlayOn ? "&#9654;" : "&#9646;&#9646;";
     SetAutoPlay(!isAutoPlayOn);
+    setAutoplayButton();
+}
+
+function setAutoplayDelay(evt, change) {
+    // Do not close the parent dropodown menu
+    evt.stopPropagation();
+
+    // This function is called with +1 or -1, depending on the user input
+    let step = 500;
+    autoplayDelay += change * step;
+
+    // In pgn4web.js, minimum delay is 500, and maximum is 300000
+    autoplayDelay = Math.min(Math.max(autoplayDelay, minAutoplayDelay), maxAutoplayDelay);
+    // Calling the pgn4web function for setting autoplay
+    SetAutoplayDelay(autoplayDelay);
+    document.getElementById("AutoplayDelaySpan").innerHTML = String(autoplayDelay / 1000);
 }
 
 function customFunctionOnPgnTextLoad() {
