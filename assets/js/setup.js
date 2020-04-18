@@ -246,7 +246,7 @@ function customFunctionOnMove() {
     useEngine();
 
     // Update autoplay button (e.g. in case of clicking on move in PGN window)
-    document.getElementById("AutoPlayBtn").innerHTML = isAutoPlayOn ? "⏸" : "▶";
+    document.getElementById("AutoPlayBtn").innerHTML = isAutoPlayOn ? "&#9646;&#9646;" : "&#9654;";
 }
 
 function changePGN(val) {
@@ -513,7 +513,7 @@ function toggleAutoplay() {
     if (CurrentPly == PlyNumber)
         return;
 
-    document.getElementById("AutoPlayBtn").innerHTML = isAutoPlayOn ? "▶" : "⏸";
+    document.getElementById("AutoPlayBtn").innerHTML = isAutoPlayOn ? "&#9654;" : "&#9646;&#9646;";
     SetAutoPlay(!isAutoPlayOn);
 }
 
