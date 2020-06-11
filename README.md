@@ -77,6 +77,7 @@ In `assets/style.css` you can do some basic configuration of used colors. The cu
 * This website is based on [pgn4web][2]
 * The engine currently used is Stockfish compiled to JavaScript. The release is obtained from [stockfish.js][3]
 * Icons present on the website are from [Flaticon][5] (made by [PixelPerfect][8] and [Freepik][9]), or from [Wikimedia][6]
+* The layout of components is inspired by [lichess][10]
 * The above items remains subject to their original licenses (if any)
 * Remaining clint code is Copyright (c) 2020 Patrick Nikić (see [LICENSE][7] file)
 * You are free to use clint for your website. You are encouraged to notify me if you are using clint
@@ -85,13 +86,12 @@ In `assets/style.css` you can do some basic configuration of used colors. The cu
 * Translation
 * Add functionality for live time countdown during broadcast
 * Add snackbar-like notifications when a moves is played
-* Monitor number of visitors
 * Implement resizable board
 * Fix some responsive design issues (regarding to mobile phone rotations)
 * Customization of colors
 
-[1a]: https://i.imgur.com/ZmfilnT.png
-[1b]: https://i.imgur.com/rYu38s4.png
+[1a]: https://i.imgur.com/HmsQi86.png
+[1b]: https://imgur.com/bGOLjJW.png
 [2]: http://pgn4web.casaschi.net/
 [3]: https://github.com/niklasf/stockfish.js
 [4]: https://en.wikipedia.org/wiki/42nd_Chess_Olympiad
@@ -100,3 +100,4 @@ In `assets/style.css` you can do some basic configuration of used colors. The cu
 [7]: https://github.com/pnikic/clint/blob/master/LICENSE
 [8]: https://www.flaticon.com/authors/pixel-perfect
 [9]: https://www.flaticon.com/authors/freepik
+[10]: https://lichess.org/
