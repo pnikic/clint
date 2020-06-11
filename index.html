@@ -116,7 +116,7 @@
                      class="col pr-0 pl-1 dropup">
                     <button id="SettingsBtn"
                             type="button"
-                            class="btn btn-light w-100 dropdown-toggle"
+                            class="btn btn-light h-30p w-100 dropdown-toggle"
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false">
@@ -364,7 +364,7 @@
             <!--  Settings -->
             <!-- =========================================================== -->
             <div class="multiboardSettingsItem row">
-                <div class="col-12 col-lg-5">
+                <div class="col-12 col-lg-5 mb-3 mb-lg-0">
                     <select id="MultiboardFileSelect"
                             class="custom-select  mx-auto shadow-none"
                             onChange="changeFramesPGN(this.value)">
@@ -374,7 +374,7 @@
                 <div class="col-9 col-lg-5">
                     <button type="button"
                             id="MultiboardModalBtn"
-                            class="btn btn-light m-0 w-100"
+                            class="btn btn-light m-0 w-100 h-40p"
                             data-toggle="modal"
                             data-target="#multiboardModal">Odabir partija
                         <img src="assets/images/options.png"
@@ -396,9 +396,9 @@
                         <div class="dropdown-menu dropdown-menu-right text-right p-0"
                              aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item"
-                               onclick="toggleControlPanels();">Prikaz navigacijske trake
-                                <img src="assets/images/bottom.png"
-                                     alt="game navigation"
+                               onclick="toggleView(0);">Jedna ploča
+                                <img src="assets/images/square.png"
+                                     alt="single board"
                                      class="h-100 pl-2">
                             </a>
                             <a class="dropdown-item"
@@ -408,9 +408,9 @@
                                      class="h-100 pl-2">
                             </a>
                             <a class="dropdown-item"
-                               onclick="toggleView(0);">Jedna ploča
-                                <img src="assets/images/square.png"
-                                     alt="single board"
+                               onclick="toggleControlPanels();">Prikaz navigacijske trake
+                                <img src="assets/images/bottom.png"
+                                     alt="game navigation"
                                      class="h-100 pl-2">
                             </a>
                         </div>

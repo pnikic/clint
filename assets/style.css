@@ -80,7 +80,7 @@ textarea, input {
     font-size: 13px;
 }
 
-.h-40p, #GithubBtn, #MultiboardModalBtn {
+.h-40p, #GithubBtn {
     height: 40px;
 }
 
@@ -189,7 +189,7 @@ span.move {
     white-space: nowrap;
 }
 
-.h-30p, #GameSelectMenu, #PgnFileSelect, #SettingsBtn {
+.h-30p, #GameSelectMenu, #PgnFileSelect {
     height: 30px;
     padding-top: 0px;
     padding-bottom: 0px;
@@ -417,8 +417,17 @@ iframe {
     }
 
     .gamesItem {
-        margin-top: 12px;
-        margin-bottom: 4px;
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+
+    .settingsItem {
+        margin-top: 16px;
+    }
+
+    .controlsItem button, #SettingsBtn, #DownloadModalBtn {
+        height: 40px;
+        padding: 6px;
     }
 }
 
@@ -436,8 +445,17 @@ iframe {
     }
 
     .controlsItem, .gamesItem {
-        margin-top: 12px;
-        margin-bottom: 4px;
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+
+    .settingsItem {
+        margin-bottom: 16px;
+    }
+
+    .controlsItem button, #SettingsBtn, #DownloadModalBtn {
+        height: 50px;
+        padding: 9px;
     }
 }
 
@@ -462,4 +480,11 @@ iframe {
         ". mbSettings .";
     row-gap: 1rem;
     justify-content: center;
+}
+
+@media (max-width: 799px) {
+    .multiboardSettingsItem button, .multiboardSettingsItem select {
+        height: 50px;
+        padding: 9px;
+    }
 }
