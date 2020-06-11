@@ -125,11 +125,11 @@ function customFunctionOnPgnGameLoad() {
             mbSelectRoundElem.appendChild(option.cloneNode(true));
         }
 
-        changePGN(-1); // This actually (re)starts live broadcast
+        restartBroadcast();
         displayedGame = getDisplayedGame();
         // Display numbers in settings dropdown
         document.getElementById("AutoplayDelaySpan").innerHTML = String(autoplayDelay / 1000);
-        document.getElementById("BoardSizeSpan").innerHTML = scaleOption;
+        // document.getElementById("BoardSizeSpan").innerHTML = scaleOption;
         started = true;
     }
 
@@ -139,18 +139,16 @@ function customFunctionOnPgnGameLoad() {
     customPgnHeaderTag("WhiteElo", "GameWhiteRating");
     customPgnHeaderTag("BlackElo", "GameBlackRating");
 
-    // For players without rating, set a dash
+    // For players without rating, leave an empty field
     let whiteRat = document.getElementById("GameWhiteRating");
     let blackRat = document.getElementById("GameBlackRating");
     if (whiteRat.innerHTML == "0") {
-        whiteRat.innerHTML = "-";
+        whiteRat.innerHTML = "";
     }
 
     if (blackRat.innerHTML == "0") {
-        blackRat.innerHTML = "-";
+        blackRat.innerHTML = "";
     }
-
-    adjustDrawSign();
 
     // If a new game is loaded and the board was rotated, rotate back
     // After loading a new game, white will always be on bottom
@@ -159,12 +157,24 @@ function customFunctionOnPgnGameLoad() {
     }
 
     displayedGame = getDisplayedGame();
+    updateResult();
+    highlightSelectedGame();
 }
 
-function adjustDrawSign() {
+function updateResult() {
     let resultElem = document.getElementById("GameResult");
-    if (resultElem.innerHTML == "1/2-1/2") {
-        resultElem.innerHTML = "½-½";
+    let placeTop = document.getElementById("ResultBlack");
+    let placeBot = document.getElementById("ResultWhite");
+    let res = resultElem.innerHTML;
+
+    placeTop.innerHTML = placeBot.innerHTML = "✻";
+
+    if (res == "1/2-1/2") {
+        placeTop.innerHTML = placeBot.innerHTML = "½";
+    }
+    else if (res == "1-0" || res == "0-1") {
+        placeTop.innerHTML = IsRotated ? res[0] : res[2];
+        placeBot.innerHTML = IsRotated ? res[2] : res[0];
     }
 }
 
@@ -174,12 +184,18 @@ function getDisplayedGame() {
         + (gameDate.length ? gameDate[currentGame] : "");
 }
 
+function getBoardWidth() {
+    let boardItem = document.getElementsByClassName("boardItem")[0];
+    return scaleOption * Math.min(boardItem.offsetHeight, boardItem.offsetWidth);
+}
+
 function adjustSquareSize(scale = 1) {
     if (isNaN(scale)) {
         return;
     }
 
     scaleOption = scale;
+
     // Cancel the style for boardTable element set by pgn4web
     let boardTable = document.getElementById("boardTable");
     boardTable.style.setProperty("width", "");
@@ -187,13 +203,10 @@ function adjustSquareSize(scale = 1) {
 
     // Set up square sizes, and height/width of game and engine evaluation texts,
     //  according to the screen size
-    let winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-    let winWidth = document.getElementById("GameBoard").clientWidth;
-    let boardWidth = scaleOption * Math.min(winHeight, winWidth);
+    let boardWidth = getBoardWidth();
     let width = String(Math.floor(boardWidth / 8));
 
     let targetClass = ["whiteSquare", "blackSquare", "highlightWhiteSquare", "highlightBlackSquare", "pieceImage"];
-
     for (let i = 0; i < targetClass.length; ++i) {
         let collection = document.getElementsByClassName(targetClass[i]);
         for (let j = 0; j < collection.length; ++j) {
@@ -202,26 +215,23 @@ function adjustSquareSize(scale = 1) {
         }
     }
 
+    adjustGameTextSize();
+}
+
+function adjustGameTextSize() {
+    let boardWidth = getBoardWidth();
+
     // Set height/width of game text divs and engine evaluation divs
-    let gtDiv = document.getElementById("GameTextDiv");
     let gt = document.getElementById("GameText");
-    gtDiv.style.setProperty("height", "100%");
-    let movesWidth = String(Math.floor(0.575 * gtDiv.clientWidth))
-    gt.style.setProperty("height", "85%");
-    gt.style.setProperty("width", movesWidth + "px");
-    gt.style.setProperty("max-height", String(boardWidth) + "px");
+    let engineHeight = document.getElementById("EngineEvalDiv").offsetHeight;
+    let variationHeight = document.getElementById("EngineVariationDiv").offsetHeight;
+    // We want the moves, engine evaluation and best line with the margins to fit the board size
+    gt.style.setProperty("max-height", String(boardWidth - engineHeight - variationHeight - 16) + "px");
 
-    let engineDiv = document.getElementById("EngineEvalDiv");
-    let engineLineDiv = document.getElementById("EngineVariationDiv");
-
-    if (!isMobile()) {
-        engineLineDiv.style.setProperty("width", movesWidth + "px");
-        engineDiv.style.setProperty("width", movesWidth + "px");
-    }
-    else {
-        engineLineDiv.style.setProperty("width", "");
-        engineDiv.style.setProperty("width", "");
-    }
+    // Set height of game selection div
+    //  assuming game selection header is up to 50px
+    let gameSel = document.getElementById("GameSelectionDiv");
+    gameSel.style.setProperty("max-height", String(boardWidth - 50) + "px");
 }
 
 function setBoardSize(evt, change) {
@@ -276,8 +286,8 @@ function changePGN(val) {
 
     if (val >= 0 && val < allPGNs.length) {
         // Set the game on first or last move based on first argument
-        SetInitialHalfmove(arg, true); 
-        // Scroll game text to the bottom
+        SetInitialHalfmove(arg, true);
+        // Scroll game text to the top or bottom
         let gt = document.getElementById("GameText");
         gt.scrollTop = arg == "end" ? gt.scrollHeight : 0;
         
@@ -310,10 +320,10 @@ function flipBoard() {
     //  of player's informations (name, rating, clock, colored square)
 
     // Flip colored square places
-    let wsn = document.getElementById('WhiteSquareName');
-    let bsn = document.getElementById('BlackSquareName');
-    document.getElementById('ColorSquarePlace1').appendChild(IsRotated ? bsn : wsn);
-    document.getElementById('ColorSquarePlace2').appendChild(IsRotated ? wsn : bsn);
+    let wsn = document.getElementById('ResultWhite');
+    let bsn = document.getElementById('ResultBlack');
+    document.getElementById('ResultPlace1').appendChild(IsRotated ? bsn : wsn);
+    document.getElementById('ResultPlace2').appendChild(IsRotated ? wsn : bsn);
 
     // Flip rating places
     let ratB = document.getElementById("GameBlackRating");
@@ -335,7 +345,7 @@ function flipBoard() {
 
     FlipBoard();  // This function call will refresh all the default tags (GameWhite, GameWhiteClock etc)...
     adjustSquareSize(scaleOption); // ...and also mess up with piece image sizes, so we resize them
-    adjustDrawSign();
+    //updateResult();
 }
 
 //=========================================================== 
@@ -421,6 +431,7 @@ function setEngineAnnotations(line, depth, score) {
     document.getElementById("EngineVariationDiv").innerHTML = line;
     document.getElementById("Depth").innerHTML = depth;
     document.getElementById("Score").innerHTML = score;
+    adjustGameTextSize();
 }
 
 
@@ -561,26 +572,59 @@ function setAutoplayDelay(evt, change) {
 function customFunctionOnPgnTextLoad() {
     // Overriding the function from pgn4web.js that will run after loading a PGN
 
-    // Update of options in "select game" menu
-    let gameSel = document.getElementById("GameSelectMenu");
+    // Update of options in "select game" grid area
+    let gameSel = document.getElementById("GameSelectionDiv");
 
-    // Delete all options except the first (name of the menu)
-    while (gameSel.childElementCount > 1) {
+    // Delete all options
+    while (gameSel.childElementCount > 0) {
         gameSel.removeChild(gameSel.lastChild);
     }
 
     // (Re)generate the game selection menu
     for (let i = 0; i < numberOfGames; ++i) {
-        option = document.createElement("option");
-        option.value = String(i);
-        option.innerHTML = gameWhite[i] + " - " + gameBlack[i];;
-        gameSel.appendChild(option);
+        let optionDiv = document.createElement("div");
+        optionDiv.className = "row m-0";
+        optionDiv.onclick = (evt) => {
+            changeGame(i);
+            highlightSelectedGame();
+        };
+
+        let spanNum = document.createElement("span");
+        spanNum.className = "col-1 py-0";
+        // spanNum.className = "py-0";
+        spanNum.innerHTML = String(i + 1);
+
+        let players = document.createElement("h6");
+        players.className = "col-11";
+        players.innerHTML = gameWhite[i] + " - " + gameBlack[i];
+
+        optionDiv.appendChild(spanNum);
+        optionDiv.appendChild(players);
+        gameSel.appendChild(optionDiv);
     }
+
+    highlightSelectedGame();
 }
 
 function changeGame(ind) {
     // Callback for the "select game" menu in single board view
     Init(ind);
+}
+
+function highlightSelectedGame() {
+    let query = document.querySelector('#GameSelectionDiv div.active');
+    if (query !== null) {
+        query.classList.remove("active");
+    }
+
+    // Note: currentGame and numberOfGames are variables defined by pgn4web
+    let gameSel = document.getElementById("GameSelectionDiv");
+    if (currentGame < gameSel.children.length)
+        gameSel.children.item(currentGame).className += " active";
+
+    // Scroll to the selected game
+    let scrollSize = Math.max(0, gameSel.scrollHeight * currentGame / numberOfGames - gameSel.offsetHeight / 2);
+    gameSel.scrollTop = parseInt(scrollSize);
 }
 
 function restartBroadcast() {
@@ -843,6 +887,9 @@ function toggleView(ind) {
         // Turn off engine
         if (engineStatus)
             toggleEngine();
+        // Turn off autoplay
+        if (isAutoPlayOn)
+            toggleAutoplay();
     }
 
     if (!iframesGenerated) {
@@ -883,7 +930,6 @@ function receiveMessage(evt) {
 
         // If all iframes are loaded, load first PGN file
         if (iframesLoaded.reduce((a, b) => a + b) == numberMiniboards) {
-
             changeFramesPGN(0);
         }
     }
