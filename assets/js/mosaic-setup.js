@@ -115,7 +115,7 @@ function customFunctionOnPgnGameLoad() {
         resultB.innerHTML = resultElem.innerHTML[2];
     }
     else {
-        resultW.innerHTML = resultB.innerHTML = "*";
+        resultW.innerHTML = resultB.innerHTML = "‎&lrm;";
     }
 
     // Rotate back, if the board was rotated and a new game is loaded

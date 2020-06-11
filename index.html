@@ -40,342 +40,271 @@
 
     <body class="bgColor text-black"
           onresize="resizeCallback();">
-        <div class="container-fluid">
+        <!-- =========================================================== -->
+        <!--  Banner begin -->
+        <!-- =========================================================== -->
+        <div class="banner">
+	        <h3 class="banner text-center">Ime turnira<br>Mjesto, od.–do.mm.yyyy.</h3>
+        </div>
+        <div class="mb-4">
             <!-- =========================================================== -->
-            <!--  Banner begin -->
+            <!--  Links -->
             <!-- =========================================================== -->
-            <div class="banner">
-	            <h3 class="banner text-center">Ime turnira<br>Mjesto, od.–do.mm.yyyy.</h3>
-            </div>
-            <div class="mb-4">
-                <!-- =========================================================== -->
-                <!--  Links -->
-                <!-- =========================================================== -->
-                <!-- Possible color classes are: badge-{primary,secondary,success,danger,warning,info,light,dark,white} -->
-                <a id="CustomButton"
-                   href="#"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="m-1 badge badge-secondary p-2 align-middle">
-                    <h5 class="m-0">Novi gumb</h5>
-                </a>
+            <!-- Possible color classes are: badge-{primary,secondary,success,danger,warning,info,light,dark,white} -->
+            <a id="CustomButton"
+               href="#"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="m-1 badge badge-secondary p-2 align-middle">
+                <h5 class="m-0">Novi gumb</h5>
+            </a>
 
-                <a id="ChessResultLink"
-                   href="#"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="m-1 badge badge-light p-2 align-middle">
-                    <h5 class="m-0">Chess-results</h5>
-                </a>
+            <a id="ChessResultLink"
+               href="#"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="m-1 badge badge-light p-2 align-middle">
+                <h5 class="m-0">Chess-results</h5>
+            </a>
 
-                <a id="PhotoLink"
-                   href="#"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="m-1 badge badge-light p-2 align-middle">
-                    <h5 class="m-0">Fotogalerija</h5>
-                </a>
+            <a id="PhotoLink"
+               href="#"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="m-1 badge badge-light p-2 align-middle">
+                <h5 class="m-0">Fotogalerija</h5>
+            </a>
 
-                <a id="Raspis"
-                   href="#"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="m-1 badge badge-light p-2 align-middle">
-                    <h5 class="m-0">Raspis</h5>
-                </a>
-            </div>
+            <a id="Raspis"
+               href="#"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="m-1 badge badge-light p-2 align-middle">
+                <h5 class="m-0">Raspis</h5>
+            </a>
+        </div>
 
-            <!-- =========================================================== -->
-            <!--  Single board view -->
-            <!-- =========================================================== -->
-            <div id="SingleBoardView"
-                 class="row">
-                <!-- =========================================================== -->
-                <!--  Game board begin -->
-                <!-- =========================================================== -->
-                <div class="col-md-5 py-2 px-3 ml-auto mr-auto h-100">
-                    <div class="w-100">
-                        <!-- =========================================================== -->
-                        <!--  Information about first player -->
-                        <!-- =========================================================== -->
-                        <div class="row">
-                            <div id="ColorSquarePlace1" class="col-1 p-0 m-auto">
-                                <div id="BlackSquareName"
-                                     class="colorTitle">
-                                </div>
-                            </div>
-                            <div class="mr-auto col-7 text-left">
-                                <div class="row">
-                                    <div id="PlayerPlace1"
-                                         class="col-12 playerName">
-                                        <div id="GameBlack"></div>
-                                    </div>
-                                    <div id="RatingPlace1"
-                                         class="col-12">
-                                        <div id="GameBlackRating"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="ClockPlace1" class="col-12 col-sm-4 p-0 clock text-sm-right">
-                                <div id="GameBlackClock"></div>
-                            </div>
-                        </div>
-
-                        <!-- =========================================================== -->
-                        <!--  Game Board -->
-                        <!-- =========================================================== -->
-                        <div class="row d-block"
-                             id="GameBoard"
-                             align="center"></div>
-
-                        <!-- =========================================================== -->
-                        <!--  Information about second player -->
-                        <!-- =========================================================== -->
-                        <div class="row">
-                            <div id="ClockPlace2" class="col-12 col-sm-4 order-sm-3 p-0 clock text-sm-right">
-                                <div id="GameWhiteClock"></div>
-                            </div>
-                            <div id="ColorSquarePlace2" class="col-1 p-0 m-auto">
-                                <div id="WhiteSquareName"
-                                     class="colorTitle">
-                                </div>
-                            </div>
-                            <div class="mr-auto col-7 text-left">
-                                <div class="row">
-                                    <div id="PlayerPlace2"
-                                         class="col-12 playerName">
-                                        <div id="GameWhite"></div>
-                                    </div>
-                                    <div id="RatingPlace2"
-                                         class="col-12">
-                                        <div id="GameWhiteRating"></div>
-                                    </div>
-                                </div>
-                            </div>                            
-                        </div>
-                    </div>
-
-                    <!-- =========================================================== -->
-                    <!--  Game select and navigate -->
-                    <!-- =========================================================== -->
-                    <div class="row mt-3 mx-auto w-100">
-                        <div class="col pl-0 pr-1">
-                            <button type="button"
-                                    class="col-12 btn btn-light h-30p"
-                                    onclick="GoToMove(StartPlyVar[0], 0);">&lt;&lt;
-                            </button>
-                        </div>
-                        <div class="col px-1">
-                            <button type="button"
-                                    class="col-12 btn btn-light h-30p"
-                                    onclick="GoToMove(CurrentPly - 1);">&lt;
-                            </button>
-                        </div>
-                        <div class="col px-1">
-                            <button id="AutoPlayBtn"
-                                    type="button"
-                                    class="col-12 btn btn-light h-30p"
-                                    onclick="toggleAutoplay();">&#9654;
-                            </button>
-                        </div>
-                        <div class="col px-1">
-                            <button type="button"
-                                    class="col-12 btn btn-light h-30p"
-                                    onclick="GoToMove(CurrentPly + 1);">&gt;
-                            </button>
-                        </div>
-                        <div class="col pl-1 pr-0">
-                            <button type="button"
-                                    class="col-12 btn btn-light h-30p"
-                                    onclick="GoToMove(StartPlyVar[0] + PlyNumberVar[0], 0);">&gt;&gt;
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="row mt-3 m-0">
-                        <button type="button"
-                                class="col-2 btn btn-light h-30p"
-                                onclick="Init(currentGame - 1)">&lt;
-                        </button>
-                        <div class="col-8">
-                            <select id="GameSelectMenu"
-                                    class="col-12 custom-select shadow-none"
-                                    onChange="changeGame(this.value);">
-                                <option value='-1'>Odabir partije</option>
-                            </select>
-                        </div>
-                        <button type="button"
-                                class="col-2 btn btn-light h-30p"
-                                onclick="Init(currentGame + 1)">&gt;
-                        </button>
-                    </div>
-
-                    <div id="PgnFileSelector" class="row mt-3 m-0">
-                        <button type="button"
-                                id="DownloadModalBtn"
-                                class="col-2 btn btn-block btn-light m-0"
-                                data-toggle="modal"
-                                data-target="#downloadModal"
-                                onclick="modalOpen();">
-                            <img src="assets/images/share.png"
-                                 alt="share"
-                                 class="h-65">
-                        </button>
-                        <div class="col-8">
-                            <select id="PgnFileSelect"
-                                    class="col-12 custom-select w-100 ml-auto mr-auto shadow-none"
-                                    onChange="changePGN(this.value)">
-                                <option value='-1'>Odabir kola</option>
-                            </select>
-                        </div>
-                        <div class="dropup col-2 p-0">
-                            <button id="SettingsBtn"
-                                    type="button"
-                                    class="btn btn-light m-0 w-100 dropdown-toggle"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false">
-                                <img src="assets/images/settings.png"
-                                     alt="settings"
-                                     class="h-65">
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right text-right p-0"
-                                 aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item"
-                                   onclick="toggleView(1);">Više ploča
-                                    <img src="assets/images/squares.png"
-                                         alt="multiple boards"
-                                         class="h-100 pl-2">
-                                </a>
-                                <a class="dropdown-item"
-                                   onclick="SetHighlight(!highlightOption);">Istakni posljednji potez
-                                    <img src="assets/images/highlighter.png"
-                                         alt="highlight"
-                                         class="h-100 pl-2">
-                                </a>
-                                <a class="dropdown-item">Automatska reprodukcija (sec)
-                                    <button type="button"
-                                            class="btn btn-light dropdownItemBtn"
-                                            onclick="setAutoplayDelay(event, -1);">-
-                                    </button>
-                                    <span id="AutoplayDelaySpan"
-                                          class="d-inline-block text-center"></span>
-                                    <button type="button"
-                                            class="btn btn-light dropdownItemBtn"
-                                            onclick="setAutoplayDelay(event, 1);">+
-                                    </button>
-                                </a>
-                                <a class="dropdown-item">Veličina ploče
-                                    <button type="button"
-                                            class="btn btn-light dropdownItemBtn"
-                                            onclick="setBoardSize(event, -1);">-
-                                    </button>
-                                    <span id="BoardSizeSpan"
-                                          class="d-inline-block text-center"></span>
-                                    <button type="button"
-                                            class="btn btn-light dropdownItemBtn"
-                                            onclick="setBoardSize(event, 1);">+
-                                    </button>
-                                </a>
-                                <a class="dropdown-item"
-                                   onclick="flipBoard();">Okreni ploču
-                                    <img src="assets/images/rotate.png"
-                                         alt="rotate"
-                                         class="h-100 pl-2">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- =========================================================== -->
-                    <!--  Download Modal -->
-                    <!-- =========================================================== -->
-                    <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title"
-                                        id="downloadModalLabel">Preuzmi PGN / FEN</h5>
-                                    <button type="button"
-                                            class="close"
-                                            data-dismiss="modal"
-                                            aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <h5>FEN:</h5>
-
-                                    <div class="row align-items-center">
-                                        <div class="col-8 col-lg-10">
-                                            <input id="FENinput" type="text" class="w-100" readonly>
-                                        </div>
-                                        <div class="col-4 col-lg-2">
-                                            <button class="btn btn-light h-40p"
-                                                    onclick="copyInput('FENinput'); snackbarMessage('FEN kopiran');">
-                                                <img src="assets/images/copyButton.png"
-                                                     alt="enlarge icon"
-                                                     class="h-100">
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <h5>PGN:</h5>
-                                    <div class="row align-items-center">
-                                        <div class="col-8 col-lg-10">
-                                            <textarea id="PGNinput" rows="9" class="w-100" readonly="readonly">
-                                            </textarea>
-                                        </div>
-                                        <div class="col-4 col-lg-2">
-                                            <button class="btn btn-light h-40p"
-                                                    onclick="copyInput('PGNinput'); snackbarMessage('PGN kopiran');">
-                                                <img src="assets/images/copyButton.png"
-                                                     alt="enlarge icon"
-                                                     class="h-100">
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-footer d-block">
-                                        <h5>Preuzimanje PGN:</h5>
-                                        <div class="row w-100 ml-auto mr-auto">                                            
-                                            <div class="col-lg-6">
-                                            Odabrano kolo:
-                                                <a id="currLink"
-                                                   class="btn btn-light h-40p"
-                                                   href="#">
-                                                    <img src="assets/images/downloadButton.png"
-                                                         alt="enlarge icon"
-                                                         class="h-100">
-                                                </a>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                Sva kola:
-                                                <a id="allLink"
-                                                   class="btn btn-light h-40p"
-                                                   href="#">
-                                                    <img src="assets/images/downloadButton.png"
-                                                         alt="enlarge icon"
-                                                         class="h-100">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="GameSideToMove"></div>
+        <div id="SingleBoardView">
+            <div class="gamesItem">
+                <div class="mx-3 mb-2">
+                    <select id="PgnFileSelect"
+                            class="custom-select shadow-none"
+                            onChange="changePGN(this.value)">
+                        <option value='-1'>Odabir kola</option>
+                    </select>
                 </div>
 
+                <div id="GameSelectionDiv"
+                     class="mx-3">
+                </div>
+            </div>
+
+            <div class="settingsItem row mx-3">
+                <div class="col pl-0 pr-1">
+                    <button type="button"
+                            id="DownloadModalBtn"
+                            class="btn btn-light h-30p"
+                            data-toggle="modal"
+                            data-target="#downloadModal"
+                            onclick="modalOpen();">
+                        <img src="assets/images/share.png"
+                             alt="share"
+                             class="h-65">
+                    </button>
+                </div>
+                <div id="SettingsDiv"
+                     class="col pr-0 pl-1 dropup">
+                    <button id="SettingsBtn"
+                            type="button"
+                            class="btn btn-light w-100 dropdown-toggle"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                        <img src="assets/images/settings.png"
+                             alt="settings"
+                             class="h-65">
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right text-right p-0"
+                         aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item"
+                           onclick="toggleView(1);">Više ploča
+                            <img src="assets/images/squares.png"
+                                 alt="multiple boards"
+                                 class="h-100 pl-2">
+                        </a>
+                        <a class="dropdown-item"
+                           onclick="SetHighlight(!highlightOption);">Istakni posljednji potez
+                            <img src="assets/images/highlighter.png"
+                                 alt="highlight"
+                                 class="h-100 pl-2">
+                        </a>
+                        <a class="dropdown-item">Automatska reprodukcija (sec)
+                            <button type="button"
+                                    class="btn btn-light dropdownItemBtn"
+                                    onclick="setAutoplayDelay(event, -1);">-
+                            </button>
+                            <span id="AutoplayDelaySpan"
+                                  class="d-inline-block text-center"></span>
+                            <button type="button"
+                                    class="btn btn-light dropdownItemBtn"
+                                    onclick="setAutoplayDelay(event, 1);">+
+                            </button>
+                        </a>
+                        <a class="dropdown-item">Veličina ploče
+                            <button type="button"
+                                    class="btn btn-light dropdownItemBtn"
+                                    onclick="setBoardSize(event, -1);">-
+                            </button>
+                            <span id="BoardSizeSpan"
+                                  class="d-inline-block text-center"></span>
+                            <button type="button"
+                                    class="btn btn-light dropdownItemBtn"
+                                    onclick="setBoardSize(event, 1);">+
+                            </button>
+                        </a>
+                        <a class="dropdown-item"
+                           onclick="flipBoard();">Okreni ploču
+                            <img src="assets/images/rotate.png"
+                                 alt="rotate"
+                                 class="h-100 pl-2">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- =========================================================== -->
+            <!--  Information about first player -->
+            <!-- =========================================================== -->
+            <div class="topPlayerItem row m-0 pr-2">
+                <div id="ResultPlace1" class="result col-1 p-0 m-auto">
+                    <div id="ResultBlack"></div>
+                </div>
+                <span class="mr-auto col-8 p-0 pl-2 text-left">
+                    <span id="PlayerPlace1"
+                          class="playerName">
+                        <span id="GameBlack"></span>
+                    </span>
+                    <span id="RatingPlace1"
+                          class="rating pl-2">
+                        <span id="GameBlackRating"></span>
+                    </span>
+                </span>
+                <div id="ClockPlace1" class="col-3 p-0 clock text-right">
+                    <div id="GameBlackClock"></div>
+                </div>
+            </div>
+            <!-- =========================================================== -->
+            <!--  Information about second player -->
+            <!-- =========================================================== -->
+            <div class="botPlayerItem row m-0 pr-2">
+                <div id="ResultPlace2" class="result col-1 p-0 m-auto">
+                    <div id="ResultWhite"></div>
+                </div>
+                <span class="mr-auto col-8 p-0 pl-2 text-left">
+                    <span id="PlayerPlace2"
+                          class="playerName">
+                        <span id="GameWhite"></span>
+                    </span>
+                    <span id="RatingPlace2"
+                          class="rating pl-2">
+                        <span id="GameWhiteRating"></span>
+                    </span>
+                </span>
+                <div id="ClockPlace2" class="col-3 p-0 clock text-right">
+                    <div id="GameWhiteClock"></div>
+                </div>
+            </div>
+            <div class="boardItem">
+                <!-- =========================================================== -->
+                <!--  Game Board -->
+                <!-- =========================================================== -->
+                <div id="GameBoard"></div>
+
+                <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title"
+                                    id="downloadModalLabel">Preuzmi PGN / FEN</h5>
+                                <button type="button"
+                                        class="close"
+                                        data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>FEN:</h5>
+
+                                <div class="row align-items-center">
+                                    <div class="col-8 col-lg-10">
+                                        <input id="FENinput" type="text" class="w-100" readonly>
+                                    </div>
+                                    <div class="col-4 col-lg-2">
+                                        <button class="btn btn-light h-40p"
+                                                onclick="copyInput('FENinput'); snackbarMessage('FEN kopiran');">
+                                            <img src="assets/images/copyButton.png"
+                                                 alt="enlarge icon"
+                                                 class="h-100">
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <h5>PGN:</h5>
+                                <div class="row align-items-center">
+                                    <div class="col-8 col-lg-10">
+                                        <textarea id="PGNinput" rows="9" class="w-100" readonly="readonly">
+                                        </textarea>
+                                    </div>
+                                    <div class="col-4 col-lg-2">
+                                        <button class="btn btn-light h-40p"
+                                                onclick="copyInput('PGNinput'); snackbarMessage('PGN kopiran');">
+                                            <img src="assets/images/copyButton.png"
+                                                 alt="enlarge icon"
+                                                 class="h-100">
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer d-block">
+                                    <h5>Preuzimanje PGN:</h5>
+                                    <div class="row w-100 mx-auto">
+                                        <div class="col-lg-6">
+                                            Odabrano kolo:
+                                            <a id="currLink"
+                                               class="btn btn-light h-40p"
+                                               href="#">
+                                                <img src="assets/images/downloadButton.png"
+                                                     alt="enlarge icon"
+                                                     class="h-100">
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-6">
+                                                Sva kola:
+                                            <a id="allLink"
+                                               class="btn btn-light h-40p"
+                                               href="#">
+                                                <img src="assets/images/downloadButton.png"
+                                                     alt="enlarge icon"
+                                                     class="h-100">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pgnItem">
                 <!-- =========================================================== -->
                 <!--  PGN text-->
                 <!-- =========================================================== -->
                 <div id="GameTextDiv"
-                     class="col-md-6">
+                     class="h-100 mx-3">
                     <div id ="EngineEvalDiv"
-                         class="ml-auto mr-auto">
+                         class="mx-auto">
                         <div class="row h-100 align-items-center">
                             <div class="col-3">
                                 <h3 id="Score" class="p-2 m-0"></h3>
@@ -391,153 +320,190 @@
                                      onclick="toggleEngine()">
                             </div>
                         </div>
-
                     </div>
                     <div id="EngineVariationDiv"
-                         class="ml-auto mr-auto">
+                         class="mx-auto text-center">
                     </div>
-                    <div id="GameText" class="h5 mx-2 pl-md-1 mt-2 text-left d-inline-block"></div>
-                    <div id="GameResult" class="h1 text-center mt-3"></div>
+                    <div id="GameText" class="h5 mt-2 text-left"></div>
                 </div>
             </div>
 
             <!-- =========================================================== -->
-            <!--  Multiple boards view -->
+            <!--  Game select and navigate -->
             <!-- =========================================================== -->
-            <div id="MultiBoardView" style="display: none;">
-                <div id="IframesContainer"> </div>
+            <div class="row controlsItem mx-3">
+                <div class="col pl-0 pr-1">
+                    <button type="button"
+                            class="col-12 btn btn-light h-30p"
+                            onclick="GoToMove(StartPlyVar[0], 0);">&lt;&lt;
+                    </button>
+                </div>
+                <div class="col px-1">
+                    <button type="button"
+                            class="col-12 btn btn-light h-30p"
+                            onclick="GoToMove(CurrentPly - 1);">&lt;
+                    </button>
+                </div>
+                <div class="col px-1">
+                    <button id="AutoPlayBtn"
+                            type="button"
+                            class="col-12 btn btn-light h-30p"
+                            onclick="toggleAutoplay();">&#9654;
+                    </button>
+                </div>
+                <div class="col px-1">
+                    <button type="button"
+                            class="col-12 btn btn-light h-30p"
+                            onclick="GoToMove(CurrentPly + 1);">&gt;
+                    </button>
+                </div>
+                <div class="col pl-1 pr-0">
+                    <button type="button"
+                            class="col-12 btn btn-light h-30p"
+                            onclick="GoToMove(StartPlyVar[0] + PlyNumberVar[0], 0);">&gt;&gt;
+                    </button>
+                </div>
+            </div>
+        </div>
 
-                <!-- =========================================================== -->
-                <!--  Settings -->
-                <!-- =========================================================== -->
-                <div class="row">
-                    <div class="col-12 col-lg-5">
-                        <select id="MultiboardFileSelect"
-                                class="custom-select  mx-auto shadow-none"
-                                onChange="changeFramesPGN(this.value)">
-                            <option value='-1'>Odabir kola</option>
-                        </select>
-                    </div>
-                    <div class="col-9 col-lg-5">
+        <!-- =========================================================== -->
+        <!--  Multiple boards view -->
+        <!-- =========================================================== -->
+        <div id="MultiBoardView" style="display: none;">
+            <div id="IframesContainer" class="iframesItem"> </div>
+
+            <!-- =========================================================== -->
+            <!--  Settings -->
+            <!-- =========================================================== -->
+            <div class="multiboardSettingsItem row">
+                <div class="col-12 col-lg-5">
+                    <select id="MultiboardFileSelect"
+                            class="custom-select  mx-auto shadow-none"
+                            onChange="changeFramesPGN(this.value)">
+                        <option value='-1'>Odabir kola</option>
+                    </select>
+                </div>
+                <div class="col-9 col-lg-5">
+                    <button type="button"
+                            id="MultiboardModalBtn"
+                            class="btn btn-light m-0 w-100"
+                            data-toggle="modal"
+                            data-target="#multiboardModal">Odabir partija
+                        <img src="assets/images/options.png"
+                             alt="Options icon"
+                             class="h-100 pl-2">
+                    </button>
+                </div>
+                <div class="col-3 col-lg-2">
+                    <div class="dropup d-inline">
                         <button type="button"
-                                id="MultiboardModalBtn"
-                                class="btn btn-light m-0 w-100"
-                                data-toggle="modal"
-                                data-target="#multiboardModal">Odabir partija
-                            <img src="assets/images/options.png"
-                                 alt="Options icon"
-                                 class="h-100 pl-2">
+                                class="btn btn-light m-0 w-100 dropdown-toggle h-40p"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            <img src="assets/images/settings.png"
+                                 alt="settings"
+                                 class="h-65">
                         </button>
-                    </div>
-                    <div class="col-3 col-lg-2">
-                        <div class="dropup d-inline">
-                            <button type="button"
-                                    class="btn btn-light m-0 w-100 dropdown-toggle h-40p"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false">
-                                <img src="assets/images/settings.png"
-                                     alt="settings"
-                                     class="h-65">
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right text-right p-0"
-                                 aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item"
-                                   onclick="toggleControlPanels();">Prikaz navigacijske trake
-                                    <img src="assets/images/bottom.png"
-                                         alt="game navigation"
-                                         class="h-100 pl-2">
-                                </a>
-                                <a class="dropdown-item"
-                                   onclick="toggleMoveHighlight();">Istakni posljednji potez
-                                    <img src="assets/images/highlighter.png"
-                                         alt="highlight"
-                                         class="h-100 pl-2">
-                                </a>
-                                <a class="dropdown-item"
-                                   onclick="toggleView(0);">Jedna ploča
-                                    <img src="assets/images/square.png"
-                                         alt="single board"
-                                         class="h-100 pl-2">
-                                </a>
-                            </div>
+                        <div class="dropdown-menu dropdown-menu-right text-right p-0"
+                             aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item"
+                               onclick="toggleControlPanels();">Prikaz navigacijske trake
+                                <img src="assets/images/bottom.png"
+                                     alt="game navigation"
+                                     class="h-100 pl-2">
+                            </a>
+                            <a class="dropdown-item"
+                               onclick="toggleMoveHighlight();">Istakni posljednji potez
+                                <img src="assets/images/highlighter.png"
+                                     alt="highlight"
+                                     class="h-100 pl-2">
+                            </a>
+                            <a class="dropdown-item"
+                               onclick="toggleView(0);">Jedna ploča
+                                <img src="assets/images/square.png"
+                                     alt="single board"
+                                     class="h-100 pl-2">
+                            </a>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- =========================================================== -->
-                <!--  Multiboard Modal -->
-                <!-- =========================================================== -->
-                <div class="modal fade" id="multiboardModal" tabindex="-1" role="dialog" aria-labelledby="multiboardModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title"
-                                    id="multiboardModalLabel">Odaberi partije za prikaz</h5>
-                                <button type="button"
-                                        class="close"
-                                        data-dismiss="modal"
-                                        aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body"
-                                 id="GamesSelectionContainer">
-                            </div>
-                            <div class="modal-footer">
-                                <div class="row w-100">
-                                    <h5 class="col-8">Odabrano <b id="CountSelected"></b> / <b id="MaxSelected"></b> partija</h5>
-                                    <div class="col-4">
-                                        <button type="button"
-                                                id="multiboardSaveBtn"
-                                                class="btn btn-light m-0"
-                                                data-dismiss="modal"
-                                                aria-label="Save"
-                                                onclick="updateDisplayGames();">Spremi
-                                        </button>
-                                    </div>
+            <!-- =========================================================== -->
+            <!--  Multiboard Modal -->
+            <!-- =========================================================== -->
+            <div class="modal fade" id="multiboardModal" tabindex="-1" role="dialog" aria-labelledby="multiboardModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"
+                                id="multiboardModalLabel">Odaberi partije za prikaz</h5>
+                            <button type="button"
+                                    class="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body"
+                             id="GamesSelectionContainer">
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row w-100">
+                                <h5 class="col-8">Odabrano <b id="CountSelected"></b> / <b id="MaxSelected"></b> partija</h5>
+                                <div class="col-4">
+                                    <button type="button"
+                                            id="multiboardSaveBtn"
+                                            class="btn btn-light m-0"
+                                            data-dismiss="modal"
+                                            aria-label="Save"
+                                            onclick="updateDisplayGames();">Spremi
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- =========================================================== -->
-            <!--  Footer -->
-            <!-- =========================================================== -->
-            <footer class="footer">
-                <div class="container">
-                    <div class="row mt-3 mb-1">
-                        <div class="col col-lg-9 h-100 my-auto text-center text-lg-left">
-                            <a id="OperatorEmail"
-                               rel="noopener noreferrer"
-                               class="h-40p m-1 badge badge-light align-middle">
-                                <span id="OperatorPar"
-                                   class="my-auto pr-2 h6">
-                                </span>
-                                <img src="assets/images/mail.png"
-                                     alt="mailto operator"
-                                     class="h-100">
-                            </a>
-                        </div>
-                        <div class="col col-lg-3">
-                            <a id="GithubBtn" href="https://www.github.com/pnikic/clint"
-                               target="_blank"
-                               rel="noopener noreferrer"
-                               class="m-1 badge badge-light p-2">
-                                <img src="assets/images/githubLogo.svg"
-                                     alt="enlarge icon"
-                                     class="h-100">
-                                <span class="ml-2 h6">Repozitorij</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
         </div>
 
+        <!-- =========================================================== -->
+        <!--  Footer -->
+        <!-- =========================================================== -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row mt-3 mb-1">
+                    <div class="col col-lg-9 h-100 my-auto text-center text-lg-left">
+                        <a id="OperatorEmail"
+                           rel="noopener noreferrer"
+                           class="h-40p m-1 badge badge-light align-middle">
+                            <span id="OperatorPar"
+                                  class="my-auto pr-2 h6">
+                            </span>
+                            <img src="assets/images/mail.png"
+                                 alt="mailto operator"
+                                 class="h-100">
+                        </a>
+                    </div>
+                    <div class="col col-lg-3">
+                        <a id="GithubBtn" href="https://www.github.com/pnikic/clint"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="m-1 badge badge-light p-2">
+                            <img src="assets/images/githubLogo.svg"
+                                 alt="enlarge icon"
+                                 class="h-100">
+                            <span class="ml-2 h6">Repozitorij</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
         <div id="Snackbar"></div>
+        <div id="GameSideToMove"></div>
+        <div id="GameResult"></div>
 
         <!-- Optional Bootstrap JS -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->

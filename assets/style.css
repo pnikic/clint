@@ -13,7 +13,6 @@
 /************************************************************
    General
  ************************************************************/
-
 .firstColor {
     background-color: var(--first-color);
 }
@@ -81,6 +80,10 @@ textarea, input {
     font-size: 13px;
 }
 
+.h-40p, #GithubBtn, #MultiboardModalBtn {
+    height: 40px;
+}
+
 /* PGN text styles */
 .highlightMove {
     background-color: #D1E4F6;
@@ -91,11 +94,17 @@ textarea, input {
     font-family: "pgn4web ChessSansPiratf";
 }
 
-#GameSideToMove {
-    visibility: hidden;
+#GameSelectionDiv {
+    text-align: left;
+    overflow-y: auto;
+}
+
+#GameSideToMove, #GameResult {
+    display: none;
 }
 
 a.move {
+    text-align: left;
     display: inline-block;
     width: 35%;
     padding: 2px 5px;
@@ -111,7 +120,7 @@ span.move {
     color: #B3B3B3;
     text-align: center;
     display: inline-block;
-    width: 15%;
+    width: 20%;
     padding: 2px 0px;
 }
 
@@ -154,44 +163,39 @@ span.move {
     background-color: var(--highlight-black-sq);
 }
 
-.playerName {
-    font-weight: 900;
-    font-size: 20px;
-    padding-left: 5px;
+.playerName, .result, .rating {
+    font-size: calc(12px + 2 * ((100vw - 320px) / 800));
+}
+
+.playerName, .result {
+    font-weight: 700;
+}
+
+.result {
+    border-right: 1px solid #000;
 }
 
 .clock {
-    font-size: 21px;
+    font-size: calc(13px + 2 * ((100vw - 320px) / 700));
 }
 
-#GameBlackRating, #GameWhiteRating {
-    margin-top: -5px;
-}
-
-.colorTitle {
-    width: 30px;
-    height: 30px;
-    border: 1px outset lightgray;
-}
-
-#WhiteSquareName {
-    background-color: #FFFFFF;
-}
-
-#BlackSquareName {
-    background-color: #000000;
+.topPlayerItem, .botPlayerItem {
+    background-color: var(--first-color);
+    border-radius: .25rem;
+    align-items: center;
 }
 
 #GameWhite, #GameBlack, #GameWhiteClock, #GameBlackClock {
     white-space: nowrap;
 }
 
-.h-30p, #GameSelectMenu, #PgnFileSelect, #DownloadModalBtn, #SettingsBtn {
+.h-30p, #GameSelectMenu, #PgnFileSelect, #SettingsBtn {
     height: 30px;
     padding-top: 0px;
     padding-bottom: 0px;
 }
 
+/* Game selection styles*/
 #GameSelSelect {
     width: 100% !important;
 }
@@ -199,14 +203,44 @@ span.move {
 .custom-select {
     background-color:  var(--first-color);
     color: black;
+    border: 0px;
 }
 
 .custom-select:focus {
     border-color:  var(--first-color);
 }
 
-.h-40p, #GithubBtn, #MultiboardModalBtn {
-    height: 40px;
+#GameSelectionDiv span {
+    text-align: center;
+    font-weight: 700;
+    padding: 8px;
+    color: #B3B3B3;
+}
+
+#GameSelectionDiv h6 {
+    display: inline;
+}
+
+#GameSelectionDiv > div {
+    display: flex;
+    align-items: center;
+}
+
+#GameSelectionDiv > div:hover:not(.active) {
+    background-color: #1B78D0;
+    color: white;
+}
+
+#GameSelectionDiv > div.active {
+    background-color: #D1E4F6;
+}
+
+#SettingsDiv {
+    display: inline-block;
+}
+
+#DownloadModalBtn {
+    width: 100%;
 }
 
 /* Snackbar styles */
@@ -306,4 +340,126 @@ iframe {
 
 .controlPanelBtn:focus {
     outline: none;
+}
+
+/************************************************************
+   CSS Grid - Single board view
+ ************************************************************/
+.gamesItem {
+    grid-area: games;
+}
+
+.boardItem {
+    grid-area: board;
+    /* First part of the hack to maintain 1:1 aspect ratio for the board element */
+    position: relative;
+    padding-top: 100%;
+}
+
+#SingleBoardView #boardTable {
+    /* Second part of the hack to maintain 1:1 aspect ratio for the board element */
+    position: absolute;
+    top: 0;
+
+    /* Center the board horizontally */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.pgnItem {
+    grid-area: pgn;
+}
+
+.controlsItem {
+    grid-area: controls;
+}
+
+.controlsItem .btn {
+    padding: 0;
+}
+
+.topPlayerItem {
+    grid-area: topname;
+}
+
+.botPlayerItem {
+    grid-area: botname;
+}
+
+.settingsItem {
+    grid-area: settings;
+}
+
+#SingleBoardView {
+    display: grid;
+    --main-margin: 1vw;
+    --player-names: 30px;
+    grid-template-columns: var(--main-margin) minmax(350px, 20vw) minmax(min(60vw, 60vh), min(80vw, 80vh)) minmax(350px, 20vw) var(--main-margin);
+    grid-template-rows: var(--player-names) auto var(--player-names);
+    grid-template-areas:
+        ". .topname . ."
+        ". games board pgn ."
+        ". settings botname controls .";
+    column-gap: 1rem;
+    justify-content: center;
+}
+
+@media (min-width: 800px) and (max-width: 1259px) {
+    #SingleBoardView {
+        grid-template-columns: var(--main-margin) minmax(min(60vw, 60vh), min(80vw, 80vh)) minmax(25vw, 30vw) var(--main-margin);
+        grid-template-areas:
+            ". topname . ."
+            ". board pgn ."
+            ". botname controls ."
+            ". . settings ."
+            ". games games .";
+    }
+
+    .gamesItem {
+        margin-top: 12px;
+        margin-bottom: 4px;
+    }
+}
+
+@media (max-width: 799px) {
+    #SingleBoardView {
+        grid-template-columns: minmax(min(60vw, 60vh), min(100vw, 80vh));
+        grid-template-areas:
+            "topname"
+            "board"
+            "botname"
+            "controls"
+            "settings"
+            "pgn"
+            "games";
+    }
+
+    .controlsItem, .gamesItem {
+        margin-top: 12px;
+        margin-bottom: 4px;
+    }
+}
+
+/************************************************************
+   CSS Grid - Multiple boards views
+ ************************************************************/
+.iframesItem {
+    grid-area: iframes;
+}
+
+.multiboardSettingsItem {
+    grid-area: mbSettings;
+}
+
+#MultiBoardView {
+    display: grid;
+    --main-margin: 1vw;
+    grid-template-columns: var(--main-margin) auto var(--main-margin);
+    grid-template-rows: auto;
+    grid-template-areas:
+        ". iframes ."
+        ". mbSettings .";
+    row-gap: 1rem;
+    justify-content: center;
 }
