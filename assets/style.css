@@ -35,6 +35,17 @@ body {
     border-radius: 0 0 .25rem .25rem;
 }
 
+.banner h3 {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 1rem;
+}
+
+.banner img {
+    height: 130px;
+    padding: 1rem;
+}
+
 .footer {
     border-radius: .25rem;
 }
