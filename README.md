@@ -13,9 +13,10 @@ A demo is available on: http://hrvatski-sahovski-savez.hr/ftp/sucelje_patrick/
 * PGN section for display and navigation
 * Engine analysis
 * Switching between different games and rounds on the same page
+* Support for embedding video (live stream)
 * Download PGN / FEN of the current game, round or whole tournament
 * Multiple boards view (e.g. 6 boards)
-* Mobile phone friendly
+* Responsive design - mobile phone friendly
 
 ## Usage
 ### Setup
@@ -48,16 +49,9 @@ In `index.html` you can:
 In `assets/js/setup.js` you can configure:
 * in `operatorSettings()` edit the links to already defined buttons and name of the operator
 * some default options (such as autoplay delay, move highlighting etc.)
-* number of miniboards with the height and width (in pixels) of the <iframe> in which the miniboard will be embedded
+* number of miniboards for the multiple boards view
 ```javascript
 let numberMiniboards = 6;
-let miniboardWidth = 330;
-let miniboardHeight = 410;
-```
-
-In `assets/js/mosaic-setup.js` you can configure the size (in pixels) of a miniboard. For example:
-```javascript
-adjustBoardSize(300);
 ```
 
 In `assets/style.css` you can do some basic configuration of used colors. The customization of colors will be systematically addressed later
