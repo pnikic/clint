@@ -705,7 +705,8 @@ function changeFramesPGN(val) {
 
         // Change PGN for all miniboards
         let newPgnUrl = allPGNs[val][1];
-        let iframes = document.querySelectorAll("iframe");
+        let iframesDiv = document.getElementById("IframesContainer");
+        let iframes = iframesDiv.querySelectorAll("iframe");
         for(let i = 0; i < iframes.length; i++) {
             iframes[i].style.display = "";
             iframes[i].contentWindow.changePgn(newPgnUrl);
@@ -720,7 +721,8 @@ function toggleControlPanels() {
     controlPanelOption = !controlPanelOption;
 
     // Display or hide the navigation buttons for each miniboard
-    let iframes = document.querySelectorAll("iframe");
+    let iframesDiv = document.getElementById("IframesContainer");
+    let iframes = iframesDiv.querySelectorAll("iframe");
 
     for(let i = 0; i < iframes.length; i++) {
         iframes[i].contentWindow.toggleControlPanel();
@@ -731,7 +733,8 @@ function toggleControlPanels() {
 
 function toggleMoveHighlight() {
     // Toggle move highlighting for each miniboard
-    let iframes = document.querySelectorAll("iframe");
+    let iframesDiv = document.getElementById("IframesContainer");
+    let iframes = iframesDiv.querySelectorAll("iframe");
 
     for(let i = 0; i < iframes.length; i++) {
         iframes[i].contentWindow.toggleHighlight();
@@ -788,7 +791,8 @@ function updateDisplayGames() {
     chosenGames.sort(function(a,b){ return a-b; });
 
     // Render chosen games in order of appearing in the PGN file
-    let iframes = document.querySelectorAll("iframe");
+    let iframesDiv = document.getElementById("IframesContainer");
+    let iframes = iframesDiv.querySelectorAll("iframe");
     for(let i = 0; i < chosenGames.length; i++) {
         iframes[i].style.display = "";
     }
@@ -883,7 +887,8 @@ function maximizeIframesTiles(withPanel = true) {
     // We set the board some pixels smaller to have some margins around the board
     let resize = .975 * size;
 
-    let iframes = document.querySelectorAll("iframe");
+    let iframesDiv = document.getElementById("IframesContainer");
+    let iframes = iframesDiv.querySelectorAll("iframe");
     for(let i = 0; i < chosenGames.length; i++) {
         iframes[i].width = size;
         iframes[i].height = size + additional;
