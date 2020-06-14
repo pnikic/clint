@@ -39,8 +39,6 @@ let minsBeforeRound = 45;
 // Multiple boards view
 //----------------------------------------------------------
 let numberMiniboards = 6;
-let miniboardWidth = 230;
-let miniboardHeight = miniboardWidth + 90;
 
 //=========================================================== 
 // Information about rounds and tournament
@@ -682,8 +680,6 @@ function generateIframes() {
 
         let frame = document.createElement("iframe");
         frame.id = "frame" + String(i);
-        frame.width = String(miniboardWidth);
-        frame.height = String(miniboardHeight);
         frame.src = "mosaic-tile.html";
         frame.style.display = "none";
         iframesDiv.appendChild(frame);
