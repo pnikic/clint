@@ -353,6 +353,12 @@ iframe {
     outline: none;
 }
 
+/* Embedded video styles */
+#VideoDiv iframe {
+    width: 100%;
+    height: 100%;
+}
+
 /************************************************************
    CSS Grid - Single board view
  ************************************************************/
@@ -406,7 +412,7 @@ iframe {
     display: grid;
     --main-margin: 1vw;
     --player-names: 30px;
-    grid-template-columns: var(--main-margin) minmax(350px, 20vw) minmax(min(60vw, 60vh), min(80vw, 80vh)) minmax(350px, 20vw) var(--main-margin);
+    grid-template-columns: var(--main-margin) minmax(350px, 45vw) minmax(min(60vw, 60vh), min(80vw, 80vh)) minmax(350px, 45vw) var(--main-margin);
     grid-template-rows: var(--player-names) auto var(--player-names);
     grid-template-areas:
         ". .topname . ."
@@ -418,7 +424,7 @@ iframe {
 
 @media (min-width: 800px) and (max-width: 1259px) {
     #SingleBoardView {
-        grid-template-columns: var(--main-margin) minmax(min(60vw, 60vh), min(80vw, 80vh)) minmax(25vw, 30vw) var(--main-margin);
+        grid-template-columns: var(--main-margin) minmax(min(60vw, 60vh), min(80vw, 80vh)) minmax(25vw, 45vw) var(--main-margin);
         grid-template-areas:
             ". topname . ."
             ". board pgn ."

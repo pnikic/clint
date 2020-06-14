@@ -75,6 +75,9 @@ function operatorSettings() {
     document.getElementById("OperatorPar").innerHTML = "operater: " + "&lt; ime operatera &gt;";
     // Operator contact
     document.getElementById("OperatorEmail").href = "mailto:" + "operator@mailserver.com";
+
+    // Link for live stream (if available) - tested only with Youtube
+    // enableVideoDiv("https://www.youtube.com/embed/<your-code>")
 }
 
 //=========================================================== 
@@ -225,8 +228,11 @@ function adjustGameTextSize() {
     let gt = document.getElementById("GameText");
     let engineHeight = document.getElementById("EngineEvalDiv").offsetHeight;
     let variationHeight = document.getElementById("EngineVariationDiv").offsetHeight;
+    let videoDiv = document.getElementById("VideoDiv");
+    videoDiv.style.setProperty("height", String(0.5 * boardWidth) + "px");
+    let videoHeight = videoDiv !== null ? videoDiv.offsetHeight : 0;
     // We want the moves, engine evaluation and best line with the margins to fit the board size
-    gt.style.setProperty("max-height", String(boardWidth - engineHeight - variationHeight - 16) + "px");
+    gt.style.setProperty("max-height", String(boardWidth - videoHeight - engineHeight - variationHeight - 16) + "px");
 
     // Set height of game selection div
     //  assuming game selection header is up to 50px
@@ -631,6 +637,21 @@ function restartBroadcast() {
     LiveBroadcastLastModified = (new Date(0));
     LiveBroadcastLastModifiedHeader = LiveBroadcastLastModified.toUTCString();
     restartLiveBroadcast();
+}
+
+function disableVideoDiv() {
+    let videoDiv = document.getElementById("VideoDiv");
+    videoDiv.style.display = "none";
+    adjustGameTextSize();
+}
+
+function enableVideoDiv(link) {
+    // Note: currently, the video div is modelled after the YouTube embed iframe
+
+    let videoDiv = document.getElementById("VideoDiv");
+    videoDiv.style.display = "";
+    videoDiv.children[0].src = link;
+    adjustGameTextSize();
 }
 
 //===========================================================
