@@ -354,7 +354,7 @@ iframe {
 }
 
 /* Embedded video styles */
-#VideoDiv iframe {
+#VideoDivLeft iframe, #VideoDivRight iframe {
     width: 100%;
     height: 100%;
 }
