@@ -1,7 +1,7 @@
 // Note: This code assumes pgn4web.js is loaded and relies on variables and functions defined therein
 
 //=========================================================== 
-// Global variables
+// Global variables - don't edit
 //=========================================================== 
 let allPGNs = [];          // Array of PGN files to be filled
 let started = false;       // Boolean indicating whether a PGN file was loaded once
@@ -18,20 +18,33 @@ let scaleOption = 1;
 // Path to /images folder of pgn4web
 SetImageType("svg");
 SetImagePath("../pgn4web-3.04/images/svgchess");
+
 // Set delay for autoplay of the game (in milliseconds)
-let autoplayDelay = 1000;
+let autoplayDelay = 3000;
 SetAutoplayDelay(autoplayDelay);
+
 // Set starting value for move highlighting
 SetHighlightOption(true);
+
 // Set touch gestures (for mobile phones)
 SetTouchEventEnabled(false);
+
 // Shortcuts on the chessboard (after clicking a square)
 clearShortcutSquares("abcdefgh", "12345678");
-// Parameters are: delay in minutes, alertFlag (display debug messages)
-SetLiveBroadcast(.25, false);
+
+// SetLiveBroadcast(delay, alertFlag, demoFlag, stepFlag, endlessFlag):
+//   delay (refresh delay in minutes),
+//   alertFlag (display debug messages),
+//   demoFlag (if true starts broadcast demo mode),
+//   stepFlag (if true, autoplays updates in steps),
+//   endlessFlag (if true, keeps polling for new moves even after all games are finished)
+// SetLiveBroadcast(.25, false);
+SetLiveBroadcast(.25, false, false, true, false);
+
 // Set the game on first or last move based on first argument: "start" or "end".
 // This function call is only relevant for startup. Otherwise check the changePGN(...) function
 SetInitialHalfmove("end", true);
+
 // Number of minutes before round for enabling current round selection
 let minsBeforeRound = 45;
 
@@ -74,9 +87,9 @@ function operatorSettings() {
     // Operator contact
     document.getElementById("OperatorEmail").href = "mailto:" + "operator@mailserver.com";
 
-    // Link for live stream (if available) - tested only with Youtube
-    // enableVideoDiv("VideoDivLeft", "https://www.youtube.com/embed/<your-code>")
-    // enableVideoDiv("VideoDivRight", "https://www.youtube.com/embed/<your-code>")
+    // Link for live stream (if available) - tested only with YouTube
+    // enableVideoDiv("VideoDivLeft", "https://www.youtube.com/embed/<your-code>");
+    // enableVideoDiv("VideoDivRight", "https://www.youtube.com/embed/<your-code>");
 }
 
 //=========================================================== 
@@ -240,22 +253,6 @@ function adjustGameTextSize() {
     let videoHeightL = videoDivL.offsetHeight;
     let gameSel = document.getElementById("GameSelectionDiv");
     gameSel.style.setProperty("max-height", String(boardWidth - videoHeightL - 50) + "px");
-}
-
-function setBoardSize(evt, change) {
-    // Do not close the parent dropodown menu
-    evt.stopPropagation();
-
-    // This function is called with +1 or -1, depending on the user input
-    let step = 0.1;
-    scaleOption += change * step;
-    scaleOption = parseFloat(scaleOption).toFixed(1);
-
-    let minSize = 0.7;
-    let maxSize = 1.1;
-    scaleOption = Math.min(Math.max(scaleOption, minSize), maxSize);
-    adjustSquareSize(scaleOption);
-    document.getElementById("BoardSizeSpan").innerHTML = scaleOption;
 }
 
 function customFunctionOnMove() {

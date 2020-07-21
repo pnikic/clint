@@ -13,12 +13,15 @@ let controlPanelOption = true;
 //===========================================================
 SetImageType("svg");
 SetImagePath("../pgn4web-3.04/images/svgchess");
+
 // Set touch gestures (for mobile phones)
 SetTouchEventEnabled(false);
+
 // Shortcuts on the chessboard (after clicking a square)
 clearShortcutSquares("abcdefgh", "12345678");
-// Parameters are: delay in minutes, alertFlag (display debug messages)
-SetLiveBroadcast(.25, false, false);
+
+SetLiveBroadcast(.25, false);
+
 // Set active PGN (by default, it will be set up by the parent of the iframe)
 //SetPgnUrl("pgn/old/r1.pgn");
 
