@@ -95,6 +95,11 @@ textarea, input {
     height: 40px;
 }
 
+.beta {
+    font-size: 85%;
+    color: gray;
+}
+
 /* PGN text styles */
 .highlightMove {
     background-color: #D1E4F6;
