@@ -23,9 +23,6 @@
         <!-- =========================================================== -->
         <!--  Paths to resources -->
         <!-- =========================================================== -->
-        <!--  Paths to pgn4web.js, setup.js, style.css -->
-        <script src="../pgn4web-3.04/pgn4web.js"></script>
-        <script src="assets/js/setup.js"></script>
         <link rel="stylesheet" type="text/css" href="assets/style.css">
 
         <!--  Paths to fonts -->
@@ -93,7 +90,7 @@
                 <div id="VideoDivLeft"
                      class="mx-3 mb-1"
                      style="display:none;">
-                    <iframe src="#" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
 
                 <div class="mx-3 mb-2">
@@ -223,18 +220,19 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title"
-                                    id="downloadModalLabel">Preuzmi PGN / FEN</h5>
+                                <h5 class="modal-title mx-auto"
+                                    id="downloadModalLabel">Podijeli</h5>
                                 <button type="button"
-                                        class="close"
+                                        class="close mx-1"
                                         data-dismiss="modal"
                                         aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
+                                <div class="row align-items-center">
+                                </div>
                                 <h5>FEN:</h5>
-
                                 <div class="row align-items-center">
                                     <div class="col-8 col-lg-10">
                                         <input id="FENinput" type="text" class="w-100" readonly>
@@ -264,31 +262,55 @@
                                         </button>
                                     </div>
                                 </div>
-
-                                <div class="modal-footer d-block">
-                                    <h5>Preuzimanje PGN:</h5>
-                                    <div class="row w-100 mx-auto">
-                                        <div class="col-lg-6">
+                            </div>
+                            <div class="modal-footer d-block px-0 px-lg-3">
+                                <h5>Preuzimanje PGN:</h5>
+                                <div class="row w-100 mx-auto">
+                                    <div class="col-lg-6">
+                                        <div class="row align-items-center">
+                                            <div class="col-8">
                                             Odabrano kolo:
-                                            <a id="currLink"
-                                               class="btn btn-light h-40p"
-                                               href="#">
-                                                <img src="assets/images/downloadButton.png"
-                                                     alt="enlarge icon"
-                                                     class="h-100">
-                                            </a>
-                                        </div>
-                                        <div class="col-lg-6">
-                                                Sva kola:
-                                            <a id="allLink"
-                                               class="btn btn-light h-40p"
-                                               href="#">
-                                                <img src="assets/images/downloadButton.png"
-                                                     alt="enlarge icon"
-                                                     class="h-100">
-                                            </a>
+                                            </div>
+                                            <div class="col-4">
+                                                <a id="currLink"
+                                                   class="btn btn-light h-40p"
+                                                   href="#">
+                                                    <img src="assets/images/downloadButton.png"
+                                                         alt="enlarge icon"
+                                                         class="h-100">
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-6">
+                                        <div class="row align-items-center">
+                                            <div class="col-8">
+                                            Sva kola:
+                                            </div>
+                                            <div class="col-4">
+                                                <a id="allLink"
+                                                   class="btn btn-light h-40p"
+                                                   href="#">
+                                                    <img src="assets/images/downloadButton.png"
+                                                         alt="enlarge icon"
+                                                         class="h-100">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer px-0 px-lg-3">
+                                <div class="col-8 col-lg-10">
+                                    <h5>Podijeli ovu partiju:</h5>
+                                </div>
+                                <div class="col-4 col-lg-2">
+                                    <button class="btn btn-light h-40p"
+                                            onclick="linkToCurrentGame();">
+                                        <img src="assets/images/link.png"
+                                             alt="enlarge icon"
+                                             class="h-100">
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -300,7 +322,7 @@
                 <div id="VideoDivRight"
                      class="mx-3 mb-1"
                      style="display:none;">
-                    <iframe src="#" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
 
                 <!-- =========================================================== -->
@@ -523,5 +545,8 @@
                 crossorigin="anonymous"></script>
         <!-- ChessJS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
+        <!--  Paths to pgn4web.js, setup.js, style.css -->
+        <script src="../pgn4web-3.04/pgn4web.js"></script>
+        <script src="assets/js/setup.js"></script>
     </body>
 </html>

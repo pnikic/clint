@@ -1,17 +1,73 @@
 // Note: This code assumes pgn4web.js is loaded and relies on variables and functions defined therein
 
-//=========================================================== 
+//===========================================================
 // Global variables - don't edit
-//=========================================================== 
-let allPGNs = [];          // Array of PGN files to be filled
-let started = false;       // Boolean indicating whether a PGN file was loaded once
-let displayedGame = "";    // Currently displayed game
-let viewType = 0;
-let scaleOption = 1;
+//===========================================================
+let allPGNs = [];        // Array of PGN files to be filled
+let started = false;     // Boolean indicating whether a PGN file was loaded once
+let displayedGame = "";  // Currently displayed game (used for rotating the board back for a new game)
+let viewType = 0;        // Variable for toggling single and multi board view
+let scaleOption = 1;     // TODO: Currently not used, to be considered when implementing resizing
+let numActiveSnackbarMessages = 0;  // Used for hiding snackbar element after showing notifications
+let currentPGN = 0       // Index of current PGN (used to generate a link for sharing)
+let initialPGNFile = "";
 
-//=========================================================== 
+//===========================================================
 // Settings
 //===========================================================
+//----------------------------------------------------------
+// Information about rounds and tournament
+//----------------------------------------------------------
+function listPGNFiles() {
+    // Define starting time and PGN files for all rounds
+    let roundsInfo = [];
+
+    // Option 1) helper to generate labels for rounds, given the PGN paths
+    // Every element is of format: [ [year, month, day, hours, minutes], path/to/pgn ]
+    roundsInfo.push([[2020, 4, 11, 13, 00], "pgn/r1.pgn"]);
+    roundsInfo.push([[2020, 4, 12, 16, 00], "pgn/r2.pgn"]);
+    roundsInfo.push([[2020, 4, 13, 16, 00], "pgn/r3.pgn"]);
+    roundsInfo.push([[2020, 4, 14, 09, 30], "pgn/r4.pgn"]);
+    generateAllPGNs(roundsInfo);
+
+    // Option 2) add labels and PGN paths manually
+    allPGNs.push(["Arhiva", "pgn/all.pgn"]);
+
+    // In case no PGN is set in the URI parameter (share option), this PGN will be used at startup.
+    // If this path is not correct,  an error from pgn4web will be displayed in the moves section
+    initialPGNFile = "pgn/test.pgn";
+}
+
+function operatorSettings() {
+    // PGN download buttons
+    document.getElementById("currLink").href = pgnUrl;         // current active pgn
+    document.getElementById("allLink").href = "pgn/all.pgn";   // all rounds
+
+    // Link for chess-results
+    let chessResultsBtn = document.getElementById("ChessResultLink");
+    if (chessResultsBtn)
+        chessResultsBtn.href = "https://chess-results.com/";
+
+    // Link for photo gallery
+    let photoLinkBtn = document.getElementById("PhotoLink");
+    if (photoLinkBtn)
+        photoLinkBtn.href = "https://www.example.com";
+
+    // Link for tournament details (can be a link to a local file)
+    let regulationsBtn = document.getElementById("Raspis");
+    if (regulationsBtn)
+        regulationsBtn.href = "https://www.example.com";
+
+    // Paragraph for operator
+    document.getElementById("OperatorPar").innerHTML = "operater: " + "&lt; ime operatera &gt;";
+    // Operator contact
+    document.getElementById("OperatorEmail").href = "mailto:" + "operator@mailserver.com";
+
+    // Link for live stream (if available) - tested only with YouTube
+    // enableVideoDiv("VideoDivLeft", "https://www.youtube.com/embed/<your-code>");
+    // enableVideoDiv("VideoDivRight", "https://www.youtube.com/embed/<your-code>");
+}
+
 //----------------------------------------------------------
 // Single board view
 //----------------------------------------------------------
@@ -19,7 +75,7 @@ let scaleOption = 1;
 SetImageType("svg");
 SetImagePath("../pgn4web-3.04/images/svgchess");
 
-// Set delay for autoplay of the game (in milliseconds)
+// Set default delay for autoplay of the game (in milliseconds)
 let autoplayDelay = 3000;
 SetAutoplayDelay(autoplayDelay);
 
@@ -53,46 +109,29 @@ let minsBeforeRound = 45;
 //----------------------------------------------------------
 let numberMiniboards = 6;
 
-//=========================================================== 
-// Information about rounds and tournament
-//=========================================================== 
-SetPgnUrl("pgn/r1.pgn"); // Active PGN (current round)
 
-function operatorSettings() {
-    // Define starting time and PGN files for all rounds
-    let roundsInfo = [];
+//===========================================================
+// Other initialization code
+//===========================================================
 
-    // Every element is of format:
-    //  [ [year, month, day, hours, minutes], path/to/pgn ]
-    roundsInfo.push([[2020, 4, 11, 13, 00], "pgn/r1.pgn"]);
-    roundsInfo.push([[2020, 4, 12, 16, 00], "pgn/r2.pgn"]);
-    roundsInfo.push([[2020, 4, 13, 16, 00], "pgn/r3.pgn"]);
-    roundsInfo.push([[2020, 4, 14, 09, 30], "pgn/r4.pgn"]);
-    generateAllPGNs(roundsInfo);
+// Fill the values in allPGNs
+listPGNFiles();
 
-    // Additional PGN files
-    allPGNs.push(["Arhiva", "pgn/all.pgn"]);
-
-    // PGN download buttons
-    document.getElementById("currLink").href = pgnUrl;         // current active pgn
-    document.getElementById("allLink").href = "pgn/all.pgn";   // all rounds
-    // Link for chess-results
-    document.getElementById("ChessResultLink").href = "https://chess-results.com/";
-    // Link for photo gallery
-    document.getElementById("PhotoLink").href = "https://www.example.com";
-    // Link for tournament details (can be a link to a local file)
-    document.getElementById("Raspis").href = "https://www.example.com";
-    // Paragraph for operator
-    document.getElementById("OperatorPar").innerHTML = "operater: " + "&lt; ime operatera &gt;";
-    // Operator contact
-    document.getElementById("OperatorEmail").href = "mailto:" + "operator@mailserver.com";
-
-    // Link for live stream (if available) - tested only with YouTube
-    // enableVideoDiv("VideoDivLeft", "https://www.youtube.com/embed/<your-code>");
-    // enableVideoDiv("VideoDivRight", "https://www.youtube.com/embed/<your-code>");
+// Set the PGN from the URI parameter, if applicable
+let url = new URLSearchParams(window.location.href);
+let ret = false;
+if (url.has('pgn'))
+{
+    let val = Number(url.get('pgn'));
+    if (typeof(val) == "number" && val >= 0 && val < allPGNs.length)
+        ret = selectPGN(allPGNs[val][1])
+}
+// Otherwise, set a default PGN file
+if (!ret) {
+    selectPGN(initialPGNFile);
 }
 
-//=========================================================== 
+//===========================================================
 // Main part of the program
 //===========================================================
 function pad(str, totalChars, padChar) {
@@ -101,7 +140,7 @@ function pad(str, totalChars, padChar) {
 
 function dateToString(date) {
     return String(date.getDate() + "/" + String(date.getMonth() + 1)) + "/" + String(date.getFullYear())
-        + " " + pad(String(date.getHours()), 2, "0") + ":" + pad(String(date.getMinutes()), 2, "0");
+         + " " + pad(String(date.getHours()), 2, "0") + ":" + pad(String(date.getMinutes()), 2, "0");
 }
 
 function generateAllPGNs(roundsInfo) {
@@ -115,39 +154,6 @@ function generateAllPGNs(roundsInfo) {
 
 function customFunctionOnPgnGameLoad() {
     // Overriding the function from pgn4web.js that will run after loading a PGN
-    
-    if (!started) {
-        // Code in this block exectues only once
-
-        // Set up hyperlinks, PGN files etc.
-        operatorSettings();
-
-        // Set up round select menu (for single- and multi-board view)
-        let selectRoundElem = document.getElementById("PgnFileSelect");
-        let mbSelectRoundElem = document.getElementById("MultiboardFileSelect");
-        let now = new Date();
-
-        for (let i = 0; i < allPGNs.length; ++i){
-            let option = document.createElement("option");
-            option.value = String(i);
-            option.innerHTML = allPGNs[i][0];
-            // If the round will start at later point in time, disable its selection
-            if (allPGNs[i].length > 2 && new Date(allPGNs[i][2].getTime() - minsBeforeRound * 60000) > now) {
-                option.disabled = true;
-            }
-
-            selectRoundElem.appendChild(option);
-            mbSelectRoundElem.appendChild(option.cloneNode(true));
-        }
-
-        restartBroadcast();
-        displayedGame = getDisplayedGame();
-        // Display numbers in settings dropdown
-        document.getElementById("AutoplayDelaySpan").innerHTML = String(autoplayDelay / 1000);
-        // document.getElementById("BoardSizeSpan").innerHTML = scaleOption;
-        started = true;
-    }
-
     adjustSquareSize(scaleOption);
 
     // Add Elo ratings
@@ -196,7 +202,7 @@ function updateResult() {
 function getDisplayedGame() {
     // Returns an (almost) unique identifer of a chess game
     return gameWhite[currentGame] + " - " + gameBlack[currentGame] + ", "
-        + (gameDate.length ? gameDate[currentGame] : "");
+         + (gameDate.length ? gameDate[currentGame] : "");
 }
 
 function getBoardWidth() {
@@ -284,9 +290,29 @@ function customFunctionOnMove() {
     setAutoplayButton();
 }
 
+function selectPGN(filename) {
+    // Setting PGN using one of the filenames defined in allPGNs array -
+    //   small wrapper around SetPgnUrl which also restarts the broadcast.
+    //   Returns true in case of success
+
+    for (elem of allPGNs)
+    {
+        fullPathPgn = elem[1];
+        relativePathPgn = fullPathPgn.substring(fullPathPgn.lastIndexOf('/') + 1)
+        // Check for either full filename or relative filename
+        if (filename == fullPathPgn || filename == relativePathPgn) {
+            SetPgnUrl(fullPathPgn);
+            restartBroadcast();
+            return true;
+        }
+    }
+
+    return false;
+}
+
 function changePGN(val) {
     // Callback for the "select round" menu in single board view
-    val = Number(val); 
+    val = Number(val);
     let arg = "end"  // "start" or "end"
 
     if (val >= 0 && val < allPGNs.length) {
@@ -295,12 +321,12 @@ function changePGN(val) {
         // Scroll game text to the top or bottom
         let gt = document.getElementById("GameText");
         gt.scrollTop = arg == "end" ? gt.scrollHeight : 0;
-        
+
         SetPgnUrl(allPGNs[val][1]);
         document.getElementById("currLink").href = pgnUrl;
+        currentPGN = val;
+        restartBroadcast();
     }
-
-    restartBroadcast()
 }
 
 function modalOpen() {
@@ -318,6 +344,23 @@ function copyInput(element) {
     elem.select();
     elem.setSelectionRange(0, 99999); // Mobile phones
     document.execCommand("copy");
+}
+
+function linkToCurrentGame() {
+    let href = window.location.href;
+    let uriParamsStart = href.indexOf('?');
+    if (uriParamsStart != -1)
+        href = href.substring(0, uriParamsStart);
+
+    let link = href + '?&' +
+               encodeURIComponent('pgn') + '=' + encodeURIComponent(currentPGN) + '&' +
+               encodeURIComponent('game') + '=' + encodeURIComponent(currentGame);
+
+    navigator.clipboard.writeText(link).then(function() {
+        snackbarMessage('Poveznica kopirana');
+    }, function() {
+        snackbarMessage('Došlo je do pogreške');
+    });
 }
 
 function flipBoard() {
@@ -353,7 +396,7 @@ function flipBoard() {
     //updateResult();
 }
 
-//=========================================================== 
+//===========================================================
 // Engine
 //===========================================================
 
@@ -366,8 +409,8 @@ let icons = ["assets/images/toggleButton.png",   // OFF
 
 function initializeEngine() {
     engine = new Worker("assets/js/stockfish.js");
-    
-    // Callback from engine 
+
+    // Callback from engine
     engine.onmessage = function onmessage(event) {
         let msg = event.data;
 
@@ -478,7 +521,7 @@ function toggleEngine() {
 }
 
 
-//=========================================================== 
+//===========================================================
 // Miscellaneous settings
 //===========================================================
 
@@ -496,53 +539,64 @@ function pgn4web_handleKey(e) {
     keycode = e.keyCode;
 
     switch (keycode) {
-    case 37: // left-arrow
-        backButton(e);
-        break;
+        case 37: // left-arrow
+            backButton(e);
+            break;
 
-    case 38: // up-arrow
-        startButton(e);
-        break;
+        case 38: // up-arrow
+            startButton(e);
+            break;
 
-    case 39: // right-arrow
-        forwardButton(e);
-        break;
+        case 39: // right-arrow
+            forwardButton(e);
+            break;
 
-    case 40: // down-arrow
-        endButton(e);
-        break;
+        case 40: // down-arrow
+            endButton(e);
+            break;
 
-    case 86: // v
-        if (numberOfGames > 1) { Init(0); }
-        break;
+        case 86: // v
+            if (numberOfGames > 1) { Init(0); }
+            break;
 
-    case 66: // b
-        Init(currentGame - 1);
-        break;
+        case 66: // b
+            Init(currentGame - 1);
+            break;
 
-    case 78: // n
-        Init(currentGame + 1);
-        break;
+        case 78: // n
+            Init(currentGame + 1);
+            break;
 
-    case 77: // m
-        if (numberOfGames > 1) { Init(numberOfGames - 1); }
-        break;
+        case 77: // m
+            if (numberOfGames > 1) { Init(numberOfGames - 1); }
+            break;
 
-    default:
-        return true;
+        default:
+            return true;
     }
 
     return stopEvProp(e);
 }
 
-function snackbarMessage(msg) {
-    let sb = document.getElementById('Snackbar');
-    sb.innerHTML = msg;
-    sb.className = "show";
-    setTimeout(function(){
+function removeSnackbarMessage(){
+    numActiveSnackbarMessages -= 1
+
+    if (!numActiveSnackbarMessages)
+    {
+        let sb = document.getElementById('Snackbar');
         sb.className = sb.className.replace("show", "");
-        sb.innerHTML = '';
-    }, 3000);
+    }
+}
+
+function snackbarMessage(msg) {
+    numActiveSnackbarMessages += 1
+    let sb = document.getElementById('Snackbar');
+    sb.className = "show";
+    sb.innerHTML = msg;
+
+    setTimeout(function(){
+        removeSnackbarMessage();
+    }, 2750);
 }
 
 function setAutoplayButton() {
@@ -576,6 +630,42 @@ function setAutoplayDelay(evt, change) {
 
 function customFunctionOnPgnTextLoad() {
     // Overriding the function from pgn4web.js that will run after loading a PGN
+
+    if (!started) {
+        // Code in this block exectues only once
+        started = true;
+
+        // customFunctionOnPgnTextLoad() is called at the end of createBoard() in pgn4web.js
+        //   which is in turn trigerred by start_pgn4web() on startup. We hook to this chain
+        //   by immediately changing the game to the one defined in the URL parameter, if any.
+        if (url.has('game'))
+            changeGame(url.get('game'));
+
+        // Set up hyperlinks, PGN files etc.
+        operatorSettings();
+
+        // Set up round select menu (for single- and multi-board view)
+        let selectRoundElem = document.getElementById("PgnFileSelect");
+        let mbSelectRoundElem = document.getElementById("MultiboardFileSelect");
+        let now = new Date();
+
+        for (let i = 0; i < allPGNs.length; ++i){
+            let option = document.createElement("option");
+            option.value = String(i);
+            option.innerHTML = allPGNs[i][0];
+            // If the round will start at later point in time, disable its selection
+            if (allPGNs[i].length > 2 && new Date(allPGNs[i][2].getTime() - minsBeforeRound * 60000) > now) {
+                option.disabled = true;
+            }
+
+            selectRoundElem.appendChild(option);
+            mbSelectRoundElem.appendChild(option.cloneNode(true));
+        }
+
+        // Display numbers in settings dropdown
+        document.getElementById("AutoplayDelaySpan").innerHTML = String(autoplayDelay / 1000);
+        // document.getElementById("BoardSizeSpan").innerHTML = scaleOption;
+    }
 
     // Update of options in "select game" grid area
     let gameSel = document.getElementById("GameSelectionDiv");
@@ -704,16 +794,23 @@ function changeFramesPGN(val) {
             chosenGames[i] = i;
         }
 
-        maximizeIframesTiles(controlPanelOption);
+        maximizeIframesTiles(controlPanelOption); // delete
 
         // Change PGN for all miniboards
         let newPgnUrl = allPGNs[val][1];
         let iframesDiv = document.getElementById("IframesContainer");
         let iframes = iframesDiv.querySelectorAll("iframe");
-        for(let i = 0; i < iframes.length; i++) {
+        for (let i = 0; i < iframes.length; i++) {
             iframes[i].style.display = "";
             iframes[i].contentWindow.changePgn(newPgnUrl);
         }
+
+        // TODO: FIXME: I should be a callback
+        /* console.log('Waiting a second');
+         * setTimeout(() => {
+         *     maximizeIframesTiles(controlPanelOption);
+         * }, 2000);
+         */
     }
 
     // Restart live broadcast
@@ -727,7 +824,7 @@ function toggleControlPanels() {
     let iframesDiv = document.getElementById("IframesContainer");
     let iframes = iframesDiv.querySelectorAll("iframe");
 
-    for(let i = 0; i < iframes.length; i++) {
+    for (let i = 0; i < iframes.length; i++) {
         iframes[i].contentWindow.toggleControlPanel();
     }
 
@@ -808,7 +905,7 @@ function updateDisplayGames() {
     document.getElementById("GamesSelectionContainer").scrollTop = 0;
 
     maximizeIframesTiles(controlPanelOption);
-    
+
     // Restart live broadcast
     restartBroadcast();
 }
