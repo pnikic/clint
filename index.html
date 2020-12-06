@@ -10,21 +10,25 @@
         <link rel="shortcut icon"
               href="favicon.ico">
 
+        <!-- =========================================================== -->
+        <!--  Paths to styles -->
+        <!-- =========================================================== -->
         <!-- Bootstrap CSS -->
         <link rel="stylesheet"
               href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
               integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
               crossorigin="anonymous">
+        <!-- Font Awesome CSS -->
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+              integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+              crossorigin="anonymous"/>
+        <link rel="stylesheet" type="text/css" href="assets/style.css">
 
         <!-- =========================================================== -->
         <!--  Title in address bar -->
         <!-- =========================================================== -->
         <title>Clint</title>
-
-        <!-- =========================================================== -->
-        <!--  Paths to styles -->
-        <!-- =========================================================== -->
-        <link rel="stylesheet" type="text/css" href="assets/style.css">
 
         <!--  Paths to fonts -->
         <!--  Font can be changed in assets/style.css on the line with elements: -->
@@ -42,7 +46,7 @@
         <!-- =========================================================== -->
     </head>
 
-    <body class="bgColor text-black"
+    <body class="text-black"
           onresize="resizeCallback();">
         <!-- =========================================================== -->
         <!--  Banner begin -->
@@ -109,11 +113,18 @@
                 </div>
 
                 <div class="mx-3 mb-2">
-                    <select id="PgnFileSelect"
-                            class="custom-select shadow-none"
-                            onChange="changePGN(this.value)">
-                        <option value='-1'>Odabir kola</option>
-                    </select>
+                    <div class="row">
+                        <div class="col-11 pr-0">
+                            <select id="PgnFileSelect"
+                                    class="custom-select shadow-none"
+                                    onChange="changePGN(this.value)">
+                                <option value='-1'>Odabir kola</option>
+                            </select>
+                        </div>
+                        <div class="col-1 pl-0">
+                            <i class="fas fa-caret-down"></i>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="GameSelectionDiv"
@@ -129,9 +140,7 @@
                             data-toggle="modal"
                             data-target="#downloadModal"
                             onclick="modalOpen();">
-                        <img src="assets/images/share.png"
-                             alt="share"
-                             class="h-65">
+                        <i class="fas fa-share-square"></i>
                     </button>
                 </div>
                 <div id="SettingsDiv"
@@ -142,24 +151,18 @@
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false">
-                        <img src="assets/images/settings.png"
-                             alt="settings"
-                             class="h-65">
+                        <i class="fas fa-cog"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right text-right p-0"
                          aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item"
                            onclick="toggleView(1);">Više ploča
                             <span class="beta">(beta)</span>
-                            <img src="assets/images/squares.png"
-                                 alt="multiple boards"
-                                 class="h-100 pl-2">
+                            <i class="fas fa-th fa-lg pl-2"></i>
                         </a>
                         <a class="dropdown-item"
                            onclick="SetHighlight(!highlightOption);">Istakni posljednji potez
-                            <img src="assets/images/highlighter.png"
-                                 alt="highlight"
-                                 class="h-100 pl-2">
+                            <i class="fas fa-highlighter fa-lg pl-2"></i>
                         </a>
                         <a class="dropdown-item">Automatska reprodukcija (sec)
                             <button type="button"
@@ -175,9 +178,7 @@
                         </a>
                         <a class="dropdown-item"
                            onclick="flipBoard();">Okreni ploču
-                            <img src="assets/images/rotate.png"
-                                 alt="rotate"
-                                 class="h-100 pl-2">
+                            <i class="fas fa-exchange-alt fa-lg pl-2"></i>
                         </a>
                     </div>
                 </div>
@@ -266,9 +267,7 @@
                                     <div class="col-4 col-lg-2">
                                         <button class="btn btn-light h-40p"
                                                 onclick="copyInput('FENinput'); snackbarMessage('FEN kopiran');">
-                                            <img src="assets/images/copyButton.png"
-                                                 alt="enlarge icon"
-                                                 class="h-100">
+                                            <i class="fas fa-copy fa-lg"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -285,9 +284,7 @@
                                     <div class="col-4 col-lg-2">
                                         <button class="btn btn-light h-40p"
                                                 onclick="copyInput('PGNinput'); snackbarMessage('PGN kopiran');">
-                                            <img src="assets/images/copyButton.png"
-                                                 alt="enlarge icon"
-                                                 class="h-100">
+                                            <i class="fas fa-copy fa-lg"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -304,9 +301,7 @@
                                                 <a id="currLink"
                                                    class="btn btn-light h-40p"
                                                    href="#">
-                                                    <img src="assets/images/downloadButton.png"
-                                                         alt="enlarge icon"
-                                                         class="h-100">
+                                                    <i class="fas fa-download fa-lg"></i>
                                                 </a>
                                             </div>
                                         </div>
@@ -320,9 +315,7 @@
                                                 <a id="allLink"
                                                    class="btn btn-light h-40p"
                                                    href="#">
-                                                    <img src="assets/images/downloadButton.png"
-                                                         alt="enlarge icon"
-                                                         class="h-100">
+                                                    <i class="fas fa-download fa-lg"></i>
                                                 </a>
                                             </div>
                                         </div>
@@ -336,9 +329,7 @@
                                 <div class="col-4 col-lg-2">
                                     <button class="btn btn-light h-40p"
                                             onclick="linkToCurrentGame();">
-                                        <img src="assets/images/link.png"
-                                             alt="enlarge icon"
-                                             class="h-100">
+                                        <i class="fas fa-link fa-lg"></i>
                                     </button>
                                 </div>
                             </div>
@@ -370,12 +361,11 @@
                             <div class="col-5">
                                 <span>Stockfish</span><br><span id="Depth"></span>
                             </div>
-                            <div class="col-4 h-75">
-                                <img id="engineToggleIcon"
-                                     src="assets/images/toggleButton.png"
-                                     alt="toggle engine icon"
-                                     class="h-100"
-                                     onclick="toggleEngine()">
+                            <div class="col-4 h-75"
+                                 onclick="toggleEngine();">
+                                <i id="engineToggleIcon"
+                                   class="fas fa-toggle-off">
+                                </i>
                             </div>
                         </div>
                     </div>
@@ -453,44 +443,35 @@
                             data-toggle="modal"
                             data-target="#multiboardModal">
                         <span>Odabir partija</span>
-                        <img src="assets/images/options.png"
-                             alt="Options icon"
-                             class="h-100 pl-2">
+                        <i class="fas fa-list-ul pl-2"></i>
                     </button>
                 </div>
                 <div class="col-3 col-lg-2">
                     <div class="dropup d-inline">
-                        <button type="button"
+                        <button id="MultipleBoardsSettingsBtn"
+                                type="button"
                                 class="btn btn-light m-0 w-100 dropdown-toggle h-40p"
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
                                 aria-expanded="false">
-                            <img src="assets/images/settings.png"
-                                 alt="settings"
-                                 class="h-65">
+                            <i class="fas fa-cog"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right text-right p-0"
                              aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item"
                                onclick="toggleView(0);">
                                 <span>Jedna ploča</span>
-                                <img src="assets/images/square.png"
-                                     alt="single board"
-                                     class="h-100 pl-2">
+                                <i class="fas fa-chess-board fa-lg pl-2"></i>
                             </a>
                             <a class="dropdown-item"
                                onclick="toggleMoveHighlight();">
                                 <span>Istakni posljednji potez</span>
-                                <img src="assets/images/highlighter.png"
-                                     alt="highlight"
-                                     class="h-100 pl-2">
+                                <i class="fas fa-highlighter fa-lg pl-2"></i>
                             </a>
                             <a class="dropdown-item"
                                onclick="toggleControlPanels();">
                                 <span>Prikaz navigacijske trake</span>
-                                <img src="assets/images/bottom.png"
-                                     alt="game navigation"
-                                     class="h-100 pl-2">
+                                <i class="fas fa-window-minimize"></i>
                             </a>
                         </div>
                     </div>
@@ -563,9 +544,7 @@
                             <span id="OperatorPar"
                                   class="my-auto pr-2 h6">
                             </span>
-                            <img src="assets/images/mail.png"
-                                 alt="mailto operator"
-                                 class="h-100">
+                            <i class="fas fa-envelope"></i>
                         </a>
                     </div>
                     <div class="col col-lg-3">
@@ -573,9 +552,7 @@
                            target="_blank"
                            rel="noopener noreferrer"
                            class="m-1 badge badge-light p-2">
-                            <img src="assets/images/githubLogo.svg"
-                                 alt="enlarge icon"
-                                 class="h-100">
+                            <i class="fab fa-github"></i>
                             <span class="ml-2 h6">Repozitorij</span>
                         </a>
                     </div>

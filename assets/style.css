@@ -1,9 +1,37 @@
 /************************************************************
-   Global configuration of colors 
+   Global configuration of colors
  ************************************************************/
+/* Utility for calculation shades of a color: https://www.0to255.com */
+
+/*
+TODO: Update all colors
+   :root {
+   --bg-color: #F3F3F3;
+   --first-color-bg: #DCDCDC;
+   --first-color-text: #ff9900;
+   --white-square: #F0D9B5;
+   --black-square: #B58863;
+   --highlight-white-sq: #CDD26A;
+   --highlight-black-sq: #AAA23A;
+   }
+ */
+
+/*
+Add a few predefined sets
+*/
+
 :root {
-    --bg-color: #F3F3F3;
-    --first-color: #DCDCDC;
+    --bg-color: #303030;
+    --bg-color-light: #616161;
+    --bg-color-light-text: white;
+    --bg-color-text: lightgreen;
+    --bg-color-text-light: #07e67d;
+    --bg-color-hover: yellow;
+    --bg-color-hover-text: black;
+    --bg-color-active: orange;
+    --first-color-bg: #cc0000;
+    --first-color-hover: #f99;
+    --first-color-text: rgb(236, 240, 26);
     --white-square: #F0D9B5;
     --black-square: #B58863;
     --highlight-white-sq: #CDD26A;
@@ -13,20 +41,13 @@
 /************************************************************
    General
  ************************************************************/
-.firstColor {
-    background-color: var(--first-color);
-}
-
-.bgColor {
-    background-color: var(--bg-color);
-}
-
 .h-65 {
     height: 65%;
 }
 
 body {
     background-color: var(--bg-color);
+    color: var(--bg-clor-text);
     font-family: Verdana, Arial, Helvetica, sans-serif;
     text-align: center;
 }
@@ -50,15 +71,47 @@ body {
     border-radius: .25rem;
 }
 
-.banner, .footer, .badge-light, .btn-light {
-    background-color: var(--first-color);
+/* In order to remove flashing (transition) at startup time */
+.btn, .custom-select {
+    transition: none;
+}
+
+/* Normal colors */
+.banner, .footer, .badge-light, .badge-light[href]:focus, .btn-light {
+    background-color: var(--first-color-bg);
+    color: var(--first-color-text);
+}
+
+.btn-light {
+    border-color: transparent;
+}
+
+/* Hover colors */
+.badge-light[href]:hover, .btn-light:hover {
+    background-color: var(--first-color-hover);
+    color: var(--first-color-text)
+}
+
+.btn-light:hover {
+    border-color: transparent;
+}
+
+/* Inverted colors */
+.badge-light:not(:disabled):not(.disabled):active,
+.btn-light:not(:disabled):not(.disabled):active,
+.show>.btn-light.dropdown-toggle {
+    background-color: var(--first-color-text);
+    color: var(--first-color-bg);
+    border-color: transparent;
+}
+
+.btn-light:not(:disabled):not(.disabled):active:focus,
+.show>.btn-light.dropdown-toggle:focus {
+    box-shadow: none;
+    border-color: transparent;
 }
 
 .btn-light:focus {
-    box-shadow: none;
-}
-
-.btn-light:not(:disabled):not(.disabled):active:focus {
     box-shadow: none;
 }
 
@@ -66,8 +119,17 @@ a {
     color: inherit;
 }
 
+.dropdown-menu {
+    background-color: var(--bg-color-light);
+    color: var(--bg-color-light-text);
+}
+
+.dropdown-menu > .dropdown-item:hover {
+    background-color: var(--bg-color);
+}
+
 .dropdown-item:active {
-    background-color: #F3F3F3;
+    background-color: var(--bg-color-light);;
 }
 
 .dropdown-item {
@@ -87,8 +149,22 @@ a {
 }
 
 textarea, input {
+    background-color: var(--bg-color-light);
+    color: var(--bg-color-light-text);
     font-family: monospace;
     font-size: 13px;
+    border: 0;
+}
+
+textarea:focus, input:focus {
+    outline: none;
+    border: 0;
+}
+
+textarea::-webkit-resizer {
+    border-width: 8px;
+    border-style: solid;
+    border-color: var(--bg-color-light) var(--first-color-bg) var(--first-color-bg) var(--bg-color-light);
 }
 
 .h-40p, #GithubBtn {
@@ -100,9 +176,46 @@ textarea, input {
     color: gray;
 }
 
+.fa-caret-down {
+    color: var(--first-color-bg);
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 12px rgba(200,200,200,1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--first-color-bg);
+}
+
+.close, .close:not(:disabled):not(.disabled):focus {
+    color: var(--bg-color-text);
+    border-radius: .25rem;
+}
+
+.close:hover, .close:not(:disabled):not(.disabled):hover {
+    background-color: var(--bg-color-hover);
+    color: var(--bg-color-text);
+}
+
+.close:focus {
+    outline: none;
+}
+
+.modal-content {
+    background-color: var(--bg-color);
+    color: var(--bg-color-text);
+}
+
 /* PGN text styles */
 .highlightMove {
-    background-color: #D1E4F6;
+    background-color: var(--bg-color-active);
 }
 
 #GameText, #EngineVariationDiv {
@@ -113,6 +226,15 @@ textarea, input {
 #GameSelectionDiv {
     text-align: left;
     overflow-y: auto;
+}
+
+#GameSelectionDiv > div, #GameText > span {
+    background-color: var(--bg-color);
+    color: var(--bg-color-text);
+}
+
+#GameSelectionDiv > div > span, span.move.notranslate {
+    color: var(--bg-color-text-light);
 }
 
 #GameSideToMove, #GameResult {
@@ -128,12 +250,11 @@ a.move {
 }
 
 a.move:hover {
-    background-color: #1B78D0;
-    color: white;
+    background-color: var(--bg-color-hover);
+    color: var(--bg-color-hover-text);
 }
 
 span.move {
-    color: #B3B3B3;
     text-align: center;
     display: inline-block;
     width: 20%;
@@ -146,12 +267,14 @@ span.move {
 
 #EngineEvalDiv {
     height: 48px;
-    background-color: var(--first-color);
+    background-color: var(--first-color-bg);
+    color: var(--first-color-text);
     border-radius: .25rem .25rem 0 0;
 }
 
 #EngineVariationDiv {
-    background-color: #FFFFFF;
+    background-color: var(--bg-color-light);
+    color: var(--bg-color-light-text);
     line-height: 1.5em;
     height: 3em;
     overflow: hidden;
@@ -188,7 +311,7 @@ span.move {
 }
 
 .result {
-    border-right: 1px solid #000;
+    border-right: 1px solid var(--first-color-text);
 }
 
 .clock {
@@ -196,7 +319,8 @@ span.move {
 }
 
 .topPlayerItem, .botPlayerItem {
-    background-color: var(--first-color);
+    background-color: var(--first-color-bg);
+    color: var(--first-color-text);
     border-radius: .25rem;
     align-items: center;
 }
@@ -217,20 +341,21 @@ span.move {
 }
 
 .custom-select {
-    background-color:  var(--first-color);
-    color: black;
+    background-color:  var(--first-color-bg);
+    background-image: none;
+    color: var(--first-color-text);
     border: 0px;
 }
 
 .custom-select:focus {
-    border-color:  var(--first-color);
+    border-color:  var(--first-color-bg);
+    color: var(--first-color-text);
 }
 
 #GameSelectionDiv span {
     text-align: center;
     font-weight: 700;
     padding: 8px;
-    color: #B3B3B3;
 }
 
 #GameSelectionDiv h6 {
@@ -243,12 +368,17 @@ span.move {
 }
 
 #GameSelectionDiv > div:hover:not(.active) {
-    background-color: #1B78D0;
-    color: white;
+    background-color: var(--bg-color-hover);
+    color: var(--bg-color-hover-text);
 }
 
 #GameSelectionDiv > div.active {
-    background-color: #D1E4F6;
+    background-color: var(--bg-color-active);
+}
+
+#SettingsBtn > i, #DownloadModalBtn > i, .fa-list-ul, #MultipleBoardsSettingsBtn > i {
+    font-size: 22px;
+    vertical-align: middle;
 }
 
 #SettingsDiv {
@@ -264,7 +394,8 @@ span.move {
     visibility: hidden;
     min-width: 250px;
     margin-left: -125px;
-    background-color: var(--first-color);
+    background-color: var(--first-color-bg);
+    color: var(--first-color-text);
     text-align: center;
     border-radius: .25rem;
     padding: 16px;
@@ -284,6 +415,8 @@ iframe {
 }
 
 .playerNameTile {
+    background-color: var(--first-color-bg);
+    color: var(--first-color-text);
     font-weight: 600;
     font-size: 15px;
     padding: 0px 0px 0px 3px;
@@ -292,7 +425,8 @@ iframe {
 .clockTile {
     font-size: 15px;
     padding: 0px 2px 0px 0px;
-    background-color: var(--first-color);
+    background-color: var(--first-color-bg);
+    color: var(--first-color-text);
 }
 
 .fullBorder {
@@ -339,6 +473,11 @@ iframe {
 #VideoDivLeft iframe, #VideoDivRight iframe {
     width: 100%;
     height: 100%;
+}
+
+#OperatorEmail > i, #GithubBtn > i, #engineToggleIcon {
+    font-size: 30px;
+    vertical-align: middle;
 }
 
 /************************************************************

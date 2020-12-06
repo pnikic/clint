@@ -35,7 +35,7 @@ function listPGNFiles() {
 
     // In case no PGN is set in the URI parameter (share option), this PGN will be used at startup.
     // If this path is not correct,  an error from pgn4web will be displayed in the moves section
-    initialPGNFile = "pgn/test.pgn";
+    initialPGNFile = "pgn/r1.pgn";
 }
 
 function operatorSettings() {
@@ -404,8 +404,6 @@ function flipBoard() {
 let engine;
 let toMove;
 let engineStatus = 0;
-let icons = ["assets/images/toggleButton.png",   // OFF
-             "assets/images/toggleButton1.png"]; // ON
 
 function initializeEngine() {
     engine = new Worker("assets/js/stockfish.js");
@@ -503,7 +501,8 @@ function useEngine() {
 
 function toggleEngine() {
     engineStatus = Number(!engineStatus);
-    document.getElementById("engineToggleIcon").src = icons[engineStatus];
+    let engineIcon = document.getElementById("engineToggleIcon");
+    engineIcon.className = engineStatus ? "fas fa-toggle-on" : "fas fa-toggle-off";
 
     if (engineStatus && !engine)
         initializeEngine();
