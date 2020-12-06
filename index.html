@@ -1,13 +1,14 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-	    <meta http-equiv="Content-Type"
+        <meta http-equiv="Content-Type"
               content="text/html; charset=UTF-8">
-	    <meta name="description"
+        <meta name="description"
               content="Live chess broadcast with pgn4web">
-        <meta name='viewport' 
+        <meta name='viewport'
               content='width=device-width user-scalable=no'/>
-        <link rel="shortcut icon" href="favicon.ico">
+        <link rel="shortcut icon"
+              href="favicon.ico">
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet"
@@ -21,16 +22,22 @@
         <title>Clint</title>
 
         <!-- =========================================================== -->
-        <!--  Paths to resources -->
+        <!--  Paths to styles -->
         <!-- =========================================================== -->
         <link rel="stylesheet" type="text/css" href="assets/style.css">
 
         <!--  Paths to fonts -->
         <!--  Font can be changed in assets/style.css on the line with elements: -->
         <!--    #GameText, #EngineVariationDiv { ... } -->
-        <link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansUsual.css">
-        <link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansMerida.css">
-        <link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansPiratf.css">
+        <link rel="stylesheet"
+              type="text/css"
+              href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansUsual.css">
+        <link rel="stylesheet"
+              type="text/css"
+              href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansMerida.css">
+        <link rel="stylesheet"
+              type="text/css"
+              href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansPiratf.css">
         <!--  Note that pgn4web includes more fonts. Check the pgn4web-x.yz/fonts directory -->
         <!-- =========================================================== -->
     </head>
@@ -45,13 +52,16 @@
                  In case of more logos, duplicate the img tag and edit the src attributes -->
             <img src="assets/images/logo.png"
                  alt="logo">
-	        <h3 class="text-center">Ime turnira<br>Mjesto, od.–do.mm.yyyy.</h3>
+            <h3 class="text-center">
+                <span>Ime turnira<br>Mjesto, od.–do.mm.yyyy.</span>
+            </h3>
         </div>
         <div class="mb-4">
             <!-- =========================================================== -->
             <!--  Links -->
             <!-- =========================================================== -->
-            <!-- Possible color classes are: badge-{primary,secondary,success,danger,warning,info,light,dark,white} -->
+            <!-- Possible color classes are: badge-{primary, secondary,
+                 success, danger, warning, info, light, dark, white} -->
             <a id="CustomButton"
                href="#"
                target="_blank"
@@ -85,12 +95,17 @@
             </a>
         </div>
 
+        <!-- =========================================================== -->
+        <!--  Single board view -->
+        <!-- =========================================================== -->
         <div id="SingleBoardView">
             <div class="gamesItem">
                 <div id="VideoDivLeft"
                      class="mx-3 mb-1"
                      style="display:none;">
-                    <iframe frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                    </iframe>
                 </div>
 
                 <div class="mx-3 mb-2">
@@ -172,7 +187,8 @@
             <!--  Information about first player -->
             <!-- =========================================================== -->
             <div class="topPlayerItem row m-0 pr-2">
-                <div id="ResultPlace1" class="result col-1 p-0 m-auto">
+                <div id="ResultPlace1"
+                     class="result col-1 p-0 m-auto">
                     <div id="ResultBlack"></div>
                 </div>
                 <span class="mr-auto col-8 p-0 pl-2 text-left">
@@ -185,7 +201,8 @@
                         <span id="GameBlackRating"></span>
                     </span>
                 </span>
-                <div id="ClockPlace1" class="col-3 p-0 clock text-right">
+                <div id="ClockPlace1"
+                     class="col-3 p-0 clock text-right">
                     <div id="GameBlackClock"></div>
                 </div>
             </div>
@@ -193,7 +210,8 @@
             <!--  Information about second player -->
             <!-- =========================================================== -->
             <div class="botPlayerItem row m-0 pr-2">
-                <div id="ResultPlace2" class="result col-1 p-0 m-auto">
+                <div id="ResultPlace2"
+                     class="result col-1 p-0 m-auto">
                     <div id="ResultWhite"></div>
                 </div>
                 <span class="mr-auto col-8 p-0 pl-2 text-left">
@@ -206,7 +224,8 @@
                         <span id="GameWhiteRating"></span>
                     </span>
                 </span>
-                <div id="ClockPlace2" class="col-3 p-0 clock text-right">
+                <div id="ClockPlace2"
+                     class="col-3 p-0 clock text-right">
                     <div id="GameWhiteClock"></div>
                 </div>
             </div>
@@ -216,8 +235,14 @@
                 <!-- =========================================================== -->
                 <div id="GameBoard"></div>
 
-                <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                <div class="modal fade"
+                     id="downloadModal"
+                     tabindex="-1"
+                     role="dialog"
+                     aria-labelledby="downloadModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog"
+                         role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title mx-auto"
@@ -230,12 +255,13 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <div class="row align-items-center">
-                                </div>
                                 <h5>FEN:</h5>
                                 <div class="row align-items-center">
                                     <div class="col-8 col-lg-10">
-                                        <input id="FENinput" type="text" class="w-100" readonly>
+                                        <input id="FENinput"
+                                               type="text"
+                                               class="w-100"
+                                               readonly>
                                     </div>
                                     <div class="col-4 col-lg-2">
                                         <button class="btn btn-light h-40p"
@@ -250,7 +276,10 @@
                                 <h5>PGN:</h5>
                                 <div class="row align-items-center">
                                     <div class="col-8 col-lg-10">
-                                        <textarea id="PGNinput" rows="9" class="w-100" readonly="readonly">
+                                        <textarea id="PGNinput"
+                                                  rows="9"
+                                                  class="w-100"
+                                                  readonly="readonly">
                                         </textarea>
                                     </div>
                                     <div class="col-4 col-lg-2">
@@ -322,7 +351,9 @@
                 <div id="VideoDivRight"
                      class="mx-3 mb-1"
                      style="display:none;">
-                    <iframe frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                    </iframe>
                 </div>
 
                 <!-- =========================================================== -->
@@ -337,7 +368,7 @@
                                 <h3 id="Score" class="p-2 m-0"></h3>
                             </div>
                             <div class="col-5">
-                                Stockfish<br><span id="Depth"></span>
+                                <span>Stockfish</span><br><span id="Depth"></span>
                             </div>
                             <div class="col-4 h-75">
                                 <img id="engineToggleIcon"
@@ -362,32 +393,37 @@
                 <div class="col pl-0 pr-1">
                     <button type="button"
                             class="col-12 btn btn-light h-30p"
-                            onclick="GoToMove(StartPlyVar[0], 0);">&lt;&lt;
+                            onclick="GoToMove(StartPlyVar[0], 0);">
+                        <span>&lt;&lt;</span>
                     </button>
                 </div>
                 <div class="col px-1">
                     <button type="button"
                             class="col-12 btn btn-light h-30p"
-                            onclick="GoToMove(CurrentPly - 1);">&lt;
+                            onclick="GoToMove(CurrentPly - 1);">
+                        <span>&lt;</span>
                     </button>
                 </div>
                 <div class="col px-1">
                     <button id="AutoPlayBtn"
                             type="button"
                             class="col-12 btn btn-light h-30p"
-                            onclick="toggleAutoplay();">&#9654;
+                            onclick="toggleAutoplay();">
+                        <span>&#9654;</span>
                     </button>
                 </div>
                 <div class="col px-1">
                     <button type="button"
                             class="col-12 btn btn-light h-30p"
-                            onclick="GoToMove(CurrentPly + 1);">&gt;
+                            onclick="GoToMove(CurrentPly + 1);">
+                        <span>&gt;</span>
                     </button>
                 </div>
                 <div class="col pl-1 pr-0">
                     <button type="button"
                             class="col-12 btn btn-light h-30p"
-                            onclick="GoToMove(StartPlyVar[0] + PlyNumberVar[0], 0);">&gt;&gt;
+                            onclick="GoToMove(StartPlyVar[0] + PlyNumberVar[0], 0);">
+                        <span>&gt;&gt;</span>
                     </button>
                 </div>
             </div>
@@ -397,7 +433,7 @@
         <!--  Multiple boards view -->
         <!-- =========================================================== -->
         <div id="MultiBoardView" style="display: none;">
-            <div id="IframesContainer" class="iframesItem"> </div>
+            <div id="IframesContainer" class="iframesItem"></div>
 
             <!-- =========================================================== -->
             <!--  Settings -->
@@ -415,7 +451,8 @@
                             id="MultiboardModalBtn"
                             class="btn btn-light m-0 w-100 h-40p"
                             data-toggle="modal"
-                            data-target="#multiboardModal">Odabir partija
+                            data-target="#multiboardModal">
+                        <span>Odabir partija</span>
                         <img src="assets/images/options.png"
                              alt="Options icon"
                              class="h-100 pl-2">
@@ -435,19 +472,22 @@
                         <div class="dropdown-menu dropdown-menu-right text-right p-0"
                              aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item"
-                               onclick="toggleView(0);">Jedna ploča
+                               onclick="toggleView(0);">
+                                <span>Jedna ploča</span>
                                 <img src="assets/images/square.png"
                                      alt="single board"
                                      class="h-100 pl-2">
                             </a>
                             <a class="dropdown-item"
-                               onclick="toggleMoveHighlight();">Istakni posljednji potez
+                               onclick="toggleMoveHighlight();">
+                                <span>Istakni posljednji potez</span>
                                 <img src="assets/images/highlighter.png"
                                      alt="highlight"
                                      class="h-100 pl-2">
                             </a>
                             <a class="dropdown-item"
-                               onclick="toggleControlPanels();">Prikaz navigacijske trake
+                               onclick="toggleControlPanels();">
+                                <span>Prikaz navigacijske trake</span>
                                 <img src="assets/images/bottom.png"
                                      alt="game navigation"
                                      class="h-100 pl-2">
@@ -460,12 +500,20 @@
             <!-- =========================================================== -->
             <!--  Multiboard Modal -->
             <!-- =========================================================== -->
-            <div class="modal fade" id="multiboardModal" tabindex="-1" role="dialog" aria-labelledby="multiboardModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+            <div class="modal fade"
+                 id="multiboardModal"
+                 tabindex="-1"
+                 role="dialog"
+                 aria-labelledby="multiboardModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog"
+                     role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title"
-                                id="multiboardModalLabel">Odaberi partije za prikaz</h5>
+                                id="multiboardModalLabel">
+                                <span>Odaberi partije za prikaz</span>
+                            </h5>
                             <button type="button"
                                     class="close"
                                     data-dismiss="modal"
@@ -478,14 +526,21 @@
                         </div>
                         <div class="modal-footer">
                             <div class="row w-100">
-                                <h5 class="col-8">Odabrano <b id="CountSelected"></b> / <b id="MaxSelected"></b> partija</h5>
+                                <h5 class="col-8">
+                                    <span>Odabrano</span>
+                                    <b id="CountSelected"></b>
+                                    <span> / </span>
+                                    <b id="MaxSelected"></b>
+                                    <span>partija</span>
+                                </h5>
                                 <div class="col-4">
                                     <button type="button"
                                             id="multiboardSaveBtn"
                                             class="btn btn-light m-0"
                                             data-dismiss="modal"
                                             aria-label="Save"
-                                            onclick="updateDisplayGames();">Spremi
+                                            onclick="updateDisplayGames();">
+                                        <span>Spremi</span>
                                     </button>
                                 </div>
                             </div>
@@ -532,6 +587,9 @@
         <div id="GameSideToMove"></div>
         <div id="GameResult"></div>
 
+        <!-- =========================================================== -->
+        <!--  Paths to scripts -->
+        <!-- =========================================================== -->
         <!-- Optional Bootstrap JS -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -545,7 +603,7 @@
                 crossorigin="anonymous"></script>
         <!-- ChessJS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-        <!--  Paths to pgn4web.js, setup.js, style.css -->
+        <!--  Paths to pgn4web.js and setup.js -->
         <script src="../pgn4web-3.04/pgn4web.js"></script>
         <script src="assets/js/setup.js"></script>
     </body>
