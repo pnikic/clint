@@ -77,41 +77,41 @@ body {
 }
 
 /* Normal colors */
-.banner, .footer, .badge-light, .badge-light[href]:focus, .btn-light {
+.banner, .footer, .badge-custom, .badge-custom[href]:focus, .btn-custom {
     background-color: var(--first-color-bg);
     color: var(--first-color-text);
 }
 
-.btn-light {
+.btn-custom {
     border-color: transparent;
 }
 
 /* Hover colors */
-.badge-light[href]:hover, .btn-light:hover {
+.badge-custom[href]:hover, .btn-custom:hover {
     background-color: var(--first-color-hover);
     color: var(--first-color-text)
 }
 
-.btn-light:hover {
+.btn-custom:hover {
     border-color: transparent;
 }
 
 /* Inverted colors */
-.badge-light:not(:disabled):not(.disabled):active,
-.btn-light:not(:disabled):not(.disabled):active,
-.show>.btn-light.dropdown-toggle {
+.badge-custom:not(:disabled):not(.disabled):active,
+.btn-custom:not(:disabled):not(.disabled):active,
+.show>.btn-custom.dropdown-toggle {
     background-color: var(--first-color-text);
     color: var(--first-color-bg);
     border-color: transparent;
 }
 
-.btn-light:not(:disabled):not(.disabled):active:focus,
-.show>.btn-light.dropdown-toggle:focus {
+.btn-custom:not(:disabled):not(.disabled):active:focus,
+.show>.btn-custom.dropdown-toggle:focus {
     box-shadow: none;
     border-color: transparent;
 }
 
-.btn-light:focus {
+.btn-custom:focus {
     box-shadow: none;
 }
 
@@ -135,6 +135,11 @@ a {
 .dropdown-item {
     height: 30px;
     padding: 0.25rem 0.75rem;
+}
+
+.dropdown-item > i {
+    font-size: 22px;
+    vertical-align: middle;
 }
 
 .dropdownItemBtn {
