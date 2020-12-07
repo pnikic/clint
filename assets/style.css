@@ -3,40 +3,53 @@
  ************************************************************/
 /* Utility for calculation shades of a color: https://www.0to255.com */
 
+/* Light theme example preset */
+:root {
+    /* Background color and text */
+    --bg-color: #F3F3F3;
+    --bg-color-text: #000;
+    /* A variant of background color used for text-area / input fields and dropdown-menus */
+    --bg-color-light: #ddd;
+    --bg-color-light-text: #000;
+    /* Lighter background test color used for games and move ordinal numbers */
+    --bg-color-text-light: #999;
+    /* Colors when hovering move or game elements for selection */
+    --bg-color-hover: #1B78D0;
+    --bg-color-hover-text: #fff;
+    /* Color of active (selected) game and move */
+    --bg-color-active: #D1E4F6;
+    /* Custom color for buttons, background of player names and more */
+    --first-color-bg: #DCDCDC;
+    --first-color-text: #000;
+    /* Color when hovering first-color elements */
+    --first-color-hover: #999;
+    /* Chess board colors */
+    --white-square: #F0D9B5;
+    --black-square: #B58863;
+    --highlight-white-sq: #CDD26A;
+    --highlight-black-sq: #AAA23A;
+}
+
+/* Dark theme example preset */
 /*
-TODO: Update all colors
    :root {
-   --bg-color: #F3F3F3;
-   --first-color-bg: #DCDCDC;
-   --first-color-text: #ff9900;
+   --bg-color: #222;
+   --bg-color-text: #fff;
+   --bg-color-light: #666;
+   --bg-color-light-text: #fff;
+   --bg-color-text-light: #999;
+   --bg-color-hover: #55f;
+   --bg-color-hover-text: #fff;
+   --bg-color-active: #11f;
+   --first-color-bg: #444;
+   --first-color-hover: #55f;
+   --first-color-text: #fff;
    --white-square: #F0D9B5;
    --black-square: #B58863;
    --highlight-white-sq: #CDD26A;
    --highlight-black-sq: #AAA23A;
    }
  */
-
-/*
-Add a few predefined sets
-*/
-
-:root {
-    --bg-color: #303030;
-    --bg-color-light: #616161;
-    --bg-color-light-text: white;
-    --bg-color-text: lightgreen;
-    --bg-color-text-light: #07e67d;
-    --bg-color-hover: yellow;
-    --bg-color-hover-text: black;
-    --bg-color-active: orange;
-    --first-color-bg: #cc0000;
-    --first-color-hover: #f99;
-    --first-color-text: rgb(236, 240, 26);
-    --white-square: #F0D9B5;
-    --black-square: #B58863;
-    --highlight-white-sq: #CDD26A;
-    --highlight-black-sq: #AAA23A;
-}
 
 /************************************************************
    General
@@ -126,6 +139,7 @@ a {
 
 .dropdown-menu > .dropdown-item:hover {
     background-color: var(--bg-color);
+    color: var(--bg-color-light-text);
 }
 
 .dropdown-item:active {
@@ -133,6 +147,7 @@ a {
 }
 
 .dropdown-item {
+    color: var(--bg-color-light-text);
     height: 30px;
     padding: 0.25rem 0.75rem;
 }
@@ -205,7 +220,7 @@ textarea::-webkit-resizer {
 }
 
 .close:hover, .close:not(:disabled):not(.disabled):hover {
-    background-color: var(--bg-color-hover);
+    background-color: var(--first-color-hover);
     color: var(--bg-color-text);
 }
 
