@@ -90,7 +90,8 @@ body {
 }
 
 /* Normal colors */
-.banner, .footer, .badge-custom, .badge-custom[href]:focus, .btn-custom {
+.banner, .footer, .badge-custom, .badge-custom[href]:focus, .btn-custom,
+.btn-custom:hover:focus /* mobile phone variant */ {
     background-color: var(--first-color-bg);
     color: var(--first-color-text);
 }
