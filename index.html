@@ -322,15 +322,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal-footer px-0 px-lg-3">
-                                <div class="col-8 col-lg-10 px-0 mx-0">
-                                    <h5>Podijeli ovu partiju:</h5>
-                                </div>
-                                <div class="col-4 col-lg-2 px-0 mx-0">
-                                    <button class="btn btn-custom h-40p"
-                                            onclick="linkToCurrentGame();">
+                            <div class="modal-footer d-block px-0 px-lg-3">
+                                <h5>Podijeli ovu partiju:</h5>
+                                <div class="row align-items-center">
+                                    <div class="col-1 col-lg-1">
                                         <i class="fas fa-link fa-lg"></i>
-                                    </button>
+                                    </div>
+                                    <div class="col-7 col-lg-9">
+                                        <input id="ShareGameInput"
+                                               type="text"
+                                               class="w-100"
+                                               readonly>
+                                    </div>
+                                    <div class="col-4 col-lg-2">
+                                        <button class="btn btn-custom h-40p"
+                                                onclick="copyInput('ShareGameInput'); snackbarMessage('Poveznica kopirana');">
+                                            <i class="fas fa-copy fa-lg"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -336,6 +336,9 @@ function modalOpen() {
 
     let elemPGN = document.getElementById("PGNinput");
     elemPGN.value = fullPgnGame(currentGame);
+
+    let elemLink = document.getElementById("ShareGameInput");
+    elemLink.value = linkToCurrentGame();
 }
 
 function copyInput(element) {
@@ -356,11 +359,7 @@ function linkToCurrentGame() {
                encodeURIComponent('pgn') + '=' + encodeURIComponent(currentPGN) + '&' +
                encodeURIComponent('game') + '=' + encodeURIComponent(currentGame);
 
-    navigator.clipboard.writeText(link).then(function() {
-        snackbarMessage('Poveznica kopirana');
-    }, function() {
-        snackbarMessage('Došlo je do pogreške');
-    });
+    return link;
 }
 
 function flipBoard() {
