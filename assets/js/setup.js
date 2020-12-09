@@ -113,6 +113,9 @@ let numberMiniboards = 6;
 //===========================================================
 // Other initialization code
 //===========================================================
+// Check preferences from local storage
+if (localStorage.getItem("clint-theme") == "dark")
+    toggleTheme();
 
 // Fill the values in allPGNs
 listPGNFiles();
@@ -120,9 +123,9 @@ listPGNFiles();
 // Set the PGN from the URI parameter, if applicable
 let url = new URLSearchParams(window.location.href);
 let ret = false;
-if (url.has('pgn'))
+if (url.has("pgn"))
 {
-    let val = Number(url.get('pgn'));
+    let val = Number(url.get("pgn"));
     if (typeof(val) == "number" && val >= 0 && val < allPGNs.length)
         ret = selectPGN(allPGNs[val][1])
 }
@@ -298,7 +301,7 @@ function selectPGN(filename) {
     for (elem of allPGNs)
     {
         fullPathPgn = elem[1];
-        relativePathPgn = fullPathPgn.substring(fullPathPgn.lastIndexOf('/') + 1)
+        relativePathPgn = fullPathPgn.substring(fullPathPgn.lastIndexOf("/") + 1)
         // Check for either full filename or relative filename
         if (filename == fullPathPgn || filename == relativePathPgn) {
             SetPgnUrl(fullPathPgn);
@@ -351,13 +354,13 @@ function copyInput(element) {
 
 function linkToCurrentGame() {
     let href = window.location.href;
-    let uriParamsStart = href.indexOf('?');
+    let uriParamsStart = href.indexOf("?");
     if (uriParamsStart != -1)
         href = href.substring(0, uriParamsStart);
 
-    let link = href + '?&' +
-               encodeURIComponent('pgn') + '=' + encodeURIComponent(currentPGN) + '&' +
-               encodeURIComponent('game') + '=' + encodeURIComponent(currentGame);
+    let link = href + "?&" +
+               encodeURIComponent("pgn") + "=" + encodeURIComponent(currentPGN) + "&" +
+               encodeURIComponent("game") + "=" + encodeURIComponent(currentGame);
 
     return link;
 }
@@ -367,28 +370,28 @@ function flipBoard() {
     //  of player's informations (name, rating, clock, colored square)
 
     // Flip colored square places
-    let wsn = document.getElementById('ResultWhite');
-    let bsn = document.getElementById('ResultBlack');
-    document.getElementById('ResultPlace1').appendChild(IsRotated ? bsn : wsn);
-    document.getElementById('ResultPlace2').appendChild(IsRotated ? wsn : bsn);
+    let wsn = document.getElementById("ResultWhite");
+    let bsn = document.getElementById("ResultBlack");
+    document.getElementById("ResultPlace1").appendChild(IsRotated ? bsn : wsn);
+    document.getElementById("ResultPlace2").appendChild(IsRotated ? wsn : bsn);
 
     // Flip rating places
     let ratB = document.getElementById("GameBlackRating");
     let ratW = document.getElementById("GameWhiteRating");
-    document.getElementById('RatingPlace1').appendChild(IsRotated ? ratB : ratW);
-    document.getElementById('RatingPlace2').appendChild(IsRotated ? ratW : ratB);
+    document.getElementById("RatingPlace1").appendChild(IsRotated ? ratB : ratW);
+    document.getElementById("RatingPlace2").appendChild(IsRotated ? ratW : ratB);
 
     // Flip player names places
     let nameB = document.getElementById("GameBlack");
     let nameW = document.getElementById("GameWhite");
-    document.getElementById('PlayerPlace1').appendChild(IsRotated ? nameB : nameW);
-    document.getElementById('PlayerPlace2').appendChild(IsRotated ? nameW : nameB);
+    document.getElementById("PlayerPlace1").appendChild(IsRotated ? nameB : nameW);
+    document.getElementById("PlayerPlace2").appendChild(IsRotated ? nameW : nameB);
 
     // Flip clock places
     let clkB = document.getElementById("GameBlackClock");
     let clkW = document.getElementById("GameWhiteClock");
-    document.getElementById('ClockPlace1').appendChild(IsRotated ? clkB : clkW);
-    document.getElementById('ClockPlace2').appendChild(IsRotated ? clkW : clkB);
+    document.getElementById("ClockPlace1").appendChild(IsRotated ? clkB : clkW);
+    document.getElementById("ClockPlace2").appendChild(IsRotated ? clkW : clkB);
 
     FlipBoard();  // This function call will refresh all the default tags (GameWhite, GameWhiteClock etc)...
     adjustSquareSize(scaleOption); // ...and also mess up with piece image sizes, so we resize them
@@ -581,14 +584,14 @@ function removeSnackbarMessage(){
 
     if (!numActiveSnackbarMessages)
     {
-        let sb = document.getElementById('Snackbar');
+        let sb = document.getElementById("Snackbar");
         sb.className = sb.className.replace("show", "");
     }
 }
 
 function snackbarMessage(msg) {
     numActiveSnackbarMessages += 1
-    let sb = document.getElementById('Snackbar');
+    let sb = document.getElementById("Snackbar");
     sb.className = "show";
     sb.innerHTML = msg;
 
@@ -636,8 +639,8 @@ function customFunctionOnPgnTextLoad() {
         // customFunctionOnPgnTextLoad() is called at the end of createBoard() in pgn4web.js
         //   which is in turn trigerred by start_pgn4web() on startup. We hook to this chain
         //   by immediately changing the game to the one defined in the URL parameter, if any.
-        if (url.has('game'))
-            changeGame(url.get('game'));
+        if (url.has("game"))
+            changeGame(url.get("game"));
 
         // Set up hyperlinks, PGN files etc.
         operatorSettings();
@@ -705,7 +708,7 @@ function changeGame(ind) {
 }
 
 function highlightSelectedGame() {
-    let query = document.querySelector('#GameSelectionDiv div.active');
+    let query = document.querySelector("#GameSelectionDiv div.active");
     if (query !== null) {
         query.classList.remove("active");
     }
@@ -777,6 +780,12 @@ function generateIframes() {
         frame.id = "frame" + String(i);
         frame.src = "mosaic-tile.html";
         frame.style.display = "none";
+
+        // Set the dark theme if needed
+        frame.onload = function() {
+            setThemeMultiboard();
+        }
+
         iframesDiv.appendChild(frame);
     }
 }
@@ -804,7 +813,7 @@ function changeFramesPGN(val) {
         }
 
         // TODO: FIXME: I should be a callback
-        /* console.log('Waiting a second');
+        /* console.log("Waiting a second");
          * setTimeout(() => {
          *     maximizeIframesTiles(controlPanelOption);
          * }, 2000);
@@ -850,7 +859,7 @@ function updateModalContent() {
     }
 
     // Information about all games in PGN file
-    let frame0 = document.getElementById('frame0');
+    let frame0 = document.getElementById("frame0");
     let whites = frame0.contentWindow.gameWhite;
     let blacks = frame0.contentWindow.gameBlack;
     let results = frame0.contentWindow.gameResult;
@@ -864,10 +873,10 @@ function updateModalContent() {
         game.innerHTML = whites[i] + " - " + blacks[i];
         let result = document.createElement("div");
         result.className = "col-2 p-0";
-        result.innerHTML = results[i].split('1/2').join("½");
-        let checkboxDiv = document.createElement('div');
+        result.innerHTML = results[i].split("1/2").join("½");
+        let checkboxDiv = document.createElement("div");
         checkboxDiv.className = "col-2";
-        let checkbox = document.createElement('input');
+        let checkbox = document.createElement("input");
         checkbox.className = "position-static";
         checkbox.type = "checkbox";
         checkbox.value = String(i);
@@ -1001,13 +1010,13 @@ function toggleView(ind) {
 
     if (ind == 0) {
         // Change to single board view
-        document.getElementById("MultiBoardView").style.display = 'none';
-        document.getElementById("SingleBoardView").style.display = '';
+        document.getElementById("MultiBoardView").style.display = "none";
+        document.getElementById("SingleBoardView").style.display = "";
     }
     else {
         // Change to multiple boards view
-        document.getElementById("MultiBoardView").style.display = '';
-        document.getElementById("SingleBoardView").style.display = 'none';
+        document.getElementById("MultiBoardView").style.display = "";
+        document.getElementById("SingleBoardView").style.display = "none";
         // Turn off engine
         if (engineStatus)
             toggleEngine();
@@ -1024,6 +1033,50 @@ function toggleView(ind) {
 
     // After changing views, a board may remain outdated, so we restart broadcast
     restartBroadcast()
+}
+
+function toggleTheme() {
+    let bodies = document.getElementsByTagName("body");
+    if (bodies.length != 1)
+        return;
+
+    let currTheme = bodies[0].getAttribute("data-theme");
+    if (currTheme != "dark")
+    {
+        bodies[0].setAttribute("data-theme", "dark");
+        localStorage.setItem("clint-theme", "dark");
+    }
+    else
+    {
+        bodies[0].setAttribute("data-theme", "");
+        localStorage.removeItem("clint-theme");
+    }
+
+    setThemeMultiboard();
+}
+
+function setThemeMultiboard() {
+    let bodies = document.getElementsByTagName("body");
+    if (bodies.length != 1)
+        return;
+
+    let currTheme = bodies[0].getAttribute("data-theme");
+    console.log(currTheme);
+    let iframesDiv = document.getElementById("IframesContainer");
+    let iframes = iframesDiv.querySelectorAll("iframe");
+
+    for (let i = 0; i < iframes.length; i++) {
+        let iframeBodies = iframes[i].contentWindow.document.getElementsByTagName("body");
+        if (iframeBodies.length != 1)
+            continue;
+
+        if (currTheme == "dark")
+            iframeBodies[0].setAttribute("data-theme", "dark");
+        else
+            iframeBodies[0].setAttribute("data-theme", "");
+
+        console.log('Hump de bump', iframeBodies[0].getAttribute("data-theme"));
+    }
 }
 
 function resizeCallback() {

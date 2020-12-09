@@ -41,7 +41,6 @@
  */
 
 /* Light theme example preset */
-/*
 :root {
     --bg-color: #F3F3F3;
     --bg-color-text: #000;
@@ -60,9 +59,8 @@
     --highlight-black-sq: #AAA23A;
 }
 
-
 /* Dark theme example preset */
-:root {
+[data-theme="dark"] {
     --bg-color: #222;
     --bg-color-text: #eee;
     --bg-color-light: #666;
