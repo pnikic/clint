@@ -1,55 +1,84 @@
 /************************************************************
    Global configuration of colors
- ************************************************************/
-/* Utility for calculation shades of a color: https://www.0to255.com */
+ ************************************************************
+
+ *-----------------------------------------------------------
+   Background color and text
+ *-----------------------------------------------------------
+   --bg-color
+   --bg-color-text
+
+ * A variant of background color used for text-areas, input fields and dropdown-menus
+   --bg-color-light
+   --bg-color-light-text
+
+ * Lighter text color used for games and move ordinal numbers
+   --bg-color-text-light
+
+ * Colors when hovering move or game elements for selection
+   --bg-color-hover
+   --bg-color-hover-text
+
+ * Color of active (selected) game and move
+   --bg-color-active
+
+ *------------------------------------------------------------
+   Main color (for buttons, background of player names and more)
+ *------------------------------------------------------------
+   --main-color-bg
+   --main-color-text
+
+ * Color when hovering main-color elements
+   --main-color-hover
+
+ *------------------------------------------------------------
+   Chess board colors
+ *------------------------------------------------------------
+   --white-square
+   --black-square
+   --highlight-white-sq
+   --highlight-black-sq
+ */
 
 /* Light theme example preset */
+/*
 :root {
-    /* Background color and text */
     --bg-color: #F3F3F3;
     --bg-color-text: #000;
-    /* A variant of background color used for text-area / input fields and dropdown-menus */
     --bg-color-light: #ddd;
     --bg-color-light-text: #000;
-    /* Lighter background test color used for games and move ordinal numbers */
     --bg-color-text-light: #999;
-    /* Colors when hovering move or game elements for selection */
     --bg-color-hover: #1B78D0;
     --bg-color-hover-text: #fff;
-    /* Color of active (selected) game and move */
     --bg-color-active: #D1E4F6;
-    /* Custom color for buttons, background of player names and more */
-    --first-color-bg: #DCDCDC;
-    --first-color-text: #000;
-    /* Color when hovering first-color elements */
-    --first-color-hover: #999;
-    /* Chess board colors */
+    --main-color-bg: #DCDCDC;
+    --main-color-text: #000;
+    --main-color-hover: #999;
     --white-square: #F0D9B5;
     --black-square: #B58863;
     --highlight-white-sq: #CDD26A;
     --highlight-black-sq: #AAA23A;
 }
 
+
 /* Dark theme example preset */
-/*
-   :root {
-   --bg-color: #222;
-   --bg-color-text: #fff;
-   --bg-color-light: #666;
-   --bg-color-light-text: #fff;
-   --bg-color-text-light: #999;
-   --bg-color-hover: #55f;
-   --bg-color-hover-text: #fff;
-   --bg-color-active: #11f;
-   --first-color-bg: #444;
-   --first-color-hover: #55f;
-   --first-color-text: #fff;
-   --white-square: #F0D9B5;
-   --black-square: #B58863;
-   --highlight-white-sq: #CDD26A;
-   --highlight-black-sq: #AAA23A;
-   }
- */
+:root {
+    --bg-color: #222;
+    --bg-color-text: #eee;
+    --bg-color-light: #666;
+    --bg-color-light-text: #eee;
+    --bg-color-text-light: #999;
+    --bg-color-hover: #3692E7;
+    --bg-color-hover-text: #eee;
+    --bg-color-active: #293A49;
+    --main-color-bg: #444;
+    --main-color-hover: #2079D9;
+    --main-color-text: #eee;
+    --white-square: #F0D9B5;
+    --black-square: #B58863;
+    --highlight-white-sq: #CDD26A;
+    --highlight-black-sq: #AAA23A;
+}
 
 /************************************************************
    General
@@ -92,8 +121,8 @@ body {
 /* Normal colors */
 .banner, .footer, .badge-custom, .badge-custom[href]:focus, .btn-custom,
 .btn-custom:hover:focus /* mobile phone variant */ {
-    background-color: var(--first-color-bg);
-    color: var(--first-color-text);
+    background-color: var(--main-color-bg);
+    color: var(--main-color-text);
 }
 
 .btn-custom {
@@ -102,8 +131,8 @@ body {
 
 /* Hover colors */
 .badge-custom[href]:hover, .btn-custom:hover {
-    background-color: var(--first-color-hover);
-    color: var(--first-color-text)
+    background-color: var(--main-color-hover);
+    color: var(--main-color-text)
 }
 
 .btn-custom:hover {
@@ -114,8 +143,8 @@ body {
 .badge-custom:not(:disabled):not(.disabled):active,
 .btn-custom:not(:disabled):not(.disabled):active,
 .show>.btn-custom.dropdown-toggle {
-    background-color: var(--first-color-text);
-    color: var(--first-color-bg);
+    background-color: var(--main-color-text);
+    color: var(--main-color-bg);
     border-color: transparent;
 }
 
@@ -185,7 +214,7 @@ textarea:focus, input:focus {
 textarea::-webkit-resizer {
     border-width: 8px;
     border-style: solid;
-    border-color: var(--bg-color-light) var(--first-color-bg) var(--first-color-bg) var(--bg-color-light);
+    border-color: var(--bg-color-light) var(--main-color-bg) var(--main-color-bg) var(--bg-color-light);
 }
 
 .h-40p, #GithubBtn {
@@ -198,7 +227,7 @@ textarea::-webkit-resizer {
 }
 
 .fa-caret-down {
-    color: var(--first-color-bg);
+    color: var(--main-color-bg);
 }
 
 ::-webkit-scrollbar {
@@ -212,7 +241,7 @@ textarea::-webkit-resizer {
 
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: var(--first-color-bg);
+    background-color: var(--main-color-bg);
 }
 
 .close, .close:not(:disabled):not(.disabled):focus {
@@ -221,7 +250,7 @@ textarea::-webkit-resizer {
 }
 
 .close:hover, .close:not(:disabled):not(.disabled):hover {
-    background-color: var(--first-color-hover);
+    background-color: var(--main-color-hover);
     color: var(--bg-color-text);
 }
 
@@ -288,8 +317,8 @@ span.move {
 
 #EngineEvalDiv {
     height: 48px;
-    background-color: var(--first-color-bg);
-    color: var(--first-color-text);
+    background-color: var(--main-color-bg);
+    color: var(--main-color-text);
     border-radius: .25rem .25rem 0 0;
 }
 
@@ -332,7 +361,7 @@ span.move {
 }
 
 .result {
-    border-right: 1px solid var(--first-color-text);
+    border-right: 1px solid var(--main-color-text);
 }
 
 .clock {
@@ -340,8 +369,8 @@ span.move {
 }
 
 .topPlayerItem, .botPlayerItem {
-    background-color: var(--first-color-bg);
-    color: var(--first-color-text);
+    background-color: var(--main-color-bg);
+    color: var(--main-color-text);
     border-radius: .25rem;
     align-items: center;
 }
@@ -362,15 +391,15 @@ span.move {
 }
 
 .custom-select {
-    background-color:  var(--first-color-bg);
+    background-color:  var(--main-color-bg);
     background-image: none;
-    color: var(--first-color-text);
+    color: var(--main-color-text);
     border: 0px;
 }
 
 .custom-select:focus {
-    border-color:  var(--first-color-bg);
-    color: var(--first-color-text);
+    border-color:  var(--main-color-bg);
+    color: var(--main-color-text);
 }
 
 #GameSelectionDiv span {
@@ -415,8 +444,8 @@ span.move {
     visibility: hidden;
     min-width: 250px;
     margin-left: -125px;
-    background-color: var(--first-color-bg);
-    color: var(--first-color-text);
+    background-color: var(--main-color-bg);
+    color: var(--main-color-text);
     text-align: center;
     border-radius: .25rem;
     padding: 16px;
@@ -436,8 +465,8 @@ iframe {
 }
 
 .playerNameTile {
-    background-color: var(--first-color-bg);
-    color: var(--first-color-text);
+    background-color: var(--main-color-bg);
+    color: var(--main-color-text);
     font-weight: 600;
     font-size: 15px;
     padding: 0px 0px 0px 3px;
@@ -446,8 +475,8 @@ iframe {
 .clockTile {
     font-size: 15px;
     padding: 0px 2px 0px 0px;
-    background-color: var(--first-color-bg);
-    color: var(--first-color-text);
+    background-color: var(--main-color-bg);
+    color: var(--main-color-text);
 }
 
 .fullBorder {
