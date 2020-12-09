@@ -1005,6 +1005,11 @@ function maximizeIframesTiles(withPanel = true) {
 }
 
 function toggleView(ind) {
+    if (isMobile()) {
+        snackbarMessage("Prikaz više ploča trenutno nije dostupan na mobitelu");
+        return;
+    }
+
     // Change from single to multiple board view or vice versa
     viewType = ind;
 
