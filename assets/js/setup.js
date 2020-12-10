@@ -34,10 +34,8 @@ function listPGNFiles() {
     //              - "name" is the label displayed in the game selection dropdown menu
     //   (optional) - "date" is used to disable selection of upcoming rounds;
     //                  (see also the variable `minsBeforeRound`)
-    //   (optional) - "video-left" is a link to a video to be displayed on the left-hand side;
-    //                  use an empty string ("") to disable the video
-    //   (optional) - "video-right" is a link to a video to be displayed on the right-hand side;
-    //                  use an empty string ("") to disable the video
+    //   (optional) - "video-left" is a link to a video to be displayed on the left-hand side
+    //   (optional) - "video-right" is a link to a video to be displayed on the right-hand side
     //
     // See below for examples
 
@@ -78,8 +76,6 @@ function listPGNFiles() {
     allPGNs.push({
         "name" : "Arhiva",
         "pgn" : "pgn/all.pgn",
-        "video-left" : "",
-        "video-right" : ""
     });
 
     // In case no PGN is set in the URI parameter (share option), this PGN will be used at startup.
@@ -767,20 +763,14 @@ function customFunctionOnPgnTextLoad() {
         video_right = allPGNs[currentPGN]["video-right"];
 
     if (video_left != undefined)
-    {
-        if (video_left.length)
-            enableVideoDiv("VideoDivLeft", video_left);
-        else
-            disableVideoDiv("VideoDivLeft");
-    }
+        enableVideoDiv("VideoDivLeft", video_left);
+    else
+        disableVideoDiv("VideoDivLeft");
 
     if (video_right != undefined)
-    {
-        if (video_right.length)
-            enableVideoDiv("VideoDivRight", video_right)
-        else
-            disableVideoDiv("VideoDivRight");
-    }
+        enableVideoDiv("VideoDivRight", video_right)
+    else
+        disableVideoDiv("VideoDivRight");
 }
 
 function changeGame(ind) {
