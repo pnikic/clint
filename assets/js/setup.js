@@ -170,7 +170,7 @@ if (localStorage.getItem("clint-theme") == "dark")
 listPGNFiles();
 
 // Set the PGN from the URI parameter, if applicable
-let url = new URLSearchParams(window.location.href);
+let url = new URLSearchParams(window.location.search);
 let ret = false;
 if (url.has("pgn"))
 {
@@ -414,7 +414,7 @@ function linkToCurrentGame() {
     if (uriParamsStart != -1)
         href = href.substring(0, uriParamsStart);
 
-    let link = href + "?&" +
+    let link = href + "?" +
                encodeURIComponent("pgn") + "=" + encodeURIComponent(currentPGN) + "&" +
                encodeURIComponent("game") + "=" + encodeURIComponent(currentGame);
 
