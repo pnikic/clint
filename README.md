@@ -1,5 +1,5 @@
 # clint - chess live interface
-clint is a complete website for live broadcasting of a chess tournament based on [pgn4web][2]. It is inspired by many chess websites and strives to offer their best functionalities to any chess broadcast operator.
+clint is a complete website for live broadcasting of a chess tournament based on [pgn4web][2]. It is inspired by many chess websites and strives to offer their best functionalities to any chess broadcast operator. It can also be used simply as a viewer for PGN files.
 
 Single board view | Multiple boards view
 :---:|:---:
@@ -8,20 +8,20 @@ Single board view | Multiple boards view
 A demo is available on: http://hrvatski-sahovski-savez.hr/ftp/sucelje_patrick/
 
 ### Features
-* Banner with general information about the tournament and customizable buttons for hyperlinks (other websites, photo gallery, tournament regulations etc.) 
+* Banner with general information (about the tournament) and customizable buttons for hyperlinks (other websites, photo gallery, tournament regulations etc.) 
 * Chess board with compactly displayed player names, clock times and ratings
 * PGN section for display and navigation
 * Engine analysis
-* Switching between different games and rounds on the same page
-* Support for embedding video (live stream)
-* Download PGN / FEN of the current game, round or whole tournament
+* Switching between different games and PGN files (rounds) on the same page
+* Support for embedding video (live stream) for each PGN file (round)
+* Download PGN / FEN of the current game, round or whole tournament, sharing link to a specific game
 * Multiple boards view (e.g. 6 boards)
 * Responsive design - mobile phone friendly
-* Color customization support
+* Full color customization support, predefined light and dark theme
 
 ## Usage
 ### Setup
-* Clone the repository on your web server
+* Clone this repository on your web server
 * Download [pgn4web][2] on your web server
 * Edit the `pgn4web.js` path and the fonts path in `index.html` and in `mosaic-tile.html`  
 (in my case, pgn4web-3.04 is placed one directory up)
@@ -39,11 +39,25 @@ SetImagePath("../pgn4web-3.04/images");
 ```javascript
 function listPGNFiles() {
     // If broadcasting a tournament
-    allPGNs.push(["Round 1 - dd/mm/yyyy hh:mm", "pgn/r1.pgn"])
-    allPGNs.push(["Round 2 - dd/mm/yyyy hh:mm", "pgn/r2.pgn"])
+    allPGNs.push({
+        "name" : "Round 1",
+        "pgn" : "pgn/r1.pgn"
+    });
+    allPGNs.push({
+        "name" : "Round 2",
+        "pgn" : "pgn/r2.pgn"
+    });
     // ...
-    // And / or if you just want to display some PGN files
-    allPGNs.push(["Display name for PGN file", "pgn/file.pgn"])
+    allPGNs.push({
+        "name" : "Archive",
+        "pgn" : "pgn/all.pgn"
+    });
+
+    // And / or if you just want to display some PGN files (ended tournaments)
+    allPGNs.push({
+        "name" : "Tournament (last year's edition)",
+        "pgn" : "pgn/last_year.pgn"
+    });
     // ...
 }
 ```
@@ -61,34 +75,6 @@ let numberMiniboards = 6;
 ```
 
 In `assets/style.css` you can configure all the colors used on the page. It comes with a predefined light and dark theme.
-```css
-/* Light theme example preset */
-:root {
-    /* Background color and text */
-    --bg-color: #F3F3F3;
-    --bg-color-text: #000;
-    /* A variant of background color used for text-area / input fields and dropdown-menus */
-    --bg-color-light: #ddd;
-    --bg-color-light-text: #000;
-    /* Lighter background test color used for games and move ordinal numbers */
-    --bg-color-text-light: #999;
-    /* Colors when hovering move or game elements for selection */
-    --bg-color-hover: #1B78D0;
-    --bg-color-hover-text: #fff;
-    /* Color of active (selected) game and move */
-    --bg-color-active: #D1E4F6;
-    /* Custom color for buttons, background of player names and more */
-    --first-color-bg: #DCDCDC;
-    --first-color-text: #000;
-    /* Color when hovering first-color elements */
-    --first-color-hover: #999;
-    /* Chess board colors */
-    --white-square: #F0D9B5;
-    --black-square: #B58863;
-    --highlight-white-sq: #CDD26A;
-    --highlight-black-sq: #AAA23A;
-}
-```
 
 ## Notes
 * The page is currently in Croatian. With little effort, it can be translated to any language
@@ -112,8 +98,8 @@ I hereby sincerely thank all the people who reviewed this page and gave comments
 * Fix some responsive design issues (regarding to mobile phone rotations)
 * Searching games by player name
 
-[1a]: https://i.imgur.com/HmsQi86.png
-[1b]: https://imgur.com/bGOLjJW.png
+[1a]: https://i.imgur.com/m1r2dgu.png
+[1b]: https://i.imgur.com/anwWrzE.png
 [2]: http://pgn4web.casaschi.net/
 [3]: https://github.com/niklasf/stockfish.js
 [4]: https://en.wikipedia.org/wiki/42nd_Chess_Olympiad
