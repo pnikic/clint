@@ -19,19 +19,68 @@ let initialPGNFile = "";
 // Information about rounds and tournament
 //----------------------------------------------------------
 function listPGNFiles() {
-    // Define starting time and PGN files for all rounds
-    let roundsInfo = [];
+    // List all the PGN files and corresponding information. The format is as follows:
+    //
+    // allPGNs.push({
+    //     "pgn" : <string>
+    //     "name" : <string>,
+    //     "date" : <JavaScript Date object>,
+    //     "video-left" : <string>,
+    //     "video-right" : <string>
+    // });
+    //
+    // Description:
+    //              - "pgn" is the path to the PGN file
+    //              - "name" is the label displayed in the game selection dropdown menu
+    //   (optional) - "date" is used to disable selection of upcoming rounds;
+    //                  (see also the variable `minsBeforeRound`)
+    //   (optional) - "video-left" is a link to a video to be displayed on the left-hand side;
+    //                  use an empty string ("") to disable the video
+    //   (optional) - "video-right" is a link to a video to be displayed on the right-hand side;
+    //                  use an empty string ("") to disable the video
+    //
+    // See below for examples
 
-    // Option 1) helper to generate labels for rounds, given the PGN paths
-    // Every element is of format: [ [year, month, day, hours, minutes], path/to/pgn ]
-    roundsInfo.push([[2020, 4, 11, 13, 00], "pgn/r1.pgn"]);
-    roundsInfo.push([[2020, 4, 12, 16, 00], "pgn/r2.pgn"]);
-    roundsInfo.push([[2020, 4, 13, 16, 00], "pgn/r3.pgn"]);
-    roundsInfo.push([[2020, 4, 14, 09, 30], "pgn/r4.pgn"]);
-    generateAllPGNs(roundsInfo);
+    let begin;  // A variable which will be re-used in this function
 
-    // Option 2) add labels and PGN paths manually
-    allPGNs.push(["Arhiva", "pgn/all.pgn"]);
+    // To generate JavaScript Date object the following function can be used:
+    //   dateFromArray([Year, Month, Day, Hour, Minute])
+    begin = dateFromArray([2020, 11, 10, 13, 00])
+    allPGNs.push({
+        "name" : "1. kolo - " + dateToString(begin),
+        "pgn" : "pgn/r1.pgn",
+        "date" : begin,
+        "video-left" : "https://www.youtube.com/embed/4jT0hUODzdQ"
+    });
+
+    begin = dateFromArray([2020, 11, 11, 13, 00])
+    allPGNs.push({
+        "name" : "2. kolo - " + dateToString(begin),
+        "pgn" : "pgn/r2.pgn",
+        "date" : begin
+    });
+
+    begin = dateFromArray([2020, 11, 12, 13, 00])
+     allPGNs.push({
+         "name" : "3. kolo - " + dateToString(begin),
+         "pgn" : "pgn/r3.pgn",
+         "date" : begin,
+         "video-right" : "https://www.youtube.com/embed/ytdjYjM-cLg"
+    });
+
+    begin = dateFromArray([2020, 12, 13, 13, 00])
+    allPGNs.push({
+        "name" : "4. kolo - " + dateToString(begin),
+        "pgn" : "pgn/r4.pgn",
+        "date" : begin,
+    });
+
+    allPGNs.push({
+        "name" : "Arhiva",
+        "pgn" : "pgn/all.pgn",
+        "video-left" : "",
+        "video-right" : ""
+    });
 
     // In case no PGN is set in the URI parameter (share option), this PGN will be used at startup.
     // If this path is not correct,  an error from pgn4web will be displayed in the moves section
@@ -63,7 +112,7 @@ function operatorSettings() {
     // Operator contact
     document.getElementById("OperatorEmail").href = "mailto:" + "operator@mailserver.com";
 
-    // Link for live stream (if available) - tested only with YouTube
+    // To enable a (fixed) live stream / video for all rounds use:
     // enableVideoDiv("VideoDivLeft", "https://www.youtube.com/embed/<your-code>");
     // enableVideoDiv("VideoDivRight", "https://www.youtube.com/embed/<your-code>");
 }
@@ -101,7 +150,7 @@ SetLiveBroadcast(.25, false, false, true, false);
 // This function call is only relevant for startup. Otherwise check the changePGN(...) function
 SetInitialHalfmove("end", true);
 
-// Number of minutes before round for enabling current round selection
+// Number of minutes before the round start for enabling current round selection
 let minsBeforeRound = 45;
 
 //----------------------------------------------------------
@@ -127,7 +176,10 @@ if (url.has("pgn"))
 {
     let val = Number(url.get("pgn"));
     if (typeof(val) == "number" && val >= 0 && val < allPGNs.length)
-        ret = selectPGN(allPGNs[val][1])
+    {
+        currentPGN = val;
+        ret = selectPGN(allPGNs[val]["pgn"]);
+    }
 }
 // Otherwise, set a default PGN file
 if (!ret) {
@@ -146,13 +198,14 @@ function dateToString(date) {
          + " " + pad(String(date.getHours()), 2, "0") + ":" + pad(String(date.getMinutes()), 2, "0");
 }
 
-function generateAllPGNs(roundsInfo) {
-    for (let i = 0; i < roundsInfo.length; ++i) {
-        let fst = roundsInfo[i][0];
-        let date = new Date(fst[0], fst[1] - 1, fst[2], fst[3], fst[4]);
-        let roundName = String(i + 1) + ". kolo - " + dateToString(date);
-        allPGNs.push([roundName, roundsInfo[i][1], date]);
-    }
+function dateFromArray(arr)
+{
+    // Check if the input is an array of five numbers
+    if (arr.length != 5 || !((arr.map(x => typeof(x))).every(x => x == "number")))
+        return
+
+    let date = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4]);
+    return date;
 }
 
 function customFunctionOnPgnGameLoad() {
@@ -300,7 +353,10 @@ function selectPGN(filename) {
 
     for (elem of allPGNs)
     {
-        fullPathPgn = elem[1];
+        if (!elem["pgn"])
+            continue;
+
+        fullPathPgn = elem["pgn"];
         relativePathPgn = fullPathPgn.substring(fullPathPgn.lastIndexOf("/") + 1)
         // Check for either full filename or relative filename
         if (filename == fullPathPgn || filename == relativePathPgn) {
@@ -318,14 +374,14 @@ function changePGN(val) {
     val = Number(val);
     let arg = "end"  // "start" or "end"
 
-    if (val >= 0 && val < allPGNs.length) {
+    if (val >= 0 && val < allPGNs.length && allPGNs[val]["pgn"]) {
         // Set the game on first or last move based on first argument
         SetInitialHalfmove(arg, true);
         // Scroll game text to the top or bottom
         let gt = document.getElementById("GameText");
         gt.scrollTop = arg == "end" ? gt.scrollHeight : 0;
 
-        SetPgnUrl(allPGNs[val][1]);
+        SetPgnUrl(allPGNs[val]["pgn"]);
         document.getElementById("currLink").href = pgnUrl;
         currentPGN = val;
         restartBroadcast();
@@ -653,9 +709,14 @@ function customFunctionOnPgnTextLoad() {
         for (let i = 0; i < allPGNs.length; ++i){
             let option = document.createElement("option");
             option.value = String(i);
-            option.innerHTML = allPGNs[i][0];
+
+            if (allPGNs[i]["name"])
+                option.innerHTML = allPGNs[i]["name"];
+            else
+                option.innerHTML = "Unknown PGN";
+
             // If the round will start at later point in time, disable its selection
-            if (allPGNs[i].length > 2 && new Date(allPGNs[i][2].getTime() - minsBeforeRound * 60000) > now) {
+            if (allPGNs[i]["date"] && new Date(allPGNs[i]["date"].getTime() - minsBeforeRound * 60000) > now) {
                 option.disabled = true;
             }
 
@@ -700,6 +761,26 @@ function customFunctionOnPgnTextLoad() {
     }
 
     highlightSelectedGame();
+
+    // Update the video, if any is specified
+    let video_left = allPGNs[currentPGN]["video-left"],
+        video_right = allPGNs[currentPGN]["video-right"];
+
+    if (video_left != undefined)
+    {
+        if (video_left.length)
+            enableVideoDiv("VideoDivLeft", video_left);
+        else
+            disableVideoDiv("VideoDivLeft");
+    }
+
+    if (video_right != undefined)
+    {
+        if (video_right.length)
+            enableVideoDiv("VideoDivRight", video_right)
+        else
+            disableVideoDiv("VideoDivRight");
+    }
 }
 
 function changeGame(ind) {
@@ -735,12 +816,11 @@ function disableVideoDiv(divId) {
         return;
 
     videoDiv.style.display = "none";
+    videoDiv.children[0].src = "";
     adjustGameTextSize();
 }
 
 function enableVideoDiv(divId, link) {
-    // Note: currently, the video div is modelled after the YouTube embed iframe
-
     let videoDiv = document.getElementById(divId);
     if (videoDiv == null)
         return;
@@ -794,7 +874,7 @@ function changeFramesPGN(val) {
     // Change round (PGN file) for all miniboards
     val = Number(val);
 
-    if (val >= 0 && val < allPGNs.length) {
+    if (val >= 0 && val < allPGNs.length && allPGNs[val]["pgn"]) {
         // Readjust chosenGames array to select the first games
         chosenGames = Array(numberMiniboards);
         for (let i = 0; i < numberMiniboards; ++i) {
@@ -804,7 +884,7 @@ function changeFramesPGN(val) {
         maximizeIframesTiles(controlPanelOption); // delete
 
         // Change PGN for all miniboards
-        let newPgnUrl = allPGNs[val][1];
+        let newPgnUrl = allPGNs[val]["pgn"];
         let iframesDiv = document.getElementById("IframesContainer");
         let iframes = iframesDiv.querySelectorAll("iframe");
         for (let i = 0; i < iframes.length; i++) {
@@ -1066,7 +1146,6 @@ function setThemeMultiboard() {
         return;
 
     let currTheme = bodies[0].getAttribute("data-theme");
-    console.log(currTheme);
     let iframesDiv = document.getElementById("IframesContainer");
     let iframes = iframesDiv.querySelectorAll("iframe");
 
@@ -1079,8 +1158,6 @@ function setThemeMultiboard() {
             iframeBodies[0].setAttribute("data-theme", "dark");
         else
             iframeBodies[0].setAttribute("data-theme", "");
-
-        console.log('Hump de bump', iframeBodies[0].getAttribute("data-theme"));
     }
 }
 
