@@ -304,12 +304,12 @@ function adjustSidePanelSizes() {
     // We want the moves, engine evaluation and best line with the margins to fit the board size
     gt.style.setProperty("max-height", String(boardWidth - videoHeightR - engineHeight - variationHeight - 16) + "px");
 
-    // Set height of game selection div assuming game selection header + search bare take up to 85px
+    // Set height of game selection div assuming game selection header + search bare take up to 95 px
     let videoDivL = document.getElementById("VideoDivLeft");
     videoDivL.style.setProperty("height", String(0.5 * boardWidth) + "px");
     let videoHeightL = videoDivL.offsetHeight;
     let gameSel = document.getElementById("GameSelectionDiv");
-    gameSel.style.setProperty("max-height", String(boardWidth - videoHeightL - 85) + "px");
+    gameSel.style.setProperty("max-height", String(boardWidth - videoHeightL - 95) + "px");
 }
 
 function customFunctionOnMove() {
@@ -833,7 +833,6 @@ function clearSearchInput() {
 function searchInputChanged() {
     let search = document.getElementById("SearchInput");
     let value = search.value.toLowerCase();
-    console.log(value);
 
     let gameSelectionDiv = document.getElementById("GameSelectionDiv");
     if (gameSelectionDiv.children.length != gameWhite.length ||

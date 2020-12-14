@@ -111,6 +111,10 @@ body {
     border-radius: .25rem;
 }
 
+input::placeholder {
+    color: var(--bg-color-light-text);
+}
+
 /* In order to remove flashing (transition) at startup time */
 .btn, .custom-select {
     transition: none;
@@ -225,7 +229,7 @@ textarea::-webkit-resizer {
     color: gray;
 }
 
-.fa-caret-down {
+.fa-caret-down, .fa-search {
     color: var(--bg-color-text);
 }
 
