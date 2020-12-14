@@ -288,10 +288,10 @@ function adjustSquareSize(scale = 1) {
         }
     }
 
-    adjustGameTextSize();
+    adjustSidePanelSizes();
 }
 
-function adjustGameTextSize() {
+function adjustSidePanelSizes() {
     let boardWidth = getBoardWidth();
 
     // Set height/width of game text divs and engine evaluation divs
@@ -304,13 +304,12 @@ function adjustGameTextSize() {
     // We want the moves, engine evaluation and best line with the margins to fit the board size
     gt.style.setProperty("max-height", String(boardWidth - videoHeightR - engineHeight - variationHeight - 16) + "px");
 
-    // Set height of game selection div
-    //  assuming game selection header is up to 50px
+    // Set height of game selection div assuming game selection header + search bare take up to 85px
     let videoDivL = document.getElementById("VideoDivLeft");
     videoDivL.style.setProperty("height", String(0.5 * boardWidth) + "px");
     let videoHeightL = videoDivL.offsetHeight;
     let gameSel = document.getElementById("GameSelectionDiv");
-    gameSel.style.setProperty("max-height", String(boardWidth - videoHeightL - 50) + "px");
+    gameSel.style.setProperty("max-height", String(boardWidth - videoHeightL - 85) + "px");
 }
 
 function customFunctionOnMove() {
@@ -531,7 +530,7 @@ function setEngineAnnotations(line, depth, score) {
     document.getElementById("EngineVariationDiv").innerHTML = line;
     document.getElementById("Depth").innerHTML = depth;
     document.getElementById("Score").innerHTML = score;
-    adjustGameTextSize();
+    adjustSidePanelSizes();
 }
 
 
@@ -584,6 +583,9 @@ function pgn4web_handleKey(e) {
     if (!e) {
         e = window.event;
     }
+
+    if (e.target.id == "SearchInput")
+        return;
 
     if (e.altKey || e.ctrlKey || e.metaKey) {
         return true;
@@ -758,6 +760,9 @@ function customFunctionOnPgnTextLoad() {
 
     highlightSelectedGame();
 
+    // Clear game search text
+    clearSearchInput();
+
     // Update the video, if any is specified
     let video_left = allPGNs[currentPGN]["video-left"],
         video_right = allPGNs[currentPGN]["video-right"];
@@ -807,7 +812,7 @@ function disableVideoDiv(divId) {
 
     videoDiv.style.display = "none";
     videoDiv.children[0].src = "";
-    adjustGameTextSize();
+    adjustSidePanelSizes();
 }
 
 function enableVideoDiv(divId, link) {
@@ -817,7 +822,32 @@ function enableVideoDiv(divId, link) {
 
     videoDiv.style.display = "";
     videoDiv.children[0].src = link;
-    adjustGameTextSize();
+    adjustSidePanelSizes();
+}
+
+function clearSearchInput() {
+    let search = document.getElementById("SearchInput");
+    search.value = "";
+}
+
+function searchInputChanged() {
+    let search = document.getElementById("SearchInput");
+    let value = search.value.toLowerCase();
+    console.log(value);
+
+    let gameSelectionDiv = document.getElementById("GameSelectionDiv");
+    if (gameSelectionDiv.children.length != gameWhite.length ||
+        gameSelectionDiv.children.length != gameBlack.length)
+        return;
+
+    for (let i = 0; i < gameSelectionDiv.children.length; ++i)
+    {
+        if (!gameWhite[i].toLowerCase().includes(value) &&
+            !gameBlack[i].toLowerCase().includes(value))
+            gameSelectionDiv.children[i].style.setProperty("display", "none");
+        else
+            gameSelectionDiv.children[i].style.setProperty("display", "");
+    }
 }
 
 //===========================================================

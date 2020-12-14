@@ -202,6 +202,7 @@ textarea, input {
     font-family: monospace;
     font-size: 13px;
     border: 0;
+    border-radius: .25rem;
 }
 
 textarea:focus, input:focus {
@@ -225,7 +226,7 @@ textarea::-webkit-resizer {
 }
 
 .fa-caret-down {
-    color: var(--main-color-bg);
+    color: var(--bg-color-text);
 }
 
 ::-webkit-scrollbar {
