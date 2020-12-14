@@ -56,7 +56,9 @@ function listPGNFiles() {
     // And / or if you just want to display some PGN files (ended tournaments)
     allPGNs.push({
         "name" : "Tournament (last year's edition)",
-        "pgn" : "pgn/last_year.pgn"
+        "pgn" : "pgn/last_year.pgn",
+        "video-left" : "https://www.youtube.com/embed/<your-code>",
+        "video-right" : "https://www.youtube.com/embed/<your-code>"
     });
     // ...
 }
@@ -91,6 +93,10 @@ In `assets/style.css` you can configure all the colors used on the page. It come
 
 I hereby sincerely thank all the people who reviewed this page and gave comments or suggestions. Your feedback is much appreciated.  
 
+## Deployments
+* Several pages on [chesscout.info][11], e.g. [here][12]
+* [Croatian Individual Championship 2020][13]
+
 ## Future work:
 * Translation
 * Add functionality for live time countdown during broadcast
@@ -106,3 +112,6 @@ I hereby sincerely thank all the people who reviewed this page and gave comments
 [5]: https://fontawesome.com/
 [7]: https://github.com/pnikic/clint/blob/master/LICENSE
 [10]: https://lichess.org/
+[11]: https://www.chessscout.info/
+[12]: https://www.chessscout.info/ftp/premijer-liga-BiH/
+[13]: https://hrvatski-sahovski-savez.hr/ftp/CroCh2020/
