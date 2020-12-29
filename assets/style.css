@@ -446,8 +446,8 @@ span.move {
 #Snackbar {
     visibility: hidden;
     min-width: 250px;
-    background-color: var(--main-color-bg);
-    color: var(--main-color-text);
+    background-color: var(--main-color-text);
+    color: var(--main-color-bg);
     text-align: center;
     border-radius: .25rem;
     padding: 16px;
