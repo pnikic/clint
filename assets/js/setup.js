@@ -26,7 +26,8 @@ function listPGNFiles() {
     //     "name" : <string>,
     //     "date" : <JavaScript Date object>,
     //     "video-left" : <string>,
-    //     "video-right" : <string>
+    //     "video-right" : <string>,
+    //     "hyperlinks" : <JavaScript object>
     // });
     //
     // Description:
@@ -36,6 +37,10 @@ function listPGNFiles() {
     //                  (see also the variable `minsBeforeRound`)
     //   (optional) - "video-left" is a link to a video to be displayed on the left-hand side
     //   (optional) - "video-right" is a link to a video to be displayed on the right-hand side
+    //   (optional) - "hyperlinks" is an object which assigns custom hyperlink targets for buttons
+    //                   Note: It's the operator's task to ensure that all PGN files have values for
+    //                         all custom buttons. If a value for a button is not defined for a PGN
+    //                         file, the button keeps its old value (before changing the PGN file)
     //
     // See below for examples
 
@@ -48,14 +53,22 @@ function listPGNFiles() {
         "name" : "1. kolo - " + dateToString(begin),
         "pgn" : "pgn/r1.pgn",
         "date" : begin,
-        "video-left" : "https://www.youtube.com/embed/4jT0hUODzdQ"
+        "video-left" : "https://www.youtube.com/embed/4jT0hUODzdQ",
+        "hyperlinks" : {
+            "ChessResultLink" : "https://www.example.com/a/1",
+            "CustomButton" : "https://www.example.com/b/1"
+        }
     });
 
     begin = dateFromArray([2020, 11, 11, 13, 00])
     allPGNs.push({
         "name" : "2. kolo - " + dateToString(begin),
         "pgn" : "pgn/r2.pgn",
-        "date" : begin
+        "date" : begin,
+        "hyperlinks" : {
+            "ChessResultLink" : "https://www.example.com/a/2",
+            "CustomButton" : "https://www.example.com/b/2"
+        }
     });
 
     begin = dateFromArray([2020, 11, 12, 13, 00])
@@ -63,7 +76,11 @@ function listPGNFiles() {
          "name" : "3. kolo - " + dateToString(begin),
          "pgn" : "pgn/r3.pgn",
          "date" : begin,
-         "video-right" : "https://www.youtube.com/embed/ytdjYjM-cLg"
+         "video-right" : "https://www.youtube.com/embed/ytdjYjM-cLg",
+         "hyperlinks" : {
+            "ChessResultLink" : "https://www.example.com/a/3",
+            "CustomButton" : "https://www.example.com/b/3"
+        }
     });
 
     begin = dateFromArray([2020, 12, 13, 13, 00])
@@ -71,6 +88,10 @@ function listPGNFiles() {
         "name" : "4. kolo - " + dateToString(begin),
         "pgn" : "pgn/r4.pgn",
         "date" : begin,
+        "hyperlinks" : {
+            "ChessResultLink" : "https://www.example.com/a/4",
+            "CustomButton" : "https://www.example.com/b/4"
+        }
     });
 
     allPGNs.push({
@@ -776,6 +797,20 @@ function customFunctionOnPgnTextLoad() {
         enableVideoDiv("VideoDivRight", video_right)
     else
         disableVideoDiv("VideoDivRight");
+
+    // Update hyperlink references of buttons, if any are specified
+    let links = allPGNs[currentPGN]["hyperlinks"];
+    if (links != undefined)
+    {
+        for (const [key, value] of Object.entries(links))
+        {
+            let anchor = document.getElementById(key);
+            if (anchor && anchor.hasAttribute("href"))
+            {
+                anchor.href = value;
+            }
+        }
+    }
 }
 
 function changeGame(ind) {
