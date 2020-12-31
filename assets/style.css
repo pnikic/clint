@@ -284,6 +284,7 @@ textarea::-webkit-resizer {
 #GameText, #EngineVariationDiv {
     overflow-y: auto;
     font-family: "pgn4web ChessSansPiratf";
+    font-size: 16px;
 }
 
 #GameSelectionDiv {
@@ -481,12 +482,12 @@ iframe {
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
     font-weight: 600;
-    font-size: 15px;
+    font-size: 18px;
     padding: 0px 0px 0px 3px;
 }
 
 .clockTile {
-    font-size: 15px;
+    font-size: 18px;
     padding: 0px 2px 0px 0px;
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
