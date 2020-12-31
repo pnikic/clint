@@ -8,7 +8,7 @@ Single board view | Multiple boards view
 A demo is available on: http://hrvatski-sahovski-savez.hr/ftp/sucelje_patrick/
 
 ### Features
-* Banner with general information (about the tournament) and customizable buttons for hyperlinks (other websites, photo gallery, tournament regulations etc.) 
+* Banner with general information (about the tournament) and footer with customizable buttons for hyperlinks (other websites, photo gallery, tournament regulations etc.) 
 * Chess board with compactly displayed player names, clock times and ratings
 * PGN section for display and navigation
 * Engine analysis
@@ -66,10 +66,15 @@ function listPGNFiles() {
 ### Customization
 In `index.html` you can:
 * edit the general information about the tournament
-* add / edit buttons for hyperlinks
 
-In `assets/js/setup.js` you can configure:
-* in `operatorSettings()` edit the links to already defined buttons and name of the operator
+In `assets/js/setup.js` you can:
+* in `operatorSettings()` edit hyperlinks. For instance:
+```javascript
+footerLinks.push({
+    "text" : "Photo Gallery",
+    "link" : "https://www.example.com"
+});
+``` 
 * some default options (such as autoplay delay, move highlighting etc.)
 * number of miniboards for the multiple boards view
 ```javascript
@@ -77,6 +82,27 @@ let numberMiniboards = 6;
 ```
 
 In `assets/style.css` you can configure all the colors used on the page. It comes with a predefined light and dark theme.
+```css
+/* Light theme example preset */
+:root {
+    --bg-color: #eee;
+    --bg-color-text: #111;
+    --bg-color-light: #ddd;
+    --bg-color-light-text: #111;
+    --bg-color-text-light: #888;
+    --bg-color-hover: #27c;
+    --bg-color-hover-text: #eee;
+    --bg-color-active: #cde;
+    --main-color-bg: #ddd;
+    --main-color-text: #000;
+    --main-color-hover: #cccf;
+    --main-color-border: #bbb;
+    --white-square: #f0d9b5;
+    --black-square: #b58863;
+    --highlight-white-sq: #cdd26a;
+    --highlight-black-sq: #aaa23a;
+}
+```
 
 ## Notes
 * The page is currently in Croatian. With little effort, it can be translated to any language
@@ -97,12 +123,17 @@ I hereby sincerely thank all the people who reviewed this page and gave comments
 * Several pages on [chesscout.info][11], e.g. [here][12]
 * [Croatian Individual Championship 2020][13]
 
-## Future work:
+## Future work (ideas):
 * Translation
 * Add functionality for live time countdown during broadcast
+* Move to newer stockfish
 * Resizable board
 * Fix some responsive design issues (regarding to mobile phone rotations)
-* Searching games by player name
+* Tournament table
+* Analysis board
+* Add country flags for players
+* Add landing page (with countdown to tournament start, description, overview - multiple boards)
+* Fetching ratings from FIDE (or link to a player's profile by clicking on the name)
 
 [1a]: https://i.imgur.com/m1r2dgu.png
 [1b]: https://i.imgur.com/anwWrzE.png
