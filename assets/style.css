@@ -54,10 +54,10 @@
     --main-color-text: #000;
     --main-color-hover: #cccf;
     --main-color-border: #bbb;
-    --white-square: #F0D9B5;
-    --black-square: #B58863;
-    --highlight-white-sq: #CDD26A;
-    --highlight-black-sq: #AAA23A;
+    --white-square: #f0d9b5;
+    --black-square: #b58863;
+    --highlight-white-sq: #cdd26a;
+    --highlight-black-sq: #aaa23a;
 }
 
 /* Dark theme example preset */
@@ -67,17 +67,17 @@
     --bg-color-light: #333;
     --bg-color-light-text: #eee;
     --bg-color-text-light: #888;
-    --bg-color-hover: #3692E7;
+    --bg-color-hover: #3692e7;
     --bg-color-hover-text: #eee;
-    --bg-color-active: #293A49;
+    --bg-color-active: #293a49;
     --main-color-bg: #444;
     --main-color-text: #eee;
     --main-color-hover: #333f;
     --main-color-border: #222;
-    --white-square: #F0D9B5;
-    --black-square: #B58863;
-    --highlight-white-sq: #CDD26A;
-    --highlight-black-sq: #AAA23A;
+    --white-square: #f0d9b5;
+    --black-square: #b58863;
+    --highlight-white-sq: #cdd26a;
+    --highlight-black-sq: #aaa23a;
 }
 
 /************************************************************

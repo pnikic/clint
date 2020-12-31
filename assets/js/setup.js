@@ -113,6 +113,10 @@ function operatorSettings() {
     document.getElementById("currLink").href = pgnUrl;         // current active pgn
     document.getElementById("allLink").href = "pgn/all.pgn";   // all rounds
 
+    // To enable a (fixed) live stream / video for all rounds use:
+    // enableVideoDiv("VideoDivLeft", "https://www.youtube.com/embed/<your-code>");
+    // enableVideoDiv("VideoDivRight", "https://www.youtube.com/embed/<your-code>");
+
     // List all the footer hyperlinks. The format is as follows:
     //
     // footerLinks.push({
@@ -186,58 +190,6 @@ function operatorSettings() {
     });
 
     generateFooterLinks(footerLinks);
-
-    // To enable a (fixed) live stream / video for all rounds use:
-    // enableVideoDiv("VideoDivLeft", "https://www.youtube.com/embed/<your-code>");
-    // enableVideoDiv("VideoDivRight", "https://www.youtube.com/embed/<your-code>");
-}
-
-function generateFooterLinks(linksArray)
-{
-    for (link of linksArray)
-    {
-        let div = document.createElement("div");
-        let size = [12, 6, 4, 3, 2];
-        let breaks = ["", "sm-", "md-", "lg-", "xl-"];
-        if ("size" in link && link["size"].length == 5)
-            size = link["size"];
-
-        // Generate a string of format "col-v col-sm-w col-md-x col-lg-y col-xl-z"
-        //   using [v, w, x, y, z] from link["size"]
-        let classString = size.map((a, b) => {return "col-" + breaks[b] + String(a)}).join(' ');
-        div.className = classString;
-
-        let anchor = document.createElement("a");
-        anchor.target = "_blank";
-        anchor.rel = "noopener noreferrer";
-        anchor.className = "badge badge-custom my-1 p-2";
-
-        if ("id" in link)
-            anchor.id = link["id"];
-
-        if ("link" in link)
-            anchor.href = link["link"];
-
-        let title = document.createElement("h5");
-        title.className = "m-0 d-inline-block";
-
-        let text = "...";
-        if ("text" in link)
-            text = link["text"];
-
-        title.innerText = text;
-
-        anchor.appendChild(title);
-        if ("fa-icon" in link)
-        {
-            let icon = document.createElement("i");
-            icon.className = link["fa-icon"] + " my-auto h5 pl-2";
-            anchor.appendChild(icon);
-        }
-
-        div.appendChild(anchor);
-        document.getElementById("FooterRow").appendChild(div);
-    }
 }
 
 //----------------------------------------------------------
@@ -312,6 +264,54 @@ if (!ret) {
 //===========================================================
 // Main part of the program
 //===========================================================
+function generateFooterLinks(linksArray)
+{
+    for (link of linksArray)
+    {
+        let div = document.createElement("div");
+        let size = [12, 6, 4, 3, 2];
+        let breaks = ["", "sm-", "md-", "lg-", "xl-"];
+        if ("size" in link && link["size"].length == 5)
+            size = link["size"];
+
+        // Generate a string of format "col-v col-sm-w col-md-x col-lg-y col-xl-z"
+        //   using [v, w, x, y, z] from link["size"]
+        let classString = size.map((a, b) => {return "col-" + breaks[b] + String(a)}).join(' ');
+        div.className = classString;
+
+        let anchor = document.createElement("a");
+        anchor.target = "_blank";
+        anchor.rel = "noopener noreferrer";
+        anchor.className = "badge badge-custom my-1 p-2";
+
+        if ("id" in link)
+            anchor.id = link["id"];
+
+        if ("link" in link)
+            anchor.href = link["link"];
+
+        let title = document.createElement("h5");
+        title.className = "m-0 d-inline-block";
+
+        let text = "...";
+        if ("text" in link)
+            text = link["text"];
+
+        title.innerText = text;
+
+        anchor.appendChild(title);
+        if ("fa-icon" in link)
+        {
+            let icon = document.createElement("i");
+            icon.className = link["fa-icon"] + " my-auto h5 pl-2";
+            anchor.appendChild(icon);
+        }
+
+        div.appendChild(anchor);
+        document.getElementById("FooterRow").appendChild(div);
+    }
+}
+
 function pad(str, totalChars, padChar) {
     return (totalChars > str.length ? String(padChar).repeat(totalChars - str.length) : "") +  str;
 }
