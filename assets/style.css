@@ -110,7 +110,15 @@ body {
 }
 
 .footer {
+    background-color: var(--main-color-bg);
     border-radius: .25rem;
+}
+
+.footer .badge-custom, .footer .btn-custom {
+    border-bottom: 0;
+}
+
+#FooterRow {
     margin-left: 2vw;
     margin-right: 2vw;
 }
@@ -131,10 +139,6 @@ input::placeholder {
     color: var(--main-color-text);
 }
 
-.btn-custom {
-    border-color: transparent;
-}
-
 /* Border for custom buttons */
 .badge-custom, .btn-custom {
     border-bottom: 2.5px solid var(--main-color-border);
@@ -145,10 +149,6 @@ input::placeholder {
 .badge-custom[href]:hover, .btn-custom:hover {
     background-color: var(--main-color-hover);
     color: var(--main-color-text)
-}
-
-.btn-custom:hover {
-    border-color: transparent;
 }
 
 /* Inverted colors */
