@@ -42,17 +42,18 @@
 
 /* Light theme example preset */
 :root {
-    --bg-color: #F3F3F3;
-    --bg-color-text: #000;
-    --bg-color-light: #ededed;
-    --bg-color-light-text: #000;
-    --bg-color-text-light: #999;
-    --bg-color-hover: #1B78D0;
-    --bg-color-hover-text: #fff;
-    --bg-color-active: #D1E4F6;
-    --main-color-bg: #DCDCDC;
+    --bg-color: #eee;
+    --bg-color-text: #111;
+    --bg-color-light: #ddd;
+    --bg-color-light-text: #111;
+    --bg-color-text-light: #888;
+    --bg-color-hover: #27c;
+    --bg-color-hover-text: #eee;
+    --bg-color-active: #cde;
+    --main-color-bg: #ddd;
     --main-color-text: #000;
-    --main-color-hover: #999;
+    --main-color-hover: #cccf;
+    --main-color-border: #bbb;
     --white-square: #F0D9B5;
     --black-square: #B58863;
     --highlight-white-sq: #CDD26A;
@@ -61,17 +62,18 @@
 
 /* Dark theme example preset */
 [data-theme="dark"] {
-    --bg-color: #222;
+    --bg-color: #111;
     --bg-color-text: #eee;
-    --bg-color-light: #666;
+    --bg-color-light: #333;
     --bg-color-light-text: #eee;
-    --bg-color-text-light: #999;
+    --bg-color-text-light: #888;
     --bg-color-hover: #3692E7;
     --bg-color-hover-text: #eee;
     --bg-color-active: #293A49;
     --main-color-bg: #444;
-    --main-color-hover: #2079D9;
     --main-color-text: #eee;
+    --main-color-hover: #333f;
+    --main-color-border: #222;
     --white-square: #F0D9B5;
     --black-square: #B58863;
     --highlight-white-sq: #CDD26A;
@@ -109,6 +111,8 @@ body {
 
 .footer {
     border-radius: .25rem;
+    margin-left: 2vw;
+    margin-right: 2vw;
 }
 
 input::placeholder {
@@ -121,7 +125,7 @@ input::placeholder {
 }
 
 /* Normal colors */
-.banner, .footer, .badge-custom, .badge-custom[href]:focus, .btn-custom,
+.banner, .badge-custom, .badge-custom[href]:focus, .btn-custom,
 .btn-custom:hover:focus /* mobile phone variant */ {
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
@@ -129,6 +133,12 @@ input::placeholder {
 
 .btn-custom {
     border-color: transparent;
+}
+
+/* Border for custom buttons */
+.badge-custom, .btn-custom {
+    border-bottom: 2.5px solid var(--main-color-border);
+    width: 100%;
 }
 
 /* Hover colors */
@@ -220,7 +230,7 @@ textarea::-webkit-resizer {
     border-color: var(--bg-color-light) var(--main-color-bg) var(--main-color-bg) var(--bg-color-light);
 }
 
-.h-40p, #GithubBtn {
+.h-40p {
     height: 40px;
 }
 
@@ -528,7 +538,7 @@ iframe {
     height: 100%;
 }
 
-#OperatorEmail > i, #GithubBtn > i, #engineToggleIcon {
+#engineToggleIcon {
     font-size: 30px;
     vertical-align: middle;
 }

@@ -55,8 +55,8 @@ function listPGNFiles() {
         "date" : begin,
         "video-left" : "https://www.youtube.com/embed/4jT0hUODzdQ",
         "hyperlinks" : {
-            "ChessResultLink" : "https://www.example.com/a/1",
-            "CustomButton" : "https://www.example.com/b/1"
+            "ChessResultLink" : "https://www.example.com/a1",
+            "CustomButton" : "https://www.example.com/b1"
         }
     });
 
@@ -66,8 +66,8 @@ function listPGNFiles() {
         "pgn" : "pgn/r2.pgn",
         "date" : begin,
         "hyperlinks" : {
-            "ChessResultLink" : "https://www.example.com/a/2",
-            "CustomButton" : "https://www.example.com/b/2"
+            "ChessResultLink" : "https://www.example.com/a2",
+            "CustomButton" : "https://www.example.com/b2"
         }
     });
 
@@ -78,8 +78,8 @@ function listPGNFiles() {
          "date" : begin,
          "video-right" : "https://www.youtube.com/embed/ytdjYjM-cLg",
          "hyperlinks" : {
-            "ChessResultLink" : "https://www.example.com/a/3",
-            "CustomButton" : "https://www.example.com/b/3"
+            "ChessResultLink" : "https://www.example.com/a3",
+            "CustomButton" : "https://www.example.com/b3"
         }
     });
 
@@ -89,14 +89,18 @@ function listPGNFiles() {
         "pgn" : "pgn/r4.pgn",
         "date" : begin,
         "hyperlinks" : {
-            "ChessResultLink" : "https://www.example.com/a/4",
-            "CustomButton" : "https://www.example.com/b/4"
+            "ChessResultLink" : "https://www.example.com/a4",
+            "CustomButton" : "https://www.example.com/b4"
         }
     });
 
     allPGNs.push({
         "name" : "Arhiva",
         "pgn" : "pgn/all.pgn",
+        "hyperlinks" : {
+            "ChessResultLink" : "https://www.example.com/a0",
+            "CustomButton" : "https://www.example.com/b0"
+        }
     });
 
     // In case no PGN is set in the URI parameter (share option), this PGN will be used at startup.
@@ -109,29 +113,131 @@ function operatorSettings() {
     document.getElementById("currLink").href = pgnUrl;         // current active pgn
     document.getElementById("allLink").href = "pgn/all.pgn";   // all rounds
 
-    // Link for chess-results
-    let chessResultsBtn = document.getElementById("ChessResultLink");
-    if (chessResultsBtn)
-        chessResultsBtn.href = "https://chess-results.com/";
+    // List all the footer hyperlinks. The format is as follows:
+    //
+    // footerLinks.push({
+    //     "text"    : <string>
+    //     "link"    : <string>,
+    //     "fa-icon" : <string>,
+    //     "size"    : <JavaScript Array> (5 elements),
+    //     "id"      : <string>
+    // });
+    //
+    // Description:
+    //              - "text" is the label of the button (displayed text)
+    //              - "link" is the hyperlink reference (e.g. URI) of the button
+    //   (optional) - "fa-icon" is the font-awesome class of the icon displayed near the button;
+    //                  you can choose one from: https://fontawesome.com/icons?d=gallery&m=free
+    //   (optional) - "size" are the bootstrap grid breakpoint sizes for buttons - 5 values:
+    //                  [a, b, c, d, e], where
+    //                  a = width for extra small screens (<576px),
+    //                  b = width for small  screens      (>=576px),
+    //                  c = width for medium screens      (>=768px),
+    //                  d = width for large screens       (>=992px),
+    //                  e = width for extra large screens (>=1200px).
+    //                  Note: each width is a number from 1 (small button) to 12 (full row button).
+    //                  Default value is [12, 6, 4, 3, 2]
+    //   (optional) - "id" is the ID of the HTML element - used for "hyperlinks" option in allPGNs
+    //
+    // See below for examples
 
-    // Link for photo gallery
-    let photoLinkBtn = document.getElementById("PhotoLink");
-    if (photoLinkBtn)
-        photoLinkBtn.href = "https://www.example.com";
+    let footerLinks = [];
+    footerLinks.push({
+        "text" : "Novi gumb",
+        "id"   : "CustomButton",
+        "link" : ""
+        // For this element, "link" will be provided from allPGNs
+        });
 
+    footerLinks.push({
+        "text" : "Chess-results",
+        "id"   : "ChessResultLink",
+        "link" : ""
+        // For this element, "link" will be provided from allPGNs
+    });
+
+    footerLinks.push({
+        "text" : "Fotogalerija",
+        "link" : "https://www.example.com",
+        "fa-icon" : "fas fa-images"
+    });
+
+    // Note: this button is smaller, the next one is bigger so that the full xl-row sums up to 12
     // Link for tournament details (can be a link to a local file)
-    let regulationsBtn = document.getElementById("Raspis");
-    if (regulationsBtn)
-        regulationsBtn.href = "https://www.example.com";
+    footerLinks.push({
+        "text" : "Raspis",
+        "link" : "https://www.example.com",
+        "size" : [12, 6, 6, 4, 1],
+    });
 
-    // Paragraph for operator
-    document.getElementById("OperatorPar").innerHTML = "operater: " + "&lt; ime operatera &gt;";
-    // Operator contact
-    document.getElementById("OperatorEmail").href = "mailto:" + "operator@mailserver.com";
+    // Operator's contact button
+    footerLinks.push({
+        "text" : "operater: " + "Ime Operatera",
+        "link" : "mailto:" + "operator@mailserver.com",
+        "size" : [12, 6, 6, 4, 3],
+        "fa-icon" : "fas fa-envelope"
+    });
+
+    // Link to clint GitHub page
+    footerLinks.push({
+        "text" : "Repozitorij",
+        "link" : "https://www.github.com/pnikic/clint",
+        "fa-icon" : "fab fa-github"
+    });
+
+    generateFooterLinks(footerLinks);
 
     // To enable a (fixed) live stream / video for all rounds use:
     // enableVideoDiv("VideoDivLeft", "https://www.youtube.com/embed/<your-code>");
     // enableVideoDiv("VideoDivRight", "https://www.youtube.com/embed/<your-code>");
+}
+
+function generateFooterLinks(linksArray)
+{
+    for (link of linksArray)
+    {
+        let div = document.createElement("div");
+        let size = [12, 6, 4, 3, 2];
+        let breaks = ["", "sm-", "md-", "lg-", "xl-"];
+        if ("size" in link && link["size"].length == 5)
+            size = link["size"];
+
+        // Generate a string of format "col-v col-sm-w col-md-x col-lg-y col-xl-z"
+        //   using [v, w, x, y, z] from link["size"]
+        let classString = size.map((a, b) => {return "col-" + breaks[b] + String(a)}).join(' ');
+        div.className = classString;
+
+        let anchor = document.createElement("a");
+        anchor.target = "_blank";
+        anchor.rel = "noopener noreferrer";
+        anchor.className = "badge badge-custom my-1 p-2";
+
+        if ("id" in link)
+            anchor.id = link["id"];
+
+        if ("link" in link)
+            anchor.href = link["link"];
+
+        let title = document.createElement("h5");
+        title.className = "m-0 d-inline-block";
+
+        let text = "...";
+        if ("text" in link)
+            text = link["text"];
+
+        title.innerText = text;
+
+        anchor.appendChild(title);
+        if ("fa-icon" in link)
+        {
+            let icon = document.createElement("i");
+            icon.className = link["fa-icon"] + " my-auto h5 pl-2";
+            anchor.appendChild(icon);
+        }
+
+        div.appendChild(anchor);
+        document.getElementById("FooterRow").appendChild(div);
+    }
 }
 
 //----------------------------------------------------------
@@ -654,8 +760,15 @@ function pgn4web_handleKey(e) {
     return stopEvProp(e);
 }
 
+function hideSnackbarMessage()
+{
+    let sb = document.getElementById("Snackbar");
+    sb.className = sb.className.replace("show", "");
+
+}
+
 function removeSnackbarMessage(){
-    numActiveSnackbarMessages -= 1
+    numActiveSnackbarMessages = Math.max(0, numActiveSnackbarMessages - 1);
 
     if (!numActiveSnackbarMessages)
     {

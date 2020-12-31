@@ -49,7 +49,7 @@
         <!-- =========================================================== -->
         <!--  Banner begin -->
         <!-- =========================================================== -->
-        <div class="banner">
+        <div class="banner mb-4">
             <!-- Define path for logo, or delete <img> tag if there is nothing to display
                  In case of more logos, duplicate the img tag and edit the src attributes -->
             <img src="assets/images/logo.png"
@@ -57,44 +57,6 @@
             <h3 class="text-center">
                 <span>Ime turnira<br>Mjesto, od.–do.mm.yyyy.</span>
             </h3>
-        </div>
-        <div class="mb-4">
-            <!-- =========================================================== -->
-            <!--  Links -->
-            <!-- =========================================================== -->
-            <!-- Possible color classes are: badge-{primary, secondary,
-                 success, danger, warning, info, light, dark, white} -->
-            <a id="CustomButton"
-               href="#"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="m-1 badge badge-secondary p-2 align-middle">
-                <h5 class="m-0">Novi gumb</h5>
-            </a>
-
-            <a id="ChessResultLink"
-               href="#"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="m-1 badge badge-custom p-2 align-middle">
-                <h5 class="m-0">Chess-results</h5>
-            </a>
-
-            <a id="PhotoLink"
-               href="#"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="m-1 badge badge-custom p-2 align-middle">
-                <h5 class="m-0">Fotogalerija</h5>
-            </a>
-
-            <a id="Raspis"
-               href="#"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="m-1 badge badge-custom p-2 align-middle">
-                <h5 class="m-0">Raspis</h5>
-            </a>
         </div>
 
         <!-- =========================================================== -->
@@ -269,7 +231,8 @@
                                 <button type="button"
                                         class="close mx-1"
                                         data-dismiss="modal"
-                                        aria-label="Close">
+                                        aria-label="Close"
+                                        onclick="hideSnackbarMessage();">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -574,28 +537,9 @@
         <!--  Footer -->
         <!-- =========================================================== -->
         <footer class="footer mt-3">
-            <div class="container">
-                <div class="row">
-                    <div class="col col-lg-9 h-100 my-auto text-center text-lg-left">
-                        <a id="OperatorEmail"
-                           rel="noopener noreferrer"
-                           class="h-40p m-1 badge badge-custom align-middle">
-                            <span id="OperatorPar"
-                                  class="my-auto pr-2 h6">
-                            </span>
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                    </div>
-                    <div class="col col-lg-3">
-                        <a id="GithubBtn" href="https://www.github.com/pnikic/clint"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="m-1 badge badge-custom p-2">
-                            <i class="fab fa-github"></i>
-                            <span class="ml-2 h6">Repozitorij</span>
-                        </a>
-                    </div>
-                </div>
+            <div id="FooterRow"
+                 class="row justify-content-center">
+                <!-- Link buttons will be pasted here from JS -->
             </div>
         </footer>
 
