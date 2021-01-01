@@ -389,6 +389,14 @@ span.move {
     align-items: center;
 }
 
+.topPlayerItem {
+    border-radius: .25rem .25rem 0 0;
+}
+
+.botPlayerItem {
+    border-radius: 0 0 .25rem .25rem;
+}
+
 #GameWhite, #GameBlack, #GameWhiteClock, #GameBlackClock {
     white-space: nowrap;
 }
@@ -478,40 +486,29 @@ iframe {
     border: 0;
 }
 
-.playerNameTile {
+#Miniboard {
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
+    border-radius: .25rem;
+}
+
+.resultTile {
+    border-right: 1px solid var(--main-color-text);
+}
+
+.playerNameTile {
     font-weight: 600;
-    font-size: 18px;
     padding: 0px 0px 0px 3px;
+    overflow: hidden;
 }
 
 .clockTile {
-    font-size: 18px;
     padding: 0px 2px 0px 0px;
-    background-color: var(--main-color-bg);
-    color: var(--main-color-text);
+    overflow: hidden;
 }
 
-.fullBorder {
-    border: 1px solid #000000;
-}
-
-.sideBorder {
-    border-right: 1px solid #000000;
-    border-left: 1px solid #000000;
-}
-
-.resultTileW {
-    color: #000000;
-    background-color: #FFFFFF;
-    border-right: 1px solid #000000;
-}
-
-.resultTileB {
-    background-color: #000000;
-    color: #FFFFFF;
-    border-right: 1px solid #000000;
+#BlackInfo, #WhiteInfo {
+    padding: 4px 0px;
 }
 
 #GamesSelectionContainer{

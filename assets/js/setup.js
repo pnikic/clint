@@ -1002,7 +1002,8 @@ function searchInputChanged() {
 //===========================================================
 let iframesGenerated = false;
 let iframesLoaded = Array(numberMiniboards).fill(0);
-let controlPanelOption = true;
+// Suppose the control panel is turned off by default (sync with mosaic-setup.js)
+let controlPanelOption = false;
 
 // Array of displayed games, used for choose games modal
 // By default, the first games are loaded
@@ -1186,8 +1187,8 @@ function handleCheckboxClick(evt) {
     }
 }
 
-function activateLineBreaks(rows) {
-    // According to number of games to be displayed, and number of rows
+function activateLineBreaks(gamesPerRow) {
+    // According to number of games per row to be displayed,
     //   activate <br/> elements to display boards in their rows
 
     for (let i = 0; i < numberMiniboards - 1; ++i) {
@@ -1195,7 +1196,6 @@ function activateLineBreaks(rows) {
         el.style.display = "none";
     }
 
-    let gamesPerRow = Math.ceil(chosenGames.length / rows);
     let ind = gamesPerRow - 1;
     while (ind < numberMiniboards - 1) {
         let el = document.getElementById("br" + String(ind));
@@ -1205,38 +1205,41 @@ function activateLineBreaks(rows) {
 }
 
 function maximizeIframesTiles(withPanel = true) {
-    // Do not attempt tiling on mobile phones
-    // It makes no sense to display all boards on a single mobile screen
-    if (isMobile()) {
-        return;
-    }
+    // Redisplay all the miniboards according to the display size
+    // Use 3 boards per row on bigger screens, 2 or 1 on smaller screens
 
     // Maximum width and height for displaying all miniboards
-    var width = document.getElementById("MultiBoardView").offsetWidth;
+    let width = document.getElementById("MultiBoardView").offsetWidth;
     // https://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
     let height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
-    // Find best layout
-    let size = -1;
-    let bestRow = -1;
+    // Note: if we have fewer than 3 boards, these boards will be maximized on the screen
+    let gamesPerRow = Math.min(3, chosenGames.length);
 
-    // Try put all boards in 1, 2, 3, ... rows and see what gives biggest boards
-    for (let rows = 1; rows <= chosenGames.length; ++rows) {
-        let gamesPerRow = Math.ceil(chosenGames.length / rows);
+    if (width < 768)
+        gamesPerRow = 2;
+
+    if (width < 576)
+        gamesPerRow = 1;
+
+    // Variant for smaller devices (scrolling needed to see other boards)
+    let size = parseInt(.975 * width / gamesPerRow);
+
+    if (width >= 768)
+    {
+        // On bigger screens, force displaying of all boards on the screen (no scrolling needed)
+        let rows = parseInt((chosenGames.length - 1) / gamesPerRow) + 1;
         let optimalTileWidth = parseInt(.975 * width / gamesPerRow);
         let optimalTileHeight = parseInt(.975 * height / rows);
-        if (size < Math.min(optimalTileHeight, optimalTileWidth)) {
-            size = Math.min(optimalTileHeight, optimalTileWidth);
-            bestRow = rows;
-        }
+        size = Math.min(optimalTileHeight, optimalTileWidth);
     }
 
     // Toggle line breaks, to have boards in respective rows
-    activateLineBreaks(bestRow);
+    activateLineBreaks(gamesPerRow);
 
     // Calculate iframes dimensions
-    // There are additional pixels for the control panel (37px) and the player names (2 x 26px)
-    let additional = 52 + (withPanel ? 37 : 0);
+    // There are additional pixels for the control panel (36px) and the player names (2 x 32px)
+    let additional = 64 + (withPanel ? 36 : 0);
     size = size - additional;
     // We set the board some pixels smaller to have some margins around the board
     let resize = .975 * size;
@@ -1252,11 +1255,6 @@ function maximizeIframesTiles(withPanel = true) {
 }
 
 function toggleView(ind) {
-    if (isMobile()) {
-        snackbarMessage("Prikaz više ploča trenutno nije dostupan na mobitelu");
-        return;
-    }
-
     // Change from single to multiple board view or vice versa
     viewType = ind;
 

@@ -1,8 +1,8 @@
 // Note: This code assumes pgn4web.js is loaded and relies on variables and functions defined therein
 
-//=========================================================== 
+//===========================================================
 // Global variables
-//=========================================================== 
+//===========================================================
 let started = false;
 let displayedGame = "";
 let lastBoardWidth;
@@ -23,7 +23,10 @@ clearShortcutSquares("abcdefgh", "12345678");
 SetLiveBroadcast(.25, false);
 
 // Set active PGN (by default, it will be set up by the parent of the iframe)
-//SetPgnUrl("pgn/old/r1.pgn");
+// SetPgnUrl("pgn/r1.pgn");
+
+// Turn off control panel
+toggleControlPanel();
 
 //===========================================================
 // Main part of the program
@@ -118,7 +121,7 @@ function customFunctionOnPgnGameLoad() {
         resultB.innerHTML = resultElem.innerHTML[2];
     }
     else {
-        resultW.innerHTML = resultB.innerHTML = "‎&lrm;";
+        resultW.innerHTML = resultB.innerHTML = "‎✻";
     }
 
     // Rotate back, if the board was rotated and a new game is loaded
