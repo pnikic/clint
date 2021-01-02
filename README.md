@@ -13,7 +13,7 @@ A demo is available on: http://hrvatski-sahovski-savez.hr/ftp/sucelje_patrick/
 * PGN section for display and navigation
 * Engine analysis
 * Switching between different games and PGN files (rounds) on the same page
-* Support for embedding video (live stream) for each PGN file (round)
+* Support for embedding video (live stream) or image for each PGN file (round)
 * Download PGN / FEN of the current game, round or whole tournament, sharing link to a specific game
 * Multiple boards view (e.g. 6 boards)
 * Responsive design - mobile phone friendly
@@ -58,7 +58,9 @@ function listPGNFiles() {
         "name" : "Tournament (last year's edition)",
         "pgn" : "pgn/last_year.pgn",
         "video-left" : "https://www.youtube.com/embed/<your-code>",
-        "video-right" : "https://www.youtube.com/embed/<your-code>"
+        "video-right" : "https://www.youtube.com/embed/<your-code>",
+        "image-left" : "<image-url>",
+        "image-right" : "<image-url>"
     });
     // ...
 }
