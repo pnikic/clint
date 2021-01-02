@@ -1394,13 +1394,22 @@ function setThemeMultiboard() {
     }
 }
 
-function resizeCallback() {
+// Variable saving the value returned by setTimeout(...)
+let resizeTimeout;
+function resizeEnd() {
     if (viewType == 0) {
         adjustSquareSize(scaleOption);
     }
     else {
         maximizeIframesTiles(controlPanelOption);
     }
+}
+
+function resizeCallback() {
+    // Trigger one resize action by callbacks after a 50 ms break;
+    //   this prevents spamming of the resize functionality
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(resizeEnd, 50);
 }
 
 // Iframe0 will send messages when it changes it's PGN so the "select game" modal can be updated
