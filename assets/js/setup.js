@@ -27,6 +27,8 @@ function listPGNFiles() {
     //     "date" : <JavaScript Date object>,
     //     "video-left" : <string>,
     //     "video-right" : <string>,
+    //     "image-left" : <string>,
+    //     "image-right" : <string>,
     //     "hyperlinks" : <JavaScript object>
     // });
     //
@@ -37,6 +39,8 @@ function listPGNFiles() {
     //                  (see also the variable `minsBeforeRound`)
     //   (optional) - "video-left" is a link to a video to be displayed on the left-hand side
     //   (optional) - "video-right" is a link to a video to be displayed on the right-hand side
+    //   (optional) - "image-left" is a link to an image to be displayed on the left-hand side
+    //   (optional) - "image-right" is a link to an image to be displayed on the right-hand side
     //   (optional) - "hyperlinks" is an object which assigns custom hyperlink targets for buttons
     //                   Note: It's the operator's task to ensure that all PGN files have values for
     //                         all custom buttons. If a value for a button is not defined for a PGN
@@ -48,12 +52,13 @@ function listPGNFiles() {
 
     // To generate JavaScript Date object the following function can be used:
     //   dateFromArray([Year, Month, Day, Hour, Minute])
-    begin = dateFromArray([2020, 11, 10, 13, 00])
+    begin = dateFromArray([2020, 11, 10, 15, 00])
     allPGNs.push({
         "name" : "1. kolo - " + dateToString(begin),
         "pgn" : "pgn/r1.pgn",
         "date" : begin,
         "video-left" : "https://www.youtube.com/embed/4jT0hUODzdQ",
+        "image-right" : "https://tinyurl.com/y73a4vrz",
         "hyperlinks" : {
             "ChessResultLink" : "https://www.example.com/a1",
             "CustomButton" : "https://www.example.com/b1"
@@ -65,6 +70,7 @@ function listPGNFiles() {
         "name" : "2. kolo - " + dateToString(begin),
         "pgn" : "pgn/r2.pgn",
         "date" : begin,
+        "image-right" : "https://tinyurl.com/yc93gdrk",
         "hyperlinks" : {
             "ChessResultLink" : "https://www.example.com/a2",
             "CustomButton" : "https://www.example.com/b2"
@@ -76,7 +82,8 @@ function listPGNFiles() {
          "name" : "3. kolo - " + dateToString(begin),
          "pgn" : "pgn/r3.pgn",
          "date" : begin,
-         "video-right" : "https://www.youtube.com/embed/ytdjYjM-cLg",
+         "video-right" : "https://www.youtube.com/embed/mcnK9zx3Rng",
+         "image-left" : "https://tinyurl.com/ya3g25ck",
          "hyperlinks" : {
             "ChessResultLink" : "https://www.example.com/a3",
             "CustomButton" : "https://www.example.com/b3"
@@ -104,7 +111,7 @@ function listPGNFiles() {
     });
 
     // In case no PGN is set in the URI parameter (share option), this PGN will be used at startup.
-    // If this path is not correct,  an error from pgn4web will be displayed in the moves section
+    // If this path is not correct, an error from pgn4web will be displayed in the moves section
     initialPGNFile = "pgn/r1.pgn";
 }
 
@@ -116,6 +123,10 @@ function operatorSettings() {
     // To enable a (fixed) live stream / video for all rounds use:
     // enableVideoDiv("VideoDivLeft", "https://www.youtube.com/embed/<your-code>");
     // enableVideoDiv("VideoDivRight", "https://www.youtube.com/embed/<your-code>");
+
+    // ...or image for all rounds:
+    // enableImageDiv("ImageDivLeft", "<link-to-image>");
+    // enableImageDiv("ImageDivRight", "<link-to-image>");
 
     // List all the footer hyperlinks. The format is as follows:
     //
@@ -428,15 +439,23 @@ function adjustSidePanelSizes() {
     let videoDivR = document.getElementById("VideoDivRight");
     videoDivR.style.setProperty("height", String(0.5 * boardWidth) + "px");
     let videoHeightR = videoDivR.offsetHeight;
+    let imageR = document.getElementById("ImageDivRight");
+    imageR.style.setProperty("max-height", String(0.5 * boardWidth) + "px");
+    let imageHeightR = imageR.offsetHeight;
     // We want the moves, engine evaluation and best line with the margins to fit the board size
-    gt.style.setProperty("max-height", String(boardWidth - videoHeightR - engineHeight - variationHeight - 16) + "px");
+    gt.style.setProperty("max-height", String(boardWidth - videoHeightR - imageHeightR -
+                                              engineHeight - variationHeight - 16) + "px");
 
-    // Set height of game selection div assuming game selection header + search bare take up to 95 px
+    // Set height of game selection div assuming game selection header + search bar takes up to 95 px
     let videoDivL = document.getElementById("VideoDivLeft");
     videoDivL.style.setProperty("height", String(0.5 * boardWidth) + "px");
     let videoHeightL = videoDivL.offsetHeight;
+    let imageL = document.getElementById("ImageDivLeft");
+    imageL.style.setProperty("max-height", String(0.5 * boardWidth) + "px");
+    let imageHeightL = imageL.offsetHeight;
     let gameSel = document.getElementById("GameSelectionDiv");
-    gameSel.style.setProperty("max-height", String(boardWidth - videoHeightL - 95) + "px");
+    gameSel.style.setProperty("max-height", String(boardWidth - videoHeightL -
+                                                   imageHeightL - 95) + "px");
 }
 
 function customFunctionOnMove() {
@@ -897,7 +916,7 @@ function customFunctionOnPgnTextLoad() {
     // Clear game search text
     clearSearchInput();
 
-    // Update the video, if any is specified
+    // Update the video / image, if any is specified
     let video_left = allPGNs[currentPGN]["video-left"],
         video_right = allPGNs[currentPGN]["video-right"];
 
@@ -910,6 +929,19 @@ function customFunctionOnPgnTextLoad() {
         enableVideoDiv("VideoDivRight", video_right)
     else
         disableVideoDiv("VideoDivRight");
+
+    let image_left = allPGNs[currentPGN]["image-left"],
+        image_right = allPGNs[currentPGN]["image-right"];
+
+    if (image_left != undefined)
+        enableImageDiv("ImageDivLeft", image_left);
+    else
+        disableImageDiv("ImageDivLeft");
+
+    if (image_right != undefined)
+        enableImageDiv("ImageDivRight", image_right);
+    else
+        disableImageDiv("ImageDivRight");
 
     // Update hyperlink references of buttons, if any are specified
     let links = allPGNs[currentPGN]["hyperlinks"];
@@ -969,8 +1001,44 @@ function enableVideoDiv(divId, link) {
         return;
 
     videoDiv.style.display = "";
-    videoDiv.children[0].src = link;
+    if (videoDiv.children.length)
+        videoDiv.children[0].src = link;
+
     adjustSidePanelSizes();
+}
+
+function disableImageDiv(divId) {
+    let imageDiv = document.getElementById(divId);
+    if (imageDiv == null)
+        return;
+
+    imageDiv.style.display = "none";
+    if (imageDiv.children.length)
+        imageDiv.children[0].src = "";
+
+    adjustSidePanelSizes();
+}
+
+function enableImageDiv(divId, link) {
+    let imageDiv = document.getElementById(divId);
+    if (imageDiv == null)
+        return;
+
+    // Remove previous image(s)
+    while (imageDiv.firstChild)
+        imageDiv.removeChild(imageDiv.lastChild);
+
+    // Replace it with a new image
+    // Note: changing the "src" of the existing image does not correctly fire adjustSidePanelSize()
+    //   on the initial loading of the page, leading to an unadjusted side panel.
+    let img = new Image();
+    img.addEventListener("load", function() {
+        adjustSidePanelSizes();
+    });
+    img.src = link;
+
+    imageDiv.appendChild(img);
+    imageDiv.style.display = "";
 }
 
 function clearSearchInput() {
