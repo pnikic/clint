@@ -564,7 +564,6 @@ iframe {
 #SingleBoardView #boardTable {
     /* Second part of the hack to maintain 1:1 aspect ratio for the board element */
     position: absolute;
-    top: 0;
 
     /* Center the board horizontally */
     left: 50%;
@@ -605,7 +604,7 @@ iframe {
     --main-margin: 1vw;
     --player-names: 30px;
     grid-template-columns: var(--main-margin) minmax(350px, 45vw) minmax(min(60vw, 60vh), min(80vw, 80vh)) minmax(350px, 45vw) var(--main-margin);
-    grid-template-rows: var(--player-names) auto var(--player-names);
+    grid-template-rows: var(--player-names) min-content var(--player-names);
     grid-template-areas:
         ". .topname . ."
         ". games board pgn ."
