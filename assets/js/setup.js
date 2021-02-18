@@ -370,6 +370,9 @@ function customFunctionOnPgnGameLoad() {
     displayedGame = getDisplayedGame();
     updateResult();
     highlightSelectedGame();
+
+    // Set custom tab title
+    document.title = gameWhite[currentGame] + " vs. " + gameBlack[currentGame] + " | Clint";
 }
 
 function updateResult() {
