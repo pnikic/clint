@@ -1004,7 +1004,7 @@ function enableVideoDiv(divId, link) {
         return;
 
     videoDiv.style.display = "";
-    if (videoDiv.children.length)
+    if (videoDiv.children.length && videoDiv.children[0].src != link)
         videoDiv.children[0].src = link;
 
     adjustSidePanelSizes();
@@ -1025,6 +1025,10 @@ function disableImageDiv(divId) {
 function enableImageDiv(divId, link) {
     let imageDiv = document.getElementById(divId);
     if (imageDiv == null)
+        return;
+
+    // Check if `link` is already set up in the current image div
+    if (imageDiv.children.length && imageDiv.firstChild.src == link)
         return;
 
     // Remove previous image(s)
