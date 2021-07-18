@@ -7,6 +7,17 @@ Single board view | Multiple boards view
 
 A demo is available on: http://hrvatski-sahovski-savez.hr/ftp/sucelje_patrick/
 
+### Table of contents
+* [Usage](https://github.com/pnikic/clint#usage)
+    + [Setup](https://github.com/pnikic/clint#setup)
+    + [Customization](https://github.com/pnikic/clint#customization)
+* [Notes](https://github.com/pnikic/clint#notes)
+    + [Credits and license](https://github.com/pnikic/clint#credits-and-license)
+    + [Deployments](https://github.com/pnikic/clint#deployments)
+    + [Future work](https://github.com/pnikic/clint#future-work-ideas)
+    + [Donate](https://github.com/pnikic/clint#donate)
+
+
 ### Features
 * Banner with general information (about the tournament) and footer with customizable buttons for hyperlinks (other websites, photo gallery, tournament regulations etc.) 
 * Chess board with compactly displayed player names, clock times and ratings
@@ -110,7 +121,7 @@ In `assets/style.css` you can configure all the colors used on the page. It come
 * The page is currently in Croatian. With little effort, it can be translated to any language
 * The repository includes sample PGN files from the [42nd Chess Olympiad][4], which are present only for illustrational purposes. Each PGN file includes cca. 600 games
 
-## Credits and license
+### Credits and license
 * This website is based on [pgn4web][2]
 * The engine currently used is Stockfish compiled to JavaScript. The release is obtained from [stockfish.js][3]
 * Icons present on the website are from [Font Awesome][5]
@@ -121,11 +132,11 @@ In `assets/style.css` you can configure all the colors used on the page. It come
 
 I hereby sincerely thank all the people who reviewed this page and gave comments or suggestions. Your feedback is much appreciated.  
 
-## Deployments
+### Deployments
 * Several pages on [chesscout.info][11], e.g. [here][12]
 * [Croatian Individual Championship 2020][13]
 
-## Future work (ideas):
+### Future work:
 * Translation
 * Add functionality for live time countdown during broadcast
 * Move to newer stockfish
@@ -137,6 +148,9 @@ I hereby sincerely thank all the people who reviewed this page and gave comments
 * Add landing page (with countdown to tournament start, description, overview - multiple boards)
 * Fetching ratings from FIDE (or link to a player's profile by clicking on the name)
 
+### Donate
+If you want to support my work, consider a small donation via [PayPal][8]. Thank you!
+
 [1a]: https://i.imgur.com/m1r2dgu.png
 [1b]: https://i.imgur.com/anwWrzE.png
 [2]: http://pgn4web.casaschi.net/
@@ -144,6 +158,7 @@ I hereby sincerely thank all the people who reviewed this page and gave comments
 [4]: https://en.wikipedia.org/wiki/42nd_Chess_Olympiad
 [5]: https://fontawesome.com/
 [7]: https://github.com/pnikic/clint/blob/master/LICENSE
+[8]: https://www.paypal.com/paypalme/pnikic
 [10]: https://lichess.org/
 [11]: https://www.chessscout.info/
 [12]: https://www.chessscout.info/ftp/premijer-liga-BiH/
