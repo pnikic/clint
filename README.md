@@ -14,7 +14,7 @@ A demo is available on: http://hrvatski-sahovski-savez.hr/ftp/sucelje_patrick/
 * [Notes](https://github.com/pnikic/clint#notes)
     + [Credits and license](https://github.com/pnikic/clint#credits-and-license)
     + [Deployments](https://github.com/pnikic/clint#deployments)
-    + [Future work](https://github.com/pnikic/clint#future-work-ideas)
+    + [Future work](https://github.com/pnikic/clint#future-work)
     + [Donate](https://github.com/pnikic/clint#donate)
 
 
