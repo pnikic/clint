@@ -252,6 +252,9 @@ let numberMiniboards = 6;
 if (localStorage.getItem("clint-theme") == "dark")
     toggleTheme();
 
+// Set this to true if you want to disable pgn4web's removal of "aesthetic characters"(x, +, =) from pgn moves notation
+let useAestheticNotation = false;
+
 // Fill the values in allPGNs
 listPGNFiles();
 
@@ -1446,4 +1449,11 @@ function receiveMessage(evt) {
 function isMobile() {
     // https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device
     return window.matchMedia("only screen and (max-width: 760px)").matches || window.innerWidth < 960;
+}
+
+// Overrides CleanMove function from pgn4web.js if useAestheticNotation is true
+if (useAestheticNotation) {
+	var CleanMove = function(move) {
+		return move;
+	}
 }
