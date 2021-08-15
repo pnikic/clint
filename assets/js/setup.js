@@ -109,10 +109,6 @@ function listPGNFiles() {
             "CustomButton" : "https://www.example.com/b0"
         }
     });
-
-    // In case no PGN is set in the URI parameter (share option), this PGN will be used at startup.
-    // If this path is not correct, an error from pgn4web will be displayed in the moves section
-    initialPGNFile = "pgn/r1.pgn";
 }
 
 function operatorSettings() {
@@ -272,7 +268,27 @@ if (url.has("pgn"))
 }
 // Otherwise, set a default PGN file
 if (!ret) {
-    selectPGN(initialPGNFile);
+    // Iterate through the list of rounds (`allPGNs`) and select the first one that is either
+    //   - ongoing (maximum expected round length not elapsed)
+    //   - not started
+    let expactedRoundDuration = 21; // minutes
+    let now = new Date();
+    let selected = false;
+
+    for (let i = 0; i < allPGNs.length && !selected; ++i)
+    {
+        if (allPGNs[i].hasOwnProperty("date") &&
+            new Date(allPGNs[i]["date"].getTime() + expactedRoundDuration * 60000) > now)
+        {
+            selected = true;
+            changePGN(i);
+        }
+    }
+
+    if (!selected)
+    {
+        changePGN(0);
+    }
 }
 
 //===========================================================
