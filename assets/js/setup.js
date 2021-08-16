@@ -294,10 +294,8 @@ if (!ret) {
 //===========================================================
 // Main part of the program
 //===========================================================
-function generateFooterLinks(linksArray)
-{
-    for (link of linksArray)
-    {
+function generateFooterLinks(linksArray) {
+    for (link of linksArray) {
         let div = document.createElement("div");
         let size = [12, 6, 4, 3, 2];
         let breaks = ["", "sm-", "md-", "lg-", "xl-"];
@@ -330,8 +328,7 @@ function generateFooterLinks(linksArray)
         title.innerText = text;
 
         anchor.appendChild(title);
-        if ("fa-icon" in link)
-        {
+        if ("fa-icon" in link) {
             let icon = document.createElement("i");
             icon.className = link["fa-icon"] + " my-auto h5 pl-2";
             anchor.appendChild(icon);
@@ -347,12 +344,12 @@ function pad(str, totalChars, padChar) {
 }
 
 function dateToString(date) {
-    return String(date.getDate() + "/" + String(date.getMonth() + 1)) + "/" + String(date.getFullYear())
-         + " " + pad(String(date.getHours()), 2, "0") + ":" + pad(String(date.getMinutes()), 2, "0");
+    return String(date.getDate() + "/" + String(date.getMonth() + 1)) + "/"
+         + String(date.getFullYear()) + " " + pad(String(date.getHours()), 2, "0")
+         + ":" + pad(String(date.getMinutes()), 2, "0");
 }
 
-function dateFromArray(arr)
-{
+function dateFromArray(arr) {
     // Check if the input is an array of five numbers
     if (arr.length != 5 || !((arr.map(x => typeof(x))).every(x => x == "number")))
         return
@@ -439,7 +436,8 @@ function adjustSquareSize(scale = 1) {
     let boardWidth = getBoardWidth();
     let width = String(Math.floor(boardWidth / 8));
 
-    let targetClass = ["whiteSquare", "blackSquare", "highlightWhiteSquare", "highlightBlackSquare", "pieceImage"];
+    let targetClass = ["whiteSquare", "blackSquare", "highlightWhiteSquare",
+                       "highlightBlackSquare", "pieceImage"];
     for (let i = 0; i < targetClass.length; ++i) {
         let collection = document.getElementsByClassName(targetClass[i]);
         for (let j = 0; j < collection.length; ++j) {
@@ -514,8 +512,7 @@ function selectPGN(filename) {
     //   small wrapper around SetPgnUrl which also restarts the broadcast.
     //   Returns true in case of success
 
-    for (elem of allPGNs)
-    {
+    for (elem of allPGNs) {
         if (!elem["pgn"])
             continue;
 
@@ -612,7 +609,7 @@ function flipBoard() {
     document.getElementById("ClockPlace1").appendChild(IsRotated ? clkB : clkW);
     document.getElementById("ClockPlace2").appendChild(IsRotated ? clkW : clkB);
 
-    FlipBoard();  // This function call will refresh all the default tags (GameWhite, GameWhiteClock etc)...
+    FlipBoard();  // This will refresh all the default tags (GameWhite, GameWhiteClock etc)...
     adjustSquareSize(scaleOption); // ...and also mess up with piece image sizes, so we resize them
     //updateResult();
 }
@@ -649,17 +646,21 @@ function initializeEngine() {
                     let FENtokens = game.fen().split(" ");
                     let mvNum = FENtokens[FENtokens.length - 1]
                     // Simulate the move and get SAN
-                    let san = game.move({from: move.substring(0,2), to: move.substring(2,4), promotion:move.substring(4)}).san;
+                    let san = game.move({from: move.substring(0,2),
+                                         to: move.substring(2,4),
+                                         promotion:move.substring(4)}).san;
 
                     // If black is to have the first move in the variation
                     if (moves == "" && game.turn() == "w")
                         moves += mvNum + "... ";
 
-                    // We check if it is black to move, because a move was just played with the game.move(...) function call
+                    // We check if it is black to move, because a move was just played with the
+                    //   game.move(...) function call
                     moves += (game.turn() == "b" ? mvNum + ". " : "") + san + " ";
                 }
                 catch(e) {
-                    // Game has changed in the meantime, and the current FEN does not correspond to the moves received in this event
+                    // Game has changed in the meantime, and the current FEN does not correspond
+                    //   to the moves received in this event
                     return;
                 }
             }
@@ -801,14 +802,13 @@ function pgn4web_handleKey(e) {
     return stopEvProp(e);
 }
 
-function hideSnackbarMessage()
-{
+function hideSnackbarMessage() {
     let sb = document.getElementById("Snackbar");
     sb.className = sb.className.replace("show", "");
 
 }
 
-function removeSnackbarMessage(){
+function removeSnackbarMessage() {
     numActiveSnackbarMessages = Math.max(0, numActiveSnackbarMessages - 1);
 
     if (!numActiveSnackbarMessages)
@@ -879,7 +879,7 @@ function customFunctionOnPgnTextLoad() {
         let mbSelectRoundElem = document.getElementById("MultiboardFileSelect");
         let now = new Date();
 
-        for (let i = 0; i < allPGNs.length; ++i){
+        for (let i = 0; i < allPGNs.length; ++i) {
             let option = document.createElement("option");
             option.value = String(i);
 
@@ -889,7 +889,8 @@ function customFunctionOnPgnTextLoad() {
                 option.innerHTML = "Unknown PGN";
 
             // If the round will start at later point in time, disable its selection
-            if (allPGNs[i]["date"] && new Date(allPGNs[i]["date"].getTime() - minsBeforeRound * 60000) > now) {
+            if (allPGNs[i]["date"] &&
+                new Date(allPGNs[i]["date"].getTime() - minsBeforeRound * 60000) > now) {
                 option.disabled = true;
             }
 
@@ -967,13 +968,10 @@ function customFunctionOnPgnTextLoad() {
 
     // Update hyperlink references of buttons, if any are specified
     let links = allPGNs[currentPGN]["hyperlinks"];
-    if (links != undefined)
-    {
-        for (const [key, value] of Object.entries(links))
-        {
+    if (links != undefined) {
+        for (const [key, value] of Object.entries(links)) {
             let anchor = document.getElementById(key);
-            if (anchor && anchor.hasAttribute("href"))
-            {
+            if (anchor && anchor.hasAttribute("href")) {
                 anchor.href = value;
             }
         }
@@ -997,7 +995,8 @@ function highlightSelectedGame() {
         gameSel.children.item(currentGame).className += " active";
 
     // Scroll to the selected game
-    let scrollSize = Math.max(0, gameSel.scrollHeight * currentGame / numberOfGames - gameSel.offsetHeight / 2);
+    let scrollSize = Math.max(0, gameSel.scrollHeight * currentGame / numberOfGames -
+                              gameSel.offsetHeight / 2);
     gameSel.scrollTop = parseInt(scrollSize);
 }
 
@@ -1304,8 +1303,10 @@ function maximizeIframesTiles(withPanel = true) {
 
     // Maximum width and height for displaying all miniboards
     let width = document.getElementById("MultiBoardView").offsetWidth;
-    // https://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
-    let height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    // https://stackoverflow.com/q/3437786
+    let height = window.innerHeight ||
+                 document.documentElement.clientHeight ||
+                 document.body.clientHeight;
 
     // Note: if we have fewer than 3 boards, these boards will be maximized on the screen
     let gamesPerRow = Math.min(3, chosenGames.length);
@@ -1319,8 +1320,7 @@ function maximizeIframesTiles(withPanel = true) {
     // Variant for smaller devices (scrolling needed to see other boards)
     let size = parseInt(.975 * width / gamesPerRow);
 
-    if (width >= 768)
-    {
+    if (width >= 768) {
         // On bigger screens, force displaying of all boards on the screen (no scrolling needed)
         let rows = parseInt((chosenGames.length - 1) / gamesPerRow) + 1;
         let optimalTileWidth = parseInt(.975 * width / gamesPerRow);
@@ -1385,13 +1385,11 @@ function toggleTheme() {
         return;
 
     let currTheme = bodies[0].getAttribute("data-theme");
-    if (currTheme != "dark")
-    {
+    if (currTheme != "dark") {
         bodies[0].setAttribute("data-theme", "dark");
         localStorage.setItem("clint-theme", "dark");
     }
-    else
-    {
+    else {
         bodies[0].setAttribute("data-theme", "");
         localStorage.removeItem("clint-theme");
     }
@@ -1442,7 +1440,8 @@ function resizeCallback() {
 window.addEventListener("message", receiveMessage, false);
 
 function receiveMessage(evt) {
-    let target = location.protocol + "//" + location.hostname + (location.port.length > 0 ? ":" + location.port : "");
+    let target = location.protocol + "//" +
+                 location.hostname + (location.port.length > 0 ? ":" + location.port : "");
     if (evt.origin !== target) {
         return;
     }
@@ -1463,13 +1462,8 @@ function receiveMessage(evt) {
 }
 
 function isMobile() {
-    // https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device
-    return window.matchMedia("only screen and (max-width: 760px)").matches || window.innerWidth < 960;
+    // https://stackoverflow.com/q/3514784
+    return window.matchMedia("only screen and (max-width: 760px)").matches ||
+           window.innerWidth < 960;
 }
 
-// Overrides CleanMove function from pgn4web.js if useAestheticNotation is true
-if (useAestheticNotation) {
-	var CleanMove = function(move) {
-		return move;
-	}
-}
