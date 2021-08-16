@@ -576,8 +576,15 @@
         </script>
         <!-- ChessJS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-        <!--  Paths to pgn4web.js and setup.js -->
+        <!-- Paths to pgn4web.js, config.js and setup.js. Note that config.js is given a random
+             number to be reloaded each time (cache busting). This allows the operator to change
+             the file anytime and ensure the newest version is always downloaded on the client side.
+        -->
         <script src="../pgn4web-3.04/pgn4web.js"></script>
+        <script type="text/javascript">
+         document.write("<scr" + "ipt src='assets/js/config.js?" + Math.random() +
+                        "' type='text/javascript'></scr"+"ipt>");
+        </script>
         <script src="assets/js/setup.js"></script>
     </body>
 </html>
