@@ -858,6 +858,22 @@ function setAutoplayDelay(evt, change) {
     document.getElementById("AutoplayDelaySpan").innerHTML = String(autoplayDelay / 1000);
 }
 
+function updateButtonHyperlinks(val) {
+    // Update hyperlink references of buttons, if any are specified
+
+    if (val >= 0 && val < allPGNs.length) {
+        let links = allPGNs[val]["hyperlinks"];
+        if (links != undefined) {
+            for (const [key, value] of Object.entries(links)) {
+                let anchor = document.getElementById(key);
+                if (anchor && anchor.hasAttribute("href")) {
+                    anchor.href = value;
+                }
+            }
+        }
+    }
+}
+
 function customFunctionOnPgnTextLoad() {
     // Overriding the function from pgn4web.js that will run after loading a PGN
 
@@ -966,16 +982,7 @@ function customFunctionOnPgnTextLoad() {
     else
         disableImageDiv("ImageDivRight");
 
-    // Update hyperlink references of buttons, if any are specified
-    let links = allPGNs[currentPGN]["hyperlinks"];
-    if (links != undefined) {
-        for (const [key, value] of Object.entries(links)) {
-            let anchor = document.getElementById(key);
-            if (anchor && anchor.hasAttribute("href")) {
-                anchor.href = value;
-            }
-        }
-    }
+    updateButtonHyperlinks(currentPGN);
 }
 
 function changeGame(ind) {
@@ -1161,8 +1168,8 @@ function changeFramesPGN(val) {
          */
     }
 
-    // Restart live broadcast
-    restartBroadcast();
+    // Update custom per-PGN button links
+    updateButtonHyperlinks(val);
 }
 
 function toggleControlPanels() {
