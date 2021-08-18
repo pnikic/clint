@@ -27,7 +27,7 @@ function listPGNFiles() {
     //   (optional) - "video-right" is a link to a video to be displayed on the right-hand side
     //   (optional) - "image-left" is a link to an image to be displayed on the left-hand side
     //   (optional) - "image-right" is a link to an image to be displayed on the right-hand side
-    //   (optional) - "hyperlinks" is an object which assigns custom hyperlink targets for buttons
+    //   (optional) - "hyperlinks" is an object which assigns custom hyperlink targets per round
     //                   Note: It's the operator's task to ensure that all PGN files have values for
     //                         all custom buttons. If a value for a button is not defined for a PGN
     //                         file, the button keeps its old value (before changing the PGN file)
@@ -38,6 +38,13 @@ function listPGNFiles() {
 
     // To generate JavaScript Date object the following function can be used:
     //   dateFromArray([Year, Month, Day, Hour, Minute])
+    //
+    // Note: In this example, on each round (PGN file) we will have a different target for two
+    //   hyperlinks (i.e. `ChessResultLink` and `CustomButton`). Hyperlinks (buttons) with a fixed
+    //   target are configured below. See `footerLinks` in `operatorSettings()`.
+    //
+    // Example 1: video on the left and image on the right;  presence of "date" parameter disables
+    //   selection of this round a number of minutes (`minsBeforeRound`) before its start
     begin = dateFromArray([2020, 11, 10, 15, 00])
     allPGNs.push({
         "name" : "1. kolo - " + dateToString(begin),
@@ -51,6 +58,7 @@ function listPGNFiles() {
         }
     });
 
+    // Example 2: only image on the right
     begin = dateFromArray([2020, 11, 11, 13, 00])
     allPGNs.push({
         "name" : "2. kolo - " + dateToString(begin),
@@ -63,30 +71,19 @@ function listPGNFiles() {
         }
     });
 
+    // Example 3: neither video nor image on any side
     begin = dateFromArray([2020, 11, 12, 13, 00])
      allPGNs.push({
          "name" : "3. kolo - " + dateToString(begin),
          "pgn" : "pgn/r3.pgn",
          "date" : begin,
-         "video-right" : "https://www.youtube.com/embed/mcnK9zx3Rng",
-         "image-left" : "https://tinyurl.com/ya3g25ck",
          "hyperlinks" : {
             "ChessResultLink" : "https://www.example.com/a3",
             "CustomButton" : "https://www.example.com/b3"
         }
     });
 
-    begin = dateFromArray([2020, 12, 13, 13, 00])
-    allPGNs.push({
-        "name" : "4. kolo - " + dateToString(begin),
-        "pgn" : "pgn/r4.pgn",
-        "date" : begin,
-        "hyperlinks" : {
-            "ChessResultLink" : "https://www.example.com/a4",
-            "CustomButton" : "https://www.example.com/b4"
-        }
-    });
-
+    // Example 4: abscence of the "date" parameter implies this PGN can be opened anytime
     allPGNs.push({
         "name" : "Arhiva",
         "pgn" : "pgn/all.pgn",
@@ -98,11 +95,11 @@ function listPGNFiles() {
 }
 
 function operatorSettings() {
-    // PGN download buttons
+    // Targets for PGN download buttons
     document.getElementById("currLink").href = pgnUrl;         // current active pgn
     document.getElementById("allLink").href = "pgn/all.pgn";   // all rounds
 
-    // To enable a (fixed) live stream / video for all rounds use:
+    // To enable a (fixed) video / live stream link for all rounds use:
     // enableVideoDiv("VideoDivLeft", "https://www.youtube.com/embed/<your-code>");
     // enableVideoDiv("VideoDivRight", "https://www.youtube.com/embed/<your-code>");
 
@@ -135,32 +132,33 @@ function operatorSettings() {
     //                  e = width for extra large screens (>=1200px).
     //                  Note: each width is a number from 1 (small button) to 12 (full row button).
     //                  Default value is [12, 6, 4, 3, 2]
-    //   (optional) - "id" is the ID of the HTML element - used for "hyperlinks" option in allPGNs
+    //   (optional) - "id" is the ID of the HTML element - used for "hyperlinks" option in `allPGNs`
     //
     // See below for examples
 
+    // Examples 1 & 2: for these elements, "link" will be provided from `allPGNs`, using their "id"
     footerLinks.push({
         "text" : "Novi gumb",
         "id"   : "CustomButton",
         "link" : ""
-        // For this element, "link" will be provided from allPGNs
         });
 
     footerLinks.push({
         "text" : "Chess-results",
         "id"   : "ChessResultLink",
         "link" : ""
-        // For this element, "link" will be provided from allPGNs
     });
 
+    // Example 3: footer link with FA icon
     footerLinks.push({
         "text" : "Fotogalerija",
         "link" : "https://www.example.com",
         "fa-icon" : "fas fa-images"
     });
 
-    // Note: this button is smaller, the next one is bigger so that the full xl-row sums up to 12
-    // Link for tournament details (can be a link to a local file)
+    // Examples 4 & 5: this button is smaller on extra large screens. The next button is
+    //   bigger (more text). The numebers are chose so that the full xl-row sums up to 12.
+    //   Target for any button can also be a local file (from the server).
     footerLinks.push({
         "text" : "Raspis",
         "link" : "https://www.example.com",
@@ -175,7 +173,7 @@ function operatorSettings() {
         "fa-icon" : "fas fa-envelope"
     });
 
-    // Link to clint GitHub page
+    // Example 6: Link to clint GitHub page
     footerLinks.push({
         "text" : "Repozitorij",
         "link" : "https://www.github.com/pnikic/clint",
@@ -211,10 +209,9 @@ clearShortcutSquares("abcdefgh", "12345678");
 //   demoFlag (if true starts broadcast demo mode),
 //   stepFlag (if true, autoplays updates in steps),
 //   endlessFlag (if true, keeps polling for new moves even after all games are finished)
-// SetLiveBroadcast(.25, false);
 SetLiveBroadcast(.25, false, false, true, false);
 
-// Set the game on first or last move based on first argument: "start" or "end".
+// Set the game to be displayed on first or last move based on first argument: "start" or "end".
 // This function call is only relevant for startup. Otherwise check the changePGN(...) function
 SetInitialHalfmove("end", true);
 
@@ -222,8 +219,8 @@ SetInitialHalfmove("end", true);
 let minsBeforeRound = 45;
 
 // Maximum expected duration of a round. Used for automatically choosing the initial PGN file to
-//   be opened. Example: for classical time control 90+30 (for both players, thus "2 *"), you could
-//   consider the round over 120 minutes after both players used their expected time.
+//   be opened. Example: for classical time control 90+30, you could consider the round over
+//   e.g. 120 minutes after both players (thus "2 *") used their clock time.
 let expactedRoundDuration = 2 * (90 + 30) + 120; // minutes
 
 // Set this to true if you want to disable pgn4web's removal of "aesthetic characters"(x, +, =)
