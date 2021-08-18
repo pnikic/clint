@@ -164,18 +164,19 @@ function customFunctionOnPgnGameLoad() {
         blackRat.innerHTML = "";
     }
 
-    // If a new game is loaded and the board was rotated, rotate back
-    // After loading a new game, white will always be on bottom
-    if (IsRotated && getDisplayedGame() != displayedGame) {
-        flipBoard();
+    if (getDisplayedGame() != displayedGame) {
+        // If a new game is loaded and the board was rotated, rotate back
+        // After loading a new game, white will always be on bottom
+        if (IsRotated)
+            flipBoard();
+
+        displayedGame = getDisplayedGame();
+        updateResult();
+        highlightSelectedGame();
+
+        // Set custom tab title
+        document.title = gameWhite[currentGame] + " vs. " + gameBlack[currentGame] + " | Clint";
     }
-
-    displayedGame = getDisplayedGame();
-    updateResult();
-    highlightSelectedGame();
-
-    // Set custom tab title
-    document.title = gameWhite[currentGame] + " vs. " + gameBlack[currentGame] + " | Clint";
 }
 
 function updateResult() {
@@ -398,7 +399,6 @@ function flipBoard() {
 
     FlipBoard();  // This will refresh all the default tags (GameWhite, GameWhiteClock etc)...
     adjustSquareSize(scaleOption); // ...and also mess up with piece image sizes, so we resize them
-    //updateResult();
 }
 
 //===========================================================
