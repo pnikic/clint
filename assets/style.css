@@ -292,6 +292,12 @@ textarea::-webkit-resizer {
     overflow-y: auto;
 }
 
+/* Results on the right side of the game selection div */
+#GameSelectionDiv > div > h6 ~ span {
+    color: var(--bg-color-text);
+    font-size: 0.9em;
+}
+
 #GameSelectionDiv > div, #GameText > span {
     background-color: var(--bg-color);
     color: var(--bg-color-text);

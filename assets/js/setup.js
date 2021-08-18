@@ -17,6 +17,8 @@ let iframesLoaded = [];
 // Suppose the control panel is turned off by default (sync with mosaic-setup.js)
 let controlPanelOption = false;
 let chosenGames = [];
+const charStar = "✻";
+const charOneHalf = "½";
 
 //===========================================================
 // Initialization code
@@ -182,10 +184,10 @@ function updateResult() {
     let placeBot = document.getElementById("ResultWhite");
     let res = resultElem.innerHTML;
 
-    placeTop.innerHTML = placeBot.innerHTML = "✻";
+    placeTop.innerHTML = placeBot.innerHTML = charStar;
 
     if (res == "1/2-1/2") {
-        placeTop.innerHTML = placeBot.innerHTML = "½";
+        placeTop.innerHTML = placeBot.innerHTML = charOneHalf;
     }
     else if (res == "1-0" || res == "0-1") {
         placeTop.innerHTML = IsRotated ? res[0] : res[2];
@@ -659,6 +661,16 @@ function updateButtonHyperlinks(val) {
     }
 }
 
+function prettifyGameResult(res) {
+    if (res == "1/2-1/2")
+        return charOneHalf + "-" + charOneHalf;
+
+    if (res == "1-0" || res == "0-1")
+        return res;
+
+    return charStar;
+}
+
 function customFunctionOnPgnTextLoad() {
     // Overriding the function from pgn4web.js that will run after loading a PGN
 
@@ -723,15 +735,19 @@ function customFunctionOnPgnTextLoad() {
 
         let spanNum = document.createElement("span");
         spanNum.className = "col-1 py-0";
-        // spanNum.className = "py-0";
         spanNum.innerHTML = String(i + 1);
 
         let players = document.createElement("h6");
-        players.className = "col-11";
+        players.className = "col-9";
         players.innerHTML = gameWhite[i] + " - " + gameBlack[i];
+
+        let spanRes = document.createElement("span");
+        spanRes.className = "col-2 py-0";
+        spanRes.innerHTML = prettifyGameResult(gameResult[i]);
 
         optionDiv.appendChild(spanNum);
         optionDiv.appendChild(players);
+        optionDiv.appendChild(spanRes);
         gameSel.appendChild(optionDiv);
     }
 
@@ -994,7 +1010,7 @@ function updateModalContent() {
         game.innerHTML = whites[i] + " - " + blacks[i];
         let result = document.createElement("div");
         result.className = "col-2 p-0";
-        result.innerHTML = results[i].split("1/2").join("½");
+        result.innerHTML = results[i].split("1/2").join(charOneHalf);
         let checkboxDiv = document.createElement("div");
         checkboxDiv.className = "col-2";
         let checkbox = document.createElement("input");
