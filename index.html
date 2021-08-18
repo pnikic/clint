@@ -31,6 +31,40 @@
         <link rel="stylesheet" type="text/css" href="assets/style.css">
 
         <!-- =========================================================== -->
+        <!--  Paths to scripts -->
+        <!-- =========================================================== -->
+        <!-- Optional Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+                integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+                crossorigin="anonymous"
+                defer>
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+                crossorigin="anonymous"
+                defer>
+        </script>
+        <!-- ChessJS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"
+                defer>
+        </script>
+        <!-- Paths to pgn4web.js, config.js and setup.js. Note that config.js is given a random
+             number to be reloaded each time (cache busting). This allows the operator to change
+             the file anytime and ensure the newest version is always downloaded on the client side.
+        -->
+        <script src="../pgn4web-3.04/pgn4web.js"
+                defer>
+        </script>
+        <script type="text/javascript"
+                defer>
+         document.write("<scr" + "ipt src='assets/js/config.js?" + Math.random() +
+                        "' type='text/javascript' defer></scr"+"ipt>");
+        </script>
+        <script src="assets/js/setup.js"
+                defer>
+        </script>
+
+        <!-- =========================================================== -->
         <!--  Title in address bar -->
         <!-- =========================================================== -->
         <title>Clint</title>
@@ -561,30 +595,5 @@
                 <!-- Link buttons will be pasted here from JS -->
             </div>
         </footer>
-
-        <!-- =========================================================== -->
-        <!--  Paths to scripts -->
-        <!-- =========================================================== -->
-        <!-- Optional Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-                integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-                crossorigin="anonymous">
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-                crossorigin="anonymous">
-        </script>
-        <!-- ChessJS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
-        <!-- Paths to pgn4web.js, config.js and setup.js. Note that config.js is given a random
-             number to be reloaded each time (cache busting). This allows the operator to change
-             the file anytime and ensure the newest version is always downloaded on the client side.
-        -->
-        <script src="../pgn4web-3.04/pgn4web.js"></script>
-        <script type="text/javascript">
-         document.write("<scr" + "ipt src='assets/js/config.js?" + Math.random() +
-                        "' type='text/javascript'></scr"+"ipt>");
-        </script>
-        <script src="assets/js/setup.js"></script>
     </body>
 </html>
