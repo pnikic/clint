@@ -5,7 +5,7 @@ Single board view | Multiple boards view
 :---:|:---:
 ![interface screenshot][1a] | ![interface screenshot][1b]
 
-A demo is available on: http://hrvatski-sahovski-savez.hr/ftp/sucelje_patrick/
+Checkout the [demo page][6] to see clint in action.
 
 ### Table of contents
 * [Usage](https://github.com/pnikic/clint#usage)
@@ -37,16 +37,16 @@ A demo is available on: http://hrvatski-sahovski-savez.hr/ftp/sucelje_patrick/
 * Edit the `pgn4web.js` path and the fonts path in `index.html` and in `mosaic-tile.html`  
 (in my case, pgn4web-3.04 is placed one directory up)
 ```html
-<script src="../pgn4web-3.04/pgn4web.js"></script>
+<script src="../pgn4web-3.04/pgn4web.js" defer></script>
 ...
 <link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansUsual.css">
 ```
-and the image path for the pieces in `assets/js/setup.js`
+and the image path for the pieces in `assets/js/config.js`
 ```javascript
-SetImagePath("../pgn4web-3.04/images");
+SetImagePath("../pgn4web-3.04/images/svgchess");
 ```
 
-* Upload / broadcast your PGN files on the server, and define their locations in `assets/js/setup.js` in the `listPGNFiles()` function. For instance:
+* Upload / broadcast your PGN files on the server, and define their locations in `assets/js/config.js` in the `listPGNFiles()` function. Detailed explanation of all parameters is located through comments in the file itself. A configuration example follows:
 ```javascript
 function listPGNFiles() {
     // If broadcasting a tournament
@@ -64,7 +64,7 @@ function listPGNFiles() {
         "pgn" : "pgn/all.pgn"
     });
 
-    // And / or if you just want to display some PGN files (ended tournaments)
+    // And/or if you just want to display some PGN files (ended tournaments)
     allPGNs.push({
         "name" : "Tournament (last year's edition)",
         "pgn" : "pgn/last_year.pgn",
@@ -78,17 +78,19 @@ function listPGNFiles() {
 ```
 ### Customization
 In `index.html` you can:
-* edit the general information about the tournament
+* edit the general information about the tournament (e.g. banner)
 
-In `assets/js/setup.js` you can:
-* in `operatorSettings()` edit hyperlinks. For instance:
+In `assets/js/config.js` you can:
+* in `operatorSettings()` edit hyperlinks. Detailed explanation of all parameters is located through comments in the file itself. For instance:
 ```javascript
 footerLinks.push({
     "text" : "Photo Gallery",
-    "link" : "https://www.example.com"
+    "link" : "https://www.example.com",
+    "fa-icon" : "fas fa-images"
 });
 ``` 
 * some default options (such as autoplay delay, move highlighting etc.)
+* expected round duration (used for automatically choosing the initial PGN file to be opened)
 * number of miniboards for the multiple boards view
 ```javascript
 let numberMiniboards = 6;
@@ -119,7 +121,11 @@ In `assets/style.css` you can configure all the colors used on the page. It come
 
 ## Notes
 * The page is currently in Croatian. With little effort, it can be translated to any language
-* The repository includes sample PGN files from the [42nd Chess Olympiad][4], which are present only for illustrational purposes. Each PGN file includes cca. 600 games
+* The repository includes sample PGN files from the [42nd Chess Olympiad][4], which are present only for illustrational and testing purposes. PGN files include
+  * r1.pgn - 40 games
+  * r2.pgn - 144 games
+  * r3.pgn - 596 games
+  * all.pgn - 7426 games
 
 ### Credits and license
 * This website is based on [pgn4web][2]
@@ -133,15 +139,17 @@ In `assets/style.css` you can configure all the colors used on the page. It come
 I hereby sincerely thank all the people who reviewed this page and gave comments or suggestions. Your feedback is much appreciated.  
 
 ### Deployments
-* Several pages on [chesscout.info][11], e.g. [here][12]
 * [Croatian Individual Championship 2020][13]
+* Several pages on [chesscout.info][11], e.g. [Games from chess tournaments in BiH][12], [Sarajevo Club Championshio][14] and [BiH Junior championships 2021][15]
+* [Croatia Grand Chess Tour][16]
+* Croatian Individual Junior Championships [2021][17], [2020][18], [2019][19] -- here you can see the evolution of Clint over time :)
 
 ### Future work:
 * Translation
 * Add functionality for live time countdown during broadcast
 * Move to newer stockfish
 * Resizable board
-* Fix some responsive design issues (regarding to mobile phone rotations)
+* Fix some responsive design issues (regarding rotations to mobile phone)
 * Tournament table
 * Analysis board
 * Add country flags for players
@@ -157,9 +165,16 @@ If you want to support my work, consider a small donation via [PayPal][8]. Thank
 [3]: https://github.com/niklasf/stockfish.js
 [4]: https://en.wikipedia.org/wiki/42nd_Chess_Olympiad
 [5]: https://fontawesome.com/
+[6]: http://hrvatski-sahovski-savez.hr/ftp/sucelje_patrick/
 [7]: https://github.com/pnikic/clint/blob/master/LICENSE
 [8]: https://www.paypal.com/paypalme/pnikic
 [10]: https://lichess.org/
 [11]: https://www.chessscout.info/
 [12]: https://www.chessscout.info/ftp/premijer-liga-BiH/
 [13]: https://hrvatski-sahovski-savez.hr/ftp/CroCh2020/
+[14]: https://www.chessscout.info/live/prvenstvo-sk-sarajevo/
+[15]: https://www.chessscout.info/live/21-kad-jun-prvenstvo-bih-2021/
+[16]: https://live.cgct.eu/
+[17]: https://hrvatski-sahovski-savez.hr/ftp/PHjuniori2021/
+[18]: https://hrvatski-sahovski-savez.hr/ftp/PHjuniori2020/
+[19]: https://hrvatski-sahovski-savez.hr/ftp/PHjuniori2019/
