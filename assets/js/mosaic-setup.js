@@ -50,7 +50,8 @@ function adjustBoardSize(boardWidth = undefined) {
     let width = parseInt(boardWidth / 8);
 
     // Resize all the squares and pieces in the chess board
-    let targetClass = ["whiteSquare", "blackSquare", "highlightWhiteSquare", "highlightBlackSquare", "pieceImage"];
+    let targetClass = ["whiteSquare", "blackSquare", "highlightWhiteSquare", "highlightBlackSquare",
+                       "pieceImage"];
 
     for (let i = 0; i < targetClass.length; ++i) {
         let collection = document.getElementsByClassName(targetClass[i]);
@@ -61,15 +62,21 @@ function adjustBoardSize(boardWidth = undefined) {
     }
 
     // The width of the game board is 8 * fit, and the borders are 2 additional pixels
-    document.getElementById("Miniboard").setAttribute("style", "width: " + String(width * 8 + 2) + "px;");
+    document.getElementById("Miniboard")
+            .setAttribute("style", "width: " + String(width * 8 + 2) + "px;");
 }
 
 function messageToParent(msg) {
     // Send a message to the parent element
-    // Target is specified and checked for security purposes    
+    // Target is specified and checked for security purposes
     let target = location.protocol + "//" + location.hostname +
         (location.port.length > 0 ? ":" + location.port : "");
     parent.postMessage(msg, target);
+}
+
+function changeGame(ind) {
+    Init(ind);
+    displayedGame = getDisplayedMinigame();
 }
 
 function changePgn(pgnUrl) {
@@ -88,12 +95,19 @@ function customFunctionOnPgnTextLoad() {
 
     // Frame id's are 'frame0', 'frame1' etc.
     let ind = window.frameElement.id.substr(5);
-    // In the <iframe> #ind, open the game #ind
-    // In other words, in the <iframe>s, the first games of the PGN file will be displayed
-    Init(ind);
 
-    // The first iframe sends a message after changing round file (PGN)
-    //   so that the select modal can be updated accordingly
+    // In case of loading the same PGN file (new moves coming), perform no action. Otherwise, in
+    //   case of loading a different PGN file, load the games from the top of the file, i.e.
+    //   in the i-th <iframe>, open the i-th game. This is implemented using `setTimeout` so that
+    //   pgn4web's caller of `customFunctionOnPgnTextLoad` is released
+    if (getDisplayedMinigame() != displayedGame) {
+        setTimeout(() => {
+            Init(ind);
+        }, 0);
+    }
+
+    // The first iframe sends a message after changing round file (PGN) so that the game selection
+    //   modal can be updated accordingly
     if (ind == "0") {
         messageToParent("PgnTextLoaded");
     }
@@ -106,8 +120,10 @@ function customFunctionOnPgnGameLoad() {
         started = true;
         displayedGame = getDisplayedMinigame();
         adjustBoardSize(lastBoardWidth);
-        // Inform the parent that the page is loaded
-        messageToParent(window.frameElement.id + "Ready");
+
+        // Inform the parent that the page is loaded, so that the first PGN file can be loaded
+        if (window.frameElement)
+            messageToParent(window.frameElement.id + "Ready");
     }
 
     let resultElem = document.getElementById("GameResult");
@@ -128,8 +144,6 @@ function customFunctionOnPgnGameLoad() {
     if (IsRotated && getDisplayedMinigame() != displayedGame) {
         flipMiniboard();
     }
-
-    displayedGame = getDisplayedMinigame();
 }
 
 function getDisplayedMinigame() {

@@ -938,7 +938,10 @@ function changeFramesPGN(val) {
             chosenGames[i] = i;
         }
 
-        maximizeIframesTiles(controlPanelOption); // delete
+        // `numberMiniboards` games will now be displayed, so resize all the miniboards.
+        //   For instance, if the number of prevously displayed boards was < `numberMiniboards`,
+        //   those boards's had >= dimensions
+        maximizeIframesTiles(controlPanelOption);
 
         // Change PGN for all miniboards
         let newPgnUrl = allPGNs[val]["pgn"];
@@ -948,13 +951,6 @@ function changeFramesPGN(val) {
             iframes[i].style.display = "";
             iframes[i].contentWindow.changePgn(newPgnUrl);
         }
-
-        // TODO: FIXME: I should be a callback
-        /* console.log("Waiting a second");
-         * setTimeout(() => {
-         *     maximizeIframesTiles(controlPanelOption);
-         * }, 2000);
-         */
     }
 
     // Update custom per-PGN button links
@@ -980,12 +976,12 @@ function toggleMoveHighlight() {
     let iframesDiv = document.getElementById("IframesContainer");
     let iframes = iframesDiv.querySelectorAll("iframe");
 
-    for(let i = 0; i < iframes.length; i++) {
+    for (let i = 0; i < iframes.length; i++) {
         iframes[i].contentWindow.toggleHighlight();
     }
 }
 
-function updateModalContent() {
+function updateGameSelectionModalOnFirstIframeLoaded() {
     document.getElementById("MaxSelected").innerHTML = numberMiniboards;
     document.getElementById("CountSelected").innerHTML = chosenGames.length;
 
@@ -1017,7 +1013,7 @@ function updateModalContent() {
         checkbox.className = "position-static";
         checkbox.type = "checkbox";
         checkbox.value = String(i);
-        checkbox.addEventListener("click", handleCheckboxClick);
+        checkbox.addEventListener("click", handleGameSelectionModalCheckboxClick);
         if (chosenGames.includes(i)) {
             checkbox.checked = true;
         }
@@ -1030,15 +1026,16 @@ function updateModalContent() {
     }
 }
 
-function updateDisplayGames() {
+function onGameSelectionModalSave() {
     // Reorder games chosen for display
     chosenGames.sort(function(a,b){ return a-b; });
 
     // Render chosen games in order of appearing in the PGN file
     let iframesDiv = document.getElementById("IframesContainer");
     let iframes = iframesDiv.querySelectorAll("iframe");
-    for(let i = 0; i < chosenGames.length; i++) {
+    for (let i = 0; i < chosenGames.length; i++) {
         iframes[i].style.display = "";
+        iframes[i].contentWindow.changeGame(chosenGames[i]);
     }
 
     for (let i = chosenGames.length; i < iframes.length; ++i) {
@@ -1048,13 +1045,14 @@ function updateDisplayGames() {
     // Scroll modal games list to top
     document.getElementById("GamesSelectionContainer").scrollTop = 0;
 
+    // Maximize board sizes according to selected number of games to display
     maximizeIframesTiles(controlPanelOption);
 
     // Restart live broadcast
     restartBroadcast();
 }
 
-function handleCheckboxClick(evt) {
+function handleGameSelectionModalCheckboxClick(evt) {
     let ind = Number(evt.target.value);
     if (chosenGames.includes(ind)) {
         chosenGames.splice(chosenGames.indexOf(ind), 1);
@@ -1104,7 +1102,7 @@ function maximizeIframesTiles(withPanel = true) {
                  document.documentElement.clientHeight ||
                  document.body.clientHeight;
 
-    // Note: if we have fewer than 3 boards, these boards will be maximized on the screen
+    // Note: if there are fewer than 3 boards, these boards will be maximized on the screen
     let gamesPerRow = Math.min(3, chosenGames.length);
 
     if (width < 768)
@@ -1136,11 +1134,11 @@ function maximizeIframesTiles(withPanel = true) {
 
     let iframesDiv = document.getElementById("IframesContainer");
     let iframes = iframesDiv.querySelectorAll("iframe");
-    for(let i = 0; i < chosenGames.length; i++) {
+
+    for (let i = 0; i < chosenGames.length; i++) {
         iframes[i].width = size;
         iframes[i].height = size + additional;
         iframes[i].contentWindow.adjustBoardSize(resize);
-        iframes[i].contentWindow.Init(chosenGames[i]);
     }
 }
 
@@ -1243,7 +1241,7 @@ function receiveMessage(evt) {
     }
 
     if (evt.data == "PgnTextLoaded") {
-        updateModalContent();
+        updateGameSelectionModalOnFirstIframeLoaded();
     }
 
     if (evt.data.includes("frame") && evt.data.includes("Ready")) {
