@@ -19,6 +19,8 @@ let controlPanelOption = false;
 let chosenGames = [];
 const charStar = "✻";
 const charOneHalf = "½";
+let clockCountdownTimer = undefined;
+let referenceTime = undefined;
 
 //===========================================================
 // Initialization code
@@ -176,6 +178,21 @@ function customFunctionOnPgnGameLoad() {
 
         // Set custom tab title
         document.title = gameWhite[currentGame] + " vs. " + gameBlack[currentGame] + " | Clint";
+    }
+
+    // start clock countdown if enabled
+    if (clockCountdownEnabled) {
+        // get reference time from pgn
+        referenceTime = customPgnHeaderTag("ReferenceTime");
+
+        if (clockCountdownTimer) {
+            clearInterval(clockCountdownTimer);
+            clockCountdownTimer = undefined;
+        }
+        if (gameResult[currentGame] === '*') {
+            clockCountdown(true);
+            clockCountdownTimer = setInterval(clockCountdown, 1000, false);
+        }
     }
 }
 
@@ -399,6 +416,29 @@ function flipBoard() {
 
     FlipBoard();  // This will refresh all the default tags (GameWhite, GameWhiteClock etc)...
     adjustSquareSize(scaleOption); // ...and also mess up with piece image sizes, so we resize them
+}
+
+function clockCountdown(first) {
+    // TODO: make this agnostic from PGN tag Reference time
+    let sideToMove = (PlyNumber % 2) === 0;
+    let lastRefreshed = undefined;
+    if (referenceTime) {
+        lastRefreshed = new Date(referenceTime.slice(2));
+    } else {
+        lastRefreshed = new Date(LiveBroadcastLastReceivedLocal);
+    }
+    // let lastRefreshed = LiveBroadcastLastModified;
+    let now = new Date();
+    let timeElapsed = now - lastRefreshed;
+    let clk = document.getElementById(sideToMove ? "GameWhiteClock" : "GameBlackClock");
+    let clockStringRegExp = new RegExp("(\\d+):(\\d+):(\\d+)");
+    if (clkMatch = clk.innerHTML.match(clockStringRegExp)) {
+        let h = parseInt(clkMatch[1]),
+            m = parseInt(clkMatch[2]),
+            s = parseInt(clkMatch[3]);
+        let clockTime = new Date((new Date()).setHours(h, m, s) - (first ? timeElapsed : 1000));
+        clk.innerHTML = clockTime.toLocaleTimeString("hr");
+    }
 }
 
 //===========================================================

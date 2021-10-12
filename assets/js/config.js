@@ -48,7 +48,7 @@ function listPGNFiles() {
     begin = dateFromArray([2020, 11, 10, 15, 00])
     allPGNs.push({
         "name" : "1. kolo - " + dateToString(begin),
-        "pgn" : "pgn/r1.pgn",
+        "pgn" : "../turnir-mira2021/pgn/round-8/games.pgn",
         "date" : begin,
         "video-left" : "https://www.youtube.com/embed/4jT0hUODzdQ",
         "image-right" : "https://tinyurl.com/y73a4vrz",
@@ -226,6 +226,9 @@ let expactedRoundDuration = 2 * (90 + 30) + 120; // minutes
 // Set this to true if you want to disable pgn4web's removal of "aesthetic characters"(x, +, =)
 //   from PGN moves notation (e.g. if set to `true` you could see "Nxe2+", if `false` just "Ne2")
 let useAestheticNotation = false;
+
+// Set this to false if you want to disable clock countdown
+let clockCountdownEnabled = true;
 
 //----------------------------------------------------------
 // Multiple boards view
