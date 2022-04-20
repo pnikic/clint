@@ -48,7 +48,7 @@ function listPGNFiles() {
     begin = dateFromArray([2020, 11, 10, 15, 00])
     allPGNs.push({
         "name" : "1. kolo - " + dateToString(begin),
-        "pgn" : "../turnir-mira2021/pgn/round-8/games.pgn",
+        "pgn" : "pgn/r1.pgn",
         "date" : begin,
         "video-left" : "https://www.youtube.com/embed/4jT0hUODzdQ",
         "image-right" : "https://tinyurl.com/y73a4vrz",
