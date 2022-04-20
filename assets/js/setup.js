@@ -437,6 +437,9 @@ function clockCountdown(first) {
             m = parseInt(clkMatch[2]),
             s = parseInt(clkMatch[3]);
         let clockTime = new Date((new Date()).setHours(h, m, s) - (first ? timeElapsed : 1000));
+        if (clockTime < 0) {
+            clockTime = new Date(0);
+        }
         clk.innerHTML = clockTime.toLocaleTimeString("hr");
     }
 }
