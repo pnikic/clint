@@ -301,6 +301,10 @@ function customFunctionOnMove() {
         // get reference time from pgn
         referenceTime = customPgnHeaderTag("ReferenceTime");
 
+        // remove clockActive if set from previous game
+        document.getElementById("ClockPlace1").classList.remove("clockActive");
+        document.getElementById("ClockPlace2").classList.remove("clockActive");
+
         if (clockCountdownTimer) {
             clearInterval(clockCountdownTimer);
             clockCountdownTimer = undefined;
