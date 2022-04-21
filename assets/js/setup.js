@@ -431,9 +431,10 @@ function clockCountdown(first) {
     // let lastRefreshed = LiveBroadcastLastModified;
     let now = new Date();
     let timeElapsed = now - lastRefreshed;
-    let clk = document.getElementById(sideToMove ? "GameWhiteClock" : "GameBlackClock");
+    let activeClk = document.getElementById(sideToMove ? "GameWhiteClock" : "GameBlackClock");
+    let inactiveClk = document.getElementById(!sideToMove ? "GameWhiteClock" : "GameBlackClock");
     let clockStringRegExp = new RegExp("(\\d+):(\\d+):(\\d+)");
-    if (clkMatch = clk.innerHTML.match(clockStringRegExp)) {
+    if (clkMatch = activeClk.innerHTML.match(clockStringRegExp)) {
         let h = parseInt(clkMatch[1]),
             m = parseInt(clkMatch[2]),
             s = parseInt(clkMatch[3]);
@@ -442,7 +443,9 @@ function clockCountdown(first) {
         if (clockTime < clockZero) {
             clockTime = clockZero;
         }
-        clk.innerHTML = clockTime.toLocaleTimeString("hr");
+        activeClk.innerHTML = clockTime.toLocaleTimeString("hr");
+        activeClk.parentElement.classList.add("clockActive");
+        inactiveClk.parentElement.classList.remove("clockActive");
     }
 }
 

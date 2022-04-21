@@ -58,6 +58,7 @@
     --black-square: #b58863;
     --highlight-white-sq: #cdd26a;
     --highlight-black-sq: #aaa23a;
+    --bg-active-clock: #27c;
 }
 
 /* Dark theme example preset */
@@ -78,6 +79,7 @@
     --black-square: #b58863;
     --highlight-white-sq: #cdd26a;
     --highlight-black-sq: #aaa23a;
+    --bg-active-clock: #3692e7;
 }
 
 /************************************************************
@@ -387,6 +389,18 @@ span.move {
 
 .clock {
     font-size: calc(13px + 2 * ((100vw - 320px) / 700));
+}
+
+.clockActive {
+    background-color: var(--bg-active-clock);
+}
+
+#ClockPlace1 {
+    border-radius: 0 .25rem 0 0;
+}
+
+#ClockPlace2 {
+    border-radius: 0 0 .25rem 0;
 }
 
 .topPlayerItem, .botPlayerItem {
