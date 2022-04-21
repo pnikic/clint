@@ -156,7 +156,8 @@ function customFunctionOnPgnGameLoad() {
             clearInterval(clockCountdownTimer);
             clockCountdownTimer = undefined;
         }
-        if (gameResult[currentGame] === '*') {
+        checkLiveBroadcastStatus();
+        if (LiveBroadcastGamesRunning > 0 && gameResult[currentGame] === '*' && CurrentPly === PlyNumber) {
             clockCountdown(true);
             clockCountdownTimer = setInterval(clockCountdown, 1000, false);
         }
@@ -220,8 +221,9 @@ function clockCountdown(first) {
             m = parseInt(clkMatch[2]),
             s = parseInt(clkMatch[3]);
         let clockTime = new Date((new Date()).setHours(h, m, s) - (first ? timeElapsed : 1000));
-        if (clockTime < 0) {
-            clockTime = new Date(0);
+        let clockZero = new Date(new Date().setHours(0, 0, 0));
+        if (clockTime < clockZero) {
+            clockTime = clockZero;
         }
         clk.innerHTML = clockTime.toLocaleTimeString("hr");
     }

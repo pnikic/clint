@@ -179,21 +179,6 @@ function customFunctionOnPgnGameLoad() {
         // Set custom tab title
         document.title = gameWhite[currentGame] + " vs. " + gameBlack[currentGame] + " | Clint";
     }
-
-    // start clock countdown if enabled
-    if (clockCountdownEnabled) {
-        // get reference time from pgn
-        referenceTime = customPgnHeaderTag("ReferenceTime");
-
-        if (clockCountdownTimer) {
-            clearInterval(clockCountdownTimer);
-            clockCountdownTimer = undefined;
-        }
-        if (gameResult[currentGame] === '*') {
-            clockCountdown(true);
-            clockCountdownTimer = setInterval(clockCountdown, 1000, false);
-        }
-    }
 }
 
 function updateResult() {
@@ -310,6 +295,22 @@ function customFunctionOnMove() {
 
     // Update autoplay button (e.g. in case of clicking on move in PGN window)
     setAutoplayButton();
+
+    // start clock countdown if enabled
+    if (clockCountdownEnabled) {
+        // get reference time from pgn
+        referenceTime = customPgnHeaderTag("ReferenceTime");
+
+        if (clockCountdownTimer) {
+            clearInterval(clockCountdownTimer);
+            clockCountdownTimer = undefined;
+        }
+        checkLiveBroadcastStatus();
+        if (LiveBroadcastGamesRunning > 0 && gameResult[currentGame] === '*' && CurrentPly === PlyNumber) {
+            clockCountdown(true);
+            clockCountdownTimer = setInterval(clockCountdown, 1000, false);
+        }
+    }
 }
 
 function selectPGN(filename) {
@@ -437,8 +438,9 @@ function clockCountdown(first) {
             m = parseInt(clkMatch[2]),
             s = parseInt(clkMatch[3]);
         let clockTime = new Date((new Date()).setHours(h, m, s) - (first ? timeElapsed : 1000));
-        if (clockTime < 0) {
-            clockTime = new Date(0);
+        let clockZero = new Date(new Date().setHours(0, 0, 0));
+        if (clockTime < clockZero) {
+            clockTime = clockZero;
         }
         clk.innerHTML = clockTime.toLocaleTimeString("hr");
     }
