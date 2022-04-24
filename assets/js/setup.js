@@ -19,6 +19,8 @@ let controlPanelOption = false;
 let chosenGames = [];
 const charStar = "✻";
 const charOneHalf = "½";
+const playChar = "&#9655;";
+const pauseChar = "|&nbsp;|";
 
 //===========================================================
 // Initialization code
@@ -617,8 +619,8 @@ function snackbarMessage(msg) {
 }
 
 function setAutoplayButton() {
-    let play = "&#9654;";
-    let pause = "|&nbsp;|";
+    let play = playChar;
+    let pause = pauseChar;
     document.getElementById("AutoPlayBtn").innerHTML = isAutoPlayOn ? pause : play;
 }
 
