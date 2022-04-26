@@ -147,12 +147,12 @@ function customFunctionOnPgnGameLoad() {
         flipMiniboard();
     }
 
-    // start clock countdown if enabled
+    // Start clock countdown if enabled
     if (clockCountdownEnabled) {
-        // get reference time from pgn
+        // Get reference time from pgn
         referenceTime = customPgnHeaderTag("ReferenceTime");
 
-        // remove clockActive if set from previous game
+        // Remove `clockActive` if set from previous game
         document.getElementById("ClockPlace1").classList.remove("clockActive");
         document.getElementById("ClockPlace2").classList.remove("clockActive");
 
@@ -160,7 +160,9 @@ function customFunctionOnPgnGameLoad() {
             clearInterval(clockCountdownTimer);
             clockCountdownTimer = undefined;
         }
+
         checkLiveBroadcastStatus();
+
         if (LiveBroadcastGamesRunning > 0 && gameResult[currentGame] === '*' && CurrentPly === PlyNumber) {
             clockCountdown(true);
             clockCountdownTimer = setInterval(clockCountdown, 1000, false);
@@ -204,34 +206,4 @@ function toggleControlPanel() {
 
 function toggleHighlight() {
     SetHighlight(!highlightOption);
-}
-
-function clockCountdown(first) {
-    // TODO: make this agnostic from PGN tag Reference time
-    let sideToMove = (PlyNumber % 2) === 0;
-    let lastRefreshed = undefined;
-    if (referenceTime) {
-        lastRefreshed = new Date(referenceTime.slice(2));
-    } else {
-        lastRefreshed = new Date(LiveBroadcastLastReceivedLocal);
-    }
-    // let lastRefreshed = LiveBroadcastLastModified;
-    let now = new Date();
-    let timeElapsed = now - lastRefreshed;
-    let activeClk = document.getElementById(sideToMove ? "GameWhiteClock" : "GameBlackClock");
-    let inactiveClk = document.getElementById(!sideToMove ? "GameWhiteClock" : "GameBlackClock");
-    let clockStringRegExp = new RegExp("(\\d+):(\\d+):(\\d+)");
-    if (clkMatch = activeClk.innerHTML.match(clockStringRegExp)) {
-        let h = parseInt(clkMatch[1]),
-            m = parseInt(clkMatch[2]),
-            s = parseInt(clkMatch[3]);
-        let clockTime = new Date((new Date()).setHours(h, m, s) - (first ? timeElapsed : 1000));
-        let clockZero = new Date(new Date().setHours(0, 0, 0));
-        if (clockTime < clockZero) {
-            clockTime = clockZero;
-        }
-        activeClk.innerHTML = clockTime.toLocaleTimeString("hr");
-        activeClk.parentElement.classList.add("clockActive");
-        inactiveClk.parentElement.classList.remove("clockActive");
-    }
 }
