@@ -227,6 +227,9 @@ let expactedRoundDuration = 2 * (90 + 30) + 120; // minutes
 //   from PGN moves notation (e.g. if set to `true` you could see "Nxe2+", if `false` just "Ne2")
 let useAestheticNotation = false;
 
+// Set this to false if you want to disable clock countdown
+let clockCountdownEnabled = true;
+
 //----------------------------------------------------------
 // Multiple boards view
 //----------------------------------------------------------

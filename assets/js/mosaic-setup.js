@@ -144,6 +144,29 @@ function customFunctionOnPgnGameLoad() {
     if (IsRotated && getDisplayedMinigame() != displayedGame) {
         flipMiniboard();
     }
+
+    // Start clock countdown if enabled
+    if (clockCountdownEnabled) {
+        // Get reference time from pgn
+        referenceTime = customPgnHeaderTag("ReferenceTime");
+
+        // Remove `clockActive` if set from previous game
+        document.getElementById("ClockPlace1").classList.remove("clockActive");
+        document.getElementById("ClockPlace2").classList.remove("clockActive");
+
+        if (clockCountdownTimer) {
+            clearInterval(clockCountdownTimer);
+            clockCountdownTimer = undefined;
+        }
+
+        checkLiveBroadcastStatus();
+
+        if (LiveBroadcastGamesRunning > 0 && gameResult[currentGame] === '*'
+            && CurrentPly === PlyNumber) {
+            clockCountdown(true);
+            clockCountdownTimer = setInterval(clockCountdown, 1000, false);
+        }
+    }
 }
 
 function getDisplayedMinigame() {
