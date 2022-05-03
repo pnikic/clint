@@ -58,11 +58,15 @@
         <script type="text/javascript"
                 defer>
          document.write("<scr" + "ipt src='assets/js/config.js?" + Math.random() +
-                        "' type='text/javascript' defer></scr"+"ipt>");
+                        "' type='text/javascript' defer></scr" + "ipt>");
+        </script>
+        <script src="assets/js/clock.js"
+                defer>
         </script>
         <script src="assets/js/setup.js"
                 defer>
         </script>
+
 
         <!-- =========================================================== -->
         <!--  Title in address bar -->
@@ -208,7 +212,7 @@
             <!-- =========================================================== -->
             <!--  Information about first player -->
             <!-- =========================================================== -->
-            <div class="topPlayerItem row m-0 pr-2">
+            <div class="topPlayerItem row m-0">
                 <div id="ResultPlace1"
                      class="result col-1 p-0 m-auto">
                     <div id="ResultBlack"></div>
@@ -224,14 +228,14 @@
                     </span>
                 </span>
                 <div id="ClockPlace1"
-                     class="col-3 p-0 clock text-right">
+                     class="col-3 h-100 d-flex align-items-center justify-content-end p-0 pr-2 clock">
                     <div id="GameBlackClock"></div>
                 </div>
             </div>
             <!-- =========================================================== -->
             <!--  Information about second player -->
             <!-- =========================================================== -->
-            <div class="botPlayerItem row m-0 pr-2">
+            <div class="botPlayerItem row m-0">
                 <div id="ResultPlace2"
                      class="result col-1 p-0 m-auto">
                     <div id="ResultWhite"></div>
@@ -247,7 +251,7 @@
                     </span>
                 </span>
                 <div id="ClockPlace2"
-                     class="col-3 p-0 clock text-right">
+                     class="col-3 h-100 d-flex align-items-center justify-content-end p-0 pr-2 clock">
                     <div id="GameWhiteClock"></div>
                 </div>
             </div>
