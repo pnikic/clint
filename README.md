@@ -146,8 +146,12 @@ I hereby sincerely thank all the people who reviewed this page and gave comments
 
 ### Future work:
 * Translation
-* Add functionality for live time countdown during broadcast
-* Move to newer stockfish
+* Stockfish
+  * Move to newer version (WASM)
+  * Add evaluation bar on the left side
+* Clock countdown
+  * Add custom color
+  * Fix interaction with board rotation (up to 1 second delay)
 * Resizable board
 * Fix some responsive design issues (regarding rotations to mobile phone)
 * Tournament table
@@ -155,6 +159,9 @@ I hereby sincerely thank all the people who reviewed this page and gave comments
 * Add country flags for players
 * Add landing page (with countdown to tournament start, description, overview - multiple boards)
 * Fetching ratings from FIDE (or link to a player's profile by clicking on the name)
+* Placeholder for notifications (e.g. below banner)
+* Support for multiple tournaments (when there are too many PGN files, the dropdown menu is not a good option)
+* Show which games have new moves
 
 ### Donate
 If you want to support my work, consider a small donation via [PayPal][8]. Thank you!
