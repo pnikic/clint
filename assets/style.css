@@ -62,7 +62,7 @@
 }
 
 /* Dark theme example preset */
-[data-theme="dark"] {
+[data-theme="alternative"] {
     --bg-color: #111;
     --bg-color-text: #eee;
     --bg-color-light: #333;

@@ -26,7 +26,7 @@ const pauseChar = "|&nbsp;|";
 // Initialization code
 //===========================================================
 // Check preferences from local storage
-if (localStorage.getItem("clint-theme") == "dark")
+if (localStorage.getItem("clint-theme") == "alternative")
     toggleTheme();
 
 // Overrides CleanMove function from pgn4web.js if useAestheticNotation is true
@@ -942,7 +942,7 @@ function generateIframes() {
         frame.src = "mosaic-tile.html";
         frame.style.display = "none";
 
-        // Set the dark theme if needed
+        // Set the alternative theme if needed
         frame.onload = function() {
             setThemeMultiboard();
         }
@@ -1203,9 +1203,9 @@ function toggleTheme() {
         return;
 
     let currTheme = bodies[0].getAttribute("data-theme");
-    if (currTheme != "dark") {
-        bodies[0].setAttribute("data-theme", "dark");
-        localStorage.setItem("clint-theme", "dark");
+    if (currTheme != "alternative") {
+        bodies[0].setAttribute("data-theme", "alternative");
+        localStorage.setItem("clint-theme", "alternative");
     }
     else {
         bodies[0].setAttribute("data-theme", "");
@@ -1229,8 +1229,8 @@ function setThemeMultiboard() {
         if (iframeBodies.length != 1)
             continue;
 
-        if (currTheme == "dark")
-            iframeBodies[0].setAttribute("data-theme", "dark");
+        if (currTheme == "alternative")
+            iframeBodies[0].setAttribute("data-theme", "alternative");
         else
             iframeBodies[0].setAttribute("data-theme", "");
     }
