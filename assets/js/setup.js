@@ -21,14 +21,15 @@ const charStar = "✻";
 const charOneHalf = "½";
 const playChar = "&#9655;";
 const pauseChar = "|&nbsp;|";
+// Engine global variables
+let engine;
+let toMove;
+let engineStatus = 0;
+
 
 //===========================================================
 // Initialization code
 //===========================================================
-// Check preferences from local storage
-if (localStorage.getItem("clint-theme") == "alternative")
-    toggleTheme();
-
 // Overrides CleanMove function from pgn4web.js if useAestheticNotation is true
 if (useAestheticNotation) {
     var CleanMove = function(move) {
@@ -79,6 +80,12 @@ if (!ret) {
         changePGN(0);
     }
 }
+
+// Check preferences from local storage
+if (localStorage.getItem("clint-theme") == "alternative")
+    toggleTheme();
+if (localStorage.getItem("clint-view") == "multiple-boards")
+    toggleView(1);
 
 //===========================================================
 // Main part of the program
@@ -429,11 +436,6 @@ function flipBoard() {
 //===========================================================
 // Engine
 //===========================================================
-
-// Engine global variables
-let engine;
-let toMove;
-let engineStatus = 0;
 
 function initializeEngine() {
     engine = new Worker("assets/js/stockfish.js");
@@ -1170,11 +1172,13 @@ function toggleView(ind) {
         // Change to single board view
         document.getElementById("MultiBoardView").style.display = "none";
         document.getElementById("SingleBoardView").style.display = "";
+        localStorage.removeItem("clint-view");
     }
     else {
         // Change to multiple boards view
         document.getElementById("MultiBoardView").style.display = "";
         document.getElementById("SingleBoardView").style.display = "none";
+        localStorage.setItem("clint-view", "multiple-boards")
         // Turn off engine
         if (engineStatus)
             toggleEngine();
