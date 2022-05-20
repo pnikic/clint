@@ -778,8 +778,8 @@ function customFunctionOnPgnTextLoad() {
 
     highlightSelectedGame();
 
-    // Clear game search text
-    clearSearchInput();
+    // Keep active the input from the game search bar
+    searchInputChanged();
 
     // Update the video / image, if any is specified
     let video_left = allPGNs[currentPGN]["video-left"],
@@ -897,11 +897,6 @@ function enableImageDiv(divId, link) {
 
     imageDiv.appendChild(img);
     imageDiv.style.display = "";
-}
-
-function clearSearchInput() {
-    let search = document.getElementById("SearchInput");
-    search.value = "";
 }
 
 function searchInputChanged() {
