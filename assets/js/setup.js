@@ -166,6 +166,8 @@ function customFunctionOnPgnGameLoad() {
         blackRat.innerHTML = "";
     }
 
+    updateResult();
+
     if (getDisplayedGame() != displayedGame) {
         // If a new game is loaded and the board was rotated, rotate back
         // After loading a new game, white will always be on bottom
@@ -173,7 +175,6 @@ function customFunctionOnPgnGameLoad() {
             flipBoard();
 
         displayedGame = getDisplayedGame();
-        updateResult();
         highlightSelectedGame();
 
         // Set custom tab title
