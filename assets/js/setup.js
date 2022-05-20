@@ -279,13 +279,15 @@ function adjustSidePanelSizes() {
 function customFunctionOnMove() {
     // Overriding the function from pgn4web.js that will run after each move
 
-    // If there is no information about the clock, display a dash
+    // Display a dash if:
+    // - there is no information about the clock, or
+    // - moving to the first move (in order not to show actual times from PGN tags [{White,Black}Clock])
     let clockElemW = document.getElementById("GameWhiteClock");
     let clockElemB = document.getElementById("GameBlackClock");
-    if (clockElemW.innerHTML.length < 1)
-        clockElemW.innerHTML = "-";
-    if (clockElemB.innerHTML.length < 1)
-        clockElemB.innerHTML = "-";
+    if (clockElemW.innerHTML.length < 1 || CurrentPly < 1)
+            clockElemW.innerHTML = "-";
+    if (clockElemB.innerHTML.length < 1 || CurrentPly < 2)
+            clockElemB.innerHTML = "-";
 
     // Highlight current move in PGN window
     let highlightedMoveId = "Var0Mv" + String(CurrentPly);
