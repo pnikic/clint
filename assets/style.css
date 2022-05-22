@@ -721,3 +721,7 @@ iframe {
         padding: 9px;
     }
 }
+
+#multiboardSearchInput {
+    text-align: center;
+}

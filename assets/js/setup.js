@@ -569,7 +569,7 @@ function pgn4web_handleKey(e) {
         e = window.event;
     }
 
-    if (e.target.id == "SearchInput")
+    if (e.target.id == "SearchInput" || e.target.id == "multiboardSearchInput")
         return;
 
     if (e.altKey || e.ctrlKey || e.metaKey) {
@@ -904,18 +904,38 @@ function enableImageDiv(divId, link) {
 }
 
 function searchInputChanged() {
-    let search = document.getElementById("SearchInput");
-    let value = search.value.toLowerCase();
+    let searchElementId = "";
+    let gameSelectionDivId = "";
+    let whitePlayers = Array();
+    let blackPlayers = Array();
 
-    let gameSelectionDiv = document.getElementById("GameSelectionDiv");
-    if (gameSelectionDiv.children.length != gameWhite.length ||
-        gameSelectionDiv.children.length != gameBlack.length)
+    if (viewType == 0) {
+        searchElementId = "SearchInput";
+        gameSelectionDivId = "GameSelectionDiv";
+        whitePlayers = gameWhite;
+        blackPlayers = gameBlack;
+    }
+    else {
+        searchElementId = "multiboardSearchInput";
+        gameSelectionDivId = "GamesSelectionContainer";
+        let frame0 = document.getElementById("frame0");
+        whitePlayers = frame0.contentWindow.gameWhite;
+        blackPlayers = frame0.contentWindow.gameBlack;
+    }
+
+    let search = document.getElementById(searchElementId);
+    let value = search.value.toLowerCase();
+    let gameSelectionDiv = document.getElementById(gameSelectionDivId);
+
+    if (!whitePlayers || !blackPlayers ||
+        gameSelectionDiv.children.length != whitePlayers.length ||
+        gameSelectionDiv.children.length != blackPlayers.length)
         return;
 
     for (let i = 0; i < gameSelectionDiv.children.length; ++i)
     {
-        if (!gameWhite[i].toLowerCase().includes(value) &&
-            !gameBlack[i].toLowerCase().includes(value))
+        if (!whitePlayers[i].toLowerCase().includes(value) &&
+            !blackPlayers[i].toLowerCase().includes(value))
             gameSelectionDiv.children[i].style.setProperty("display", "none");
         else
             gameSelectionDiv.children[i].style.setProperty("display", "");
