@@ -109,8 +109,13 @@ function customFunctionOnPgnTextLoad() {
     // The first iframe sends a message after changing round file (PGN) so that the game selection
     //   modal can be updated accordingly
     if (ind == "0") {
-        messageToParent("PgnTextLoaded");
+        if (getDisplayedMinigame() != displayedGame)
+            messageToParent("PgnTextLoadedNewGame");
+        else
+            messageToParent("PgnTextLoaded");
     }
+
+    displayedGame = getDisplayedMinigame();
 }
 
 function customFunctionOnPgnGameLoad() {
@@ -118,7 +123,6 @@ function customFunctionOnPgnGameLoad() {
 
     if (!started) {
         started = true;
-        displayedGame = getDisplayedMinigame();
         adjustBoardSize(lastBoardWidth);
 
         // Inform the parent that the page is loaded, so that the first PGN file can be loaded

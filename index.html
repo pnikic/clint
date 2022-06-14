@@ -143,7 +143,7 @@
                                    type="text"
                                    placeholder="Traži igrača..."
                                    class="w-100 h-30p pl-3"
-                                   onkeyup="searchInputChanged();">
+                                   onkeyup="applyGameSelectionFilters();">
                         </div>
                     </div>
                 </div>
@@ -558,7 +558,23 @@
                                            type="text"
                                            placeholder="Traži igrača..."
                                            class="w-100 h-30p pl-3"
-                                           onkeyup="searchInputChanged();">
+                                           onkeyup="applyGameSelectionFilters();">
+                                </div>
+                                <div class="col-2">
+                                    <input id="multiboardOngoingCheckbox"
+                                           class="position-static"
+                                           type="checkbox"
+                                           value="0"
+                                           onclick="applyGameSelectionFilters();">
+                                    <span class="small">U tijeku</span>
+                                </div>
+                                <div class="col-2">
+                                    <input id="multiboardSelectAllCheckbox"
+                                           class="position-static"
+                                           type="checkbox"
+                                           value="0"
+                                           onclick="gameSelectionModalSelectAllCheckbox(this);">
+                                    <span class="small">Označi sve</span>
                                 </div>
                             </div>
                         </div>

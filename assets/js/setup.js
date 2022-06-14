@@ -154,6 +154,11 @@ function dateFromArray(arr) {
     return date;
 }
 
+function setWithIncreasingValues(length, initialValue = 0) {
+    let arr = Array.from({length: length}, (_, i) => i + initialValue);
+    return new Set(arr);
+}
+
 function customFunctionOnPgnGameLoad() {
     // Overriding the function from pgn4web.js that will run after loading a PGN
     adjustSquareSize(scaleOption);
@@ -783,7 +788,7 @@ function customFunctionOnPgnTextLoad() {
     highlightSelectedGame();
 
     // Keep active the input from the game search bar
-    searchInputChanged();
+    applyGameSelectionFilters();
 
     // Update the video / image, if any is specified
     let video_left = allPGNs[currentPGN]["video-left"],
@@ -903,7 +908,7 @@ function enableImageDiv(divId, link) {
     imageDiv.style.display = "";
 }
 
-function searchInputChanged() {
+function filterSearchInputGames() {
     let searchElementId = "";
     let gameSelectionDivId = "";
     let whitePlayers = Array();
@@ -930,16 +935,18 @@ function searchInputChanged() {
     if (!whitePlayers || !blackPlayers ||
         gameSelectionDiv.children.length != whitePlayers.length ||
         gameSelectionDiv.children.length != blackPlayers.length)
-        return;
+        return new Set();
+
+    let filteredGames = setWithIncreasingValues(whitePlayers.length);
 
     for (let i = 0; i < gameSelectionDiv.children.length; ++i)
     {
         if (!whitePlayers[i].toLowerCase().includes(value) &&
             !blackPlayers[i].toLowerCase().includes(value))
-            gameSelectionDiv.children[i].style.setProperty("display", "none");
-        else
-            gameSelectionDiv.children[i].style.setProperty("display", "");
+            filteredGames.delete(i);
     }
+
+    return filteredGames;
 }
 
 //===========================================================
@@ -1068,6 +1075,8 @@ function updateGameSelectionModalOnFirstIframeLoaded() {
         option.appendChild(checkboxDiv);
         optionsDiv.appendChild(option);
     }
+
+    applyGameSelectionFilters();
 }
 
 function onGameSelectionModalSave() {
@@ -1115,6 +1124,72 @@ function handleGameSelectionModalCheckboxClick(evt) {
     else {
         chosenCount.style.setProperty("color", "");
         document.getElementById("multiboardSaveBtn").disabled = false;
+    }
+}
+
+function filterOngoingGames() {
+    let frame0 = document.getElementById("frame0");
+    let results = frame0.contentWindow.gameResult;
+    let gameSelectionDiv = document.getElementById("GamesSelectionContainer");
+    let ongoing = document.getElementById("multiboardOngoingCheckbox");
+
+    if (!results || gameSelectionDiv.children.length != results.length)
+        return new Set();
+
+    let filteredGames = setWithIncreasingValues(results.length);
+
+    for (let i = 0; i < gameSelectionDiv.children.length; ++i) {
+        let game = gameSelectionDiv.children[i];
+        if (ongoing.checked && results[i] != "*")
+            filteredGames.delete(i);
+    }
+
+    return filteredGames;
+}
+
+function gameSelectionModalSelectAllCheckbox(evt) {
+    let gameSelectionDiv = document.getElementById("GamesSelectionContainer");
+    for (let i = 0; i < gameSelectionDiv.children.length; ++i) {
+        let game = gameSelectionDiv.children[i];
+        if (game.style.display != "none" && game.children.length >= 3) {
+            let checkbox = game.children[2].firstChild;
+            if (checkbox && checkbox.checked != evt.checked)
+                checkbox.click();
+        }
+    }
+}
+
+function resetGameSelectionFiltering() {
+    let search = document.getElementById("multiboardSearchInput");
+    search.value = "";
+    let ongoing = document.getElementById("multiboardOngoingCheckbox");
+    ongoing.checked = false;
+    let selectAll = document.getElementById("multiboardSelectAllCheckbox");
+    selectAll.checked = false;
+}
+
+function applyGameSelectionFilters() {
+    let filteredGames = []
+    let gameSelectionDivId = "";
+
+    if (viewType == 0) {
+        gameSelectionDivId = "GameSelectionDiv";
+        let f1 = filterSearchInputGames()
+        filteredGames = Array.from(f1)
+    }
+    else {
+        gameSelectionDivId = "GamesSelectionContainer";
+        let f1 = filterSearchInputGames()
+        let f2 = filterOngoingGames();
+        filteredGames = [...f1].filter(i => f2.has(i))
+    }
+
+    let gameSelectionDiv = document.getElementById(gameSelectionDivId);
+    for (let i = 0; i < gameSelectionDiv.children.length; ++i) {
+        if (filteredGames.includes(i))
+            gameSelectionDiv.children[i].style.setProperty("display", "");
+        else
+            gameSelectionDiv.children[i].style.setProperty("display", "none");
     }
 }
 
@@ -1286,8 +1361,12 @@ function receiveMessage(evt) {
         return;
     }
 
-    if (evt.data == "PgnTextLoaded") {
+    if (evt.data.includes("PgnTextLoaded")) {
         updateGameSelectionModalOnFirstIframeLoaded();
+
+        if (evt.data.includes("NewGame")) {
+            resetGameSelectionFiltering();
+        }
     }
 
     if (evt.data.includes("frame") && evt.data.includes("Ready")) {
