@@ -23,7 +23,9 @@ function clockCountdown(isFirstUpdate) {
     }
 
     let now = new Date();
-    let timeElapsed = now - lastRefreshed;
+    // Minutes offset converted in milliseconds
+    let delayOffset = broadcastDelayMins * 60 * 1000;
+    let timeElapsed = now - delayOffset - lastRefreshed;
     let activeClk = document.getElementById(sideToMove ? "GameWhiteClock" : "GameBlackClock");
     let inactiveClk = document.getElementById(!sideToMove ? "GameWhiteClock" : "GameBlackClock");
     let clockStringRegExp = new RegExp("(\\d+):(\\d+):(\\d+)");

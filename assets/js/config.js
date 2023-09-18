@@ -230,6 +230,10 @@ let useAestheticNotation = false;
 // Set this to false if you want to disable clock countdown
 let clockCountdownEnabled = true;
 
+// Set this to number of minutes broadcast is delayed (i.e. 0 if no delay, 15 for 15 minutes delay)
+// This is needed for clock countdown adjustment
+let broadcastDelayMins = 0;
+
 //----------------------------------------------------------
 // Multiple boards view
 //----------------------------------------------------------
