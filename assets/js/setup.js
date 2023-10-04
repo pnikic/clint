@@ -502,7 +502,9 @@ function initializeEngine() {
             if (toMove === "black")
                 score *= -1;
 
+            setEvaluationBarValue(score, false);
             score = String(score);
+
 
             if (msg.indexOf("mate") !== -1) {
                 score = "#" + score;
@@ -521,6 +523,16 @@ function setEngineAnnotations(line, depth, score) {
     document.getElementById("Depth").innerHTML = depth;
     document.getElementById("Score").innerHTML = score;
     adjustSidePanelSizes();
+}
+
+function setEvaluationBarValue(num, ignoreEngineStatus) {
+    if (!!engineStatus || ignoreEngineStatus) {
+        if (num > 5) num = 5.00;
+        if (num < -5) num = -5.00;
+        document.getElementById("EvaluationBarNumber").innerHTML = num;
+        document.getElementById("EvaluationBar").style.transition = 'height 1s';
+        document.getElementById("EvaluationBar").style.height = `${((1.0 - ((num + 5) / 10.0)) * 100.0).toFixed(2)}%`;
+    }
 }
 
 
@@ -555,6 +567,7 @@ function toggleEngine() {
         variationDiv.style.display = "block";
     }
     else {
+        setEvaluationBarValue(0, true);
         variationDiv.style.display = "none";
         setEngineAnnotations("", "", "");
     }

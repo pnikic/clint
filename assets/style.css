@@ -628,12 +628,18 @@ iframe {
     display: grid;
     --main-margin: 1vw;
     --player-names: 30px;
-    grid-template-columns: var(--main-margin) minmax(350px, 45vw) minmax(min(60vw, 60vh), min(80vw, 80vh)) minmax(350px, 45vw) var(--main-margin);
+    grid-template-columns: 
+        var(--main-margin) 
+        minmax(350px, 45vw) 
+        minmax(25px, 3vw)
+        minmax(min(60vw, 60vh), min(80vw, 80vh)) 
+        minmax(350px, 45vw) 
+        var(--main-margin);
     grid-template-rows: var(--player-names) min-content var(--player-names);
     grid-template-areas:
-        ". .topname . ."
-        ". games board pgn ."
-        ". settings botname controls .";
+        ". . . topname . ."
+        ". games evaluationBar board pgn ."
+        ". settings . botname controls .";
     column-gap: 1rem;
     justify-content: center;
 }
@@ -724,4 +730,26 @@ iframe {
 
 #multiboardSearchInput {
     text-align: center;
+}
+
+#EvaluationBarContainer {
+    width:50px;
+    position:relative;
+    border-radius: .25rem;
+    background-color: var(--main-color-bg);
+    grid-area: evaluationBar
+}
+
+#EvaluationBar {
+    background-color:grey;
+    width:inherit;
+    border-radius: .25rem;
+    height:50%;
+    position:absolute;
+    bottom:0;
+}
+
+#EvaluationBarNumber {
+    color: whitesmoke;
+    transition: b
 }
