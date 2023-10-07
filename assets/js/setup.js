@@ -25,7 +25,7 @@ const pauseChar = "|&nbsp;|";
 let engine;
 let toMove;
 let engineStatus = 0;
-
+const globalDepth = 21;
 
 //===========================================================
 // Initialization code
@@ -445,7 +445,10 @@ function flipBoard() {
 //===========================================================
 
 function initializeEngine() {
-    engine = new Worker("assets/js/stockfish.js");
+
+    engine = wasmSupported()
+        ? new Worker("assets/js/stockfish.wasm.js")
+        : new Worker("assets/js/stockfish.js");
 
     // Callback from engine
     engine.onmessage = function onmessage(event) {
@@ -453,7 +456,7 @@ function initializeEngine() {
 
         // Evaluation message from engine
         if (msg.indexOf("info depth") !== -1 &&
-            msg.indexOf("lowerbound") == -1  &&
+            msg.indexOf("lowerbound") == -1 &&
             msg.indexOf("upperbound") == -1) {
             tokens = msg.split(" ");
 
@@ -467,9 +470,11 @@ function initializeEngine() {
                     let FENtokens = game.fen().split(" ");
                     let mvNum = FENtokens[FENtokens.length - 1]
                     // Simulate the move and get SAN
-                    let san = game.move({from: move.substring(0,2),
-                                         to: move.substring(2,4),
-                                         promotion:move.substring(4)}).san;
+                    let san = game.move({
+                        from: move.substring(0, 2),
+                        to: move.substring(2, 4),
+                        promotion: move.substring(4)
+                    }).san;
 
                     // If black is to have the first move in the variation
                     if (moves == "" && game.turn() == "w")
@@ -479,7 +484,7 @@ function initializeEngine() {
                     //   game.move(...) function call
                     moves += (game.turn() == "b" ? mvNum + ". " : "") + san + " ";
                 }
-                catch(e) {
+                catch (e) {
                     // Game has changed in the meantime, and the current FEN does not correspond
                     //   to the moves received in this event
                     return;
@@ -496,7 +501,7 @@ function initializeEngine() {
             }
             // Centipawn loss (from engine's point of view)
             else {
-                score = Number(tokens[tokens.indexOf("cp") + 1]) / 100;
+                score = Number(tokens[tokens.indexOf("cp") + 1]) / 100.0;
             }
 
             if (toMove === "black")
@@ -511,6 +516,7 @@ function initializeEngine() {
             }
 
             setEngineAnnotations(moves, "Dubina: " + depth, score);
+
         }
     };
 }
@@ -550,7 +556,7 @@ function useEngine() {
         engine.postMessage("position fen " + CurrentFEN());
         // Get current side to move, so that engine lines can be displayed correctly
         toMove = document.getElementById("GameSideToMove").innerHTML;
-        engine.postMessage("go depth 21");
+        engine.postMessage(`go depth ${globalDepth}`);
     }
 }
 
@@ -1399,3 +1405,15 @@ function isMobile() {
            window.innerWidth < 960;
 }
 
+function wasmSupported() {
+    try {
+        if (typeof WebAssembly === "object"
+            && typeof WebAssembly.instantiate === "function") {
+            const module = new WebAssembly.Module(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
+            if (module instanceof WebAssembly.Module)
+                return new WebAssembly.Instance(module) instanceof WebAssembly.Instance;
+        }
+    } catch (e) {
+    }
+    return false;
+}

@@ -129,7 +129,7 @@ In `assets/style.css` you can configure all the colors used on the page. It come
 
 ### Credits and license
 * This website is based on [pgn4web][2]
-* The engine currently used is Stockfish compiled to JavaScript. The release is obtained from [stockfish.js][3]
+* The engine currently used is Stockfish compiled to WASM. The release is obtained from [stockfish.wasm.js][3]
 * Icons present on the website are from [Font Awesome][5]
 * The layout of components is inspired by [lichess][10]
 * The above items remains subject to their original licenses (if any)
@@ -169,7 +169,7 @@ If you want to support my work, consider a small donation via [PayPal][8]. Thank
 [1a]: https://i.imgur.com/m1r2dgu.png
 [1b]: https://i.imgur.com/anwWrzE.png
 [2]: http://pgn4web.casaschi.net/
-[3]: https://github.com/niklasf/stockfish.js
+[3]: https://github.com/niklasf/stockfish.wasm.js
 [4]: https://en.wikipedia.org/wiki/42nd_Chess_Olympiad
 [5]: https://fontawesome.com/
 [6]: http://hrvatski-sahovski-savez.hr/ftp/sucelje_patrick/
