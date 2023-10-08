@@ -146,12 +146,12 @@ function dateToString(date) {
 }
 
 function dateFromArray(arr) {
-    // Check if the input is an array of five numbers
-    if (arr.length != 5 || !((arr.map(x => typeof(x))).every(x => x == "number")))
-        return
-
-    let date = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4]);
-    return date;
+        // Check if the input is an array of five numbers
+        if (arr.length != 5 || !((arr.map(x => typeof(x))).every(x => x == "number")))
+            return
+    
+        let date = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4]);
+        return date;
 }
 
 function setWithIncreasingValues(length, initialValue = 0) {
@@ -166,6 +166,16 @@ function customFunctionOnPgnGameLoad() {
     // Add Elo ratings
     customPgnHeaderTag("WhiteElo", "GameWhiteRating");
     customPgnHeaderTag("BlackElo", "GameBlackRating");
+
+    // Add player countries
+    customPgnHeaderTag("WhiteTeam", "PlayerCountry1");
+    customPgnHeaderTag("BlackTeam", "PlayerCountry2");
+
+    document.getElementById("PlayerFlag1").innerHTML = 
+        getCountryFlagEmoji(document.getElementById("PlayerCountry1").innerHTML);
+
+    document.getElementById("PlayerFlag2").innerHTML = 
+        getCountryFlagEmoji(document.getElementById("PlayerCountry2").innerHTML);
 
     // For players without rating, leave an empty field
     let whiteRat = document.getElementById("GameWhiteRating");
@@ -1416,4 +1426,18 @@ function wasmSupported() {
     } catch (e) {
     }
     return false;
+}
+
+function getCountryFlagEmoji(teamName) {
+    teamName = teamName.trim();
+    const countryCode = countryMapping[teamName];
+    const existsNonCountry = nonCountryTeams.includes(teamName)
+    if (countryCode) {
+        return `<span title=${teamName} class="flag-icon flag-icon-${countryCode.toLowerCase()}"></span>`;
+    } else if (existsNonCountry) {
+        return `<span title=${teamName}><strong>[${teamName}]</strong><span>`
+    } else {
+        console.log(`Could not find country or team: ${teamName}`)
+        return "";
+    }
 }

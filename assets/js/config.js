@@ -45,10 +45,10 @@ function listPGNFiles() {
     //
     // Example 1: video on the left and image on the right;  presence of "date" parameter disables
     //   selection of this round a number of minutes (`minsBeforeRound`) before its start
-    begin = dateFromArray([2020, 11, 10, 15, 00])
+    begin = dateFromArray([2020, 11, 10, 15, 0])
     allPGNs.push({
         "name" : "1. kolo - " + dateToString(begin),
-        "pgn" : "pgn/r1.pgn",
+        "pgn" : "pgn/all.pgn",
         "date" : begin,
         "video-left" : "https://www.youtube.com/embed/4jT0hUODzdQ",
         "image-right" : "https://tinyurl.com/y73a4vrz",
@@ -59,7 +59,7 @@ function listPGNFiles() {
     });
 
     // Example 2: only image on the right
-    begin = dateFromArray([2020, 11, 11, 13, 00])
+    begin = dateFromArray([2020, 11, 11, 13, 0])
     allPGNs.push({
         "name" : "2. kolo - " + dateToString(begin),
         "pgn" : "pgn/r2.pgn",
@@ -72,7 +72,7 @@ function listPGNFiles() {
     });
 
     // Example 3: neither video nor image on any side
-    begin = dateFromArray([2020, 11, 12, 13, 00])
+    begin = dateFromArray([2020, 11, 12, 13, 0])
      allPGNs.push({
          "name" : "3. kolo - " + dateToString(begin),
          "pgn" : "pgn/r3.pgn",
