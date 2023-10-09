@@ -171,11 +171,17 @@ function customFunctionOnPgnGameLoad() {
     customPgnHeaderTag("WhiteTeam", "PlayerCountry1");
     customPgnHeaderTag("BlackTeam", "PlayerCountry2");
 
-    document.getElementById("PlayerFlag1").innerHTML = 
-        getCountryFlagEmoji(document.getElementById("PlayerCountry1").innerHTML);
+    let playerCountry1 = document.getElementById("PlayerCountry1").innerHTML;
+    let playerCountry2 = document.getElementById("PlayerCountry2").innerHTML;
+    
+    if (playerCountry1 && playerCountry1 !== "") {
+        document.getElementById("PlayerFlag1").innerHTML = getCountryFlagEmoji(IsRotated ? playerCountry2 : playerCountry1);
+    }
+        
+    if (playerCountry2 && playerCountry2 !== "") {
+        document.getElementById("PlayerFlag2").innerHTML = getCountryFlagEmoji(IsRotated ? playerCountry1 : playerCountry2);
+    }
 
-    document.getElementById("PlayerFlag2").innerHTML = 
-        getCountryFlagEmoji(document.getElementById("PlayerCountry2").innerHTML);
 
     // For players without rating, leave an empty field
     let whiteRat = document.getElementById("GameWhiteRating");
@@ -445,6 +451,17 @@ function flipBoard() {
     let clkW = document.getElementById("GameWhiteClock");
     document.getElementById("ClockPlace1").appendChild(IsRotated ? clkB : clkW);
     document.getElementById("ClockPlace2").appendChild(IsRotated ? clkW : clkB);
+
+    let team1 = document.getElementById("PlayerCountry1").innerHTML;
+    let team2 = document.getElementById("PlayerCountry2").innerHTML;
+
+    if (team1 && team1 !== "") {
+        document.getElementById("PlayerFlag1").innerHTML = getCountryFlagEmoji(IsRotated ? team1 : team2);
+    }
+        
+    if (team2 && team2 !== "") {
+        document.getElementById("PlayerFlag2").innerHTML = getCountryFlagEmoji(IsRotated ? team2: team1);
+    }
 
     FlipBoard();  // This will refresh all the default tags (GameWhite, GameWhiteClock etc)...
     adjustSquareSize(scaleOption); // ...and also mess up with piece image sizes, so we resize them
