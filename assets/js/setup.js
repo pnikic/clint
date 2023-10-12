@@ -171,16 +171,11 @@ function customFunctionOnPgnGameLoad() {
     customPgnHeaderTag("WhiteTeam", "PlayerCountry1");
     customPgnHeaderTag("BlackTeam", "PlayerCountry2");
 
-    let playerCountry1 = document.getElementById("PlayerCountry1").innerHTML;
-    let playerCountry2 = document.getElementById("PlayerCountry2").innerHTML;
-    
-    if (playerCountry1 && playerCountry1 !== "") {
-        document.getElementById("PlayerFlag1").innerHTML = getCountryFlagEmoji(IsRotated ? playerCountry2 : playerCountry1);
-    }
-        
-    if (playerCountry2 && playerCountry2 !== "") {
-        document.getElementById("PlayerFlag2").innerHTML = getCountryFlagEmoji(IsRotated ? playerCountry1 : playerCountry2);
-    }
+
+    let team1 = document.getElementById("PlayerCountry1");
+    let team2 = document.getElementById("PlayerCountry2");
+    document.getElementById("PlayerFlag1").innerHTML = getCountryFlagEmoji(team1.innerHTML);
+    document.getElementById("PlayerFlag2").innerHTML = getCountryFlagEmoji(team2.innerHTML);
 
 
     // For players without rating, leave an empty field
@@ -199,8 +194,9 @@ function customFunctionOnPgnGameLoad() {
     if (getDisplayedGame() != displayedGame) {
         // If a new game is loaded and the board was rotated, rotate back
         // After loading a new game, white will always be on bottom
-        if (IsRotated)
+        if (IsRotated) {
             flipBoard();
+        }
 
         displayedGame = getDisplayedGame();
         highlightSelectedGame();
@@ -434,17 +430,38 @@ function flipBoard() {
     document.getElementById("ResultPlace1").appendChild(IsRotated ? bsn : wsn);
     document.getElementById("ResultPlace2").appendChild(IsRotated ? wsn : bsn);
 
+    // Flip player names places
+    let nameB = document.getElementById("GameBlack");
+    let nameW = document.getElementById("GameWhite");
+    document.getElementById("PlayerPlace1").appendChild(IsRotated ? nameB : nameW);
+    document.getElementById("PlayerPlace2").appendChild(IsRotated ? nameW : nameB);
+
+    let team1 = document.getElementById("PlayerCountry1");
+    let team2 = document.getElementById("PlayerCountry2");
+    let flag1 = document.getElementById("PlayerFlag1");
+    let flag2 = document.getElementById("PlayerFlag2");
+
+
+    if (team1 && team1 !== "") {
+        document.getElementById("PlayerPlace1").appendChild(IsRotated ? flag1 : flag2);
+        document.getElementById("PlayerPlace1").appendChild(IsRotated ? team1 : team2);
+    }
+        
+    if (team2 && team2 !== "") {
+        document.getElementById("PlayerPlace2").appendChild(IsRotated ? flag2 : flag1);
+        document.getElementById("PlayerPlace2").appendChild(IsRotated ? team2 : team1);
+    }
+
+    document.getElementById("PlayerFlag1").innerHTML = getCountryFlagEmoji(team1.innerHTML);
+    document.getElementById("PlayerFlag2").innerHTML = getCountryFlagEmoji(team2.innerHTML);
+
     // Flip rating places
     let ratB = document.getElementById("GameBlackRating");
     let ratW = document.getElementById("GameWhiteRating");
     document.getElementById("RatingPlace1").appendChild(IsRotated ? ratB : ratW);
     document.getElementById("RatingPlace2").appendChild(IsRotated ? ratW : ratB);
 
-    // Flip player names places
-    let nameB = document.getElementById("GameBlack");
-    let nameW = document.getElementById("GameWhite");
-    document.getElementById("PlayerPlace1").appendChild(IsRotated ? nameB : nameW);
-    document.getElementById("PlayerPlace2").appendChild(IsRotated ? nameW : nameB);
+
 
     // Flip clock places
     let clkB = document.getElementById("GameBlackClock");
@@ -452,16 +469,7 @@ function flipBoard() {
     document.getElementById("ClockPlace1").appendChild(IsRotated ? clkB : clkW);
     document.getElementById("ClockPlace2").appendChild(IsRotated ? clkW : clkB);
 
-    let team1 = document.getElementById("PlayerCountry1").innerHTML;
-    let team2 = document.getElementById("PlayerCountry2").innerHTML;
 
-    if (team1 && team1 !== "") {
-        document.getElementById("PlayerFlag1").innerHTML = getCountryFlagEmoji(IsRotated ? team1 : team2);
-    }
-        
-    if (team2 && team2 !== "") {
-        document.getElementById("PlayerFlag2").innerHTML = getCountryFlagEmoji(IsRotated ? team2: team1);
-    }
 
     FlipBoard();  // This will refresh all the default tags (GameWhite, GameWhiteClock etc)...
     adjustSquareSize(scaleOption); // ...and also mess up with piece image sizes, so we resize them
@@ -1450,9 +1458,9 @@ function getCountryFlagEmoji(teamName) {
     const countryCode = countryMapping[teamName];
     const existsNonCountry = nonCountryTeams.includes(teamName)
     if (countryCode) {
-        return `<span title=${teamName} class="flag-icon flag-icon-${countryCode.toLowerCase()}"></span>`;
+        return `<span title="${teamName}" class="flag-icon flag-icon-${countryCode.toLowerCase()}"></span>`;
     } else if (existsNonCountry) {
-        return `<span title=${teamName}><strong>[${teamName}]</strong><span>`
+        return `<span title="${teamName}"><strong>[${teamName}]</strong><span>`
     } else {
         console.log(`Could not find country or team: ${teamName}`)
         return "";
