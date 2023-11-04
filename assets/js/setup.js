@@ -26,7 +26,34 @@ let engine;
 let toMove;
 let engineStatus = 0;
 const globalDepth = 21;
+let viewPortSize = () => window.innerWidth >= 1260 ? 'L' : window.innerWidth >= 800 ? "M" : "S";
 
+var viewSize = viewPortSize();
+
+
+function logger() {
+    var newViewSize = viewPortSize();
+
+    if (newViewSize === viewSize) return;
+    else {
+        document.getElementById("EvaluationBar").style.transition = '';
+        switch (newViewSize) {
+            case "L":
+                document.getElementById('EvaluationBar').style.width = 'inherit'
+                break;
+            case "M":
+                document.getElementById('EvaluationBar').style.height = '50%'
+                break;
+            case "S":
+                break;
+        }
+    }
+    var num = parseInt(document.getElementById("EvaluationBarNumber").innerHTML);
+    resizeEvaluationBar(num);
+    viewSize = newViewSize;
+}
+
+window.onresize = logger;
 //===========================================================
 // Initialization code
 //===========================================================
@@ -571,11 +598,19 @@ function setEvaluationBarValue(num, ignoreEngineStatus) {
         if (num > 5) num = 5.00;
         if (num < -5) num = -5.00;
         document.getElementById("EvaluationBarNumber").innerHTML = num;
-        document.getElementById("EvaluationBar").style.transition = 'height 1s';
-        document.getElementById("EvaluationBar").style.height = `${((1.0 - ((num + 5) / 10.0)) * 100.0).toFixed(2)}%`;
+        resizeEvaluationBar(num);
     }
 }
 
+function resizeEvaluationBar(num) {
+    if (window.innerWidth >= 1260) {
+        document.getElementById("EvaluationBar").style.transition = 'height 1s';
+        document.getElementById("EvaluationBar").style.height = `${((1.0 - ((num + 5) / 10.0)) * 100.0).toFixed(2)}%`;
+    } else {
+        document.getElementById("EvaluationBar").style.transition = 'width 1s';
+        document.getElementById("EvaluationBar").style.width = `${((1.0 - ((num + 5) / 10.0)) * 100.0).toFixed(2)}%`;
+    } 
+}
 
 function useEngine() {
     if (!engine) {

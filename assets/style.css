@@ -631,7 +631,7 @@ iframe {
     grid-template-columns: 
         var(--main-margin) 
         minmax(350px, 45vw) 
-        minmax(25px, 3vw)
+        minmax(35px, 4vw)
         minmax(min(60vw, 60vh), min(80vw, 80vh)) 
         minmax(350px, 45vw) 
         var(--main-margin);
@@ -644,6 +644,30 @@ iframe {
     justify-content: center;
 }
 
+@media (min-width: 1260px) {
+    #EvaluationBarContainer {
+        width:50px;
+        position:relative;
+        border-radius: .25rem;
+        background-color: var(--main-color-bg);
+        grid-area: evaluationBar
+    }
+
+    #EvaluationBar {
+        background-color:grey;
+        width:inherit;
+        border-radius: .25rem;
+        height:50%;
+        position:absolute;
+        bottom:0;
+    }
+
+    #EvaluationBarNumber {
+        color: whitesmoke;
+        transition: b
+    }
+
+}
 @media (min-width: 800px) and (max-width: 1259px) {
     #SingleBoardView {
         grid-template-columns: var(--main-margin) minmax(min(60vw, 60vh), min(80vw, 80vh)) minmax(25vw, 45vw) var(--main-margin);
@@ -651,7 +675,7 @@ iframe {
             ". topname . ."
             ". board pgn ."
             ". botname controls ."
-            ". . settings ."
+            ". evaluationBar settings ."
             ". games games .";
     }
 
@@ -668,6 +692,30 @@ iframe {
         height: 40px;
         padding: 6px;
     }
+
+    #EvaluationBarContainer {
+        margin-top:9px;
+        width:100%;
+        height:50px;
+        position:relative;
+        border-radius: .25rem;
+        background-color: var(--main-color-bg);
+        grid-area: evaluationBar;
+    }
+
+    #EvaluationBar {
+        background-color:grey;
+        width:inherit;
+        border-radius: .25rem;
+        margin-top:13px;
+        height:50%;
+        position:absolute;
+    }
+
+    #EvaluationBarNumber {
+        color: whitesmoke;
+        transition: b
+    }
 }
 
 @media (max-width: 799px) {
@@ -677,6 +725,7 @@ iframe {
             "topname"
             "board"
             "botname"
+            "evaluationBar"
             "controls"
             "settings"
             "pgn"
@@ -695,6 +744,30 @@ iframe {
     .controlsItem button, #SettingsBtn, #DownloadModalBtn {
         height: 50px;
         padding: 9px;
+    }
+
+    #EvaluationBarContainer {
+        margin-top:9px;
+        width:100%;
+        height:50px;
+        position:relative;
+        border-radius: .25rem;
+        background-color: var(--main-color-bg);
+        grid-area: evaluationBar;
+    }
+
+    #EvaluationBar {
+        background-color:grey;
+        width:inherit;
+        border-radius: .25rem;
+        margin-top:13px;
+        height:50%;
+        position:absolute;
+    }
+
+    #EvaluationBarNumber {
+        color: whitesmoke;
+        transition: b
     }
 }
 
@@ -732,24 +805,3 @@ iframe {
     text-align: center;
 }
 
-#EvaluationBarContainer {
-    width:50px;
-    position:relative;
-    border-radius: .25rem;
-    background-color: var(--main-color-bg);
-    grid-area: evaluationBar
-}
-
-#EvaluationBar {
-    background-color:grey;
-    width:inherit;
-    border-radius: .25rem;
-    height:50%;
-    position:absolute;
-    bottom:0;
-}
-
-#EvaluationBarNumber {
-    color: whitesmoke;
-    transition: b
-}
