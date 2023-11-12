@@ -1,604 +1,301 @@
 <!DOCTYPE HTML>
 <html>
-    <head>
-        <meta http-equiv="Content-Type"
-              content="text/html; charset=UTF-8">
-        <meta name="description"
-              content="Live chess broadcast with pgn4web">
-        <meta name='viewport'
-              content='width=device-width user-scalable=no'/>
-        <link rel="shortcut icon"
-              href="favicon.ico">
 
-        <!-- Open Graph and Twitter tags - they control how URLs are displayed when shared -->
-        <meta property="og:title" content="Clint - chess live interface">
-        <meta property="og:description" content="Live broadcast of chess tournaments.">
-        <meta property="og:image" content="https://raw.githubusercontent.com/pnikic/clint/master/assets/images/logo.png">
-        <meta property="og:url" content="https://github.com/pnikic/clint/">
-        <meta name="twitter:card" content="https://raw.githubusercontent.com/pnikic/clint/master/assets/images/logo.png">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="Live chess broadcast with pgn4web">
+    <meta name='viewport' content='width=device-width user-scalable=no' />
+    <link rel="shortcut icon" href="favicon.ico">
 
-        <!-- =========================================================== -->
-        <!--  Paths to styles -->
-        <!-- =========================================================== -->
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet"
-              href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-              integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
-              crossorigin="anonymous">
-        <!-- Font Awesome CSS -->
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
-        <link rel="stylesheet" type="text/css" href="assets/style.css">
+    <!-- Open Graph and Twitter tags - they control how URLs are displayed when shared -->
+    <meta property="og:title" content="Clint - chess live interface">
+    <meta property="og:description" content="Live broadcast of chess tournaments.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/pnikic/clint/master/assets/images/logo.png">
+    <meta property="og:url" content="https://github.com/pnikic/clint/">
+    <meta name="twitter:card" content="https://raw.githubusercontent.com/pnikic/clint/master/assets/images/logo.png">
 
-        <!-- =========================================================== -->
-        <!--  Paths to scripts -->
-        <!-- =========================================================== -->
-        <!-- Optional Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-                integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-                crossorigin="anonymous"
-                defer>
+    <!-- =========================================================== -->
+    <!--  Paths to styles -->
+    <!-- =========================================================== -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+
+    <!-- =========================================================== -->
+    <!--  Paths to scripts -->
+    <!-- =========================================================== -->
+    <!-- Optional Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"
+        defer>
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-                crossorigin="anonymous"
-                defer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"
+        defer>
         </script>
-        <!-- ChessJS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"
-                defer>
-        </script>
-        <!-- Paths to pgn4web.js, config.js and setup.js. Note that config.js is given a random
+    <!-- ChessJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js" defer>
+    </script>
+    <!-- Paths to pgn4web.js, config.js and setup.js. Note that config.js is given a random
              number to be reloaded each time (cache busting). This allows the operator to change
              the file anytime and ensure the newest version is always downloaded on the client side.
         -->
-        <script src="../pgn4web-3.04/pgn4web.js"
-                defer>
-        </script>
-        <script type="text/javascript"
-                defer>
-         document.write("<scr" + "ipt src='assets/js/config.js?" + Math.random() +
-                        "' type='text/javascript' defer></scr" + "ipt>");
-        </script>
-        <script src="assets/js/clock.js"
-                defer>
-        </script>
-        <script src="assets/js/setup.js"
-                defer>
-        </script>
+    <script src="../pgn4web-3.04/pgn4web.js" defer>
+    </script>
+    <script type="text/javascript" defer>
+        document.write("<scr" + "ipt src='assets/js/config.js?" + Math.random() +
+            "' type='text/javascript' defer></scr" + "ipt>");
+    </script>
+    <script src="assets/js/clock.js" defer>
+    </script>
+    <script src="assets/js/setup.js" defer>
+    </script>
+    <script src="assets/js/country-mapping.js" defer>
+    </script>
 
 
-        <!-- =========================================================== -->
-        <!--  Title in address bar -->
-        <!-- =========================================================== -->
-        <title>Clint</title>
+    <!-- =========================================================== -->
+    <!--  Title in address bar -->
+    <!-- =========================================================== -->
+    <title>Clint</title>
 
-        <!--  Paths to fonts -->
-        <!--  Font can be changed in assets/style.css on the line with elements: -->
-        <!--    #GameText, #EngineVariationDiv { ... } -->
-        <link rel="stylesheet"
-              type="text/css"
-              href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansUsual.css">
-        <link rel="stylesheet"
-              type="text/css"
-              href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansMerida.css">
-        <link rel="stylesheet"
-              type="text/css"
-              href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansPiratf.css">
-        <!--  Note that pgn4web includes more fonts. Check the pgn4web-x.yz/fonts directory -->
-        <!-- =========================================================== -->
-    </head>
+    <!--  Paths to fonts -->
+    <!--  Font can be changed in assets/style.css on the line with elements: -->
+    <!--    #GameText, #EngineVariationDiv { ... } -->
+    <link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansUsual.css">
+    <link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansMerida.css">
+    <link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansPiratf.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">    <!--  Note that pgn4web includes more fonts. Check the pgn4web-x.yz/fonts directory -->
+    <!-- =========================================================== -->
+</head>
 
-    <body class="d-flex flex-column min-vh-100"
-          onresize="resizeCallback();">
-        <!-- =========================================================== -->
-        <!--  Banner begin -->
-        <!-- =========================================================== -->
-        <div class="banner mb-4">
-            <!-- Define path for logo, or delete <img> tag if there is nothing to display
+<body class="d-flex flex-column min-vh-100" onresize="resizeCallback();">
+    <!-- =========================================================== -->
+    <!--  Banner begin -->
+    <!-- =========================================================== -->
+    <div class="banner mb-4">
+        <!-- Define path for logo, or delete <img> tag if there is nothing to display
                  In case of more logos, duplicate the img tag and edit the src attributes -->
-            <img src="assets/images/logo.png"
-                 alt="logo">
-            <h3 class="text-center">
-                <span>Ime turnira<br>Mjesto, od.–do.mm.yyyy.</span>
-            </h3>
-        </div>
+        <img src="assets/images/logo.png" alt="logo">
+        <h3 class="text-center">
+            <span>Ime turnira<br>Mjesto, od.–do.mm.yyyy.</span>
+        </h3>
+    </div>
 
-        <!-- =========================================================== -->
-        <!--  Single board view -->
-        <!-- =========================================================== -->
-        <div id="SingleBoardView"
-             class="flex-fill">
-            <div class="gamesItem">
-                <div id="VideoDivLeft"
-                     class="mx-3 mb-1"
-                     style="display:none;">
-                    <iframe frameborder="0"
-                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen>
-                    </iframe>
-                </div>
-
-                <div id="ImageDivLeft"
-                     class="mx-3 mb-1"
-                     style="display:none;">
-                </div>
-
-                <div class="mx-3 mb-2">
-                    <div class="row">
-                        <div class="col-12">
-                            <select id="PgnFileSelect"
-                                    class="custom-select shadow-none"
-                                    onChange="changePGN(this.value)">
-                                <option value='-1'>Odabir kola</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mx-3 mb-2">
-                    <div class="row align-items-center">
-                        <div class="col-12">
-                            <input id="SearchInput"
-                                   type="text"
-                                   placeholder="Traži igrača..."
-                                   class="w-100 h-30p pl-3"
-                                   onkeyup="applyGameSelectionFilters();">
-                        </div>
-                    </div>
-                </div>
-
-                <div id="GameSelectionDiv"
-                     class="mx-3">
-                </div>
+    <!-- =========================================================== -->
+    <!--  Single board view -->
+    <!-- =========================================================== -->
+    <div id="SingleBoardView" class="flex-fill">
+        <div class="gamesItem">
+            <div id="VideoDivLeft" class="mx-3 mb-1" style="display:none;">
+                <iframe frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
             </div>
 
-            <div class="settingsItem row mx-3">
-                <div class="col pl-0 pr-1">
-                    <button type="button"
-                            id="DownloadModalBtn"
-                            class="btn btn-custom h-30p"
-                            data-toggle="modal"
-                            data-target="#downloadModal"
-                            onclick="modalOpen();">
-                        <i class="fas fa-share-square"></i>
-                    </button>
-                </div>
-                <div id="SettingsDiv"
-                     class="col pr-0 pl-1 dropup">
-                    <button id="SettingsBtn"
-                            type="button"
-                            class="btn btn-custom h-30p w-100 dropdown-toggle"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false">
-                        <i class="fas fa-cog"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right text-right p-0"
-                         aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item"
-                           onclick="toggleView(1);">Više ploča
-                            <span class="beta">(beta)</span>
-                            <i class="fas fa-th pl-2"></i>
-                        </a>
-                        <a class="dropdown-item"
-                           onclick="toggleTheme();">Promjena teme
-                            <i class="fas fa-adjust pl-2"></i>
-                        </a>
-                        <a class="dropdown-item"
-                           onclick="SetHighlight(!highlightOption);">Istakni posljednji potez
-                            <i class="fas fa-highlighter pl-2"></i>
-                        </a>
-                        <a class="dropdown-item">Automatska reprodukcija (sec)
-                            <button type="button"
-                                    class="btn btn-custom dropdownItemBtn ml-1"
-                                    onclick="setAutoplayDelay(event, -1);">-
-                            </button>
-                            <span id="AutoplayDelaySpan"
-                                  class="d-inline-block text-center"></span>
-                            <button type="button"
-                                    class="btn btn-custom dropdownItemBtn"
-                                    onclick="setAutoplayDelay(event, 1);">+
-                            </button>
-                        </a>
-                        <a class="dropdown-item"
-                           onclick="flipBoard();">Okreni ploču
-                            <i class="fas fa-exchange-alt fa-rotate-270 pl-2"></i>
-                        </a>
+            <div id="ImageDivLeft" class="mx-3 mb-1" style="display:none;">
+            </div>
+
+            <div class="mx-3 mb-2">
+                <div class="row">
+                    <div class="col-12">
+                        <select id="PgnFileSelect" class="custom-select shadow-none" onChange="changePGN(this.value)">
+                            <option value='-1'>Odabir kola</option>
+                        </select>
                     </div>
                 </div>
             </div>
 
-            <!-- =========================================================== -->
-            <!--  Information about first player -->
-            <!-- =========================================================== -->
-            <div class="topPlayerItem row m-0">
-                <div id="ResultPlace1"
-                     class="result col-1 p-0 m-auto">
-                    <div id="ResultBlack"></div>
-                </div>
-                <span class="mr-auto col-8 p-0 pl-2 text-left">
-                    <span id="PlayerPlace1"
-                          class="playerName">
-                        <span id="GameBlack"></span>
-                    </span>
-                    <span id="RatingPlace1"
-                          class="rating pl-2">
-                        <span id="GameBlackRating"></span>
-                    </span>
-                </span>
-                <div id="ClockPlace1"
-                     class="col-3 h-100 d-flex align-items-center justify-content-end p-0 pr-2 clock">
-                    <div id="GameBlackClock"></div>
-                </div>
-            </div>
-            <!-- =========================================================== -->
-            <!--  Information about second player -->
-            <!-- =========================================================== -->
-            <div class="botPlayerItem row m-0">
-                <div id="ResultPlace2"
-                     class="result col-1 p-0 m-auto">
-                    <div id="ResultWhite"></div>
-                </div>
-                <span class="mr-auto col-8 p-0 pl-2 text-left">
-                    <span id="PlayerPlace2"
-                          class="playerName">
-                        <span id="GameWhite"></span>
-                    </span>
-                    <span id="RatingPlace2"
-                          class="rating pl-2">
-                        <span id="GameWhiteRating"></span>
-                    </span>
-                </span>
-                <div id="ClockPlace2"
-                     class="col-3 h-100 d-flex align-items-center justify-content-end p-0 pr-2 clock">
-                    <div id="GameWhiteClock"></div>
-                </div>
-            </div>
-            <div class="boardItem">
-                <!-- =========================================================== -->
-                <!--  Game Board -->
-                <!-- =========================================================== -->
-                <div id="GameBoard"></div>
-
-                <div class="modal fade"
-                     id="downloadModal"
-                     tabindex="-1"
-                     role="dialog"
-                     aria-labelledby="downloadModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog"
-                         role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title mx-auto"
-                                    id="downloadModalLabel">Podijeli</h5>
-                                <button type="button"
-                                        class="close mx-1"
-                                        data-dismiss="modal"
-                                        aria-label="Close"
-                                        onclick="hideSnackbarMessage();">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <h5>FEN:</h5>
-                                <div class="row align-items-center">
-                                    <div class="col-8 col-lg-10">
-                                        <input id="FENinput"
-                                               type="text"
-                                               class="w-100"
-                                               readonly>
-                                    </div>
-                                    <div class="col-4 col-lg-2">
-                                        <button class="btn btn-custom h-40p"
-                                                onclick="copyInput('FENinput'); snackbarMessage('FEN kopiran');">
-                                            <i class="fas fa-copy fa-lg"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <h5>PGN:</h5>
-                                <div class="row align-items-center">
-                                    <div class="col-8 col-lg-10">
-                                        <textarea id="PGNinput"
-                                                  rows="9"
-                                                  class="w-100"
-                                                  readonly="readonly">
-                                        </textarea>
-                                    </div>
-                                    <div class="col-4 col-lg-2">
-                                        <button class="btn btn-custom h-40p"
-                                                onclick="copyInput('PGNinput'); snackbarMessage('PGN kopiran');">
-                                            <i class="fas fa-copy fa-lg"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer d-block px-0 px-lg-3">
-                                <h5>Preuzimanje PGN:</h5>
-                                <div class="row w-100 mx-auto">
-                                    <div class="col-lg-6">
-                                        <div class="row align-items-center">
-                                            <div class="col-8">
-                                            Odabrano kolo:
-                                            </div>
-                                            <div class="col-4">
-                                                <a id="currLink"
-                                                   class="btn btn-custom h-40p"
-                                                   href="#">
-                                                    <i class="fas fa-download fa-lg"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 pt-1 pt-lg-0">
-                                        <div class="row align-items-center">
-                                            <div class="col-8">
-                                            Sva kola:
-                                            </div>
-                                            <div class="col-4">
-                                                <a id="allLink"
-                                                   class="btn btn-custom h-40p"
-                                                   href="#">
-                                                    <i class="fas fa-download fa-lg"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer d-block px-0 px-lg-3">
-                                <h5>Podijeli ovu partiju:</h5>
-                                <div class="row align-items-center mx-auto">
-                                    <div class="d-none d-lg-block col-lg-1">
-                                        <i class="fas fa-link fa-lg"></i>
-                                    </div>
-                                    <div class="col-8 col-lg-9">
-                                        <input id="ShareGameInput"
-                                               type="text"
-                                               class="w-100"
-                                               readonly>
-                                    </div>
-                                    <div class="col-4 col-lg-2">
-                                        <button class="btn btn-custom h-40p"
-                                                onclick="copyInput('ShareGameInput'); snackbarMessage('Poveznica kopirana');">
-                                            <i class="fas fa-copy fa-lg"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="mx-3 mb-2">
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <input id="SearchInput" type="text" placeholder="Traži igrača..." class="w-100 h-30p pl-3"
+                            onkeyup="applyGameSelectionFilters();">
                     </div>
                 </div>
             </div>
 
-            <div class="pgnItem">
-                <div id="VideoDivRight"
-                     class="mx-3 mb-1"
-                     style="display:none;">
-                    <iframe frameborder="0"
-                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen>
-                    </iframe>
-                </div>
-
-                <div id="ImageDivRight"
-                     class="mx-3 mb-1"
-                     style="display:none;">
-                </div>
-
-                <!-- =========================================================== -->
-                <!--  PGN text-->
-                <!-- =========================================================== -->
-                <div id="GameTextDiv"
-                     class="mx-3">
-                    <div id ="EngineEvalDiv"
-                         class="mx-auto">
-                        <div class="row h-100 align-items-center">
-                            <div class="col-3">
-                                <h3 id="Score" class="p-2 m-0"></h3>
-                            </div>
-                            <div class="col-5">
-                                <span>Stockfish</span><br><span id="Depth"></span>
-                            </div>
-                            <div class="col-4 h-75"
-                                 onclick="toggleEngine();">
-                                <i id="engineToggleIcon"
-                                   class="fas fa-toggle-off">
-                                </i>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="EngineVariationDiv"
-                         class="mx-auto text-center">
-                    </div>
-                    <div id="GameText" class="h5 mt-2 text-left"></div>
-                </div>
-            </div>
-
-            <!-- =========================================================== -->
-            <!--  Game select and navigate -->
-            <!-- =========================================================== -->
-            <div class="row controlsItem mx-3">
-                <div class="col pl-0 pr-1">
-                    <button type="button"
-                            class="col-12 btn btn-custom h-30p"
-                            onclick="GoToMove(StartPlyVar[0], 0);">
-                        <span>&lt;&lt;</span>
-                    </button>
-                </div>
-                <div class="col px-1">
-                    <button type="button"
-                            class="col-12 btn btn-custom h-30p"
-                            onclick="GoToMove(CurrentPly - 1);">
-                        <span>&lt;</span>
-                    </button>
-                </div>
-                <div class="col px-1">
-                    <button id="AutoPlayBtn"
-                            type="button"
-                            class="col-12 btn btn-custom h-30p"
-                            onclick="toggleAutoplay();">
-                        <span>&#9655;</span>
-                    </button>
-                </div>
-                <div class="col px-1">
-                    <button type="button"
-                            class="col-12 btn btn-custom h-30p"
-                            onclick="GoToMove(CurrentPly + 1);">
-                        <span>&gt;</span>
-                    </button>
-                </div>
-                <div class="col pl-1 pr-0">
-                    <button type="button"
-                            class="col-12 btn btn-custom h-30p"
-                            onclick="GoToMove(StartPlyVar[0] + PlyNumberVar[0], 0);">
-                        <span>&gt;&gt;</span>
-                    </button>
-                </div>
+            <div id="GameSelectionDiv" class="mx-3">
             </div>
         </div>
 
-        <!-- =========================================================== -->
-        <!--  Multiple boards view -->
-        <!-- =========================================================== -->
-        <div id="MultiBoardView"
-             class="flex-fill"
-             style="display: none;">
-            <div id="IframesContainer"
-                 class="iframesItem">
+        <div class="settingsItem row mx-3">
+            <div class="col pl-0 pr-1">
+                <button type="button" id="DownloadModalBtn" class="btn btn-custom h-30p" data-toggle="modal"
+                    data-target="#downloadModal" onclick="modalOpen();">
+                    <i class="fas fa-share-square"></i>
+                </button>
             </div>
-
-            <!-- =========================================================== -->
-            <!--  Settings -->
-            <!-- =========================================================== -->
-            <div class="multiboardSettingsItem row m-0">
-                <div class="col-12 col-lg-5 mb-3 mb-lg-0">
-                    <select id="MultiboardFileSelect"
-                            class="custom-select  mx-auto shadow-none"
-                            onChange="changeFramesPGN(this.value)">
-                        <option value='-1'>Odabir kola</option>
-                    </select>
-                </div>
-                <div class="col-9 col-lg-5">
-                    <button type="button"
-                            id="MultiboardModalBtn"
-                            class="btn btn-custom m-0 w-100 h-40p"
-                            data-toggle="modal"
-                            data-target="#multiboardModal">
-                        <span>Odabir partija</span>
-                        <i class="fas fa-list-ul pl-2"></i>
-                    </button>
-                </div>
-                <div class="col-3 col-lg-2">
-                    <div class="dropup d-inline">
-                        <button id="MultipleBoardsSettingsBtn"
-                                type="button"
-                                class="btn btn-custom m-0 w-100 dropdown-toggle h-40p"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                            <i class="fas fa-cog"></i>
+            <div id="SettingsDiv" class="col pr-0 pl-1 dropup">
+                <button id="SettingsBtn" type="button" class="btn btn-custom h-30p w-100 dropdown-toggle"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right text-right p-0" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" onclick="toggleView(1);">Više ploča
+                        <span class="beta">(beta)</span>
+                        <i class="fas fa-th pl-2"></i>
+                    </a>
+                    <a class="dropdown-item" onclick="toggleTheme();">Promjena teme
+                        <i class="fas fa-adjust pl-2"></i>
+                    </a>
+                    <a class="dropdown-item" onclick="SetHighlight(!highlightOption);">Istakni posljednji potez
+                        <i class="fas fa-highlighter pl-2"></i>
+                    </a>
+                    <a class="dropdown-item">Automatska reprodukcija (sec)
+                        <button type="button" class="btn btn-custom dropdownItemBtn ml-1"
+                            onclick="setAutoplayDelay(event, -1);">-
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right text-right p-0"
-                             aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item"
-                               onclick="toggleView(0);">
-                                <span>Jedna ploča</span>
-                                <i class="fas fa-chess-board pl-2"></i>
-                            </a>
-                            <a class="dropdown-item"
-                               onclick="toggleTheme();">Promjena teme
-                                <i class="fas fa-adjust pl-2"></i>
-                            </a>
-                            <a class="dropdown-item"
-                               onclick="toggleMoveHighlight();">
-                                <span>Istakni posljednji potez</span>
-                                <i class="fas fa-highlighter pl-2"></i>
-                            </a>
-                            <a class="dropdown-item"
-                               onclick="toggleControlPanels();">
-                                <span>Prikaz navigacijske trake</span>
-                                <i class="fas fa-window-minimize"></i>
-                            </a>
-                        </div>
-                    </div>
+                        <span id="AutoplayDelaySpan" class="d-inline-block text-center"></span>
+                        <button type="button" class="btn btn-custom dropdownItemBtn"
+                            onclick="setAutoplayDelay(event, 1);">+
+                        </button>
+                    </a>
+                    <a class="dropdown-item" onclick="flipBoard();">Okreni ploču
+                        <i class="fas fa-exchange-alt fa-rotate-270 pl-2"></i>
+                    </a>
                 </div>
             </div>
+        </div>
 
+        <div id="EvaluationBarContainer">
+            <div id="EvaluationBar">
+                <span id="EvaluationBarNumber">0</span>
+            </div>
+        </div>
+
+        <!-- =========================================================== -->
+        <!--  Information about first player -->
+        <!-- =========================================================== -->
+        <div class="topPlayerItem row m-0">
+            <div id="ResultPlace1" class="result col-1 p-0 m-auto">
+                <div id="ResultBlack"></div>
+            </div>
+            <span class="mr-auto col-8 p-0 pl-2 text-left">
+                <span id="PlayerPlace1" class="playerName">
+                    <span style="margin-right:10px" id="GameBlack"></span>
+                    <span id="PlayerFlag1"></span>
+                    <span style="display:none" id="PlayerCountry1"></span>
+                </span>
+                <span id="RatingPlace1" class="rating pl-2">
+                    <span id="GameBlackRating"></span>
+                </span>
+            </span>
+            <div id="ClockPlace1" class="col-3 h-100 d-flex align-items-center justify-content-end p-0 pr-2 clock">
+                <div id="GameBlackClock"></div>
+            </div>
+        </div>
+        <!-- =========================================================== -->
+        <!--  Information about second player -->
+        <!-- =========================================================== -->
+        <div class="botPlayerItem row m-0">
+            <div id="ResultPlace2" class="result col-1 p-0 m-auto">
+                <div id="ResultWhite"></div>
+            </div>
+            <span class="mr-auto col-8 p-0 pl-2 text-left">
+                <span id="PlayerPlace2" class="playerName">
+                    <span style="margin-right:10px" id="GameWhite"></span>
+                    <span id="PlayerFlag2"></span>
+                    <span style="display:none" id="PlayerCountry2"></span>
+                </span>
+                <span id="RatingPlace2" class="rating pl-2">
+                    <span id="GameWhiteRating"></span>
+                </span>
+            </span>
+            <div id="ClockPlace2" class="col-3 h-100 d-flex align-items-center justify-content-end p-0 pr-2 clock">
+                <div id="GameWhiteClock"></div>
+            </div>
+        </div>
+        <div class="boardItem">
             <!-- =========================================================== -->
-            <!--  Multiboard Modal -->
+            <!--  Game Board -->
             <!-- =========================================================== -->
-            <div class="modal fade"
-                 id="multiboardModal"
-                 tabindex="-1"
-                 role="dialog"
-                 aria-labelledby="multiboardModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-lg"
-                     role="document">
+            <div id="GameBoard"></div>
+
+            <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title"
-                                id="multiboardModalLabel">
-                                <span>Odabir partija za prikaz</span>
-                            </h5>
-                            <button type="button"
-                                    class="close"
-                                    data-dismiss="modal"
-                                    aria-label="Close">
+                            <h5 class="modal-title mx-auto" id="downloadModalLabel">Podijeli</h5>
+                            <button type="button" class="close mx-1" data-dismiss="modal" aria-label="Close"
+                                onclick="hideSnackbarMessage();">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="mx-3 mt-2">
+                        <div class="modal-body">
+                            <h5>FEN:</h5>
                             <div class="row align-items-center">
-                                <div class="col-8">
-                                    <input id="multiboardSearchInput"
-                                           type="text"
-                                           placeholder="Traži igrača..."
-                                           class="w-100 h-30p pl-3"
-                                           onkeyup="applyGameSelectionFilters();">
+                                <div class="col-8 col-lg-10">
+                                    <input id="FENinput" type="text" class="w-100" readonly>
                                 </div>
-                                <div class="col-2">
-                                    <input id="multiboardOngoingCheckbox"
-                                           class="position-static"
-                                           type="checkbox"
-                                           value="0"
-                                           onclick="applyGameSelectionFilters();">
-                                    <span class="small">U tijeku</span>
+                                <div class="col-4 col-lg-2">
+                                    <button class="btn btn-custom h-40p"
+                                        onclick="copyInput('FENinput'); snackbarMessage('FEN kopiran');">
+                                        <i class="fas fa-copy fa-lg"></i>
+                                    </button>
                                 </div>
-                                <div class="col-2">
-                                    <input id="multiboardSelectAllCheckbox"
-                                           class="position-static"
-                                           type="checkbox"
-                                           value="0"
-                                           onclick="gameSelectionModalSelectAllCheckbox(this);">
-                                    <span class="small">Označi sve</span>
+                            </div>
+
+                            <h5>PGN:</h5>
+                            <div class="row align-items-center">
+                                <div class="col-8 col-lg-10">
+                                    <textarea id="PGNinput" rows="9" class="w-100" readonly="readonly">
+                                        </textarea>
+                                </div>
+                                <div class="col-4 col-lg-2">
+                                    <button class="btn btn-custom h-40p"
+                                        onclick="copyInput('PGNinput'); snackbarMessage('PGN kopiran');">
+                                        <i class="fas fa-copy fa-lg"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="modal-body pt-1"
-                             id="GamesSelectionContainer">
+                        <div class="modal-footer d-block px-0 px-lg-3">
+                            <h5>Preuzimanje PGN:</h5>
+                            <div class="row w-100 mx-auto">
+                                <div class="col-lg-6">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            Odabrano kolo:
+                                        </div>
+                                        <div class="col-4">
+                                            <a id="currLink" class="btn btn-custom h-40p" href="#">
+                                                <i class="fas fa-download fa-lg"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 pt-1 pt-lg-0">
+                                    <div class="row align-items-center">
+                                        <div class="col-8">
+                                            Sva kola:
+                                        </div>
+                                        <div class="col-4">
+                                            <a id="allLink" class="btn btn-custom h-40p" href="#">
+                                                <i class="fas fa-download fa-lg"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <div class="row w-100">
-                                <h5 class="col-8">
-                                    <span>Odabrano</span>
-                                    <b id="CountSelected"></b>
-                                    <span> / </span>
-                                    <b id="MaxSelected"></b>
-                                    <span>partija</span>
-                                </h5>
-                                <div class="col-4">
-                                    <button type="button"
-                                            id="multiboardSaveBtn"
-                                            class="btn btn-custom m-0"
-                                            data-dismiss="modal"
-                                            aria-label="Save"
-                                            onclick="onGameSelectionModalSave();">
-                                        <span>Spremi</span>
+                        <div class="modal-footer d-block px-0 px-lg-3">
+                            <h5>Podijeli ovu partiju:</h5>
+                            <div class="row align-items-center mx-auto">
+                                <div class="d-none d-lg-block col-lg-1">
+                                    <i class="fas fa-link fa-lg"></i>
+                                </div>
+                                <div class="col-8 col-lg-9">
+                                    <input id="ShareGameInput" type="text" class="w-100" readonly>
+                                </div>
+                                <div class="col-4 col-lg-2">
+                                    <button class="btn btn-custom h-40p"
+                                        onclick="copyInput('ShareGameInput'); snackbarMessage('Poveznica kopirana');">
+                                        <i class="fas fa-copy fa-lg"></i>
                                     </button>
                                 </div>
                             </div>
@@ -608,18 +305,195 @@
             </div>
         </div>
 
-        <div id="Snackbar"></div>
-        <div id="GameSideToMove"></div>
-        <div id="GameResult"></div>
+        <div class="pgnItem">
+            <div id="VideoDivRight" class="mx-3 mb-1" style="display:none;">
+                <iframe frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <div id="ImageDivRight" class="mx-3 mb-1" style="display:none;">
+            </div>
+
+            <!-- =========================================================== -->
+            <!--  PGN text-->
+            <!-- =========================================================== -->
+            <div id="GameTextDiv" class="mx-3">
+                <div id="EngineEvalDiv" class="mx-auto">
+                    <div class="row h-100 align-items-center">
+                        <div class="col-3">
+                            <h3 id="Score" class="p-2 m-0"></h3>
+                        </div>
+                        <div class="col-5">
+                            <span>Stockfish</span><br><span id="Depth"></span>
+                        </div>
+                        <div class="col-4 h-75" onclick="toggleEngine();">
+                            <i id="engineToggleIcon" class="fas fa-toggle-off">
+                            </i>
+                        </div>
+                    </div>
+                </div>
+                <div id="EngineVariationDiv" class="mx-auto text-center">
+                </div>
+                <div id="GameText" class="h5 mt-2 text-left"></div>
+            </div>
+        </div>
 
         <!-- =========================================================== -->
-        <!--  Footer -->
+        <!--  Game select and navigate -->
         <!-- =========================================================== -->
-        <footer class="footer mt-3">
-            <div id="FooterRow"
-                 class="row justify-content-center">
-                <!-- Link buttons will be pasted here from JS -->
+        <div class="row controlsItem mx-3">
+            <div class="col pl-0 pr-1">
+                <button type="button" class="col-12 btn btn-custom h-30p" onclick="GoToMove(StartPlyVar[0], 0);">
+                    <span>&lt;&lt;</span>
+                </button>
             </div>
-        </footer>
-    </body>
+            <div class="col px-1">
+                <button type="button" class="col-12 btn btn-custom h-30p" onclick="GoToMove(CurrentPly - 1);">
+                    <span>&lt;</span>
+                </button>
+            </div>
+            <div class="col px-1">
+                <button id="AutoPlayBtn" type="button" class="col-12 btn btn-custom h-30p" onclick="toggleAutoplay();">
+                    <span>&#9655;</span>
+                </button>
+            </div>
+            <div class="col px-1">
+                <button type="button" class="col-12 btn btn-custom h-30p" onclick="GoToMove(CurrentPly + 1);">
+                    <span>&gt;</span>
+                </button>
+            </div>
+            <div class="col pl-1 pr-0">
+                <button type="button" class="col-12 btn btn-custom h-30p"
+                    onclick="GoToMove(StartPlyVar[0] + PlyNumberVar[0], 0);">
+                    <span>&gt;&gt;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================== -->
+    <!--  Multiple boards view -->
+    <!-- =========================================================== -->
+    <div id="MultiBoardView" class="flex-fill" style="display: none;">
+        <div id="IframesContainer" class="iframesItem">
+        </div>
+
+        <!-- =========================================================== -->
+        <!--  Settings -->
+        <!-- =========================================================== -->
+        <div class="multiboardSettingsItem row m-0">
+            <div class="col-12 col-lg-5 mb-3 mb-lg-0">
+                <select id="MultiboardFileSelect" class="custom-select  mx-auto shadow-none"
+                    onChange="changeFramesPGN(this.value)">
+                    <option value='-1'>Odabir kola</option>
+                </select>
+            </div>
+            <div class="col-9 col-lg-5">
+                <button type="button" id="MultiboardModalBtn" class="btn btn-custom m-0 w-100 h-40p" data-toggle="modal"
+                    data-target="#multiboardModal">
+                    <span>Odabir partija</span>
+                    <i class="fas fa-list-ul pl-2"></i>
+                </button>
+            </div>
+            <div class="col-3 col-lg-2">
+                <div class="dropup d-inline">
+                    <button id="MultipleBoardsSettingsBtn" type="button"
+                        class="btn btn-custom m-0 w-100 dropdown-toggle h-40p" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right text-right p-0" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" onclick="toggleView(0);">
+                            <span>Jedna ploča</span>
+                            <i class="fas fa-chess-board pl-2"></i>
+                        </a>
+                        <a class="dropdown-item" onclick="toggleTheme();">Promjena teme
+                            <i class="fas fa-adjust pl-2"></i>
+                        </a>
+                        <a class="dropdown-item" onclick="toggleMoveHighlight();">
+                            <span>Istakni posljednji potez</span>
+                            <i class="fas fa-highlighter pl-2"></i>
+                        </a>
+                        <a class="dropdown-item" onclick="toggleControlPanels();">
+                            <span>Prikaz navigacijske trake</span>
+                            <i class="fas fa-window-minimize"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =========================================================== -->
+        <!--  Multiboard Modal -->
+        <!-- =========================================================== -->
+        <div class="modal fade" id="multiboardModal" tabindex="-1" role="dialog" aria-labelledby="multiboardModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="multiboardModalLabel">
+                            <span>Odabir partija za prikaz</span>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="mx-3 mt-2">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <input id="multiboardSearchInput" type="text" placeholder="Traži igrača..."
+                                    class="w-100 h-30p pl-3" onkeyup="applyGameSelectionFilters();">
+                            </div>
+                            <div class="col-2">
+                                <input id="multiboardOngoingCheckbox" class="position-static" type="checkbox" value="0"
+                                    onclick="applyGameSelectionFilters();">
+                                <span class="small">U tijeku</span>
+                            </div>
+                            <div class="col-2">
+                                <input id="multiboardSelectAllCheckbox" class="position-static" type="checkbox"
+                                    value="0" onclick="gameSelectionModalSelectAllCheckbox(this);">
+                                <span class="small">Označi sve</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-body pt-1" id="GamesSelectionContainer">
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row w-100">
+                            <h5 class="col-8">
+                                <span>Odabrano</span>
+                                <b id="CountSelected"></b>
+                                <span> / </span>
+                                <b id="MaxSelected"></b>
+                                <span>partija</span>
+                            </h5>
+                            <div class="col-4">
+                                <button type="button" id="multiboardSaveBtn" class="btn btn-custom m-0"
+                                    data-dismiss="modal" aria-label="Save" onclick="onGameSelectionModalSave();">
+                                    <span>Spremi</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Snackbar"></div>
+    <div id="GameSideToMove"></div>
+    <div id="GameResult"></div>
+
+    <!-- =========================================================== -->
+    <!--  Footer -->
+    <!-- =========================================================== -->
+    <footer class="footer mt-3">
+        <div id="FooterRow" class="row justify-content-center">
+            <!-- Link buttons will be pasted here from JS -->
+        </div>
+    </footer>
+</body>
+
 </html>

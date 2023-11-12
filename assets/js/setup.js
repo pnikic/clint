@@ -25,8 +25,35 @@ const pauseChar = "|&nbsp;|";
 let engine;
 let toMove;
 let engineStatus = 0;
+const globalDepth = 21;
+let viewPortSize = () => window.innerWidth >= 1260 ? 'L' : window.innerWidth >= 800 ? "M" : "S";
+
+var viewSize = viewPortSize();
 
 
+function logger() {
+    var newViewSize = viewPortSize();
+
+    if (newViewSize === viewSize) return;
+    else {
+        document.getElementById("EvaluationBar").style.transition = '';
+        switch (newViewSize) {
+            case "L":
+                document.getElementById('EvaluationBar').style.width = 'inherit'
+                break;
+            case "M":
+                document.getElementById('EvaluationBar').style.height = '50%'
+                break;
+            case "S":
+                break;
+        }
+    }
+    var num = parseInt(document.getElementById("EvaluationBarNumber").innerHTML);
+    resizeEvaluationBar(num);
+    viewSize = newViewSize;
+}
+
+window.onresize = logger;
 //===========================================================
 // Initialization code
 //===========================================================
@@ -146,12 +173,12 @@ function dateToString(date) {
 }
 
 function dateFromArray(arr) {
-    // Check if the input is an array of five numbers
-    if (arr.length != 5 || !((arr.map(x => typeof(x))).every(x => x == "number")))
-        return
-
-    let date = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4]);
-    return date;
+        // Check if the input is an array of five numbers
+        if (arr.length != 5 || !((arr.map(x => typeof(x))).every(x => x == "number")))
+            return
+    
+        let date = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4]);
+        return date;
 }
 
 function setWithIncreasingValues(length, initialValue = 0) {
@@ -166,6 +193,17 @@ function customFunctionOnPgnGameLoad() {
     // Add Elo ratings
     customPgnHeaderTag("WhiteElo", "GameWhiteRating");
     customPgnHeaderTag("BlackElo", "GameBlackRating");
+
+    // Add player countries
+    customPgnHeaderTag("WhiteTeam", "PlayerCountry1");
+    customPgnHeaderTag("BlackTeam", "PlayerCountry2");
+
+
+    let team1 = document.getElementById("PlayerCountry1");
+    let team2 = document.getElementById("PlayerCountry2");
+    document.getElementById("PlayerFlag1").innerHTML = getCountryFlagEmoji(team1.innerHTML);
+    document.getElementById("PlayerFlag2").innerHTML = getCountryFlagEmoji(team2.innerHTML);
+
 
     // For players without rating, leave an empty field
     let whiteRat = document.getElementById("GameWhiteRating");
@@ -183,8 +221,9 @@ function customFunctionOnPgnGameLoad() {
     if (getDisplayedGame() != displayedGame) {
         // If a new game is loaded and the board was rotated, rotate back
         // After loading a new game, white will always be on bottom
-        if (IsRotated)
+        if (IsRotated) {
             flipBoard();
+        }
 
         displayedGame = getDisplayedGame();
         highlightSelectedGame();
@@ -418,23 +457,46 @@ function flipBoard() {
     document.getElementById("ResultPlace1").appendChild(IsRotated ? bsn : wsn);
     document.getElementById("ResultPlace2").appendChild(IsRotated ? wsn : bsn);
 
-    // Flip rating places
-    let ratB = document.getElementById("GameBlackRating");
-    let ratW = document.getElementById("GameWhiteRating");
-    document.getElementById("RatingPlace1").appendChild(IsRotated ? ratB : ratW);
-    document.getElementById("RatingPlace2").appendChild(IsRotated ? ratW : ratB);
-
     // Flip player names places
     let nameB = document.getElementById("GameBlack");
     let nameW = document.getElementById("GameWhite");
     document.getElementById("PlayerPlace1").appendChild(IsRotated ? nameB : nameW);
     document.getElementById("PlayerPlace2").appendChild(IsRotated ? nameW : nameB);
 
+    let team1 = document.getElementById("PlayerCountry1");
+    let team2 = document.getElementById("PlayerCountry2");
+    let flag1 = document.getElementById("PlayerFlag1");
+    let flag2 = document.getElementById("PlayerFlag2");
+
+
+    if (team1 && team1 !== "") {
+        document.getElementById("PlayerPlace1").appendChild(IsRotated ? flag1 : flag2);
+        document.getElementById("PlayerPlace1").appendChild(IsRotated ? team1 : team2);
+    }
+        
+    if (team2 && team2 !== "") {
+        document.getElementById("PlayerPlace2").appendChild(IsRotated ? flag2 : flag1);
+        document.getElementById("PlayerPlace2").appendChild(IsRotated ? team2 : team1);
+    }
+
+    document.getElementById("PlayerFlag1").innerHTML = getCountryFlagEmoji(team1.innerHTML);
+    document.getElementById("PlayerFlag2").innerHTML = getCountryFlagEmoji(team2.innerHTML);
+
+    // Flip rating places
+    let ratB = document.getElementById("GameBlackRating");
+    let ratW = document.getElementById("GameWhiteRating");
+    document.getElementById("RatingPlace1").appendChild(IsRotated ? ratB : ratW);
+    document.getElementById("RatingPlace2").appendChild(IsRotated ? ratW : ratB);
+
+
+
     // Flip clock places
     let clkB = document.getElementById("GameBlackClock");
     let clkW = document.getElementById("GameWhiteClock");
     document.getElementById("ClockPlace1").appendChild(IsRotated ? clkB : clkW);
     document.getElementById("ClockPlace2").appendChild(IsRotated ? clkW : clkB);
+
+
 
     FlipBoard();  // This will refresh all the default tags (GameWhite, GameWhiteClock etc)...
     adjustSquareSize(scaleOption); // ...and also mess up with piece image sizes, so we resize them
@@ -445,7 +507,10 @@ function flipBoard() {
 //===========================================================
 
 function initializeEngine() {
-    engine = new Worker("assets/js/stockfish.js");
+
+    engine = wasmSupported()
+        ? new Worker("assets/js/stockfish.wasm.js")
+        : new Worker("assets/js/stockfish.js");
 
     // Callback from engine
     engine.onmessage = function onmessage(event) {
@@ -453,7 +518,7 @@ function initializeEngine() {
 
         // Evaluation message from engine
         if (msg.indexOf("info depth") !== -1 &&
-            msg.indexOf("lowerbound") == -1  &&
+            msg.indexOf("lowerbound") == -1 &&
             msg.indexOf("upperbound") == -1) {
             tokens = msg.split(" ");
 
@@ -467,9 +532,11 @@ function initializeEngine() {
                     let FENtokens = game.fen().split(" ");
                     let mvNum = FENtokens[FENtokens.length - 1]
                     // Simulate the move and get SAN
-                    let san = game.move({from: move.substring(0,2),
-                                         to: move.substring(2,4),
-                                         promotion:move.substring(4)}).san;
+                    let san = game.move({
+                        from: move.substring(0, 2),
+                        to: move.substring(2, 4),
+                        promotion: move.substring(4)
+                    }).san;
 
                     // If black is to have the first move in the variation
                     if (moves == "" && game.turn() == "w")
@@ -479,7 +546,7 @@ function initializeEngine() {
                     //   game.move(...) function call
                     moves += (game.turn() == "b" ? mvNum + ". " : "") + san + " ";
                 }
-                catch(e) {
+                catch (e) {
                     // Game has changed in the meantime, and the current FEN does not correspond
                     //   to the moves received in this event
                     return;
@@ -496,19 +563,22 @@ function initializeEngine() {
             }
             // Centipawn loss (from engine's point of view)
             else {
-                score = Number(tokens[tokens.indexOf("cp") + 1]) / 100;
+                score = Number(tokens[tokens.indexOf("cp") + 1]) / 100.0;
             }
 
             if (toMove === "black")
                 score *= -1;
 
+            setEvaluationBarValue(score, false);
             score = String(score);
+
 
             if (msg.indexOf("mate") !== -1) {
                 score = "#" + score;
             }
 
             setEngineAnnotations(moves, "Dubina: " + depth, score);
+
         }
     };
 }
@@ -523,6 +593,24 @@ function setEngineAnnotations(line, depth, score) {
     adjustSidePanelSizes();
 }
 
+function setEvaluationBarValue(num, ignoreEngineStatus) {
+    if (!!engineStatus || ignoreEngineStatus) {
+        if (num > 5) num = 5.00;
+        if (num < -5) num = -5.00;
+        document.getElementById("EvaluationBarNumber").innerHTML = num;
+        resizeEvaluationBar(num);
+    }
+}
+
+function resizeEvaluationBar(num) {
+    if (window.innerWidth >= 1260) {
+        document.getElementById("EvaluationBar").style.transition = 'height 1s';
+        document.getElementById("EvaluationBar").style.height = `${((1.0 - ((num + 5) / 10.0)) * 100.0).toFixed(2)}%`;
+    } else {
+        document.getElementById("EvaluationBar").style.transition = 'width 1s';
+        document.getElementById("EvaluationBar").style.width = `${((1.0 - ((num + 5) / 10.0)) * 100.0).toFixed(2)}%`;
+    } 
+}
 
 function useEngine() {
     if (!engine) {
@@ -538,7 +626,7 @@ function useEngine() {
         engine.postMessage("position fen " + CurrentFEN());
         // Get current side to move, so that engine lines can be displayed correctly
         toMove = document.getElementById("GameSideToMove").innerHTML;
-        engine.postMessage("go depth 21");
+        engine.postMessage(`go depth ${globalDepth}`);
     }
 }
 
@@ -555,6 +643,7 @@ function toggleEngine() {
         variationDiv.style.display = "block";
     }
     else {
+        setEvaluationBarValue(0, true);
         variationDiv.style.display = "none";
         setEngineAnnotations("", "", "");
     }
@@ -1386,3 +1475,29 @@ function isMobile() {
            window.innerWidth < 960;
 }
 
+function wasmSupported() {
+    try {
+        if (typeof WebAssembly === "object"
+            && typeof WebAssembly.instantiate === "function") {
+            const module = new WebAssembly.Module(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
+            if (module instanceof WebAssembly.Module)
+                return new WebAssembly.Instance(module) instanceof WebAssembly.Instance;
+        }
+    } catch (e) {
+    }
+    return false;
+}
+
+function getCountryFlagEmoji(teamName) {
+    teamName = teamName.trim();
+    const countryCode = countryMapping[teamName];
+    const existsNonCountry = nonCountryTeams.includes(teamName)
+    if (countryCode) {
+        return `<span title="${teamName}" class="flag-icon flag-icon-${countryCode.toLowerCase()}"></span>`;
+    } else if (existsNonCountry) {
+        return `<span title="${teamName}"><strong>[${teamName}]</strong><span>`
+    } else {
+        console.log(`Could not find country or team: ${teamName}`)
+        return "";
+    }
+}
