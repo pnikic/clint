@@ -139,9 +139,10 @@ In `assets/style.css` you can configure all the colors used on the page. It come
 I hereby sincerely thank all the people who helped make clint better by comments, suggestions and code contributions. Your feedback is much appreciated.  
 
 ### Deployments
+* [Croatia team championship 2023][21]
+* Several pages on [chesscout.info][11], e.g. [Bosnia team championship 2023][20] [Games from chess tournaments in BiH][12], [Sarajevo Club Championshio][14] and [BiH Junior championships 2021][15]
+* [Croatia Grand Chess Tour 2021][16]
 * [Croatian Individual Championship 2020][13]
-* Several pages on [chesscout.info][11], e.g. [Games from chess tournaments in BiH][12], [Sarajevo Club Championshio][14] and [BiH Junior championships 2021][15]
-* [Croatia Grand Chess Tour][16]
 * Croatian Individual Junior Championships [2021][17], [2020][18], [2019][19] -- here you can see the evolution of Clint over time :)
 
 ### Future work:
@@ -182,3 +183,5 @@ If you want to support my work, consider a small donation via [PayPal][8]. Thank
 [17]: https://hrvatski-sahovski-savez.hr/ftp/PHjuniori2021/
 [18]: https://hrvatski-sahovski-savez.hr/ftp/PHjuniori2020/
 [19]: https://hrvatski-sahovski-savez.hr/ftp/PHjuniori2019/
+[20]: https://premijer-liga-bih-2023.chessscout.info/partije-uzivo.html
+[21]: https://hrvatski-sahovski-savez.hr/ftp/1A-2023/
