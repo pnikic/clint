@@ -129,14 +129,14 @@ In `assets/style.css` you can configure all the colors used on the page. It come
 
 ### Credits and license
 * This website is based on [pgn4web][2]
-* The engine currently used is Stockfish compiled to JavaScript. The release is obtained from [stockfish.js][3]
+* The engine currently used is Stockfish compiled to JavaScript. The releases are obtained from [stockfish.js][3a] and [stockfish.wasm][3b]
 * Icons present on the website are from [Font Awesome][5]
 * The layout of components is inspired by [lichess][10]
 * The above items remains subject to their original licenses (if any)
-* Remaining clint code is Copyright (c) 2020 Patrick Nikić (see [LICENSE][7] file)
+* Remaining clint code is Copyright (c) 2023 Patrick Nikić (see [LICENSE][7] file)
 * You are free to use clint for your website. You are encouraged to notify me if you are using clint
 
-I hereby sincerely thank all the people who reviewed this page and gave comments or suggestions. Your feedback is much appreciated.  
+I hereby sincerely thank all the people who helped make clint better by comments, suggestions and code contributions. Your feedback is much appreciated.  
 
 ### Deployments
 * [Croatian Individual Championship 2020][13]
@@ -146,9 +146,6 @@ I hereby sincerely thank all the people who reviewed this page and gave comments
 
 ### Future work:
 * Translation
-* Stockfish
-  * Move to newer version (WASM)
-  * Add evaluation bar on the left side
 * Clock countdown
   * Add custom color
   * Fix interaction with board rotation (up to 1 second delay)
@@ -156,9 +153,8 @@ I hereby sincerely thank all the people who reviewed this page and gave comments
 * Fix some responsive design issues (regarding rotations to mobile phone)
 * Tournament table
 * Analysis board
-* Add country flags for players
 * Add landing page (with countdown to tournament start, description, overview - multiple boards)
-* Fetching ratings from FIDE (or link to a player's profile by clicking on the name)
+* Fetching ratings and countries from FIDE (or link to a player's profile by clicking on the name)
 * Placeholder for notifications (e.g. below banner)
 * Support for multiple tournaments (when there are too many PGN files, the dropdown menu is not a good option)
 * Show which games have new moves
@@ -166,10 +162,11 @@ I hereby sincerely thank all the people who reviewed this page and gave comments
 ### Donate
 If you want to support my work, consider a small donation via [PayPal][8]. Thank you!
 
-[1a]: https://i.imgur.com/m1r2dgu.png
+[1a]: https://i.imgur.com/Pr5YkqY.png
 [1b]: https://i.imgur.com/anwWrzE.png
 [2]: http://pgn4web.casaschi.net/
-[3]: https://github.com/niklasf/stockfish.js
+[3a]: https://github.com/lichess-org/stockfish.js
+[3b]: https://github.com/lichess-org/stockfish.wasm
 [4]: https://en.wikipedia.org/wiki/42nd_Chess_Olympiad
 [5]: https://fontawesome.com/
 [6]: http://hrvatski-sahovski-savez.hr/ftp/sucelje_patrick/
