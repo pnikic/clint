@@ -40,9 +40,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js" defer>
     </script>
     <!-- Paths to pgn4web.js, config.js and setup.js. Note that config.js is given a random
-             number to be reloaded each time (cache busting). This allows the operator to change
-             the file anytime and ensure the newest version is always downloaded on the client side.
-        -->
+         number to be reloaded each time (cache busting). This allows the operator to change
+         the file anytime and ensure the newest version is always downloaded on the client side.
+    -->
     <script src="../pgn4web-3.04/pgn4web.js" defer>
     </script>
     <script type="text/javascript" defer>
@@ -68,7 +68,8 @@
     <link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansUsual.css">
     <link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansMerida.css">
     <link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansPiratf.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">    <!--  Note that pgn4web includes more fonts. Check the pgn4web-x.yz/fonts directory -->
+    <!--  Note that pgn4web includes more fonts. Check the pgn4web-x.yz/fonts directory -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
     <!-- =========================================================== -->
 </head>
 
@@ -78,7 +79,7 @@
     <!-- =========================================================== -->
     <div class="banner mb-4">
         <!-- Define path for logo, or delete <img> tag if there is nothing to display
-                 In case of more logos, duplicate the img tag and edit the src attributes -->
+             In case of more logos, duplicate the img tag and edit the src attributes -->
         <img src="assets/images/logo.png" alt="logo">
         <h3 class="text-center">
             <span>Ime turnira<br>Mjesto, od.–do.mm.yyyy.</span>
@@ -162,9 +163,16 @@
         </div>
 
         <div id="EvaluationBarContainer">
-            <div id="EvaluationBar">
-                <span id="EvaluationBarNumber">0</span>
-            </div>
+            <div id="EvaluationBar"></div>
+            <tick style="height: 12.5%"></tick>
+            <tick style="height: 25%"></tick>
+            <tick style="height: 37.5%"></tick>
+            <tick class="zero"
+                  style="height: 50%"></tick>
+            <tick style="height: 62.5%"></tick>
+            <tick style="height: 75%"></tick>
+            <tick style="height: 87.5%"></tick>
+            <tick style="height: 100%"></tick>
         </div>
 
         <!-- =========================================================== -->

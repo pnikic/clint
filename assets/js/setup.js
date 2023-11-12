@@ -24,36 +24,9 @@ const pauseChar = "|&nbsp;|";
 // Engine global variables
 let engine;
 let toMove;
-let engineStatus = 0;
+let engineStatus = false;
 const globalDepth = 21;
-let viewPortSize = () => window.innerWidth >= 1260 ? 'L' : window.innerWidth >= 800 ? "M" : "S";
 
-var viewSize = viewPortSize();
-
-
-function logger() {
-    var newViewSize = viewPortSize();
-
-    if (newViewSize === viewSize) return;
-    else {
-        document.getElementById("EvaluationBar").style.transition = '';
-        switch (newViewSize) {
-            case "L":
-                document.getElementById('EvaluationBar').style.width = 'inherit'
-                break;
-            case "M":
-                document.getElementById('EvaluationBar').style.height = '50%'
-                break;
-            case "S":
-                break;
-        }
-    }
-    var num = parseInt(document.getElementById("EvaluationBarNumber").innerHTML);
-    resizeEvaluationBar(num);
-    viewSize = newViewSize;
-}
-
-window.onresize = logger;
 //===========================================================
 // Initialization code
 //===========================================================
@@ -176,7 +149,7 @@ function dateFromArray(arr) {
         // Check if the input is an array of five numbers
         if (arr.length != 5 || !((arr.map(x => typeof(x))).every(x => x == "number")))
             return
-    
+
         let date = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4]);
         return date;
 }
@@ -195,10 +168,8 @@ function customFunctionOnPgnGameLoad() {
     customPgnHeaderTag("BlackElo", "GameBlackRating");
 
     // Add player countries
-    customPgnHeaderTag("WhiteTeam", "PlayerCountry1");
-    customPgnHeaderTag("BlackTeam", "PlayerCountry2");
-
-
+    customPgnHeaderTag("BlackTeam", "PlayerCountry1");
+    customPgnHeaderTag("WhiteTeam", "PlayerCountry2");
     let team1 = document.getElementById("PlayerCountry1");
     let team2 = document.getElementById("PlayerCountry2");
     document.getElementById("PlayerFlag1").innerHTML = getCountryFlagEmoji(team1.innerHTML);
@@ -467,17 +438,11 @@ function flipBoard() {
     let team2 = document.getElementById("PlayerCountry2");
     let flag1 = document.getElementById("PlayerFlag1");
     let flag2 = document.getElementById("PlayerFlag2");
+    document.getElementById("PlayerPlace1").appendChild(IsRotated ? flag1 : flag2);
+    document.getElementById("PlayerPlace1").appendChild(IsRotated ? team1 : team2);
+    document.getElementById("PlayerPlace2").appendChild(IsRotated ? flag2 : flag1);
+    document.getElementById("PlayerPlace2").appendChild(IsRotated ? team2 : team1);
 
-
-    if (team1 && team1 !== "") {
-        document.getElementById("PlayerPlace1").appendChild(IsRotated ? flag1 : flag2);
-        document.getElementById("PlayerPlace1").appendChild(IsRotated ? team1 : team2);
-    }
-        
-    if (team2 && team2 !== "") {
-        document.getElementById("PlayerPlace2").appendChild(IsRotated ? flag2 : flag1);
-        document.getElementById("PlayerPlace2").appendChild(IsRotated ? team2 : team1);
-    }
 
     document.getElementById("PlayerFlag1").innerHTML = getCountryFlagEmoji(team1.innerHTML);
     document.getElementById("PlayerFlag2").innerHTML = getCountryFlagEmoji(team2.innerHTML);
@@ -488,15 +453,17 @@ function flipBoard() {
     document.getElementById("RatingPlace1").appendChild(IsRotated ? ratB : ratW);
     document.getElementById("RatingPlace2").appendChild(IsRotated ? ratW : ratB);
 
-
-
     // Flip clock places
     let clkB = document.getElementById("GameBlackClock");
     let clkW = document.getElementById("GameWhiteClock");
     document.getElementById("ClockPlace1").appendChild(IsRotated ? clkB : clkW);
     document.getElementById("ClockPlace2").appendChild(IsRotated ? clkW : clkB);
 
-
+    // Flip evaluation bar
+    document.getElementById("EvaluationBarContainer").style.backgroundColor = IsRotated ? '#000' : '#fff'
+    document.getElementById("EvaluationBar").style.backgroundColor = IsRotated ?  '#fff' : '#000'
+    let oldHeight = document.getElementById("EvaluationBar").style.height.replace("%", "");
+    document.getElementById("EvaluationBar").style.height = String(100 - Number(oldHeight)) + "%";
 
     FlipBoard();  // This will refresh all the default tags (GameWhite, GameWhiteClock etc)...
     adjustSquareSize(scaleOption); // ...and also mess up with piece image sizes, so we resize them
@@ -556,27 +523,26 @@ function initializeEngine() {
             // Score and depth
             let depth = tokens[2];
             let score;
+            let barValue;
 
-            // Checkmate
-            if (msg.indexOf("mate") !== -1) {
+            let isCheckmate = msg.indexOf("mate") !== -1;
+            if (isCheckmate) {
                 score = Number(tokens[tokens.indexOf("mate") + 1]);
+                barValue = score * 100;
             }
-            // Centipawn loss (from engine's point of view)
             else {
+                // Centipawn loss (from engine's point of view)
                 score = Number(tokens[tokens.indexOf("cp") + 1]) / 100.0;
+                barValue = score;
             }
 
-            if (toMove === "black")
+            if (toMove === "black") {
                 score *= -1;
-
-            setEvaluationBarValue(score, false);
-            score = String(score);
-
-
-            if (msg.indexOf("mate") !== -1) {
-                score = "#" + score;
+                barValue *= -1;
             }
 
+            setEvaluationBarValue(barValue, false);
+            score = (isCheckmate ? "#" : "") + String(score);
             setEngineAnnotations(moves, "Dubina: " + depth, score);
 
         }
@@ -594,22 +560,11 @@ function setEngineAnnotations(line, depth, score) {
 }
 
 function setEvaluationBarValue(num, ignoreEngineStatus) {
-    if (!!engineStatus || ignoreEngineStatus) {
-        if (num > 5) num = 5.00;
-        if (num < -5) num = -5.00;
-        document.getElementById("EvaluationBarNumber").innerHTML = num;
-        resizeEvaluationBar(num);
+    if (engineStatus || ignoreEngineStatus) {
+        num *= IsRotated ? -1 : 1;
+        num = Math.min(4, Math.max(-4, num));
+        document.getElementById("EvaluationBar").style.height = `${(((num + 4) / 8.0) * 100.0).toFixed(2)}%`;
     }
-}
-
-function resizeEvaluationBar(num) {
-    if (window.innerWidth >= 1260) {
-        document.getElementById("EvaluationBar").style.transition = 'height 1s';
-        document.getElementById("EvaluationBar").style.height = `${((1.0 - ((num + 5) / 10.0)) * 100.0).toFixed(2)}%`;
-    } else {
-        document.getElementById("EvaluationBar").style.transition = 'width 1s';
-        document.getElementById("EvaluationBar").style.width = `${((1.0 - ((num + 5) / 10.0)) * 100.0).toFixed(2)}%`;
-    } 
 }
 
 function useEngine() {
@@ -651,6 +606,18 @@ function toggleEngine() {
     useEngine();
 }
 
+function wasmSupported() {
+    try {
+        if (typeof WebAssembly === "object" && typeof WebAssembly.instantiate === "function") {
+            const wasmMagicWord = Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00);
+            const module = new WebAssembly.Module(wasmMagicWord);
+            if (module instanceof WebAssembly.Module)
+                return new WebAssembly.Instance(module) instanceof WebAssembly.Instance;
+        }
+    } catch (e) {}
+
+    return false;
+}
 
 //===========================================================
 // Miscellaneous settings
@@ -836,7 +803,6 @@ function customFunctionOnPgnTextLoad() {
 
         // Display numbers in settings dropdown
         document.getElementById("AutoplayDelaySpan").innerHTML = String(autoplayDelay / 1000);
-        // document.getElementById("BoardSizeSpan").innerHTML = scaleOption;
     }
 
     // Update of options in "select game" grid area
@@ -1475,29 +1441,16 @@ function isMobile() {
            window.innerWidth < 960;
 }
 
-function wasmSupported() {
-    try {
-        if (typeof WebAssembly === "object"
-            && typeof WebAssembly.instantiate === "function") {
-            const module = new WebAssembly.Module(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
-            if (module instanceof WebAssembly.Module)
-                return new WebAssembly.Instance(module) instanceof WebAssembly.Instance;
-        }
-    } catch (e) {
-    }
-    return false;
-}
-
 function getCountryFlagEmoji(teamName) {
     teamName = teamName.trim();
     const countryCode = countryMapping[teamName];
     const existsNonCountry = nonCountryTeams.includes(teamName)
     if (countryCode) {
         return `<span title="${teamName}" class="flag-icon flag-icon-${countryCode.toLowerCase()}"></span>`;
-    } else if (existsNonCountry) {
-        return `<span title="${teamName}"><strong>[${teamName}]</strong><span>`
-    } else {
-        console.log(`Could not find country or team: ${teamName}`)
-        return "";
     }
+    else if (existsNonCountry) {
+        return `<span title="${teamName}"><strong>[${teamName}]</strong><span>`
+    }
+
+    return "";
 }
