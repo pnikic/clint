@@ -149,7 +149,7 @@ I hereby sincerely thank all the people who helped make clint better by comments
 * Several pages on [chesscout.info][11], e.g. [games from chess tournaments in BiH][12], Sarajevo club championship [2021][14] and [2022][22], [BiH Junior championships 2021][15]
 * [Croatia Grand Chess Tour 2021][16]
 * Schach-ticker - [viewer for collection of tournaments][33]
-* Croatian Individual Senior Championship [2022][30] [2020][13]
+* Croatian Individual Senior Championship [2022][30], [2020][13]
 * Croatian Individual Junior Championships [2021][17], [2020][18], [2019][19] -- here you can see the evolution of Clint over time
 
 ### Future work:
@@ -168,11 +168,23 @@ I hereby sincerely thank all the people who helped make clint better by comments
 * Show which games have new moves
 
 ### Donate
-If you want to support my work, consider a small donation via [PayPal][8]. Thank you!
+If you want to support my work, consider a small donation via [PayPal][8]. Thank you!  
+  
 Total donations:
-* 2023:  0 EUR
-* 2022: 28 EUR
-* 2021: 20 EUR
+
+Year | Amount
+:---:|---:
+2023 |  0 EUR
+2022 | 28 EUR
+2021 | 20 EUR
+
+#### About the author
+<table>
+  <tr>
+    <td><img src="https://i.imgur.com/1tcwahy.jpg" width="100"></td>  
+    <td>Patrick is a software engineer,<br>chess player and arbiter from Croatia.</td>
+  </tr>
+</table>
 
 [1a]: https://i.imgur.com/Pr5YkqY.png
 [1b]: https://i.imgur.com/anwWrzE.png
