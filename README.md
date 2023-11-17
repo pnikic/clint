@@ -134,16 +134,23 @@ In `assets/style.css` you can configure all the colors used on the page. It come
 * The layout of components is inspired by [lichess][10]
 * The above items remains subject to their original licenses (if any)
 * Remaining clint code is Copyright (c) 2023 Patrick Nikić (see [LICENSE][7] file)
-* You are free to use clint for your website. You are encouraged to notify me if you are using clint
+* You are free to use clint for your website. You should give it a proper attribution, so that interested viewers can find this repository and possibly use it themselves
 
 I hereby sincerely thank all the people who helped make clint better by comments, suggestions and code contributions. Your feedback is much appreciated.  
 
 ### Deployments
-* [Croatia team championship 2023][21]
-* Several pages on [chesscout.info][11], e.g. [Bosnia team championship 2023][20] [Games from chess tournaments in BiH][12], [Sarajevo Club Championshio][14] and [BiH Junior championships 2021][15]
+* [Bosnia and Herzegovina team championship][20]
+* Croatia team championship [2023][21], [2022][23], [2021][24]
+* [Spanish team championship of Honor 2023][25]
+* [Mitropa Cup 2023][26]
+* [Elllobregat Open Chess 2022][27]
+* Bošnjaci Open [2023][31], [2022][32]
+* Tournament of peace [2022][28], [2021][29]
+* Several pages on [chesscout.info][11], e.g. [games from chess tournaments in BiH][12], Sarajevo club championship [2021][14] and [2022][22], [BiH Junior championships 2021][15]
 * [Croatia Grand Chess Tour 2021][16]
-* [Croatian Individual Championship 2020][13]
-* Croatian Individual Junior Championships [2021][17], [2020][18], [2019][19] -- here you can see the evolution of Clint over time :)
+* Schach-ticker - [viewer for collection of tournaments][33]
+* Croatian Individual Senior Championship [2022][30] [2020][13]
+* Croatian Individual Junior Championships [2021][17], [2020][18], [2019][19] -- here you can see the evolution of Clint over time
 
 ### Future work:
 * Translation
@@ -162,6 +169,10 @@ I hereby sincerely thank all the people who helped make clint better by comments
 
 ### Donate
 If you want to support my work, consider a small donation via [PayPal][8]. Thank you!
+Total donations:
+* 2023:  0 EUR
+* 2022: 28 EUR
+* 2021: 20 EUR
 
 [1a]: https://i.imgur.com/Pr5YkqY.png
 [1b]: https://i.imgur.com/anwWrzE.png
@@ -185,3 +196,15 @@ If you want to support my work, consider a small donation via [PayPal][8]. Thank
 [19]: https://hrvatski-sahovski-savez.hr/ftp/PHjuniori2019/
 [20]: https://premijer-liga-bih-2023.chessscout.info/partije-uzivo.html
 [21]: https://hrvatski-sahovski-savez.hr/ftp/1A-2023/
+[22]: https://www.chessscout.info/live/Prvenstvo-SK-Sarajevo-2022/
+[23]: https://hrvatski-sahovski-savez.hr/ftp/1lige2022/
+[24]: https://hrvatski-sahovski-savez.hr/ftp/PH-Prva-A-liga-2021/
+[25]: https://sichess.com/feda/ceclub_dh2023/ronda_1.html
+[26]: https://hrvatski-sahovski-savez.hr/ftp/mitropacup2023/
+[27]: https://www.elllobregat.com/chess/
+[28]: https://hrvatski-sahovski-savez.hr/ftp/turnir-mira2022/
+[29]: https://hrvatski-sahovski-savez.hr/ftp/turnir-mira2021/
+[30]: http://www.sah-mladost.com/CLINT/PPHseniori2022/
+[31]: https://hrvatski-sahovski-savez.hr/ftp/bosnjaci2023/
+[32]: https://hrvatski-sahovski-savez.hr/ftp/bosnjaci2022/
+[33]: https://www.chess-international.com/clint/
