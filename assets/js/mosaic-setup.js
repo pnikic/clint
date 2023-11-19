@@ -118,19 +118,7 @@ function customFunctionOnPgnGameLoad() {
             messageToParent(window.frameElement.id + "Ready");
     }
 
-    let resultElem = document.getElementById("GameResult");
-    let resultW = document.getElementById("ResultWhite");
-    let resultB = document.getElementById("ResultBlack");
-    if (resultElem.innerHTML == "1/2-1/2") {
-        resultW.innerHTML = resultB.innerHTML = "½";
-    }
-    else if (["1-0", "0-1"].includes(resultElem.innerHTML)) {
-        resultW.innerHTML = resultElem.innerHTML[0];
-        resultB.innerHTML = resultElem.innerHTML[2];
-    }
-    else {
-        resultW.innerHTML = resultB.innerHTML = "‎✻";
-    }
+    updateResult();
 
     // Rotate back, if the board was rotated and a new game is loaded
     if (IsRotated && getDisplayedMinigame() != displayedGame) {

@@ -17,8 +17,6 @@ let iframesLoaded = [];
 // Suppose the control panel is turned off by default (sync with mosaic-setup.js)
 let controlPanelOption = false;
 let chosenGames = [];
-const charStar = "✻";
-const charOneHalf = "½";
 const playChar = "&#9655;";
 const pauseChar = "|&nbsp;|";
 // Engine global variables
@@ -187,8 +185,6 @@ function customFunctionOnPgnGameLoad() {
         blackRat.innerHTML = "";
     }
 
-    updateResult();
-
     if (getDisplayedGame() != displayedGame) {
         // If a new game is loaded and the board was rotated, rotate back
         // After loading a new game, white will always be on bottom
@@ -201,23 +197,6 @@ function customFunctionOnPgnGameLoad() {
 
         // Set custom tab title
         document.title = gameWhite[currentGame] + " vs. " + gameBlack[currentGame] + " | Clint";
-    }
-}
-
-function updateResult() {
-    let resultElem = document.getElementById("GameResult");
-    let placeTop = document.getElementById("ResultBlack");
-    let placeBot = document.getElementById("ResultWhite");
-    let res = resultElem.innerHTML;
-
-    placeTop.innerHTML = placeBot.innerHTML = charStar;
-
-    if (res == "1/2-1/2") {
-        placeTop.innerHTML = placeBot.innerHTML = charOneHalf;
-    }
-    else if (res == "1-0" || res == "0-1") {
-        placeTop.innerHTML = IsRotated ? res[0] : res[2];
-        placeBot.innerHTML = IsRotated ? res[2] : res[0];
     }
 }
 
@@ -314,6 +293,8 @@ function customFunctionOnMove() {
     let gt = document.getElementById("GameText");
     let scrollSize = Math.max(0, gt.scrollHeight * CurrentPly / Moves.length - gt.offsetHeight / 2);
     gt.scrollTop = parseInt(scrollSize);
+
+    updateResult();
 
     // Update engine evaluation
     useEngine();
@@ -1433,12 +1414,6 @@ function receiveMessage(evt) {
             changeFramesPGN(0);
         }
     }
-}
-
-function isMobile() {
-    // https://stackoverflow.com/q/3514784
-    return window.matchMedia("only screen and (max-width: 760px)").matches ||
-           window.innerWidth < 960;
 }
 
 function getCountryFlagEmoji(teamName) {
