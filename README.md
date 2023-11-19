@@ -35,15 +35,15 @@ Checkout the [demo page][6] to see clint in action.
 * Clone this repository on your web server
 * Download [pgn4web][2] on your web server
 * Edit the `pgn4web.js` path and the fonts path in `index.html` and in `mosaic-tile.html`  
-(in my case, pgn4web-3.04 is placed one directory up)
+(in my case, pgn4web-3.06 is placed one directory up)
 ```html
-<script src="../pgn4web-3.04/pgn4web.js" defer></script>
+<script src="../pgn4web-3.06/pgn4web.js" defer></script>
 ...
-<link rel="stylesheet" type="text/css" href="../pgn4web-3.04/fonts/pgn4web-font-ChessSansUsual.css">
+<link rel="stylesheet" type="text/css" href="../pgn4web-3.06/fonts/pgn4web-font-ChessSansUsual.css">
 ```
 and the image path for the pieces in `assets/js/config.js`
 ```javascript
-SetImagePath("../pgn4web-3.04/images/svgchess");
+SetImagePath("../pgn4web-3.06/images/svgchess");
 ```
 
 * Upload / broadcast your PGN files on the server, and define their locations in `assets/js/config.js` in the `listPGNFiles()` function. Detailed explanation of all parameters is located through comments in the file itself. A configuration example follows:

@@ -188,7 +188,7 @@ function operatorSettings() {
 //----------------------------------------------------------
 // Path to /images folder of pgn4web
 SetImageType("svg");
-SetImagePath("../pgn4web-3.04/images/svgchess");
+SetImagePath("../pgn4web-3.06/images/svgchess");
 
 // Set default delay for autoplay of the game (in milliseconds)
 let autoplayDelay = 3000;
