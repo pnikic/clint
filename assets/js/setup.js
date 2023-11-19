@@ -161,28 +161,22 @@ function customFunctionOnPgnGameLoad() {
     // Overriding the function from pgn4web.js that will run after loading a PGN
     adjustSquareSize(scaleOption);
 
-    // Add Elo ratings
-    customPgnHeaderTag("WhiteElo", "GameWhiteRating");
-    customPgnHeaderTag("BlackElo", "GameBlackRating");
-
     // Add player countries
-    customPgnHeaderTag("BlackTeam", "PlayerCountry1");
-    customPgnHeaderTag("WhiteTeam", "PlayerCountry2");
-    let team1 = document.getElementById("PlayerCountry1");
-    let team2 = document.getElementById("PlayerCountry2");
-    document.getElementById("PlayerFlag1").innerHTML = getCountryFlagEmoji(team1.innerHTML);
-    document.getElementById("PlayerFlag2").innerHTML = getCountryFlagEmoji(team2.innerHTML);
+    let country1 = customPgnHeaderTag("BlackTeam", "PlayerCountry1");
+    let country2 = customPgnHeaderTag("WhiteTeam", "PlayerCountry2");
+    document.getElementById("PlayerFlag1").innerHTML = getCountryFlagEmoji(country1);
+    document.getElementById("PlayerFlag2").innerHTML = getCountryFlagEmoji(country2);
 
+    // Add Elo ratings
+    let whiteElo = customPgnHeaderTag("WhiteElo", "GameWhiteRating");
+    let blackElo = customPgnHeaderTag("BlackElo", "GameBlackRating");
 
     // For players without rating, leave an empty field
-    let whiteRat = document.getElementById("GameWhiteRating");
-    let blackRat = document.getElementById("GameBlackRating");
-    if (whiteRat.innerHTML == "0") {
-        whiteRat.innerHTML = "";
+    if (whiteElo == "0") {
+        document.getElementById("GameWhiteRating").innerHTML = "";
     }
-
-    if (blackRat.innerHTML == "0") {
-        blackRat.innerHTML = "";
+    if (blackElo == "0") {
+        document.getElementById("GameBlackRating").innerHTML = "";
     }
 
     if (getDisplayedGame() != displayedGame) {
@@ -403,18 +397,19 @@ function flipBoard() {
     // Wrapping the pgn4web's FlipBoard() function, to also change the position
     //  of player's informations (name, rating, clock, colored square)
 
-    // Flip colored square places
+    // Flip player scores
     let wsn = document.getElementById("ResultWhite");
     let bsn = document.getElementById("ResultBlack");
     document.getElementById("ResultPlace1").appendChild(IsRotated ? bsn : wsn);
     document.getElementById("ResultPlace2").appendChild(IsRotated ? wsn : bsn);
 
-    // Flip player names places
+    // Flip player names
     let nameB = document.getElementById("GameBlack");
     let nameW = document.getElementById("GameWhite");
     document.getElementById("PlayerPlace1").appendChild(IsRotated ? nameB : nameW);
     document.getElementById("PlayerPlace2").appendChild(IsRotated ? nameW : nameB);
 
+    // Flip country flags
     let team1 = document.getElementById("PlayerCountry1");
     let team2 = document.getElementById("PlayerCountry2");
     let flag1 = document.getElementById("PlayerFlag1");
@@ -424,25 +419,22 @@ function flipBoard() {
     document.getElementById("PlayerPlace2").appendChild(IsRotated ? flag2 : flag1);
     document.getElementById("PlayerPlace2").appendChild(IsRotated ? team2 : team1);
 
-
-    document.getElementById("PlayerFlag1").innerHTML = getCountryFlagEmoji(team1.innerHTML);
-    document.getElementById("PlayerFlag2").innerHTML = getCountryFlagEmoji(team2.innerHTML);
-
-    // Flip rating places
+    // Flip ratings
     let ratB = document.getElementById("GameBlackRating");
     let ratW = document.getElementById("GameWhiteRating");
     document.getElementById("RatingPlace1").appendChild(IsRotated ? ratB : ratW);
     document.getElementById("RatingPlace2").appendChild(IsRotated ? ratW : ratB);
 
-    // Flip clock places
+    // Flip clocks
     let clkB = document.getElementById("GameBlackClock");
     let clkW = document.getElementById("GameWhiteClock");
     document.getElementById("ClockPlace1").appendChild(IsRotated ? clkB : clkW);
     document.getElementById("ClockPlace2").appendChild(IsRotated ? clkW : clkB);
 
     // Flip evaluation bar
-    document.getElementById("EvaluationBarContainer").style.backgroundColor = IsRotated ? '#000' : '#fff'
-    document.getElementById("EvaluationBar").style.backgroundColor = IsRotated ?  '#fff' : '#000'
+    document.getElementById("EvaluationBarContainer").style.backgroundColor =
+        IsRotated ? '#000' : '#fff';
+    document.getElementById("EvaluationBar").style.backgroundColor = IsRotated ?  '#fff' : '#000';
     let oldHeight = document.getElementById("EvaluationBar").style.height.replace("%", "");
     document.getElementById("EvaluationBar").style.height = String(100 - Number(oldHeight)) + "%";
 
@@ -827,8 +819,8 @@ function customFunctionOnPgnTextLoad() {
     applyGameSelectionFilters();
 
     // Update the video / image, if any is specified
-    let video_left = allPGNs[currentPGN]["video-left"],
-        video_right = allPGNs[currentPGN]["video-right"];
+    let video_left = allPGNs[currentPGN]["video-left"];
+    let video_right = allPGNs[currentPGN]["video-right"];
 
     if (video_left != undefined)
         enableVideoDiv("VideoDivLeft", video_left);
