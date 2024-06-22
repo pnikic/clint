@@ -24,6 +24,9 @@ let engine;
 let toMove;
 let engineStatus = false;
 const globalDepth = 21;
+// Translations
+let currentLanguage;
+let translations = new Map();
 
 //===========================================================
 // Initialization code
@@ -37,6 +40,8 @@ if (useAestheticNotation) {
 
 // Fill the values in allPGNs
 listPGNFiles();
+operatorSettings();
+fetchTranslations();
 
 // Multiple boards setup
 iframesLoaded = Array(numberMiniboards).fill(0);
@@ -84,11 +89,20 @@ if (localStorage.getItem("clint-theme") == "alternative")
     toggleTheme();
 if (localStorage.getItem("clint-view") == "multiple-boards")
     toggleView(1);
+currentLanguage = localStorage.getItem("clint-language");
+if (currentLanguage === null)
+    currentLanguage = "en";
+
 
 //===========================================================
 // Main part of the program
 //===========================================================
 function generateFooterLinks(linksArray) {
+    if (linksArray.length == 0) {
+        let footer = document.getElementById("HyperlinksItem");
+        footer.style.display = "none";
+    }
+
     for (link of linksArray) {
         let div = document.createElement("div");
         let size = [12, 6, 4, 3, 2];
@@ -106,20 +120,19 @@ function generateFooterLinks(linksArray) {
         anchor.rel = "noopener noreferrer";
         anchor.className = "badge badge-custom my-1 p-2";
 
-        if ("id" in link)
-            anchor.id = link["id"];
-
-        if ("link" in link)
-            anchor.href = link["link"];
-
         let title = document.createElement("h5");
         title.className = "m-0 d-inline-block";
 
-        let text = "...";
         if ("text" in link)
-            text = link["text"];
+            title.innerText = link["text"];
 
-        title.innerText = text;
+        if ("id" in link) {
+            anchor.id = link["id"];
+            title.setAttribute("translate-key", link["id"]);
+        }
+
+        if ("link" in link)
+            anchor.href = link["link"];
 
         anchor.appendChild(title);
         if ("fa-icon" in link) {
@@ -129,7 +142,7 @@ function generateFooterLinks(linksArray) {
         }
 
         div.appendChild(anchor);
-        document.getElementById("FooterRow").appendChild(div);
+        document.getElementById("HyperlinksItem").appendChild(div);
     }
 }
 
@@ -442,6 +455,74 @@ function flipBoard() {
     adjustSquareSize(scaleOption); // ...and also mess up with piece image sizes, so we resize them
 }
 
+function fetchTranslations() {
+    let languages = ["en", "hr"];
+
+    for (lang of languages) {
+        translationFile = "assets/translations/" + lang + ".json";
+        fetch(translationFile)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                let isoCode = data["iso-639-code"]
+                translations.set(isoCode, data);
+
+                let htmlTranslateItem = document.getElementsByClassName("translateItem")[0];
+                let translateMenu = htmlTranslateItem.getElementsByClassName("dropdown-menu")[0];
+                let anchor = document.createElement("a");
+                anchor.className = "dropdown-item";
+                anchor.innerHTML = data["langugage-name"];
+                anchor.onclick = (evt) => {
+                    translatePage(isoCode);
+                };
+                translateMenu.appendChild(anchor);
+
+                if (isoCode == currentLanguage)
+                    translatePage(isoCode);
+            });
+    }
+}
+
+function translatePage(languageIsoCode) {
+    if (!translations.has(languageIsoCode))
+        return;
+
+    currentLanguage = languageIsoCode;
+    localStorage.setItem("clint-language", currentLanguage)
+    document.querySelectorAll("[translate-key]").forEach(
+        (element) => { translateInnerText(element); });
+
+    document.querySelectorAll("[translate-key-placeholder]").forEach(
+        (element) => { translatePlaceholder(element); });
+}
+
+function translateInnerText(element) {
+    // Caller should make sure that currentLanguage translations are available
+    const translated = translations.get(currentLanguage);
+    let key = element.getAttribute("translate-key");
+    if (translated.hasOwnProperty(key))
+        element.innerText = translated[key];
+}
+
+function translatePlaceholder(element) {
+    // Caller should make sure that currentLanguage translations are available
+    const translated = translations.get(currentLanguage);
+    let key = element.getAttribute("translate-key-placeholder");
+    if (translated.hasOwnProperty(key))
+        element.placeholder = translated[key];
+}
+
+function getTranslation(key) {
+    // Caller should make sure that currentLanguage translations are available
+    return translations.get(currentLanguage)[key];
+}
+
+function hasTranslation(key) {
+    return translations.has(currentLanguage) &&
+           translations.get(currentLanguage).hasOwnProperty(key);
+}
+
 //===========================================================
 // Engine
 //===========================================================
@@ -516,8 +597,9 @@ function initializeEngine() {
 
             setEvaluationBarValue(barValue, false);
             score = (isCheckmate ? "#" : "") + String(score);
-            setEngineAnnotations(moves, "Dubina: " + depth, score);
-
+            depthStr = (hasTranslation("engine-depth") ?
+                        getTranslation("engine-depth") : "Depth") + ": ";
+            setEngineAnnotations(moves, depthStr + depth, score);
         }
     };
 }
@@ -668,15 +750,17 @@ function removeSnackbarMessage() {
     }
 }
 
-function snackbarMessage(msg) {
-    numActiveSnackbarMessages += 1
+function snackbarMessage(translateKey) {
     let sb = document.getElementById("Snackbar");
-    sb.className = "show";
-    sb.innerHTML = msg;
+    if (hasTranslation(translateKey)) {
+        numActiveSnackbarMessages += 1;
+        sb.innerHTML = getTranslation(translateKey);
+        sb.className = "show";
 
-    setTimeout(function(){
-        removeSnackbarMessage();
-    }, 2750);
+        setTimeout(function() {
+            removeSnackbarMessage();
+        }, 2750);
+    }
 }
 
 function setAutoplayButton() {
@@ -740,15 +824,13 @@ function customFunctionOnPgnTextLoad() {
     if (!started) {
         // Code in this block exectues only once
         started = true;
+        document.getElementById("currLink").href = pgnUrl;
 
         // customFunctionOnPgnTextLoad() is called at the end of createBoard() in pgn4web.js
         //   which is in turn trigerred by start_pgn4web() on startup. We hook to this chain
         //   by immediately changing the game to the one defined in the URL parameter, if any.
         if (url.has("game"))
             changeGame(url.get("game"));
-
-        // Set up hyperlinks, PGN files etc.
-        operatorSettings();
 
         // Set up round select menu (for single- and multi-board view)
         let selectRoundElem = document.getElementById("PgnFileSelect");
@@ -768,6 +850,12 @@ function customFunctionOnPgnTextLoad() {
             if (allPGNs[i]["date"] &&
                 new Date(allPGNs[i]["date"].getTime() - minsBeforeRound * 60000) > now) {
                 option.disabled = true;
+            }
+
+            if (allPGNs[i]["id"]) {
+                option.setAttribute("translate-key", allPGNs[i]["id"]);
+                if (translations.has(currentLanguage))
+                    translateInnerText(option);
             }
 
             selectRoundElem.appendChild(option);
@@ -1413,7 +1501,7 @@ function getCountryFlagEmoji(teamName) {
     const countryCode = countryMapping[teamName];
     const existsNonCountry = nonCountryTeams.includes(teamName)
     if (countryCode) {
-        return `<span title="${teamName}" class="flag-icon flag-icon-${countryCode.toLowerCase()}"></span>`;
+        return `<span title="${teamName}" class="fi fi-${countryCode.toLowerCase()}"></span>`;
     }
     else if (existsNonCountry) {
         return `<span title="${teamName}"><strong>[${teamName}]</strong><span>`

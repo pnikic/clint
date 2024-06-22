@@ -1,15 +1,14 @@
 <!DOCTYPE HTML>
 <html>
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="description" content="Live chess broadcast with pgn4web">
-    <meta name='viewport' content='width=device-width user-scalable=no' />
+    <meta name='viewport' content='width=device-width user-scalable=no'>
     <link rel="shortcut icon" href="favicon.ico">
 
     <!-- Open Graph and Twitter tags - they control how URLs are displayed when shared -->
     <meta property="og:title" content="Clint - chess live interface">
-    <meta property="og:description" content="Live broadcast of chess tournaments.">
+    <meta property="og:description" content="Live broadcast of chess tournaments">
     <meta property="og:image" content="https://raw.githubusercontent.com/pnikic/clint/master/assets/images/logo.png">
     <meta property="og:url" content="https://github.com/pnikic/clint/">
     <meta name="twitter:card" content="https://raw.githubusercontent.com/pnikic/clint/master/assets/images/logo.png">
@@ -17,11 +16,10 @@
     <!-- =========================================================== -->
     <!--  Paths to styles -->
     <!-- =========================================================== -->
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <!-- Font Awesome CSS -->
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/css/flag-icons.min.css">
     <link rel="stylesheet" type="text/css" href="assets/style.css">
 
     <!-- =========================================================== -->
@@ -31,15 +29,17 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"
         defer>
-        </script>
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"
         defer>
-        </script>
+    </script>
+
     <!-- ChessJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js" defer>
     </script>
-    <!-- Paths to pgn4web.js, config.js and setup.js. Note that config.js is given a random
+
+    <!-- Paths to pgn4web.js and clint *.js files. Note that config.js is given a random
          number to be reloaded each time (cache busting). This allows the operator to change
          the file anytime and ensure the newest version is always downloaded on the client side.
     -->
@@ -58,34 +58,41 @@
     <script src="assets/js/country-mapping.js" defer>
     </script>
 
-
     <!-- =========================================================== -->
     <!--  Title in address bar -->
     <!-- =========================================================== -->
     <title>Clint</title>
 
-    <!--  Paths to fonts -->
-    <!--  Font can be changed in assets/style.css on the line with elements: -->
-    <!--    #GameText, #EngineVariationDiv { ... } -->
+    <!--  Paths to fonts. Font can be changed in assets/style.css on the line with elements: -->
+    <!--  #GameText, #EngineVariationDiv { ... } -->
     <link rel="stylesheet" type="text/css" href="../pgn4web-3.06/fonts/pgn4web-font-ChessSansUsual.css">
     <link rel="stylesheet" type="text/css" href="../pgn4web-3.06/fonts/pgn4web-font-ChessSansMerida.css">
     <link rel="stylesheet" type="text/css" href="../pgn4web-3.06/fonts/pgn4web-font-ChessSansPiratf.css">
     <!--  Note that pgn4web includes more fonts. Check the pgn4web-x.yz/fonts directory -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
     <!-- =========================================================== -->
 </head>
 
-<body class="d-flex flex-column min-vh-100" onresize="resizeCallback();">
+<body id="Body" class="min-vh-100" onresize="resizeCallback();">
     <!-- =========================================================== -->
-    <!--  Banner begin -->
+    <!--  Header begin -->
     <!-- =========================================================== -->
-    <div class="banner mb-4">
+    <div class="tournamentInfoItem">
         <!-- Define path for logo, or delete <img> tag if there is nothing to display
              In case of more logos, duplicate the img tag and edit the src attributes -->
         <img src="assets/images/logo.png" alt="logo">
         <h3 class="text-center">
-            <span>Ime turnira<br>Mjesto, od.–do.mm.yyyy.</span>
+            <span translate-key="header-first-row"></span><br>
+            <span translate-key="header-second-row"></span>
         </h3>
+    </div>
+    <div class="translateItem dropdown">
+        <button type="button" class="btn btn-custom h-30p w-100 dropdown-toggle"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <h5 class="pr-2" translate-key="select-language">:</h5>
+            <i class="fas fa-language"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right p-0" aria-labelledby="dropdownMenuButton">
+        </div>
     </div>
 
     <!-- =========================================================== -->
@@ -106,7 +113,7 @@
                 <div class="row">
                     <div class="col-12">
                         <select id="PgnFileSelect" class="custom-select shadow-none" onChange="changePGN(this.value)">
-                            <option value='-1'>Odabir kola</option>
+                            <option value='-1' translate-key="pgn-file-selection"></option>
                         </select>
                     </div>
                 </div>
@@ -115,8 +122,9 @@
             <div class="mx-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-12">
-                        <input id="SearchInput" type="text" placeholder="Traži igrača..." class="w-100 h-30p pl-3"
-                            onkeyup="applyGameSelectionFilters();">
+                        <input id="SearchInput" type="text" class="w-100 h-30p pl-3"
+                               onkeyup="applyGameSelectionFilters();"
+                               translate-key-placeholder="player-search-input">
                     </div>
                 </div>
             </div>
@@ -132,23 +140,27 @@
                     <i class="fas fa-share-square"></i>
                 </button>
             </div>
-            <div id="SettingsDiv" class="col pr-0 pl-1 dropup">
-                <button id="SettingsBtn" type="button" class="btn btn-custom h-30p w-100 dropdown-toggle"
+            <div class="col pr-0 pl-1 dropup">
+                <button type="button" class="btn btn-custom h-30p w-100 dropdown-toggle"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-cog"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right text-right p-0" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" onclick="toggleView(1);">Više ploča
+                    <a class="dropdown-item" onclick="toggleView(1);">
+                        <span translate-key="multiple-boards"></span>
                         <span class="beta">(beta)</span>
                         <i class="fas fa-th pl-2"></i>
                     </a>
-                    <a class="dropdown-item" onclick="toggleTheme();">Promjena teme
+                    <a class="dropdown-item" onclick="toggleTheme();">
+                        <span translate-key="color-scheme"></span>
                         <i class="fas fa-adjust pl-2"></i>
                     </a>
-                    <a class="dropdown-item" onclick="SetHighlight(!highlightOption);">Istakni posljednji potez
+                    <a class="dropdown-item" onclick="SetHighlight(!highlightOption);">
+                        <span translate-key="highlight-move"></span>
                         <i class="fas fa-highlighter pl-2"></i>
                     </a>
-                    <a class="dropdown-item">Automatska reprodukcija (sec)
+                    <a class="dropdown-item">
+                        <span translate-key="autoplay-speed"></span>
                         <button type="button" class="btn btn-custom dropdownItemBtn ml-1"
                             onclick="setAutoplayDelay(event, -1);">-
                         </button>
@@ -157,7 +169,8 @@
                             onclick="setAutoplayDelay(event, 1);">+
                         </button>
                     </a>
-                    <a class="dropdown-item" onclick="flipBoard();">Okreni ploču
+                    <a class="dropdown-item" onclick="flipBoard();">
+                        <span translate-key="flip-board"></span>
                         <i class="fas fa-exchange-alt fa-rotate-270 pl-2"></i>
                     </a>
                 </div>
@@ -230,27 +243,28 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title mx-auto" id="downloadModalLabel">Podijeli</h5>
+                            <h5 class="modal-title mx-auto" id="downloadModalLabel"
+                                translate-key="download-modal-title"></h5>
                             <button type="button" class="close mx-1" data-dismiss="modal" aria-label="Close"
                                 onclick="hideSnackbarMessage();">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <h5>FEN:</h5>
+                            <h5 translate-key="fen"></h5>
                             <div class="row align-items-center">
                                 <div class="col-8 col-lg-10">
                                     <input id="FENinput" type="text" class="w-100" readonly>
                                 </div>
                                 <div class="col-4 col-lg-2">
                                     <button class="btn btn-custom h-40p"
-                                        onclick="copyInput('FENinput'); snackbarMessage('FEN kopiran');">
+                                        onclick="copyInput('FENinput'); snackbarMessage('snackbar-fen-copy');">
                                         <i class="fas fa-copy fa-lg"></i>
                                     </button>
                                 </div>
                             </div>
 
-                            <h5>PGN:</h5>
+                            <h5 translate-key="pgn"></h5>
                             <div class="row align-items-center">
                                 <div class="col-8 col-lg-10">
                                     <textarea id="PGNinput" rows="9" class="w-100" readonly="readonly">
@@ -258,19 +272,18 @@
                                 </div>
                                 <div class="col-4 col-lg-2">
                                     <button class="btn btn-custom h-40p"
-                                        onclick="copyInput('PGNinput'); snackbarMessage('PGN kopiran');">
+                                            onclick="copyInput('PGNinput'); snackbarMessage('snackbar-pgn-copy');">
                                         <i class="fas fa-copy fa-lg"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer d-block px-0 px-lg-3">
-                            <h5>Preuzimanje PGN:</h5>
+                            <h5 translate-key="pgn-download"></h5>
                             <div class="row w-100 mx-auto">
                                 <div class="col-lg-6">
                                     <div class="row align-items-center">
-                                        <div class="col-8">
-                                            Odabrano kolo:
+                                        <div class="col-8" translate-key="active-pgn">
                                         </div>
                                         <div class="col-4">
                                             <a id="currLink" class="btn btn-custom h-40p" href="#">
@@ -281,8 +294,7 @@
                                 </div>
                                 <div class="col-lg-6 pt-1 pt-lg-0">
                                     <div class="row align-items-center">
-                                        <div class="col-8">
-                                            Sva kola:
+                                        <div class="col-8" translate-key="all-pgns">
                                         </div>
                                         <div class="col-4">
                                             <a id="allLink" class="btn btn-custom h-40p" href="#">
@@ -294,7 +306,7 @@
                             </div>
                         </div>
                         <div class="modal-footer d-block px-0 px-lg-3">
-                            <h5>Podijeli ovu partiju:</h5>
+                            <h5 translate-key="share-game"></h5>
                             <div class="row align-items-center mx-auto">
                                 <div class="d-none d-lg-block col-lg-1">
                                     <i class="fas fa-link fa-lg"></i>
@@ -304,7 +316,7 @@
                                 </div>
                                 <div class="col-4 col-lg-2">
                                     <button class="btn btn-custom h-40p"
-                                        onclick="copyInput('ShareGameInput'); snackbarMessage('Poveznica kopirana');">
+                                            onclick="copyInput('ShareGameInput'); snackbarMessage('snackbar-link-copy');">
                                         <i class="fas fa-copy fa-lg"></i>
                                     </button>
                                 </div>
@@ -335,7 +347,7 @@
                             <h3 id="Score" class="p-2 m-0"></h3>
                         </div>
                         <div class="col-5">
-                            <span>Stockfish</span><br><span id="Depth"></span>
+                            <span translate-key="engine-name"></span><br><span id="Depth"></span>
                         </div>
                         <div class="col-4 h-75" onclick="toggleEngine();">
                             <i id="engineToggleIcon" class="fas fa-toggle-off">
@@ -396,37 +408,37 @@
             <div class="col-12 col-lg-5 mb-3 mb-lg-0">
                 <select id="MultiboardFileSelect" class="custom-select  mx-auto shadow-none"
                     onChange="changeFramesPGN(this.value)">
-                    <option value='-1'>Odabir kola</option>
+                    <option value='-1' translate-key="pgn-file-selection"></option>
                 </select>
             </div>
             <div class="col-9 col-lg-5">
                 <button type="button" id="MultiboardModalBtn" class="btn btn-custom m-0 w-100 h-40p" data-toggle="modal"
                     data-target="#multiboardModal">
-                    <span>Odabir partija</span>
+                    <span translate-key="games-selection"></span>
                     <i class="fas fa-list-ul pl-2"></i>
                 </button>
             </div>
             <div class="col-3 col-lg-2">
                 <div class="dropup d-inline">
-                    <button id="MultipleBoardsSettingsBtn" type="button"
+                    <button type="button"
                         class="btn btn-custom m-0 w-100 dropdown-toggle h-40p" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-cog"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right text-right p-0" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" onclick="toggleView(0);">
-                            <span>Jedna ploča</span>
+                            <span translate-key="single-board"></span>
                             <i class="fas fa-chess-board pl-2"></i>
                         </a>
-                        <a class="dropdown-item" onclick="toggleTheme();">Promjena teme
+                        <a class="dropdown-item" onclick="toggleTheme();" translate-key="color-scheme">
                             <i class="fas fa-adjust pl-2"></i>
                         </a>
                         <a class="dropdown-item" onclick="toggleMoveHighlight();">
-                            <span>Istakni posljednji potez</span>
+                            <span translate-key="highlight-move"></span>
                             <i class="fas fa-highlighter pl-2"></i>
                         </a>
                         <a class="dropdown-item" onclick="toggleControlPanels();">
-                            <span>Prikaz navigacijske trake</span>
+                            <span translate-key="navigation-bar"></span>
                             <i class="fas fa-window-minimize"></i>
                         </a>
                     </div>
@@ -443,7 +455,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="multiboardModalLabel">
-                            <span>Odabir partija za prikaz</span>
+                            <span translate-key="games-selection"></span>
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -453,17 +465,19 @@
                         <div class="row align-items-center">
                             <div class="col-8">
                                 <input id="multiboardSearchInput" type="text" placeholder="Traži igrača..."
-                                    class="w-100 h-30p pl-3" onkeyup="applyGameSelectionFilters();">
+                                       class="w-100 h-30p pl-3" onkeyup="applyGameSelectionFilters();"
+                                       translate-key-placeholder="player-search-input"
+                                >
                             </div>
                             <div class="col-2">
                                 <input id="multiboardOngoingCheckbox" class="position-static" type="checkbox" value="0"
                                     onclick="applyGameSelectionFilters();">
-                                <span class="small">U tijeku</span>
+                                <span class="small" translate-key="in-progress"></span>
                             </div>
                             <div class="col-2">
                                 <input id="multiboardSelectAllCheckbox" class="position-static" type="checkbox"
                                     value="0" onclick="gameSelectionModalSelectAllCheckbox(this);">
-                                <span class="small">Označi sve</span>
+                                <span class="small" translate-key="select-all"></span>
                             </div>
                         </div>
                     </div>
@@ -473,16 +487,16 @@
                     <div class="modal-footer">
                         <div class="row w-100">
                             <h5 class="col-8">
-                                <span>Odabrano</span>
+                                <span translate-key="selected"></span>
                                 <b id="CountSelected"></b>
                                 <span> / </span>
                                 <b id="MaxSelected"></b>
-                                <span>partija</span>
+                                <span translate-key="games"></span>
                             </h5>
                             <div class="col-4">
                                 <button type="button" id="multiboardSaveBtn" class="btn btn-custom m-0"
                                     data-dismiss="modal" aria-label="Save" onclick="onGameSelectionModalSave();">
-                                    <span>Spremi</span>
+                                    <span translate-key="save"></span>
                                 </button>
                             </div>
                         </div>
@@ -499,11 +513,9 @@
     <!-- =========================================================== -->
     <!--  Footer -->
     <!-- =========================================================== -->
-    <footer class="footer mt-3">
-        <div id="FooterRow" class="row justify-content-center">
-            <!-- Link buttons will be pasted here from JS -->
-        </div>
-    </footer>
+    <div id="HyperlinksItem" class="row justify-content-center">
+        <!-- Link buttons will be pasted here from JS -->
+    </div>
 </body>
 
 </html>
