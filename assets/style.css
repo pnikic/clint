@@ -173,8 +173,10 @@ a {
 }
 
 .dropdown-menu {
-    background-color: var(--bg-color-light);
+    background-color: var(--main-color-border);
     color: var(--bg-color-light-text);
+    border: .1em solid var(--bg-color-light-text);
+    font-size: 1.2rem;
 }
 
 .dropdown-menu > .dropdown-item:hover {
@@ -188,7 +190,6 @@ a {
 
 .dropdown-item {
     color: var(--bg-color-light-text);
-    height: 30px;
     padding: 0.25rem 0.75rem;
     margin: 0.25rem 0;
 }
@@ -622,7 +623,7 @@ iframe {
     }
 
     .translateItem .dropdown-menu {
-        min-width: 100%;
+        min-width: 98%;
         text-align: center;
     }
 
