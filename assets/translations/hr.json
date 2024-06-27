@@ -8,7 +8,7 @@
     "multiple-boards"      : "Više ploča",
     "color-scheme"         : "Promjena teme",
     "highlight-move"       : "Istakni posljednji potez",
-    "autoplay-speed"       : "Automatska reprodukcija (sec)",
+    "autoplay-speed"       : "Brzina reprodukcije (sec)",
     "flip-board"           : "Okreni ploču",
     "download-modal-title" : "Podijeli",
     "fen"                  : "FEN",

@@ -597,9 +597,7 @@ function initializeEngine() {
 
             setEvaluationBarValue(barValue, false);
             score = (isCheckmate ? "#" : "") + String(score);
-            depthStr = (hasTranslation("engine-depth") ?
-                        getTranslation("engine-depth") : "Depth") + ": ";
-            setEngineAnnotations(moves, depthStr + depth, score);
+            setEngineAnnotations(moves, depth, score);
         }
     };
 }
@@ -608,8 +606,15 @@ function setEngineAnnotations(line, depth, score) {
     if (!engineStatus)
         line = depth = score = "";
 
+    if (depth) {
+        document.getElementById("DepthLabel").style.display = "inline";
+        document.getElementById("DepthValue").innerHTML = depth;
+    }
+    else {
+        document.getElementById("DepthLabel").style.display = "none";
+        document.getElementById("DepthValue").innerHTML = "";
+    }
     document.getElementById("EngineVariationDiv").innerHTML = line;
-    document.getElementById("Depth").innerHTML = depth;
     document.getElementById("Score").innerHTML = score;
     adjustSidePanelSizes();
 }
@@ -629,7 +634,7 @@ function useEngine() {
 
     // Stop previous calculations and evaluate new position
     engine.postMessage("stop");
-    setEngineAnnotations("Učitavanje...", "", "...");
+    setEngineAnnotations("...", "", "...");
 
     if (engineStatus) {
         // Analyze current position
