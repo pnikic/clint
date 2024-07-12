@@ -73,7 +73,7 @@ if (!ret) {
 
     for (let i = 0; i < allPGNs.length && !selected; ++i) {
         if (allPGNs[i].hasOwnProperty("date") &&
-            new Date(allPGNs[i]["date"].getTime() + expactedRoundDuration * 60000) > now) {
+            new Date(allPGNs[i]["date"].getTime() + expectedRoundDuration * 60000) > now) {
             selected = true;
             changePGN(i);
         }
@@ -123,9 +123,6 @@ function generateFooterLinks(linksArray) {
         let title = document.createElement("h5");
         title.className = "m-0 d-inline-block";
 
-        if ("text" in link)
-            title.innerText = link["text"];
-
         if ("id" in link) {
             anchor.id = link["id"];
             title.setAttribute("translate-key", link["id"]);
@@ -144,16 +141,6 @@ function generateFooterLinks(linksArray) {
         div.appendChild(anchor);
         document.getElementById("HyperlinksItem").appendChild(div);
     }
-}
-
-function pad(str, totalChars, padChar) {
-    return (totalChars > str.length ? String(padChar).repeat(totalChars - str.length) : "") +  str;
-}
-
-function dateToString(date) {
-    return String(date.getDate() + "/" + String(date.getMonth() + 1)) + "/"
-         + String(date.getFullYear()) + " " + pad(String(date.getHours()), 2, "0")
-         + ":" + pad(String(date.getMinutes()), 2, "0");
 }
 
 function dateFromArray(arr) {
@@ -456,9 +443,7 @@ function flipBoard() {
 }
 
 function fetchTranslations() {
-    let languages = ["en", "hr"];
-
-    for (lang of languages) {
+    for (lang of supportedLanguages) {
         translationFile = "assets/translations/" + lang + ".json";
         fetch(translationFile)
             .then((response) => {

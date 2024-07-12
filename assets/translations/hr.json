@@ -31,7 +31,16 @@
     "snackbar-pgn-copy"    : "PGN kopiran",
     "snackbar-link-copy"   : "Link kopiran",
     "select-language"      : "Jezik",
+
+    "round-1"              : "1. kolo - 10.11. 15:00",
+    "round-2"              : "2. kolo - 11.11. 15:00",
+    "round-3"              : "3. kolo - 12.11.  9:30",
     "all-rounds"           : "Sva kola",
+
     "custom-button"        : "Novi gumb",
-    "chess-results-link"   : "Rezultati"
+    "chess-results-link"   : "Rezultati",
+    "photo-gallery-link"   : "Fotogalerija",
+    "invitation-link"      : "Raspis",
+    "email-link"           : "operater: Ime operatera",
+    "clint-link"           : "Clint"
 }

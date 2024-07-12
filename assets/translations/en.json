@@ -31,8 +31,16 @@
     "snackbar-pgn-copy"    : "PGN copied",
     "snackbar-link-copy"   : "Link copied",
     "select-language"      : "Language",
-    "round-1"              : "Rd1",
-    "all-rounds"           : "All",
+
+    "round-1"              : "1st round - November 11th 3 PM",
+    "round-2"              : "2nd round - November 12th 3 PM",
+    "round-3"              : "3rd round - November 13th 9:30 AM",
+    "all-rounds"           : "All rounds",
+
     "custom-button"        : "New button",
-    "chess-results-link"   : "Results"
+    "chess-results-link"   : "Results",
+    "photo-gallery-link"   : "Photos",
+    "invitation-link"      : "Invitation",
+    "email-link"           : "operator: Operator Name",
+    "clint-link"           : "Clint"
 }
