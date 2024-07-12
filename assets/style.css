@@ -96,33 +96,29 @@ body {
     text-align: center;
 }
 
-.banner {
-    border-radius: 0 0 .25rem .25rem;
-}
-
-.banner h3 {
+.tournamentInfoItem h3 {
     display: inline-block;
     vertical-align: middle;
     padding: 0 1rem;
 }
 
-.banner img {
+.tournamentInfoItem img {
     height: 100px;
     padding: .5rem;
 }
 
-.footer {
+#HyperlinksItem {
     background-color: var(--main-color-bg);
-    border-radius: .25rem;
 }
 
-.footer .badge-custom, .footer .btn-custom {
+#HyperlinksItem .badge-custom, #HyperlinksItem .btn-custom,
+.translateItem button {
     border-bottom: 0;
+    padding: 0;
 }
 
-#FooterRow {
-    margin-left: 2vw;
-    margin-right: 2vw;
+.translateItem > button > i {
+    font-size: 1.75rem;
 }
 
 input::placeholder {
@@ -135,8 +131,8 @@ input::placeholder {
 }
 
 /* Normal colors */
-.banner, .badge-custom, .badge-custom[href]:focus, .btn-custom,
-.btn-custom:hover:focus /* mobile phone variant */ {
+.tournamentInfoItem, .translateItem, .badge-custom, .badge-custom[href]:focus,
+.btn-custom, .btn-custom:hover:focus /* mobile phone variant */ {
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
 }
@@ -177,8 +173,10 @@ a {
 }
 
 .dropdown-menu {
-    background-color: var(--bg-color-light);
+    background-color: var(--main-color-border);
     color: var(--bg-color-light-text);
+    border: .1em solid var(--bg-color-light-text);
+    font-size: 1.2rem;
 }
 
 .dropdown-menu > .dropdown-item:hover {
@@ -192,8 +190,8 @@ a {
 
 .dropdown-item {
     color: var(--bg-color-light-text);
-    height: 30px;
     padding: 0.25rem 0.75rem;
+    margin: 0.25rem 0;
 }
 
 .dropdown-item > i {
@@ -469,13 +467,9 @@ span.move {
     background-color: var(--bg-color-active);
 }
 
-#SettingsBtn > i, #DownloadModalBtn > i, .fa-list-ul, #MultipleBoardsSettingsBtn > i {
+.dropdown-toggle > i, #DownloadModalBtn > i, .fa-list-ul {
     font-size: 22px;
     vertical-align: middle;
-}
-
-#SettingsDiv {
-    display: inline-block;
 }
 
 #DownloadModalBtn {
@@ -573,6 +567,88 @@ iframe {
 }
 
 /************************************************************
+   CSS Grid - Header, view and footer
+************************************************************/
+.tournamentInfoItem {
+    grid-area: info;
+}
+
+.translateItem {
+    grid-area: translate;
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    padding-right: 1rem;
+}
+
+.translateItem h5 {
+    display: none;
+}
+
+#HyperlinksItem {
+    grid-area: links;
+    margin: 0;
+}
+
+#Body {
+    --spacing: 1em;
+    display: grid;
+    grid-template-columns:
+        auto
+        80px;
+    grid-template-rows:
+        max-content
+        var(--spacing)
+        auto
+        auto
+        var(--spacing)
+        auto;
+    grid-template-areas:
+        "info translate"
+        ". ."
+        "sbv sbv"
+        "mbv mbv"
+        ". ."
+        "links links";
+}
+
+@media (max-width: 799px) {
+    .translateItem {
+        display: inline;
+        padding: 0;
+    }
+
+    .translateItem h5 {
+        display: inline;
+    }
+
+    .translateItem .dropdown-menu {
+        min-width: 98%;
+        text-align: center;
+    }
+
+    #Body {
+        grid-template-columns: auto;
+        grid-template-rows:
+            max-content
+            var(--spacing)
+            auto
+            auto
+            var(--spacing)
+            auto
+            auto;
+        grid-template-areas:
+            "info"
+            "."
+            "sbv"
+            "mbv"
+            "."
+            "links"
+            "translate";
+    }
+}
+
+/************************************************************
    CSS Grid - Single board view
  ************************************************************/
 .gamesItem {
@@ -625,21 +701,19 @@ iframe {
 }
 
 #SingleBoardView {
+    grid-area: sbv;
     display: grid;
-    --main-margin: 1vw;
     --player-names: 30px;
     grid-template-columns:
-        var(--main-margin)
         minmax(350px, 45vw)
         minmax(16px, 1.25vw)
         minmax(min(60vw, 60vh), min(80vw, 80vh))
-        minmax(350px, 45vw)
-        var(--main-margin);
+        minmax(350px, 45vw);
     grid-template-rows: var(--player-names) min-content var(--player-names);
     grid-template-areas:
-        ". .        .   topname .        ."
-        ". games    bar board   pgn      ."
-        ". settings .   botname controls .";
+        ".        .   topname .       "
+        "games    bar board   pgn     "
+        "settings .   botname controls";
     justify-content: center;
 }
 
@@ -675,17 +749,15 @@ iframe {
 @media (min-width: 800px) and (max-width: 1259px) {
     #SingleBoardView {
         grid-template-columns:
-            var(--main-margin)
             minmax(12px, 1.5vw)
             minmax(min(60vw, 60vh), min(80vw, 80vh))
-            minmax(25vw, 45vw)
-            var(--main-margin);
+            minmax(25vw, 45vw);
         grid-template-areas:
-            ". .        topname  .        ."
-            ". bar      board    pgn      ."
-            ". .        botname  controls ."
-            ". .        .        settings ."
-            ". games    games    games    .";
+            ".        topname  .       "
+            "bar      board    pgn     "
+            ".        botname  controls"
+            ".        .        settings"
+            "games    games    games   ";
     }
 
     .gamesItem {
@@ -697,7 +769,7 @@ iframe {
         margin-top: 16px;
     }
 
-    .controlsItem button, #SettingsBtn, #DownloadModalBtn {
+    .controlsItem button, .settingsItem button {
         height: 40px;
         padding: 6px;
     }
@@ -727,7 +799,7 @@ iframe {
         margin-bottom: 16px;
     }
 
-    .controlsItem button, #SettingsBtn, #DownloadModalBtn {
+    .controlsItem > button, .settingsItem > button {
         height: 50px;
         padding: 9px;
     }
@@ -745,6 +817,7 @@ iframe {
 }
 
 #MultiBoardView {
+    grid-area: mbv;
     display: grid;
     --main-margin: 1vw;
     grid-template-columns: var(--main-margin) auto var(--main-margin);

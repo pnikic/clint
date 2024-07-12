@@ -5,7 +5,10 @@ Single board view | Multiple boards view
 :---:|:---:
 ![interface screenshot][1a] | ![interface screenshot][1b]
 
-Checkout the [demo page][6] to see clint in action.
+Check out the [demo page][6] to see clint in action.
+
+Support this project with a donation via [PayPal][8].
+Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
 
 ### Table of contents
 * [Usage](https://github.com/pnikic/clint#usage)
@@ -15,11 +18,11 @@ Checkout the [demo page][6] to see clint in action.
     + [Credits and license](https://github.com/pnikic/clint#credits-and-license)
     + [Deployments](https://github.com/pnikic/clint#deployments)
     + [Future work](https://github.com/pnikic/clint#future-work)
-    + [Donate](https://github.com/pnikic/clint#donate)
+    + [Contribute](https://github.com/pnikic/clint#contribute)
 
 
 ### Features
-* Banner with general information (about the tournament) and footer with customizable buttons for hyperlinks (other websites, photo gallery, tournament regulations etc.) 
+* Header with general information (about the tournament) and footer with customizable buttons for hyperlinks (other websites, photo gallery, tournament regulations etc.) 
 * Chess board with compactly displayed player names, clock times and ratings
 * PGN section for display and navigation
 * Engine analysis
@@ -29,6 +32,7 @@ Checkout the [demo page][6] to see clint in action.
 * Multiple boards view (e.g. 6 boards)
 * Responsive design - mobile phone friendly
 * Full color customization support, predefined light and dark theme
+* Translation to multiple languages
 
 ## Usage
 ### Setup
@@ -78,7 +82,7 @@ function listPGNFiles() {
 ```
 ### Customization
 In `index.html` you can:
-* edit the general information about the tournament (e.g. banner)
+* edit the general information about the tournament (e.g. header)
 
 In `assets/js/config.js` you can:
 * in `operatorSettings()` edit hyperlinks. Detailed explanation of all parameters is located through comments in the file itself. For instance:
@@ -120,7 +124,6 @@ In `assets/style.css` you can configure all the colors used on the page. It come
 ```
 
 ## Notes
-* The page is currently in Croatian. With little effort, it can be translated to any language
 * The repository includes sample PGN files from the [42nd Chess Olympiad][4], which are present only for illustrational and testing purposes. PGN files include
   * r1.pgn - 40 games
   * r2.pgn - 144 games
@@ -134,7 +137,7 @@ In `assets/style.css` you can configure all the colors used on the page. It come
 * The layout of components is inspired by [lichess][10]
 * The above items remains subject to their original licenses (if any)
 * Remaining clint code is Copyright (c) 2023 Patrick Nikić (see [LICENSE][7] file)
-* You are free to use clint for your website. You should give it a proper attribution, so that interested viewers can find this repository and possibly use it themselves
+* You are free to use clint for your website. You should give it a proper attribution, so that interested viewers can find this repository and possibly recommend it to others
 
 I hereby sincerely thank all the people who helped make clint better by comments, suggestions and code contributions. Your feedback is much appreciated.  
 
@@ -153,7 +156,6 @@ I hereby sincerely thank all the people who helped make clint better by comments
 * Croatian Individual Junior Championships [2021][17], [2020][18], [2019][19] -- here you can see the evolution of Clint over time
 
 ### Future work:
-* Translation
 * Clock countdown
   * Add custom color
   * Fix interaction with board rotation (up to 1 second delay)
@@ -163,26 +165,23 @@ I hereby sincerely thank all the people who helped make clint better by comments
 * Analysis board
 * Add landing page (with countdown to tournament start, description, overview - multiple boards)
 * Fetching ratings and countries from FIDE (or link to a player's profile by clicking on the name)
-* Placeholder for notifications (e.g. below banner)
+* Placeholder for notifications (e.g. below header)
 * Support for multiple tournaments (when there are too many PGN files, the dropdown menu is not a good option)
 * Show which games have new moves
 
-### Donate
-If you want to support my work, consider a small donation via [PayPal][8]. Thank you!  
-  
-Total donations:
+### Contribute
+If you want to support my work, consider a donation via [PayPal][8]. Thank you!
 
-Year | Amount
-:---:|---:
-2023 |  0 EUR
-2022 | 28 EUR
-2021 | 20 EUR
+Code contributions and translation are welcome.
 
 #### About the author
 <table>
   <tr>
     <td><img src="https://i.imgur.com/1tcwahy.jpg" width="100"></td>  
-    <td>Patrick is a software engineer,<br>chess player and arbiter from Croatia.</td>
+    <td>Patrick is a software engineer,<br>
+        chess player and arbiter from Croatia.<br>
+        Feel free to reach me over <a href="mailto:rickpa007@hotmail.com">e-mail</a>.
+    </td>
   </tr>
 </table>
 
