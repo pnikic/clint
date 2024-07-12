@@ -37,7 +37,17 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
 ## Usage
 ### Setup
 * Clone this repository on your web server
-* Download [pgn4web][2] on your web server
+* Download [pgn4web][2] on your web server  
+Example folder structure:
+```text
+web-server
+├── clint
+│   ├── index.html
+│   ├── (...)
+├── pgn4web-3.06
+│   ├── (...)
+└── 
+```
 * Edit the `pgn4web.js` path and the fonts path in `index.html` and in `mosaic-tile.html`  
 (in my case, pgn4web-3.06 is placed one directory up)
 ```html
@@ -55,23 +65,23 @@ SetImagePath("../pgn4web-3.06/images/svgchess");
 function listPGNFiles() {
     // If broadcasting a tournament
     allPGNs.push({
-        "name" : "Round 1",
-        "pgn" : "pgn/r1.pgn"
+        "pgn" : "pgn/r1.pgn",
+        "id" : "round-1"
     });
     allPGNs.push({
-        "name" : "Round 2",
-        "pgn" : "pgn/r2.pgn"
+        "pgn" : "pgn/r2.pgn",
+        "id" : "round-2"
     });
     // ...
     allPGNs.push({
-        "name" : "Archive",
-        "pgn" : "pgn/all.pgn"
+        "pgn" : "pgn/all.pgn",
+        "id" : "all-rounds"
     });
 
     // And/or if you just want to display some PGN files (ended tournaments)
     allPGNs.push({
-        "name" : "Tournament (last year's edition)",
         "pgn" : "pgn/last_year.pgn",
+        "id" : "last-year",
         "video-left" : "https://www.youtube.com/embed/<your-code>",
         "video-right" : "https://www.youtube.com/embed/<your-code>",
         "image-left" : "<image-url>",
@@ -80,6 +90,17 @@ function listPGNFiles() {
     // ...
 }
 ```
+
+* Define round names in each supported language. E.g. for English, add in `assets/translations/en.json`:
+```json
+{
+    "round-1"              : "Round 1",
+    "round-2"              : "Round 2",
+    "all-rounds"           : "Archive",
+    "last-year"            : "Tournament (last year's edition)",
+}
+```
+
 ### Customization
 In `index.html` you can:
 * edit the general information about the tournament (e.g. header)
@@ -88,11 +109,17 @@ In `assets/js/config.js` you can:
 * in `operatorSettings()` edit hyperlinks. Detailed explanation of all parameters is located through comments in the file itself. For instance:
 ```javascript
 footerLinks.push({
-    "text" : "Photo Gallery",
+    "id"   : "photo-gallery-link",
     "link" : "https://www.example.com",
     "fa-icon" : "fas fa-images"
 });
-``` 
+```
+Define hyperlink names in each supported language. E.g. for English, add in `assets/translations/en.json`:
+```json
+{
+    "photo-gallery-link"   : "Photo Gallery",
+}
+```
 * some default options (such as autoplay delay, move highlighting etc.)
 * expected round duration (used for automatically choosing the initial PGN file to be opened)
 * number of miniboards for the multiple boards view
