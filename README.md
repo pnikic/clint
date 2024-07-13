@@ -37,69 +37,70 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
 ## Usage
 ### Setup
 * Clone this repository on your web server
-* Download [pgn4web][2] on your web server  
-Example folder structure:
-```text
-web-server
-├── clint
-│   ├── index.html
-│   ├── (...)
-├── pgn4web-3.06
-│   ├── (...)
-└── 
-```
+* Download [pgn4web][2] on your web server
+    
+    Example folder structure:
+    ```text
+    web-server
+    ├── clint
+    │   ├── index.html
+    │   ├── (...)
+    ├── pgn4web-3.06
+    │   ├── (...)
+    └── 
+    ```
 * Edit the `pgn4web.js` path and the fonts path in `index.html` and in `mosaic-tile.html`  
 (in my case, pgn4web-3.06 is placed one directory up)
-```html
-<script src="../pgn4web-3.06/pgn4web.js" defer></script>
-...
-<link rel="stylesheet" type="text/css" href="../pgn4web-3.06/fonts/pgn4web-font-ChessSansUsual.css">
-```
-and the image path for the pieces in `assets/js/config.js`
-```javascript
-SetImagePath("../pgn4web-3.06/images/svgchess");
-```
+    ```html
+    <script src="../pgn4web-3.06/pgn4web.js" defer></script>
+    ...
+    <link rel="stylesheet" type="text/css" href="../pgn4web-3.06/fonts/pgn4web-font-ChessSansUsual.css">
+    ```
+    and the image path for the pieces in `assets/js/config.js`
+    ```javascript
+    SetImagePath("../pgn4web-3.06/images/svgchess");
+    ```
 
 * Upload / broadcast your PGN files on the server, and define their locations in `assets/js/config.js` in the `listPGNFiles()` function. Detailed explanation of all parameters is located through comments in the file itself. A configuration example follows:
-```javascript
-function listPGNFiles() {
-    // If broadcasting a tournament
-    allPGNs.push({
-        "pgn" : "pgn/r1.pgn",
-        "id" : "round-1"
-    });
-    allPGNs.push({
-        "pgn" : "pgn/r2.pgn",
-        "id" : "round-2"
-    });
-    // ...
-    allPGNs.push({
-        "pgn" : "pgn/all.pgn",
-        "id" : "all-rounds"
-    });
-
-    // And/or if you just want to display some PGN files (ended tournaments)
-    allPGNs.push({
-        "pgn" : "pgn/last_year.pgn",
-        "id" : "last-year",
-        "video-left" : "https://www.youtube.com/embed/<your-code>",
-        "video-right" : "https://www.youtube.com/embed/<your-code>",
-        "image-left" : "<image-url>",
-        "image-right" : "<image-url>"
-    });
-    // ...
-}
-```
+    ```javascript
+    function listPGNFiles() {
+        // If broadcasting a tournament
+        allPGNs.push({
+            "pgn" : "pgn/r1.pgn",
+            "id" : "round-1"
+        });
+        allPGNs.push({
+            "pgn" : "pgn/r2.pgn",
+            "id" : "round-2"
+        });
+        // ...
+        allPGNs.push({
+            "pgn" : "pgn/all.pgn",
+            "id" : "all-rounds"
+        });
+    
+        // And/or if you just want to display some PGN files (ended tournaments)
+        allPGNs.push({
+            "pgn" : "pgn/last_year.pgn",
+            "id" : "last-year",
+            "video-left" : "https://www.youtube.com/embed/<your-code>",
+            "video-right" : "https://www.youtube.com/embed/<your-code>",
+            "image-left" : "<image-url>",
+            "image-right" : "<image-url>"
+        });
+        // ...
+    }
+    ```
 
 * Define round names in each supported language. E.g. for English, add in `assets/translations/en.json`:
-```json
-{
-    "round-1"              : "Round 1",
-    "round-2"              : "Round 2",
-    "all-rounds"           : "Archive",
-    "last-year"            : "Tournament (last year's edition)",
-}
-```
+    ```json
+    {
+        "round-1"              : "Round 1",
+        "round-2"              : "Round 2",
+        "all-rounds"           : "Archive",
+        "last-year"            : "Tournament (last year's edition)",
+    }
+    ```
 
 ### Customization
 In `index.html` you can:
@@ -107,25 +108,32 @@ In `index.html` you can:
 
 In `assets/js/config.js` you can:
 * in `operatorSettings()` edit hyperlinks. Detailed explanation of all parameters is located through comments in the file itself. For instance:
-```javascript
-footerLinks.push({
-    "id"   : "photo-gallery-link",
-    "link" : "https://www.example.com",
-    "fa-icon" : "fas fa-images"
-});
-```
-Define hyperlink names in each supported language. E.g. for English, add in `assets/translations/en.json`:
-```json
-{
-    "photo-gallery-link"   : "Photo Gallery",
-}
-```
-* some default options (such as autoplay delay, move highlighting etc.)
-* expected round duration (used for automatically choosing the initial PGN file to be opened)
+    ```javascript
+    footerLinks.push({
+        "id"   : "photo-gallery-link",
+        "link" : "https://www.example.com",
+        "fa-icon" : "fas fa-images"
+    });
+    ```
+    Define hyperlink names in each supported language. E.g. for English, add in `assets/translations/en.json`:
+    ```json
+    {
+        "photo-gallery-link"   : "Photo Gallery",
+    }
+    ```
+* set some default options (such as autoplay delay, move highlighting etc.)
+* set expected round duration (used for automatically choosing the initial PGN file to be opened)
+* set languages to be used (from a set of supported languages)
+    ```javascript
+    let supportedLanguages = [
+      "en",  // English
+      "hr"   // Hrvatski (Croatian)
+    ];
+    ```
 * number of miniboards for the multiple boards view
-```javascript
-let numberMiniboards = 6;
-```
+    ```javascript
+    let numberMiniboards = 6;
+    ```
 
 In `assets/style.css` you can configure all the colors used on the page. It comes with a predefined light and dark theme.
 ```css
@@ -173,7 +181,7 @@ I hereby sincerely thank all the people who helped make clint better by comments
 * Croatia team championship [2023][21], [2022][23], [2021][24]
 * [Spanish team championship of Honor 2023][25]
 * [Mitropa Cup 2023][26]
-* [Elllobregat Open Chess 2022][27]
+* [Elllobregat Open Chess][27] (2022, 2023)
 * Bošnjaci Open [2023][31], [2022][32]
 * Tournament of peace [2022][28], [2021][29]
 * Several pages on [chesscout.info][11], e.g. [games from chess tournaments in BiH][12], Sarajevo club championship [2021][14] and [2022][22], [BiH Junior championships 2021][15]
