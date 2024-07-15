@@ -8,6 +8,7 @@
     "multiple-boards"      : "Multiple boards",
     "color-scheme"         : "Change color scheme",
     "highlight-move"       : "Highlight last move",
+    "inline-notation"      : "Inline notation",
     "autoplay-speed"       : "Autoplay speed (sec)",
     "flip-board"           : "Flip board",
     "download-modal-title" : "Export",

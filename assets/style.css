@@ -306,33 +306,38 @@ textarea::-webkit-resizer {
 
 #GameSelectionDiv > div > span, span.move.notranslate {
     color: var(--bg-color-text-light);
+    font-size: 90%;
 }
 
 #GameSideToMove, #GameResult {
     display: none;
 }
 
-a.move {
-    text-align: left;
-    display: inline-block;
-    width: 35%;
+#GameText a.move {
     padding: 2px 5px;
-    margin-left: 3px;
+    white-space: nowrap;
 }
 
-a.move:hover {
+#GameText a.move:hover {
     background-color: var(--bg-color-hover);
     color: var(--bg-color-hover-text);
 }
 
-span.move {
+#GameText.lineFormNotation a.move {
+    text-align: left;
+    display: inline-block;
+    width: 35%;
+    margin-left: 3px;
+}
+
+#GameText.lineFormNotation span.move {
     text-align: center;
     display: inline-block;
     width: 20%;
     padding: 2px 0px;
 }
 
-.variation:nth-of-type(3n) {
+#GameText.lineFormNotation .variation:nth-of-type(3n) {
     display: block;
 }
 

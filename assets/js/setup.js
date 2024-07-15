@@ -19,6 +19,7 @@ let controlPanelOption = false;
 let chosenGames = [];
 const playChar = "&#9655;";
 const pauseChar = "|&nbsp;|";
+let inlineNotationOption = false;
 // Engine global variables
 let engine;
 let toMove;
@@ -92,6 +93,8 @@ if (localStorage.getItem("clint-view") == "multiple-boards")
 currentLanguage = localStorage.getItem("clint-language");
 if (currentLanguage === null)
     currentLanguage = "en";
+if (localStorage.getItem("clint-notation") == "inline")
+    setInlineNotation(true);
 
 
 //===========================================================
@@ -251,6 +254,7 @@ function adjustSidePanelSizes() {
     // We want the moves, engine evaluation and best line with the margins to fit the board size
     gt.style.setProperty("max-height", String(boardWidth - videoHeightR - imageHeightR -
                                               engineHeight - variationHeight - 16) + "px");
+    scrollGameTextToCurrentMove();
 
     // Set height of game selection div assuming game selection header + search bar takes up to 95 px
     let videoDivL = document.getElementById("VideoDivLeft");
@@ -262,6 +266,14 @@ function adjustSidePanelSizes() {
     let gameSel = document.getElementById("GameSelectionDiv");
     gameSel.style.setProperty("max-height", String(boardWidth - videoHeightL -
                                                    imageHeightL - 95) + "px");
+}
+
+function scrollGameTextToCurrentMove() {
+    let gt = document.getElementById("GameText");
+    let scrollSize = Math.max(0, gt.scrollHeight * CurrentPly / Moves.length - gt.offsetHeight / 2);
+    const changeThreshold = 0.15;
+    if (Math.abs(scrollSize - gt.scrollTop) / gt.offsetHeight >  changeThreshold)
+        gt.scrollTop = parseInt(scrollSize);
 }
 
 function customFunctionOnMove() {
@@ -283,11 +295,7 @@ function customFunctionOnMove() {
     if (currMove)
         currMove.classList.add("highlightMove");
 
-    // Scroll game text to current move
-    let gt = document.getElementById("GameText");
-    let scrollSize = Math.max(0, gt.scrollHeight * CurrentPly / Moves.length - gt.offsetHeight / 2);
-    gt.scrollTop = parseInt(scrollSize);
-
+    scrollGameTextToCurrentMove();
     updateResult();
 
     // Update engine evaluation
@@ -780,6 +788,22 @@ function setAutoplayDelay(evt, change) {
     // Calling the pgn4web function for setting autoplay
     SetAutoplayDelay(autoplayDelay);
     document.getElementById("AutoplayDelaySpan").innerHTML = String(autoplayDelay / 1000);
+}
+
+function setInlineNotation(value) {
+    inlineNotationOption = value;
+    let gameText = document.getElementById("GameText");
+
+    if (inlineNotationOption) {
+        gameText.classList.remove("lineFormNotation");
+        localStorage.setItem("clint-notation", "inline");
+    }
+    else {
+        gameText.classList.add("lineFormNotation");
+        localStorage.removeItem("clint-notation");
+    }
+
+    scrollGameTextToCurrentMove();
 }
 
 function updateButtonHyperlinks(val) {
