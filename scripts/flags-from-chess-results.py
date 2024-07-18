@@ -8,7 +8,7 @@ try:
 except ImportError as e:
     print("ERROR: For webpage parsing, the python package Beutiful Soup is used. "\
           "Install it by running:\npip install beautifulsoup4")
-    sys.exit(1)
+    sys.exit(0)
 
 
 def isChessResultsLink(link):
@@ -70,14 +70,14 @@ def fetchFlagsFromChessResults(link):
         header = []
         it = 0
         while len(header) != 1 and it < len(headerText):
-            header = soup.find_all("h2", text=headerText[it])
+            header = soup.find_all("h2", string=headerText[it])
             it += 1
 
         if len(header) != 1:
             allHeaders = list(map(lambda x : f"{x.text}", soup.find_all("h2")))
             print(f"ERROR: Found no header from {headerText}.\n" +
                   f"       Available headers: {allHeaders}")
-            sys.exit(1)
+            sys.exit(0)
 
         table = header[0].parent.find("table")
         # First row contains the legend (e.g. No, flag, name, FideID, FED etc.)
@@ -90,7 +90,7 @@ def fetchFlagsFromChessResults(link):
         except Exception as e:
             legendColumns = ", ".join(map(lambda x : f"'{x.text}'", legend))
             print(f"'Name', 'FideID' or 'FED' not found in table headers: {legendColumns}")
-            sys.exit(1)
+            sys.exit(0)
 
         outputLines = 0
         with open(outputFile, 'w') as out:
@@ -121,13 +121,18 @@ if __name__ == "__main__":
                         help="link to chess-results page with player list, "\
                         "enclosed with quotes ' or \" on both sides")
 
-    args = parser.parse_args()
+    try:
+        args = parser.parse_args()
+    except:
+        print("Run with '-h' option to show help text")
+        sys.exit(0)
+
     chessResultsLink = args.url
     print(f"Input link: {chessResultsLink}")
     if not isChessResultsLink(chessResultsLink):
         print(f"ERROR: Link target is not chess-results.com\n")
         parser.print_help()
-        sys.exit(1)
+        sys.exit(0)
 
     chessResultsLink = chessResultsLinkModify(chessResultsLink)
     print(f"Fetch link: {chessResultsLink}")
