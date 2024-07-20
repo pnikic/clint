@@ -33,6 +33,7 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
 * Responsive design - mobile phone friendly
 * Full color customization support, predefined light and dark theme
 * Translation to multiple languages
+* Support for player's federation flags
 
 ## Usage
 ### Setup
@@ -44,11 +45,14 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
     web-server
     ├── clint
     │   ├── index.html
+    │   ├── assets
     │   ├── (...)
     ├── pgn4web-3.06
+    │   ├── pgn4web.js
     │   ├── (...)
     └── 
     ```
+    _Note: To reduce storage, it's possible to only store the file `pgn4web.js` from pgn4web-x.yz. Clint doesn't use other files from pgn4web._
 * Edit the `pgn4web.js` path and the fonts path in `index.html` and in `mosaic-tile.html`  
 (in my case, pgn4web-3.06 is placed one directory up)
     ```html
@@ -101,7 +105,12 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
         "last-year"            : "Tournament (last year's edition)",
     }
     ```
-
+* _(Optional)_ If you want to display flags of player's federation, you can fetch this data from [chess-results.com][34] using the script `scripts/flags-from-chess-results.py`. Make sure to pass a link to a page containing this information (like _Starting rank_ or _Alphabetical list_).  Example (execute in `scripts` folder):
+    ```bash
+    python flags-from-chess-results.py 'https://chess-results.com/tnr752588.aspx?lan=1'
+    ```
+    This will generate a file named `chess-results-flags` from which the client will read the federation for each player. Do not move or rename this file.
+   
 ### Customization
 In `index.html` you can:
 * edit the general information about the tournament (e.g. header)
@@ -191,18 +200,17 @@ I hereby sincerely thank all the people who helped make clint better by comments
 * Croatian Individual Junior Championships [2021][17], [2020][18], [2019][19] -- here you can see the evolution of Clint over time
 
 ### Future work:
-* Clock countdown
-  * Add custom color
-  * Fix interaction with board rotation (up to 1 second delay)
+* Embed functionality (for sharing on other website)
+* Compact display of multiple tournaments (when there are too many PGN files, the dropdown menu is not a good option)
 * Resizable board
-* Fix some responsive design issues (regarding rotations to mobile phone)
 * Tournament table
 * Analysis board
 * Add landing page (with countdown to tournament start, description, overview - multiple boards)
-* Fetching ratings and countries from FIDE (or link to a player's profile by clicking on the name)
+* Link to a player's FIDE profile by clicking on the name
 * Placeholder for notifications (e.g. below header)
-* Support for multiple tournaments (when there are too many PGN files, the dropdown menu is not a good option)
 * Show which games have new moves
+* Clock countdown enhancement (custom color, Fix interaction with board rotation - up to 1 second delay)
+* Fix some responsive design issues (regarding rotations to mobile phone)
 
 ### Contribute
 If you want to support my work, consider a donation via [PayPal][8]. Thank you!
@@ -254,3 +262,4 @@ Code contributions and translation are welcome.
 [31]: https://hrvatski-sahovski-savez.hr/ftp/bosnjaci2023/
 [32]: https://hrvatski-sahovski-savez.hr/ftp/bosnjaci2022/
 [33]: https://www.chess-international.com/clint/
+[34]: https://chess-results.com/
