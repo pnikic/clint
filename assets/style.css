@@ -425,10 +425,14 @@ textarea::-webkit-resizer {
     white-space: nowrap;
 }
 
-.h-30p, #GameSelectMenu, #PgnFileSelect {
+.h-30p, #PgnFileSelect {
     height: 30px;
     padding-top: 0px;
     padding-bottom: 0px;
+}
+
+.fi-fide {
+    background-image: url(images/FID.svg);
 }
 
 /* Game selection styles*/

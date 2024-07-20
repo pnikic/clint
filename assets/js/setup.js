@@ -14,6 +14,7 @@ let initialPGNFile = "";
 let url = ""
 let iframesGenerated = false;
 let iframesLoaded = [];
+let chessResultsPlayerData;    // Player's information from chess-results
 // Suppose the control panel is turned off by default (sync with mosaic-setup.js)
 let controlPanelOption = false;
 let chosenGames = [];
@@ -43,6 +44,7 @@ if (useAestheticNotation) {
 listPGNFiles();
 operatorSettings();
 fetchTranslations();
+fetchChessResultsPlayerData();
 
 // Multiple boards setup
 iframesLoaded = Array(numberMiniboards).fill(0);
@@ -160,15 +162,62 @@ function setWithIncreasingValues(length, initialValue = 0) {
     return new Set(arr);
 }
 
+
+function clearPlayerFlags() {
+    document.getElementById("PlayerFlagWhite").innerHTML = "";
+    document.getElementById("PlayerFlagBlack").innerHTML = "";
+}
+
+
+function addPlayerFlagsFromChessResultsData() {
+    if (!chessResultsPlayerData)
+        return false;
+
+    let whiteIdentifier = customPgnHeaderTag("WhiteFideId");
+    if (whiteIdentifier.length == 0)
+        whiteIdentifier = gameWhite[currentGame];
+    let blackIdentifier = customPgnHeaderTag("BlackFideId");
+    if (blackIdentifier.length == 0)
+        blackIdentifier = gameBlack[currentGame];
+
+    let flagsFound = 0;
+    for (row of chessResultsPlayerData) {
+        if (row.includes(whiteIdentifier)) {
+            const fed = row.split(" ").slice(1, 2);
+            document.getElementById("PlayerFlagWhite").innerHTML = flagEmojiByThreeLetterCode(fed);
+            flagsFound += 1;
+        }
+        if (row.includes(blackIdentifier)) {
+            const fed = row.split(" ").slice(1, 2);
+            document.getElementById("PlayerFlagBlack").innerHTML = flagEmojiByThreeLetterCode(fed);
+            flagsFound += 1;
+        }
+    }
+
+    return flagsFound == 2;
+}
+
+
+function addPlayerFlagsFromTeamNames() {
+    const teamBlack = customPgnHeaderTag("BlackTeam");
+    const teamWhite = customPgnHeaderTag("WhiteTeam");
+
+    if (teamBlack.length > 0)
+        document.getElementById("PlayerFlagBlack").innerHTML = flagEmojiByTeamName(teamBlack);
+    if (teamWhite.length > 0)
+        document.getElementById("PlayerFlagWhite").innerHTML = flagEmojiByTeamName(teamWhite);
+}
+
+
 function customFunctionOnPgnGameLoad() {
     // Overriding the function from pgn4web.js that will run after loading a PGN
     adjustSquareSize(scaleOption);
 
-    // Add player countries
-    let country1 = customPgnHeaderTag("BlackTeam", "PlayerCountry1");
-    let country2 = customPgnHeaderTag("WhiteTeam", "PlayerCountry2");
-    document.getElementById("PlayerFlag1").innerHTML = getCountryFlagEmoji(country1);
-    document.getElementById("PlayerFlag2").innerHTML = getCountryFlagEmoji(country2);
+    // Add player flags
+    clearPlayerFlags();
+    let flagsAdded = addPlayerFlagsFromChessResultsData();
+    if (!flagsAdded)
+        addPlayerFlagsFromTeamNames();
 
     // Add Elo ratings
     let whiteElo = customPgnHeaderTag("WhiteElo", "GameWhiteRating");
@@ -418,14 +467,10 @@ function flipBoard() {
     document.getElementById("PlayerPlace2").appendChild(IsRotated ? nameW : nameB);
 
     // Flip country flags
-    let team1 = document.getElementById("PlayerCountry1");
-    let team2 = document.getElementById("PlayerCountry2");
-    let flag1 = document.getElementById("PlayerFlag1");
-    let flag2 = document.getElementById("PlayerFlag2");
-    document.getElementById("PlayerPlace1").appendChild(IsRotated ? flag1 : flag2);
-    document.getElementById("PlayerPlace1").appendChild(IsRotated ? team1 : team2);
-    document.getElementById("PlayerPlace2").appendChild(IsRotated ? flag2 : flag1);
-    document.getElementById("PlayerPlace2").appendChild(IsRotated ? team2 : team1);
+    let flagB = document.getElementById("PlayerFlagBlack");
+    let flagW = document.getElementById("PlayerFlagWhite");
+    document.getElementById("PlayerPlace1").appendChild(IsRotated ? flagB : flagW);
+    document.getElementById("PlayerPlace2").appendChild(IsRotated ? flagW : flagB);
 
     // Flip ratings
     let ratB = document.getElementById("GameBlackRating");
@@ -455,6 +500,9 @@ function fetchTranslations() {
         translationFile = "assets/translations/" + lang + ".json";
         fetch(translationFile)
             .then((response) => {
+                if (!response.ok) {
+                    throw new Error("response status not ok");
+                }
                 return response.json();
             })
             .then((data) => {
@@ -473,6 +521,9 @@ function fetchTranslations() {
 
                 if (isoCode == currentLanguage)
                     translatePage(isoCode);
+            })
+            .catch((e) => {
+                console.error(e);
             });
     }
 }
@@ -514,6 +565,23 @@ function getTranslation(key) {
 function hasTranslation(key) {
     return translations.has(currentLanguage) &&
            translations.get(currentLanguage).hasOwnProperty(key);
+}
+
+function fetchChessResultsPlayerData() {
+    const chessResultsFile = "scripts/chess-results-flags";
+    fetch(chessResultsFile)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("response status not ok");
+            }
+            return response.text();
+        })
+        .then((text) => {
+            chessResultsPlayerData = text.split('\n');
+        })
+        .catch((e) => {
+            console.error(e);
+        });
 }
 
 //===========================================================
@@ -1508,18 +1576,4 @@ function receiveMessage(evt) {
             changeFramesPGN(0);
         }
     }
-}
-
-function getCountryFlagEmoji(teamName) {
-    teamName = teamName.trim();
-    const countryCode = countryMapping[teamName];
-    const existsNonCountry = nonCountryTeams.includes(teamName)
-    if (countryCode) {
-        return `<span title="${teamName}" class="fi fi-${countryCode.toLowerCase()}"></span>`;
-    }
-    else if (existsNonCountry) {
-        return `<span title="${teamName}"><strong>[${teamName}]</strong><span>`
-    }
-
-    return "";
 }
