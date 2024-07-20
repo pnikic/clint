@@ -106,7 +106,7 @@ def fetchFlagsFromChessResults(link):
                 row = rows[i].find_all("td")
                 playerEntry = ["0", "FID", "Unnamed player"]
                 for j, index in enumerate(legendSubset.values()):
-                    if index != -1:
+                    if index != -1 and len(row[index].text) > 0:
                         playerEntry[j] = row[index].text
 
                 out.write(" ".join(playerEntry) + "\n")
