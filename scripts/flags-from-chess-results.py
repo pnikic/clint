@@ -58,52 +58,58 @@ def chessResultsUrlQueryToShowCompleteList(queries):
     return queries
 
 
+def chessResultsTableHeader(soup):
+    supportedHeaders = [
+        "Alphabetical list",
+        "Starting rank"
+    ]
+    supportedTableHeader = lambda t : t and any(t.startswith(header) for header in supportedHeaders)
+    header = soup.find_all("h2", string=supportedTableHeader)
+
+    if len(header) != 1:
+        allHeaders = list(map(lambda x : f"{x.text}", soup.find_all("h2")))
+        print(f"ERROR: Found no header starting with {supportedHeaders}.\n" +
+              f"       Available headers: {allHeaders}")
+        sys.exit(0)
+
+    return header
+
+
 def fetchFlagsFromChessResults(link):
     with urllib.request.urlopen(link) as response:
         html = response.read()
         soup = BeautifulSoup(html, "html.parser")
-        headerText = [
-            "Alphabetical list",
-            "Starting rank",                 # Swiss individual
-            "Starting rank list of players", # Round robin individual
-        ]
-        header = []
-        it = 0
-        while len(header) != 1 and it < len(headerText):
-            header = soup.find_all("h2", string=headerText[it])
-            it += 1
-
-        if len(header) != 1:
-            allHeaders = list(map(lambda x : f"{x.text}", soup.find_all("h2")))
-            print(f"ERROR: Found no header from {headerText}.\n" +
-                  f"       Available headers: {allHeaders}")
-            sys.exit(0)
+        header = chessResultsTableHeader(soup)
 
         table = header[0].parent.find("table")
-        # First row contains the legend (e.g. No, flag, name, FideID, FED etc.)
+        # First row contains the legend (e.g. flag, name, FideID, Rtg, FED etc.)
         rows = table.find_all("tr")
         legend = rows[0].find_all("th")
-        try:
-            nameIndex = next(i for i, v in enumerate(legend) if v.text == "Name")
-            fideIdIndex = next(i for i, v in enumerate(legend) if v.text == "FideID")
-            fedIndex = next(i for i, v in enumerate(legend) if v.text == "FED")
-        except Exception as e:
+        legendSubset = {"FideID": -1, "FED" : -1, "Name" : -1}
+        for column in legendSubset:
+            try:
+                legendSubset[column] = next(i for i, v in enumerate(legend) if v.text == column)
+            except Exception:
+                pass
+
+        federationNotFound = legendSubset["FED"] == -1
+        playerNotFound = legendSubset["Name"] == -1 and legendSubset["FideID"] == -1
+        if federationNotFound or playerNotFound:
             legendColumns = ", ".join(map(lambda x : f"'{x.text}'", legend))
-            print(f"'Name', 'FideID' or 'FED' not found in table headers: {legendColumns}")
+            subsetColumns = ", ".join(f"'{col}'" for col in legendSubset if legendSubset[col] == -1)
+            print(f"{subsetColumns} not found in table headers: {legendColumns}")
             sys.exit(0)
 
         outputLines = 0
         with open(outputFile, 'w') as out:
             for i in range(1, len(rows)):
                 row = rows[i].find_all("td")
-                name = row[nameIndex].text
-                fideId = row[fideIdIndex].text
-                federation = row[fedIndex].text
+                playerEntry = ["0", "FID", "Unnamed player"]
+                for j, index in enumerate(legendSubset.values()):
+                    if index != -1:
+                        playerEntry[j] = row[index].text
 
-                if len(fideId) == 0:
-                    fideId = "0"
-
-                out.write(f"{fideId} {federation} {name}\n")
+                out.write(" ".join(playerEntry) + "\n")
                 outputLines += 1
 
         print(f"{outputLines} players written in file '{outputFile}'")
