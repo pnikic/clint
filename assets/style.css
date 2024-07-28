@@ -309,6 +309,10 @@ textarea::-webkit-resizer {
     font-size: 90%;
 }
 
+#GameSelectionDiv, #GameText {
+    overscroll-behavior: none;
+}
+
 #GameSideToMove, #GameResult {
     display: none;
 }
