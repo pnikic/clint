@@ -203,6 +203,8 @@ I hereby sincerely thank all the people who helped make clint better by comments
 * Embed functionality (for sharing on other website)
 * Compact display of multiple tournaments (when there are too many PGN files, the dropdown menu is not a good option)
 * Resizable board
+* Multiple videos / images on each side
+* Placeholder for custom content on each side
 * Tournament table
 * Analysis board
 * Add landing page (with countdown to tournament start, description, overview - multiple boards)
