@@ -81,7 +81,7 @@ function changePgn(pgnUrl) {
 function customFunctionOnPgnTextLoad() {
     // Overriding the function from pgn4web.js that will run after loading a PGN
 
-    // Frame id's are 'frame0', 'frame1' etc.
+    // Frame id's are 'Frame0', 'Frame1' etc.
     let ind = window.frameElement.id.substr(5);
 
     // In case of loading the same PGN file (new moves coming), perform no action. Otherwise, in

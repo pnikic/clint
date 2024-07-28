@@ -72,11 +72,11 @@
     <!-- =========================================================== -->
 </head>
 
-<body id="Body" class="min-vh-100" onresize="resizeCallback();">
+<body id="MainBody" class="min-vh-100" onresize="resizeCallback();">
     <!-- =========================================================== -->
     <!--  Header begin -->
     <!-- =========================================================== -->
-    <div class="tournamentInfoItem">
+    <div id="TournamentInfoItem">
         <!-- Define path for logo, or delete <img> tag if there is nothing to display
              In case of more logos, duplicate the img tag and edit the src attributes -->
         <img src="assets/images/logo.png" alt="logo">
@@ -85,8 +85,8 @@
             <span translate-key="header-second-row"></span>
         </h3>
     </div>
-    <div class="translateItem dropdown">
-        <button type="button" class="btn btn-custom h-30p w-100 dropdown-toggle"
+    <div id="TranslateItem" class="dropdown">
+        <button type="button" class="btn btn-custom w-100 dropdown-toggle"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <h5 class="pr-2" translate-key="select-language">:</h5>
             <i class="fas fa-language"></i>
@@ -99,30 +99,31 @@
     <!--  Single board view -->
     <!-- =========================================================== -->
     <div id="SingleBoardView" class="flex-fill">
-        <div class="gamesItem">
-            <div id="VideoDivLeft" class="mx-3 mb-1" style="display:none;">
+        <div id="LeftPanel">
+            <div id="VideoDivLeft" class="mx-3 mb-2" style="display:none;">
                 <iframe frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen>
                 </iframe>
             </div>
 
-            <div id="ImageDivLeft" class="mx-3 mb-1" style="display:none;">
+            <div id="ImageDivLeft" class="mx-3 mb-2" style="display:none;">
             </div>
 
-            <div class="mx-3 mb-2">
+            <div id="PgnSelectionDiv" class="mx-3 mb-2">
                 <div class="row">
                     <div class="col-12">
-                        <select id="PgnFileSelect" class="custom-select shadow-none" onChange="changePGN(this.value)">
+                        <select id="PgnFileSelect" class="custom-select shadow-none"
+                                onChange="changePGN(this.value)">
                             <option value='-1' translate-key="pgn-file-selection"></option>
                         </select>
                     </div>
                 </div>
             </div>
 
-            <div class="mx-3 mb-2">
+            <div id="PlayerSearchDiv" class="mx-3 mb-2">
                 <div class="row align-items-center">
                     <div class="col-12">
-                        <input id="SearchInput" type="text" class="w-100 h-30p pl-3"
+                        <input id="SearchInput" type="text" class="w-100 pl-3"
                                onkeyup="applyGameSelectionFilters();"
                                translate-key-placeholder="player-search-input">
                     </div>
@@ -130,54 +131,6 @@
             </div>
 
             <div id="GameSelectionDiv" class="mx-3">
-            </div>
-        </div>
-
-        <div class="settingsItem row mx-3">
-            <div class="col pl-0 pr-1">
-                <button type="button" id="DownloadModalBtn" class="btn btn-custom h-30p" data-toggle="modal"
-                    data-target="#downloadModal" onclick="modalOpen();">
-                    <i class="fas fa-share-square"></i>
-                </button>
-            </div>
-            <div class="col pr-0 pl-1 dropup">
-                <button type="button" class="btn btn-custom h-30p w-100 dropdown-toggle"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-cog"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right text-right p-0" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" onclick="toggleView(1);">
-                        <span translate-key="multiple-boards"></span>
-                        <span class="beta">(beta)</span>
-                        <i class="fas fa-th pl-2"></i>
-                    </a>
-                    <a class="dropdown-item" onclick="toggleTheme();">
-                        <span translate-key="color-scheme"></span>
-                        <i class="fas fa-adjust pl-2"></i>
-                    </a>
-                    <a class="dropdown-item" onclick="SetHighlight(!highlightOption);">
-                        <span translate-key="highlight-move"></span>
-                        <i class="fas fa-highlighter pl-2"></i>
-                    </a>
-                    <a class="dropdown-item" onclick="setInlineNotation(!inlineNotationOption);">
-                        <span translate-key="inline-notation"></span>
-                        <i class="fas fa-grip-lines pl-2"></i>
-                    </a>
-                    <a class="dropdown-item">
-                        <span translate-key="autoplay-speed"></span>
-                        <button type="button" class="btn btn-custom dropdownItemBtn ml-1"
-                            onclick="setAutoplayDelay(event, -1);">-
-                        </button>
-                        <span id="AutoplayDelaySpan" class="d-inline-block text-center"></span>
-                        <button type="button" class="btn btn-custom dropdownItemBtn"
-                            onclick="setAutoplayDelay(event, 1);">+
-                        </button>
-                    </a>
-                    <a class="dropdown-item" onclick="flipBoard();">
-                        <span translate-key="flip-board"></span>
-                        <i class="fas fa-exchange-alt fa-rotate-270 pl-2"></i>
-                    </a>
-                </div>
             </div>
         </div>
 
@@ -197,11 +150,11 @@
         <!-- =========================================================== -->
         <!--  Information about first player -->
         <!-- =========================================================== -->
-        <div class="topPlayerItem row m-0">
+        <div id="TopPlayerItem" class="row m-0">
             <div id="ResultPlace1" class="result col-1 p-0 m-auto">
                 <div id="ResultBlack"></div>
             </div>
-            <span class="mr-auto col-8 p-0 pl-2 text-left">
+            <span class="mr-auto col-8 col-md-9 p-0 pl-2 text-left">
                 <span id="PlayerPlace1" class="playerName">
                     <span style="margin-right:10px" id="GameBlack"></span>
                     <span id="PlayerFlagBlack"></span>
@@ -210,18 +163,18 @@
                     <span id="GameBlackRating"></span>
                 </span>
             </span>
-            <div id="ClockPlace1" class="col-3 h-100 d-flex align-items-center justify-content-end p-0 pr-2 clock">
+            <div id="ClockPlace1" class="col-3 col-md-2 h-100 d-flex align-items-center justify-content-end p-0 pr-2 clock">
                 <div id="GameBlackClock"></div>
             </div>
         </div>
         <!-- =========================================================== -->
         <!--  Information about second player -->
         <!-- =========================================================== -->
-        <div class="botPlayerItem row m-0">
+        <div id="BotPlayerItem" class="row m-0">
             <div id="ResultPlace2" class="result col-1 p-0 m-auto">
                 <div id="ResultWhite"></div>
             </div>
-            <span class="mr-auto col-8 p-0 pl-2 text-left">
+            <span class="mr-auto col-8 col-md-9 p-0 pl-2 text-left">
                 <span id="PlayerPlace2" class="playerName">
                     <span style="margin-right:10px" id="GameWhite"></span>
                     <span id="PlayerFlagWhite"></span>
@@ -230,22 +183,22 @@
                     <span id="GameWhiteRating"></span>
                 </span>
             </span>
-            <div id="ClockPlace2" class="col-3 h-100 d-flex align-items-center justify-content-end p-0 pr-2 clock">
+            <div id="ClockPlace2" class="col-3 col-md-2 h-100 d-flex align-items-center justify-content-end p-0 pr-2 clock">
                 <div id="GameWhiteClock"></div>
             </div>
         </div>
-        <div class="boardItem">
+        <div id="BoardItem">
             <!-- =========================================================== -->
             <!--  Game Board -->
             <!-- =========================================================== -->
             <div id="GameBoard"></div>
 
-            <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel"
+            <div class="modal fade" id="DownloadModal" tabindex="-1" role="dialog" aria-labelledby="DownloadModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title mx-auto" id="downloadModalLabel"
+                            <h5 class="modal-title mx-auto" id="DownloadModalLabel"
                                 translate-key="download-modal-title"></h5>
                             <button type="button" class="close mx-1" data-dismiss="modal" aria-label="Close"
                                 onclick="hideSnackbarMessage();">
@@ -256,11 +209,11 @@
                             <h5 translate-key="fen"></h5>
                             <div class="row align-items-center">
                                 <div class="col-8 col-lg-10">
-                                    <input id="FENinput" type="text" class="w-100" readonly>
+                                    <input id="FenInput" type="text" class="w-100" readonly>
                                 </div>
                                 <div class="col-4 col-lg-2">
                                     <button class="btn btn-custom h-40p"
-                                        onclick="copyInput('FENinput'); snackbarMessage('snackbar-fen-copy');">
+                                        onclick="copyInput('FenInput'); snackbarMessage('snackbar-fen-copy');">
                                         <i class="fas fa-copy fa-lg"></i>
                                     </button>
                                 </div>
@@ -269,12 +222,12 @@
                             <h5 translate-key="pgn"></h5>
                             <div class="row align-items-center">
                                 <div class="col-8 col-lg-10">
-                                    <textarea id="PGNinput" rows="9" class="w-100" readonly="readonly">
+                                    <textarea id="PgnInput" rows="9" class="w-100" readonly="readonly">
                                         </textarea>
                                 </div>
                                 <div class="col-4 col-lg-2">
                                     <button class="btn btn-custom h-40p"
-                                            onclick="copyInput('PGNinput'); snackbarMessage('snackbar-pgn-copy');">
+                                            onclick="copyInput('PgnInput'); snackbarMessage('snackbar-pgn-copy');">
                                         <i class="fas fa-copy fa-lg"></i>
                                     </button>
                                 </div>
@@ -288,7 +241,7 @@
                                         <div class="col-8" translate-key="active-pgn">
                                         </div>
                                         <div class="col-4">
-                                            <a id="currLink" class="btn btn-custom h-40p" href="#">
+                                            <a id="CurrentPgnDownloadLink" class="btn btn-custom h-40p" href="#">
                                                 <i class="fas fa-download fa-lg"></i>
                                             </a>
                                         </div>
@@ -299,7 +252,7 @@
                                         <div class="col-8" translate-key="all-pgns">
                                         </div>
                                         <div class="col-4">
-                                            <a id="allLink" class="btn btn-custom h-40p" href="#">
+                                            <a id="AllPgnDownloadLink" class="btn btn-custom h-40p" href="#">
                                                 <i class="fas fa-download fa-lg"></i>
                                             </a>
                                         </div>
@@ -329,14 +282,14 @@
             </div>
         </div>
 
-        <div class="pgnItem">
-            <div id="VideoDivRight" class="mx-3 mb-1" style="display:none;">
+        <div id="RightPanel">
+            <div id="VideoDivRight" class="mx-3 mb-2" style="display:none;">
                 <iframe frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
+                        allowfullscreen>
                 </iframe>
             </div>
 
-            <div id="ImageDivRight" class="mx-3 mb-1" style="display:none;">
+            <div id="ImageDivRight" class="mx-3 mb-2" style="display:none;">
             </div>
 
             <!-- =========================================================== -->
@@ -355,7 +308,7 @@
                             <span id="DepthValue"></span>
                         </div>
                         <div class="col-4 h-75" onclick="toggleEngine();">
-                            <i id="engineToggleIcon" class="fas fa-toggle-off">
+                            <i id="EngineToggleIcon" class="fas fa-toggle-off">
                             </i>
                         </div>
                     </div>
@@ -364,37 +317,89 @@
                 </div>
                 <div id="GameText" class="h5 m-2 text-left lineFormNotation"></div>
             </div>
-        </div>
 
-        <!-- =========================================================== -->
-        <!--  Game select and navigate -->
-        <!-- =========================================================== -->
-        <div class="row controlsItem mx-3">
-            <div class="col pl-0 pr-1">
-                <button type="button" class="col-12 btn btn-custom h-30p" onclick="GoToMove(StartPlyVar[0], 0);">
-                    <span>&lt;&lt;</span>
-                </button>
+            <!-- =========================================================== -->
+            <!--  Game select and navigate -->
+            <!-- =========================================================== -->
+            <div id="ControlsItem" class="row mx-3">
+                <div class="col pl-0 pr-1">
+                    <button type="button" class="col-12 btn btn-custom"
+                            onclick="GoToMove(StartPlyVar[0], 0);">
+                        <span>&lt;&lt;</span>
+                    </button>
+                </div>
+                <div class="col px-1">
+                    <button type="button" class="col-12 btn btn-custom"
+                            onclick="GoToMove(CurrentPly - 1);">
+                        <span>&lt;</span>
+                    </button>
+                </div>
+                <div class="col px-1">
+                    <button id="AutoPlayBtn" type="button" class="col-12 btn btn-custom"
+                            onclick="toggleAutoplay();">
+                        <span>&#9655;</span>
+                    </button>
+                </div>
+                <div class="col px-1">
+                    <button type="button" class="col-12 btn btn-custom"
+                            onclick="GoToMove(CurrentPly + 1);">
+                        <span>&gt;</span>
+                    </button>
+                </div>
+                <div class="col pl-1 pr-0">
+                    <button type="button" class="col-12 btn btn-custom"
+                            onclick="GoToMove(StartPlyVar[0] + PlyNumberVar[0], 0);">
+                        <span>&gt;&gt;</span>
+                    </button>
+                </div>
             </div>
-            <div class="col px-1">
-                <button type="button" class="col-12 btn btn-custom h-30p" onclick="GoToMove(CurrentPly - 1);">
-                    <span>&lt;</span>
-                </button>
-            </div>
-            <div class="col px-1">
-                <button id="AutoPlayBtn" type="button" class="col-12 btn btn-custom h-30p" onclick="toggleAutoplay();">
-                    <span>&#9655;</span>
-                </button>
-            </div>
-            <div class="col px-1">
-                <button type="button" class="col-12 btn btn-custom h-30p" onclick="GoToMove(CurrentPly + 1);">
-                    <span>&gt;</span>
-                </button>
-            </div>
-            <div class="col pl-1 pr-0">
-                <button type="button" class="col-12 btn btn-custom h-30p"
-                    onclick="GoToMove(StartPlyVar[0] + PlyNumberVar[0], 0);">
-                    <span>&gt;&gt;</span>
-                </button>
+
+            <div id="SettingsItem" class="row mx-3">
+                <div class="col pl-0 pr-1">
+                    <button type="button" id="DownloadModalBtn" class="btn btn-custom" data-toggle="modal"
+                            data-target="#DownloadModal" onclick="modalOpen();">
+                        <i class="fas fa-share-square"></i>
+                    </button>
+                </div>
+                <div class="col pr-0 pl-1 dropup">
+                    <button type="button" class="btn btn-custom w-100 dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right text-right p-0" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" onclick="toggleView(1);">
+                            <span translate-key="multiple-boards"></span>
+                            <span class="beta">(beta)</span>
+                            <i class="fas fa-th pl-2"></i>
+                        </a>
+                        <a class="dropdown-item" onclick="toggleTheme();">
+                            <span translate-key="color-scheme"></span>
+                            <i class="fas fa-adjust pl-2"></i>
+                        </a>
+                        <a class="dropdown-item" onclick="SetHighlight(!highlightOption);">
+                            <span translate-key="highlight-move"></span>
+                            <i class="fas fa-highlighter pl-2"></i>
+                        </a>
+                        <a class="dropdown-item" onclick="setInlineNotation(!inlineNotationOption);">
+                            <span translate-key="inline-notation"></span>
+                            <i class="fas fa-grip-lines pl-2"></i>
+                        </a>
+                        <a class="dropdown-item">
+                            <span translate-key="autoplay-speed"></span>
+                            <button type="button" class="btn btn-custom dropdownItemBtn ml-1"
+                                    onclick="setAutoplayDelay(event, -1);">-
+                            </button>
+                            <span id="AutoplayDelaySpan" class="d-inline-block text-center"></span>
+                            <button type="button" class="btn btn-custom dropdownItemBtn"
+                                    onclick="setAutoplayDelay(event, 1);">+
+                            </button>
+                        </a>
+                        <a class="dropdown-item" onclick="flipBoard();">
+                            <span translate-key="flip-board"></span>
+                            <i class="fas fa-exchange-alt fa-rotate-270 pl-2"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -403,13 +408,13 @@
     <!--  Multiple boards view -->
     <!-- =========================================================== -->
     <div id="MultiBoardView" class="flex-fill" style="display: none;">
-        <div id="IframesContainer" class="iframesItem">
+        <div id="IframesContainer">
         </div>
 
         <!-- =========================================================== -->
         <!--  Settings -->
         <!-- =========================================================== -->
-        <div class="multiboardSettingsItem row m-0">
+        <div id="MultiboardSettingsItem" class="row m-0">
             <div class="col-12 col-lg-5 mb-3 mb-lg-0">
                 <select id="MultiboardFileSelect" class="custom-select  mx-auto shadow-none"
                     onChange="changeFramesPGN(this.value)">
@@ -418,7 +423,7 @@
             </div>
             <div class="col-9 col-lg-5">
                 <button type="button" id="MultiboardModalBtn" class="btn btn-custom m-0 w-100 h-40p" data-toggle="modal"
-                    data-target="#multiboardModal">
+                    data-target="#MultiboardModal">
                     <span translate-key="games-selection"></span>
                     <i class="fas fa-list-ul pl-2"></i>
                 </button>
@@ -454,12 +459,12 @@
         <!-- =========================================================== -->
         <!--  Multiboard Modal -->
         <!-- =========================================================== -->
-        <div class="modal fade" id="multiboardModal" tabindex="-1" role="dialog" aria-labelledby="multiboardModalLabel"
+        <div class="modal fade" id="MultiboardModal" tabindex="-1" role="dialog" aria-labelledby="MultiboardModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="multiboardModalLabel">
+                        <h5 class="modal-title" id="MultiboardModalLabel">
                             <span translate-key="games-selection"></span>
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -469,18 +474,18 @@
                     <div class="mx-3 mt-2">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <input id="multiboardSearchInput" type="text" placeholder="Traži igrača..."
-                                       class="w-100 h-30p pl-3" onkeyup="applyGameSelectionFilters();"
+                                <input id="MultiboardSearchInput" type="text" placeholder="Traži igrača..."
+                                       class="w-100 pl-3" onkeyup="applyGameSelectionFilters();"
                                        translate-key-placeholder="player-search-input"
                                 >
                             </div>
                             <div class="col-2">
-                                <input id="multiboardOngoingCheckbox" class="position-static" type="checkbox" value="0"
+                                <input id="MultiboardOngoingCheckbox" class="position-static" type="checkbox" value="0"
                                     onclick="applyGameSelectionFilters();">
                                 <span class="small" translate-key="in-progress"></span>
                             </div>
                             <div class="col-2">
-                                <input id="multiboardSelectAllCheckbox" class="position-static" type="checkbox"
+                                <input id="MultiboardSelectAllCheckbox" class="position-static" type="checkbox"
                                     value="0" onclick="gameSelectionModalSelectAllCheckbox(this);">
                                 <span class="small" translate-key="select-all"></span>
                             </div>
@@ -499,7 +504,7 @@
                                 <span translate-key="games"></span>
                             </h5>
                             <div class="col-4">
-                                <button type="button" id="multiboardSaveBtn" class="btn btn-custom m-0"
+                                <button type="button" id="MultiboardSaveBtn" class="btn btn-custom m-0"
                                     data-dismiss="modal" aria-label="Save" onclick="onGameSelectionModalSave();">
                                     <span translate-key="save"></span>
                                 </button>

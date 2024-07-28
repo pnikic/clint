@@ -208,16 +208,18 @@ function addPlayerFlagsFromTeamNames() {
         document.getElementById("PlayerFlagWhite").innerHTML = flagEmojiByTeamName(teamWhite);
 }
 
-
-function customFunctionOnPgnGameLoad() {
-    // Overriding the function from pgn4web.js that will run after loading a PGN
-    adjustSquareSize(scaleOption);
-
-    // Add player flags
+function updatePlayerFlags() {
     clearPlayerFlags();
     let flagsAdded = addPlayerFlagsFromChessResultsData();
     if (!flagsAdded)
         addPlayerFlagsFromTeamNames();
+}
+
+
+function customFunctionOnPgnGameLoad() {
+    // Overriding the function from pgn4web.js that will run after loading a PGN
+    adjustSquareSize(scaleOption);
+    updatePlayerFlags();
 
     // Add Elo ratings
     let whiteElo = customPgnHeaderTag("WhiteElo", "GameWhiteRating");
@@ -253,7 +255,7 @@ function getDisplayedGame() {
 }
 
 function getBoardWidth() {
-    let boardItem = document.getElementsByClassName("boardItem")[0];
+    let boardItem = document.getElementById("BoardItem");
     return scaleOption * Math.min(boardItem.offsetHeight, boardItem.offsetWidth);
 }
 
@@ -287,34 +289,79 @@ function adjustSquareSize(scale = 1) {
     adjustSidePanelSizes();
 }
 
-function adjustSidePanelSizes() {
-    let boardWidth = getBoardWidth();
-
-    // Set height/width of game text divs and engine evaluation divs
-    let gt = document.getElementById("GameText");
-    let engineHeight = document.getElementById("EngineEvalDiv").offsetHeight;
-    let variationHeight = document.getElementById("EngineVariationDiv").offsetHeight;
-    let videoDivR = document.getElementById("VideoDivRight");
-    videoDivR.style.setProperty("height", String(0.5 * boardWidth) + "px");
-    let videoHeightR = videoDivR.offsetHeight;
-    let imageR = document.getElementById("ImageDivRight");
-    imageR.style.setProperty("max-height", String(0.5 * boardWidth) + "px");
-    let imageHeightR = imageR.offsetHeight;
-    // We want the moves, engine evaluation and best line with the margins to fit the board size
-    gt.style.setProperty("max-height", String(boardWidth - videoHeightR - imageHeightR -
-                                              engineHeight - variationHeight - 16) + "px");
-    scrollGameTextToCurrentMove();
-
-    // Set height of game selection div assuming game selection header + search bar takes up to 95 px
-    let videoDivL = document.getElementById("VideoDivLeft");
-    videoDivL.style.setProperty("height", String(0.5 * boardWidth) + "px");
-    let videoHeightL = videoDivL.offsetHeight;
-    let imageL = document.getElementById("ImageDivLeft");
-    imageL.style.setProperty("max-height", String(0.5 * boardWidth) + "px");
-    let imageHeightL = imageL.offsetHeight;
+function adjustLeftPanelSizes(panelHeight) {
+    let video = document.getElementById("VideoDivLeft");
+    let image = document.getElementById("ImageDivLeft");
     let gameSel = document.getElementById("GameSelectionDiv");
-    gameSel.style.setProperty("max-height", String(boardWidth - videoHeightL -
-                                                   imageHeightL - 95) + "px");
+    if (isMobile()) {
+        // Panel sizes on mobile phones can be bigger as they are not adjacent to the chess board
+        video.style.setProperty("height", String(0.6 * panelHeight) + "px");
+        image.style.setProperty("max-height", String(0.6 * panelHeight) + "px");
+        const gameSelHeight = 14 /*lines*/ * 16 /*px*/;
+        gameSel.style.setProperty("max-height", String(gameSelHeight) + "px");
+    }
+    else {
+        video.style.setProperty("height", String(0.5 * panelHeight) + "px");
+        const videoHeight = video.offsetHeight;
+        image.style.setProperty("max-height", String(0.5 * panelHeight) + "px");
+        const imageHeight = image.offsetHeight;
+        const roundSelHeight = document.getElementById("PgnSelectionDiv").offsetHeight;
+        const playerSearchHeight = document.getElementById("PlayerSearchDiv").offsetHeight;
+        const margins = (videoHeight ? 8 : 0) +
+                        (imageHeight ? 8 : 0) +
+                        8 + // round selection margin bottom
+                        8;  // player search margin bottom
+        const remainingSpace = panelHeight - videoHeight - imageHeight - roundSelHeight -
+                               playerSearchHeight  - margins;
+        gameSel.style.setProperty("max-height", String(remainingSpace) + "px");
+    }
+}
+
+function adjustRightPanelSizes(panelHeight) {
+    let video = document.getElementById("VideoDivRight");
+    let image = document.getElementById("ImageDivRight");
+    let gameText = document.getElementById("GameText");
+    const variationHeight = document.getElementById("EngineVariationDiv").offsetHeight;
+    const engineHeight = document.getElementById("EngineEvalDiv").offsetHeight;
+    const controlsHeight = document.getElementById("ControlsItem").offsetHeight;
+    const settingsHeight = document.getElementById("SettingsItem").offsetHeight;
+    if (isMobile()) {
+        // Panel sizes on mobile phones can be bigger as they are not adjacent to the chess board
+        video.style.setProperty("height", String(0.6 * panelHeight) + "px");
+        image.style.setProperty("max-height", String(0.6 * panelHeight) + "px");
+        // Game text with a minimum number of lines
+        const gameTextHeight = 14 /*lines*/ * 16 /*px*/ - variationHeight;
+        gameText.style.setProperty("max-height", String(gameTextHeight) + "px");
+        gameText.style.removeProperty("height");
+    }
+    else {
+        video.style.setProperty("height", String(0.5 * panelHeight) + "px");
+        const videoHeight = video.offsetHeight;
+        image.style.setProperty("max-height", String(0.5 * panelHeight) + "px");
+        const imageHeight = image.offsetHeight;
+        const margins = (videoHeight ? 8 : 0) +
+                        (imageHeight ? 8 : 0) +
+                        16 + // #GameText
+                        8;   // #ControlsItem
+        const remainingSpace = panelHeight - videoHeight - imageHeight - engineHeight -
+                               variationHeight - controlsHeight - settingsHeight - margins;
+        gameText.style.setProperty("height", String(remainingSpace) + "px");
+        gameText.style.removeProperty("max-height");
+    }
+
+    scrollGameTextToCurrentMove();
+}
+
+function adjustSidePanelSizes() {
+    // Note: It would be nice if this function could be replaced with CSS grid,
+    //       but it seems to have too much logic
+
+    const boardWidth = getBoardWidth();
+    const playerItemHeight = document.getElementById("TopPlayerItem").offsetHeight;
+    const panelHeight = boardWidth + 2 * playerItemHeight;
+
+    adjustLeftPanelSizes(panelHeight);
+    adjustRightPanelSizes(panelHeight);
 }
 
 function scrollGameTextToCurrentMove() {
@@ -411,7 +458,7 @@ function changePGN(val) {
         gt.scrollTop = arg == "end" ? gt.scrollHeight : 0;
 
         SetPgnUrl(allPGNs[val]["pgn"]);
-        document.getElementById("currLink").href = pgnUrl;
+        document.getElementById("CurrentPgnDownloadLink").href = pgnUrl;
         currentPGN = val;
         restartBroadcast();
     }
@@ -419,10 +466,10 @@ function changePGN(val) {
 
 function modalOpen() {
     // Refres FEN and PGN values in the "share" modal
-    let elemFEN = document.getElementById("FENinput");
+    let elemFEN = document.getElementById("FenInput");
     elemFEN.value = CurrentFEN();
 
-    let elemPGN = document.getElementById("PGNinput");
+    let elemPGN = document.getElementById("PgnInput");
     elemPGN.value = fullPgnGame(currentGame);
 
     let elemLink = document.getElementById("ShareGameInput");
@@ -509,7 +556,7 @@ function fetchTranslations() {
                 let isoCode = data["iso-639-code"]
                 translations.set(isoCode, data);
 
-                let htmlTranslateItem = document.getElementsByClassName("translateItem")[0];
+                let htmlTranslateItem = document.getElementById("TranslateItem");
                 let translateMenu = htmlTranslateItem.getElementsByClassName("dropdown-menu")[0];
                 let anchor = document.createElement("a");
                 anchor.className = "dropdown-item";
@@ -578,6 +625,7 @@ function fetchChessResultsPlayerData() {
         })
         .then((text) => {
             chessResultsPlayerData = text.split('\n');
+            updatePlayerFlags();
         })
         .catch((e) => {
             console.error(e);
@@ -708,7 +756,7 @@ function useEngine() {
 
 function toggleEngine() {
     engineStatus = Number(!engineStatus);
-    let engineIcon = document.getElementById("engineToggleIcon");
+    let engineIcon = document.getElementById("EngineToggleIcon");
     engineIcon.className = engineStatus ? "fas fa-toggle-on" : "fas fa-toggle-off";
 
     if (engineStatus && !engine)
@@ -751,7 +799,7 @@ function pgn4web_handleKey(e) {
         e = window.event;
     }
 
-    if (e.target.id == "SearchInput" || e.target.id == "multiboardSearchInput")
+    if (e.target.id == "SearchInput" || e.target.id == "MultiboardSearchInput")
         return;
 
     if (e.altKey || e.ctrlKey || e.metaKey) {
@@ -906,7 +954,7 @@ function customFunctionOnPgnTextLoad() {
     if (!started) {
         // Code in this block exectues only once
         started = true;
-        document.getElementById("currLink").href = pgnUrl;
+        document.getElementById("CurrentPgnDownloadLink").href = pgnUrl;
 
         // customFunctionOnPgnTextLoad() is called at the end of createBoard() in pgn4web.js
         //   which is in turn trigerred by start_pgn4web() on startup. We hook to this chain
@@ -1119,9 +1167,9 @@ function filterSearchInputGames() {
         blackPlayers = gameBlack;
     }
     else {
-        searchElementId = "multiboardSearchInput";
+        searchElementId = "MultiboardSearchInput";
         gameSelectionDivId = "GamesSelectionContainer";
-        let frame0 = document.getElementById("frame0");
+        let frame0 = document.getElementById("Frame0");
         whitePlayers = frame0.contentWindow.gameWhite;
         blackPlayers = frame0.contentWindow.gameBlack;
     }
@@ -1163,7 +1211,7 @@ function generateIframes() {
         }
 
         let frame = document.createElement("iframe");
-        frame.id = "frame" + String(i);
+        frame.id = "Frame" + String(i);
         frame.src = "mosaic-tile.html";
         frame.style.display = "none";
 
@@ -1241,7 +1289,7 @@ function updateGameSelectionModalOnFirstIframeLoaded() {
     }
 
     // Information about all games in PGN file
-    let frame0 = document.getElementById("frame0");
+    let frame0 = document.getElementById("Frame0");
     let whites = frame0.contentWindow.gameWhite;
     let blacks = frame0.contentWindow.gameBlack;
     let results = frame0.contentWindow.gameResult;
@@ -1317,19 +1365,19 @@ function handleGameSelectionModalCheckboxClick(evt) {
     chosenCount.innerHTML = cnt;
     if (cnt > numberMiniboards || cnt == 0) {
         chosenCount.style.setProperty("color", "red");
-        document.getElementById("multiboardSaveBtn").disabled = true;
+        document.getElementById("MultiboardSaveBtn").disabled = true;
     }
     else {
         chosenCount.style.setProperty("color", "");
-        document.getElementById("multiboardSaveBtn").disabled = false;
+        document.getElementById("MultiboardSaveBtn").disabled = false;
     }
 }
 
 function filterOngoingGames() {
-    let frame0 = document.getElementById("frame0");
+    let frame0 = document.getElementById("Frame0");
     let results = frame0.contentWindow.gameResult;
     let gameSelectionDiv = document.getElementById("GamesSelectionContainer");
-    let ongoing = document.getElementById("multiboardOngoingCheckbox");
+    let ongoing = document.getElementById("MultiboardOngoingCheckbox");
 
     if (!results || gameSelectionDiv.children.length != results.length)
         return new Set();
@@ -1358,11 +1406,11 @@ function gameSelectionModalSelectAllCheckbox(evt) {
 }
 
 function resetGameSelectionFiltering() {
-    let search = document.getElementById("multiboardSearchInput");
+    let search = document.getElementById("MultiboardSearchInput");
     search.value = "";
-    let ongoing = document.getElementById("multiboardOngoingCheckbox");
+    let ongoing = document.getElementById("MultiboardOngoingCheckbox");
     ongoing.checked = false;
-    let selectAll = document.getElementById("multiboardSelectAllCheckbox");
+    let selectAll = document.getElementById("MultiboardSelectAllCheckbox");
     selectAll.checked = false;
 }
 
@@ -1549,7 +1597,7 @@ function resizeCallback() {
     resizeTimeout = setTimeout(resizeEnd, 50);
 }
 
-// Iframe0 will send messages when it changes it's PGN so the "select game" modal can be updated
+// Frame0 will send messages when it changes it's PGN so the "select game" modal can be updated
 window.addEventListener("message", receiveMessage, false);
 
 function receiveMessage(evt) {
@@ -1567,7 +1615,7 @@ function receiveMessage(evt) {
         }
     }
 
-    if (evt.data.includes("frame") && evt.data.includes("Ready")) {
+    if (evt.data.includes("Frame") && evt.data.includes("Ready")) {
         let ind = String(evt.data.substr(5,1));
         iframesLoaded[ind] = 1;
 

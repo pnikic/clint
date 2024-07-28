@@ -117,7 +117,7 @@ function listPGNFiles() {
 
 function operatorSettings() {
     // Targets for PGN download buttons
-    document.getElementById("allLink").href = "pgn/all.pgn";   // all rounds
+    document.getElementById("AllPgnDownloadLink").href = "pgn/all.pgn";
 
     // To enable a (fixed) video / live stream link for all rounds use:
     // enableVideoDiv("VideoDivLeft", "https://www.youtube.com/embed/<your-code>");

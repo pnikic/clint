@@ -18,3 +18,7 @@ function updateResult() {
         resultBlack.innerHTML = resultWhite.innerHTML = charStar;
     }
 }
+
+function isMobile() {
+   return window.innerWidth <= 799;
+}

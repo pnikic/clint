@@ -96,13 +96,13 @@ body {
     text-align: center;
 }
 
-.tournamentInfoItem h3 {
+#TournamentInfoItem h3 {
     display: inline-block;
     vertical-align: middle;
     padding: 0 1rem;
 }
 
-.tournamentInfoItem img {
+#TournamentInfoItem img {
     height: 100px;
     padding: .5rem;
 }
@@ -112,12 +112,12 @@ body {
 }
 
 #HyperlinksItem .badge-custom, #HyperlinksItem .btn-custom,
-.translateItem button {
+#TranslateItem button {
     border-bottom: 0;
     padding: 0;
 }
 
-.translateItem > button > i {
+#TranslateItem > button > i {
     font-size: 1.75rem;
 }
 
@@ -131,7 +131,7 @@ input::placeholder {
 }
 
 /* Normal colors */
-.tournamentInfoItem, .translateItem, .badge-custom, .badge-custom[href]:focus,
+#TournamentInfoItem, #TranslateItem, .badge-custom, .badge-custom[href]:focus,
 .btn-custom, .btn-custom:hover:focus /* mobile phone variant */ {
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
@@ -214,7 +214,7 @@ textarea, input {
     background-color: var(--bg-color-light);
     color: var(--bg-color-light-text);
     font-family: monospace;
-    font-size: 13px;
+    font-size: 14px;
     border: 0;
     border-radius: .25rem;
 }
@@ -379,7 +379,7 @@ textarea::-webkit-resizer {
 }
 
 .playerName, .result, .rating {
-    font-size: calc(12px + 2 * ((100vw - 320px) / 800));
+    font-size: calc(15px + 2 * ((100vw - 320px) / 800));
 }
 
 .playerName, .result {
@@ -391,7 +391,7 @@ textarea::-webkit-resizer {
 }
 
 .clock {
-    font-size: calc(13px + 2 * ((100vw - 320px) / 700));
+    font-size: calc(14px + 2 * ((100vw - 320px) / 700));
 }
 
 .clockActive {
@@ -406,18 +406,18 @@ textarea::-webkit-resizer {
     border-radius: 0 0 .25rem 0;
 }
 
-.topPlayerItem, .botPlayerItem {
+#TopPlayerItem, #BotPlayerItem {
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
     border-radius: .25rem;
     align-items: center;
 }
 
-.topPlayerItem {
+#TopPlayerItem {
     border-radius: .25rem .25rem 0 0;
 }
 
-.botPlayerItem {
+#BotPlayerItem {
     border-radius: 0 0 .25rem .25rem;
 }
 
@@ -425,14 +425,23 @@ textarea::-webkit-resizer {
     white-space: nowrap;
 }
 
-.h-30p, #PgnFileSelect {
-    height: 30px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-}
-
 .fi-fide {
     background-image: url(images/FID.svg);
+}
+
+#TopPlayerItem > span, #BotPlayerItem > span{
+    display: flex;
+}
+
+#PlayerPlace1, #PlayerPlace2 {
+    display: flex;
+    overflow: hidden;
+}
+
+#GameBlack, #GameWhite {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Game selection styles*/
@@ -474,6 +483,10 @@ textarea::-webkit-resizer {
 
 #GameSelectionDiv > div.active {
     background-color: var(--bg-color-active);
+}
+
+#SearchInput, #MultiboardSearchInput {
+    height: 2em;
 }
 
 .dropdown-toggle > i, #DownloadModalBtn > i, .fa-list-ul {
@@ -566,23 +579,23 @@ iframe {
     border-radius: .25rem;
 }
 
-#engineToggleIcon {
+#EngineToggleIcon {
     font-size: 30px;
     vertical-align: middle;
 }
 
-#engineToggleIcon:hover {
+#EngineToggleIcon:hover {
     filter: drop-shadow(0px 0px 3px var(--main-color-text));
 }
 
 /************************************************************
    CSS Grid - Header, view and footer
 ************************************************************/
-.tournamentInfoItem {
+#TournamentInfoItem {
     grid-area: info;
 }
 
-.translateItem {
+#TranslateItem {
     grid-area: translate;
     display: flex;
     align-items: center;
@@ -590,7 +603,7 @@ iframe {
     padding-right: 1rem;
 }
 
-.translateItem h5 {
+#TranslateItem h5 {
     display: none;
 }
 
@@ -599,7 +612,7 @@ iframe {
     margin: 0;
 }
 
-#Body {
+#MainBody {
     --spacing: 1em;
     display: grid;
     grid-template-columns:
@@ -613,30 +626,30 @@ iframe {
         var(--spacing)
         auto;
     grid-template-areas:
-        "info translate"
-        ". ."
-        "sbv sbv"
-        "mbv mbv"
-        ". ."
-        "links links";
+        "info  translate"
+        ".     .        "
+        "sbv   sbv      "
+        "mbv   mbv      "
+        ".     .        "
+        "links links    ";
 }
 
 @media (max-width: 799px) {
-    .translateItem {
+    #TranslateItem {
         display: inline;
         padding: 0;
     }
 
-    .translateItem h5 {
+    #TranslateItem h5 {
         display: inline;
     }
 
-    .translateItem .dropdown-menu {
+    #TranslateItem .dropdown-menu {
         min-width: 98%;
         text-align: center;
     }
 
-    #Body {
+    #MainBody {
         grid-template-columns: auto;
         grid-template-rows:
             max-content
@@ -647,24 +660,92 @@ iframe {
             auto
             auto;
         grid-template-areas:
-            "info"
-            "."
-            "sbv"
-            "mbv"
-            "."
-            "links"
+            "info     "
+            ".        "
+            "sbv      "
+            "mbv      "
+            ".        "
+            "links    "
             "translate";
     }
 }
 
 /************************************************************
    CSS Grid - Single board view
- ************************************************************/
-.gamesItem {
-    grid-area: games;
+************************************************************/
+#VideoDivLeft {
+    grid-area: video-l;
 }
 
-.boardItem {
+#VideoDivRight {
+    grid-area: video-r;
+}
+
+#ImageDivLeft {
+    grid-area: image-l;
+}
+
+#ImageDivRight {
+    grid-area: image-r;
+}
+
+#PgnSelectionDiv {
+    grid-area: round-select;
+}
+
+#PlayerSearchDiv {
+    grid-area: game-search;
+}
+
+#GameSelectionDiv {
+    grid-area: game-select;
+}
+
+#GameTextDiv {
+    grid-area: game-text;
+}
+
+#ControlsItem {
+    grid-area: controls;
+}
+
+#SettingsItem {
+    grid-area: settings;
+}
+
+#RightPanel {
+    grid-area: right;
+    display: grid;
+    grid-template-rows: repeat(5, min-content);
+    grid-template-areas:
+        "video-r"
+        "image-r"
+        "game-text"
+        "controls"
+        "settings";
+}
+
+#ControlsItem button, #SettingsItem button, #TranslateItem button {
+    height: 42px;
+}
+
+#ControlsItem {
+    margin-bottom: 8px;
+}
+
+#LeftPanel {
+    grid-area: left;
+    display: grid;
+    grid-template-rows: repeat(5, min-content);
+    grid-template-areas:
+        "video-l"
+        "image-l"
+        "round-select"
+        "game-search"
+        "game-select";
+}
+
+#BoardItem {
     grid-area: board;
     /* First part of the hack to maintain 1:1 aspect ratio for the board element */
     position: relative;
@@ -685,44 +766,31 @@ iframe {
     height: 100%;
 }
 
-.pgnItem {
-    grid-area: pgn;
-}
-
-.controlsItem {
-    grid-area: controls;
-}
-
-.controlsItem .btn {
-    padding: 0;
-}
-
-.topPlayerItem {
+#TopPlayerItem {
     grid-area: topname;
 }
 
-.botPlayerItem {
+#BotPlayerItem {
     grid-area: botname;
-}
-
-.settingsItem {
-    grid-area: settings;
 }
 
 #SingleBoardView {
     grid-area: sbv;
     display: grid;
-    --player-names: 30px;
+    --player-names: 34px;
     grid-template-columns:
         minmax(350px, 45vw)
         minmax(16px, 1.25vw)
         minmax(min(60vw, 60vh), min(80vw, 80vh))
         minmax(350px, 45vw);
-    grid-template-rows: var(--player-names) min-content var(--player-names);
+    grid-template-rows:
+        var(--player-names)
+        min-content
+        var(--player-names);
     grid-template-areas:
-        ".        .   topname .       "
-        "games    bar board   pgn     "
-        "settings .   botname controls";
+        "left  .    topname  right"
+        "left  bar  board    right"
+        "left  .    botname  right";
     justify-content: center;
 }
 
@@ -762,53 +830,64 @@ iframe {
             minmax(min(60vw, 60vh), min(80vw, 80vh))
             minmax(25vw, 45vw);
         grid-template-areas:
-            ".        topname  .       "
-            "bar      board    pgn     "
-            ".        botname  controls"
-            ".        .        settings"
-            "games    games    games   ";
+            ".     topname  right"
+            "bar   board    right"
+            ".     botname  right"
+            "left  left     left";
     }
 
-    .gamesItem {
+    #LeftPanel {
         margin-top: 16px;
         margin-bottom: 16px;
     }
 
-    .settingsItem {
-        margin-top: 16px;
-    }
-
-    .controlsItem button, .settingsItem button {
+    #ControlsItem button, #SettingsItem button {
         height: 40px;
         padding: 6px;
     }
 }
 
 @media (max-width: 799px) {
+    #RightPanel {
+        grid-area: right;
+        display: grid;
+        grid-template-rows: repeat(5, min-content);
+        grid-template-areas:
+            "controls"
+            "settings"
+            "game-text"
+            "video-r"
+            "image-r";
+    }
+
     #SingleBoardView {
         grid-template-columns:
             minmax(8px, 3vw)
             minmax(min(60vw, 60vh), min(100vw, 80vh));
         grid-template-areas:
-            ".        topname"
-            "bar      board"
-            ".        botname"
-            "controls controls"
-            "settings settings"
-            "pgn      pgn"
-            "games    games";
+            ".      topname"
+            "bar    board"
+            ".      botname"
+            "right  right"
+            "left   left";
     }
 
-    .controlsItem, .gamesItem {
+    #ControlsItem {
         margin-top: 16px;
+        margin-bottom: 8px;
+    }
+
+    #SettingsItem {
+        margin-top: 8px;
         margin-bottom: 16px;
     }
 
-    .settingsItem {
-        margin-bottom: 16px;
+    #LeftPanel {
+        margin-top: 8px;
+        margin-bottom: 8px;
     }
 
-    .controlsItem > button, .settingsItem > button {
+    #ControlsItem > button, #SettingsItem > button {
         height: 50px;
         padding: 9px;
     }
@@ -817,11 +896,11 @@ iframe {
 /************************************************************
    CSS Grid - Multiple boards views
  ************************************************************/
-.iframesItem {
+#IframesContainer {
     grid-area: iframes;
 }
 
-.multiboardSettingsItem {
+#MultiboardSettingsItem {
     grid-area: mbSettings;
 }
 
@@ -839,13 +918,13 @@ iframe {
 }
 
 @media (max-width: 799px) {
-    .multiboardSettingsItem button, .multiboardSettingsItem select {
+    #MultiboardSettingsItem button, #MultiboardSettingsItem select {
         height: 50px;
         padding: 9px;
     }
 }
 
-#multiboardSearchInput {
+#MultiboardSearchInput {
     text-align: center;
 }
 
