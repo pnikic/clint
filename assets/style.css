@@ -442,8 +442,11 @@ textarea::-webkit-resizer {
     overflow: hidden;
 }
 
-#GameBlack, #GameWhite {
+#SingleBoardView #GameBlack, #SingleBoardView #GameWhite {
     margin-right: 10px;
+}
+
+#GameBlack, #GameWhite {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

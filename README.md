@@ -212,7 +212,8 @@ I hereby sincerely thank all the people who helped make clint better by comments
 * Placeholder for notifications (e.g. below header)
 * Show which games have new moves
 * Clock countdown enhancement (custom color, Fix interaction with board rotation - up to 1 second delay)
-* Fix some responsive design issues (regarding rotations to mobile phone)
+* Custom responsive design for mobile phones in landscape mode
+* More flexibile tiling algorithm for multiple boards view in case of bigger number of boards
 
 ### Contribute
 If you want to support my work, consider a donation via [PayPal][8]. Thank you!

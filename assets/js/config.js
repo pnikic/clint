@@ -287,4 +287,5 @@ let useAestheticNotation = false;
 // Multiple boards view
 //----------------------------------------------------------
 let numberMiniboards = 6;
+// Note: For more boards, `gamesPerRow` can be changed in `maximizeIframesTiles` of setup.js
 
