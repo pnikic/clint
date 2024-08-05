@@ -19,6 +19,10 @@ function updateResult() {
     }
 }
 
-function isMobile() {
-   return window.innerWidth <= 799;
+function isSmallScreen() {
+    return window.innerWidth <= 799;
+}
+
+function isMediumScreen() {
+    return window.innerWidth > 799 && window.innerWidth <= 1259;
 }

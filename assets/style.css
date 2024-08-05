@@ -85,10 +85,6 @@
 /************************************************************
    General
  ************************************************************/
-.h-65 {
-    height: 65%;
-}
-
 body {
     background-color: var(--bg-color);
     color: var(--bg-clor-text);
@@ -206,7 +202,7 @@ a {
     font-size: 12px;
 }
 
-#AutoplayDelaySpan, #BoardSizeSpan {
+#AutoplayDelaySpan {
     width: 2em;
 }
 
@@ -232,11 +228,6 @@ textarea::-webkit-resizer {
 
 .h-40p {
     height: 40px;
-}
-
-.beta {
-    font-size: 85%;
-    color: gray;
 }
 
 .fa-caret-down, .fa-search {
@@ -282,14 +273,16 @@ textarea::-webkit-resizer {
 }
 
 #GameText, #EngineVariationDiv {
-    overflow-y: auto;
     font-family: "pgn4web ChessSansPiratf";
     font-size: 18px;
 }
 
+#ShowPgnText {
+    line-height: 1.2;
+}
+
 #GameSelectionDiv {
     text-align: left;
-    overflow-y: auto;
 }
 
 /* Results on the right side of the game selection div */
@@ -317,8 +310,14 @@ textarea::-webkit-resizer {
     display: none;
 }
 
+#GameText {
+    margin-left: .5rem;
+    margin-right: .5rem;
+    margin-top: .2rem;
+}
+
 #GameText a.move {
-    padding: 2px 5px;
+    padding: 2px 0px;
     white-space: nowrap;
 }
 
@@ -332,21 +331,37 @@ textarea::-webkit-resizer {
     display: inline-block;
     width: 35%;
     margin-left: 3px;
+    padding: 2px 5px;
 }
 
 #GameText.lineFormNotation span.move {
     text-align: center;
     display: inline-block;
     width: 20%;
-    padding: 2px 0px;
 }
 
 #GameText.lineFormNotation .variation:nth-of-type(3n) {
     display: block;
 }
 
+/* Game text and engine are in the same flexbox because it is undesirable
+   to resize other elements in the panel by toggling the engine */
+#GameTextDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+#GameText {
+    flex: 1 1 5em;
+}
+
+#EngineEvalDiv, #EngineVariationDiv {
+    flex-shrink: 0;
+}
+
 #EngineEvalDiv {
-    height: 48px;
+    line-height: 1.5em;
+    height: 3em;
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
     border-radius: .25rem .25rem 0 0;
@@ -493,7 +508,7 @@ textarea::-webkit-resizer {
     background-color: var(--bg-color-active);
 }
 
-#SearchInput, #MultiboardSearchInput {
+#MultiboardSearchInput {
     height: 2em;
 }
 
@@ -583,7 +598,7 @@ iframe {
 }
 #ImageDivLeft img, #ImageDivRight img {
     max-width: 100%;
-    max-height: inherit;
+    max-height: 100%;
     border-radius: .25rem;
 }
 
@@ -681,76 +696,49 @@ iframe {
 /************************************************************
    CSS Grid - Single board view
 ************************************************************/
-#VideoDivLeft {
-    grid-area: video-l;
-}
-
-#VideoDivRight {
-    grid-area: video-r;
-}
-
-#ImageDivLeft {
-    grid-area: image-l;
-}
-
-#ImageDivRight {
-    grid-area: image-r;
-}
-
-#PgnSelectionDiv {
-    grid-area: round-select;
-}
-
-#PlayerSearchDiv {
-    grid-area: game-search;
-}
-
-#GameSelectionDiv {
-    grid-area: game-select;
-}
-
-#GameTextDiv {
-    grid-area: game-text;
-}
-
-#ControlsItem {
-    grid-area: controls;
-}
-
-#SettingsItem {
-    grid-area: settings;
-}
-
+/* Notes:
+     - side panels have a fixed height (set from JS) in order for the chessboard to be a square
+     - items inside the flexbox can be reordered using the `order` property
+     - height of each element can be customized using `flex-{basis/grow/shrink}` properties
+*/
 #RightPanel {
     grid-area: right;
-    display: grid;
-    grid-template-rows: repeat(5, min-content);
-    grid-template-areas:
-        "video-r"
-        "image-r"
-        "game-text"
-        "controls"
-        "settings";
-}
-
-#ControlsItem button, #SettingsItem button, #TranslateItem button {
-    height: 42px;
-}
-
-#ControlsItem {
-    margin-bottom: 8px;
 }
 
 #LeftPanel {
     grid-area: left;
-    display: grid;
-    grid-template-rows: repeat(5, min-content);
-    grid-template-areas:
-        "video-l"
-        "image-l"
-        "round-select"
-        "game-search"
-        "game-select";
+}
+
+#LeftPanel, #RightPanel {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+}
+
+#VideoDivLeft, #ImageDivLeft, #CustomItemLeft,
+#VideoDivRight, #ImageDivRight, #CustomItemRight {
+    overflow: hidden;
+    flex-basis: 20%;
+    flex-grow: 1;
+}
+
+#GameSelectionDiv {
+    flex-basis: 20%;
+    flex-grow: 1;
+}
+
+#GameTextDiv {
+    overflow: hidden;
+    flex-basis: 10rem;
+    flex-grow: 1;
+}
+
+#CustomItemLeft, #CustomItemRight, #GameSelectionDiv, #GameText {
+    overflow-y: scroll;
+}
+
+#ControlsItem button, #SettingsItem button, #TranslateItem button, #SearchInput, #PgnFileSelect {
+    height: 42px;
 }
 
 #BoardItem {
@@ -837,65 +825,94 @@ iframe {
             minmax(12px, 1.5vw)
             minmax(min(60vw, 60vh), min(80vw, 80vh))
             minmax(25vw, 45vw);
+        grid-template-rows:
+            min-content
+            min-content
+            min-content
+            var(--spacing)
+            min-content;
         grid-template-areas:
             ".     topname  right"
             "bar   board    right"
             ".     botname  right"
+            ".     .        .    "
             "left  left     left";
     }
 
-    #LeftPanel {
-        margin-top: 16px;
-        margin-bottom: 16px;
+    #LeftPanel > * {
+        flex: initial;
     }
 
-    #ControlsItem button, #SettingsItem button {
-        height: 40px;
-        padding: 6px;
+    #CustomItemLeft, #GameSelectionDiv {
+        max-height: 50vh;
     }
+
+    #ImageDivLeft {
+        max-height: 62vh;
+    }
+
+    #VideoDivLeft {
+        /* YouTube embeds don't have significant intrinsic size, so they naturally appear small */
+        flex-basis: 500px;
+    }
+
 }
 
 @media (max-width: 799px) {
-    #RightPanel {
-        grid-area: right;
-        display: grid;
-        grid-template-rows: repeat(5, min-content);
-        grid-template-areas:
-            "controls"
-            "settings"
-            "game-text"
-            "video-r"
-            "image-r";
+    /* In mobile view, there is no limit on panel height */
+    #LeftPanel > *, #RightPanel > *, #GameText {
+        flex: initial;
+    }
+
+    #LeftPanel, #RightPanel {
+        gap: 1rem;
+    }
+
+    #ControlsItem, #SettingsItem {
+        order: -1;
+    }
+
+    #VideoDivRight, #ImageDivRight {
+        order: 1;
+    }
+
+    /* Dimension of elements is only limited in terms of total viewport height */
+    #GameSelectionDiv, #GameTextDiv {
+        max-height: 50vh;
+    }
+
+    #ImageDivLeft, #ImageDivRight, #CustomItemLeft, #CustomItemRight {
+        max-height: 75vh;
+    }
+
+    #VideoDivRight,  #VideoDivLeft {
+        /* YouTube embeds don't have significant intrinsic size, so they naturally appear small */
+        flex-basis: 250px;
     }
 
     #SingleBoardView {
         grid-template-columns:
             minmax(8px, 3vw)
             minmax(min(60vw, 60vh), min(100vw, 80vh));
+        grid-template-rows:
+            min-content
+            min-content
+            min-content
+            var(--spacing)
+            min-content
+            var(--spacing)
+            min-content;
         grid-template-areas:
             ".      topname"
-            "bar    board"
+            "bar    board  "
             ".      botname"
-            "right  right"
-            "left   left";
+            ".      .      "
+            "right  right  "
+            ".      .      "
+            "left   left   ";
     }
 
-    #ControlsItem {
-        margin-top: 16px;
-        margin-bottom: 8px;
-    }
-
-    #SettingsItem {
-        margin-top: 8px;
-        margin-bottom: 16px;
-    }
-
-    #LeftPanel {
-        margin-top: 8px;
-        margin-bottom: 8px;
-    }
-
-    #ControlsItem > button, #SettingsItem > button {
+    #ControlsItem > button, #SettingsItem > button, #SearchInput, #PgnFileSelect {
         height: 50px;
         padding: 9px;
     }

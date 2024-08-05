@@ -100,16 +100,16 @@
     <!-- =========================================================== -->
     <div id="SingleBoardView" class="flex-fill">
         <div id="LeftPanel">
-            <div id="VideoDivLeft" class="mx-3 mb-2" style="display:none;">
+            <div id="VideoDivLeft" class="mx-3" style="display:none;">
                 <iframe frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen>
                 </iframe>
             </div>
 
-            <div id="ImageDivLeft" class="mx-3 mb-2" style="display:none;">
+            <div id="ImageDivLeft" class="mx-3" style="display:none;">
             </div>
 
-            <div id="PgnSelectionDiv" class="mx-3 mb-2">
+            <div id="PgnSelectionDiv" class="mx-3">
                 <div class="row">
                     <div class="col-12">
                         <select id="PgnFileSelect" class="custom-select shadow-none"
@@ -120,7 +120,7 @@
                 </div>
             </div>
 
-            <div id="PlayerSearchDiv" class="mx-3 mb-2">
+            <div id="PlayerSearchDiv" class="mx-3">
                 <div class="row align-items-center">
                     <div class="col-12">
                         <input id="SearchInput" type="text" class="w-100 pl-3"
@@ -131,6 +131,12 @@
             </div>
 
             <div id="GameSelectionDiv" class="mx-3">
+            </div>
+
+            <div id="CustomItemLeft" class="mx-3" style="display:none;">
+                <p>To use custom content on the left size, remove display:none style above.
+                   Use translation facilities in order to show this content in multiple languages.
+                </p>
             </div>
         </div>
 
@@ -283,20 +289,18 @@
         </div>
 
         <div id="RightPanel">
-            <div id="VideoDivRight" class="mx-3 mb-2" style="display:none;">
+            <div id="VideoDivRight" class="mx-3" style="display:none;">
                 <iframe frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
                 </iframe>
             </div>
 
-            <div id="ImageDivRight" class="mx-3 mb-2" style="display:none;">
+            <div id="ImageDivRight" class="mx-3" style="display:none;">
             </div>
 
-            <!-- =========================================================== -->
             <!--  PGN text-->
-            <!-- =========================================================== -->
             <div id="GameTextDiv" class="mx-3">
-                <div id="EngineEvalDiv" class="mx-auto">
+                <div id="EngineEvalDiv">
                     <div class="row h-100 align-items-center">
                         <div class="col-3">
                             <h3 id="Score" class="p-2 m-0"></h3>
@@ -313,14 +317,11 @@
                         </div>
                     </div>
                 </div>
-                <div id="EngineVariationDiv" class="mx-auto text-center">
+                <div id="EngineVariationDiv" class="text-center">
                 </div>
-                <div id="GameText" class="h5 m-2 text-left lineFormNotation"></div>
+                <div id="GameText" class="text-left lineFormNotation"></div>
             </div>
 
-            <!-- =========================================================== -->
-            <!--  Game select and navigate -->
-            <!-- =========================================================== -->
             <div id="ControlsItem" class="row mx-3">
                 <div class="col pl-0 pr-1">
                     <button type="button" class="col-12 btn btn-custom"
@@ -399,6 +400,12 @@
                         </a>
                     </div>
                 </div>
+            </div>
+
+            <div id="CustomItemRight" class="mx-3" style="display:none;">
+                <p>To use custom content on the right size, remove display:none style above.
+                   Use translation facilities in order to show this content in multiple languages.
+                </p>
             </div>
         </div>
     </div>

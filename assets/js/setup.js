@@ -290,72 +290,28 @@ function adjustSquareSize(scale = 1) {
 }
 
 function adjustLeftPanelSizes(panelHeight) {
-    let video = document.getElementById("VideoDivLeft");
-    let image = document.getElementById("ImageDivLeft");
-    let gameSel = document.getElementById("GameSelectionDiv");
-    if (isMobile()) {
-        // Panel sizes on mobile phones can be bigger as they are not adjacent to the chess board
-        video.style.setProperty("height", String(0.6 * panelHeight) + "px");
-        image.style.setProperty("max-height", String(0.6 * panelHeight) + "px");
-        const gameSelHeight = 14 /*lines*/ * 16 /*px*/;
-        gameSel.style.setProperty("max-height", String(gameSelHeight) + "px");
+    if (isSmallScreen() || isMediumScreen()) {
+        document.getElementById("LeftPanel").style.removeProperty("height");
     }
     else {
-        video.style.setProperty("height", String(0.5 * panelHeight) + "px");
-        const videoHeight = video.offsetHeight;
-        image.style.setProperty("max-height", String(0.5 * panelHeight) + "px");
-        const imageHeight = image.offsetHeight;
-        const roundSelHeight = document.getElementById("PgnSelectionDiv").offsetHeight;
-        const playerSearchHeight = document.getElementById("PlayerSearchDiv").offsetHeight;
-        const margins = (videoHeight ? 8 : 0) +
-                        (imageHeight ? 8 : 0) +
-                        8 + // round selection margin bottom
-                        8;  // player search margin bottom
-        const remainingSpace = panelHeight - videoHeight - imageHeight - roundSelHeight -
-                               playerSearchHeight  - margins;
-        gameSel.style.setProperty("max-height", String(remainingSpace) + "px");
+        const heightStr = String(panelHeight) + "px";
+        document.getElementById("LeftPanel").style.setProperty("height", heightStr);
     }
 }
 
 function adjustRightPanelSizes(panelHeight) {
-    let video = document.getElementById("VideoDivRight");
-    let image = document.getElementById("ImageDivRight");
-    let gameText = document.getElementById("GameText");
-    const variationHeight = document.getElementById("EngineVariationDiv").offsetHeight;
-    const engineHeight = document.getElementById("EngineEvalDiv").offsetHeight;
-    const controlsHeight = document.getElementById("ControlsItem").offsetHeight;
-    const settingsHeight = document.getElementById("SettingsItem").offsetHeight;
-    if (isMobile()) {
-        // Panel sizes on mobile phones can be bigger as they are not adjacent to the chess board
-        video.style.setProperty("height", String(0.6 * panelHeight) + "px");
-        image.style.setProperty("max-height", String(0.6 * panelHeight) + "px");
-        // Game text with a minimum number of lines
-        const gameTextHeight = 14 /*lines*/ * 16 /*px*/ - variationHeight;
-        gameText.style.setProperty("max-height", String(gameTextHeight) + "px");
-        gameText.style.removeProperty("height");
+    if (isSmallScreen()) {
+        document.getElementById("RightPanel").style.removeProperty("height");
     }
     else {
-        video.style.setProperty("height", String(0.5 * panelHeight) + "px");
-        const videoHeight = video.offsetHeight;
-        image.style.setProperty("max-height", String(0.5 * panelHeight) + "px");
-        const imageHeight = image.offsetHeight;
-        const margins = (videoHeight ? 8 : 0) +
-                        (imageHeight ? 8 : 0) +
-                        16 + // #GameText
-                        8;   // #ControlsItem
-        const remainingSpace = panelHeight - videoHeight - imageHeight - engineHeight -
-                               variationHeight - controlsHeight - settingsHeight - margins;
-        gameText.style.setProperty("height", String(remainingSpace) + "px");
-        gameText.style.removeProperty("max-height");
+        const heightStr = String(panelHeight) + "px";
+        document.getElementById("RightPanel").style.setProperty("height", heightStr);
     }
 
     scrollGameTextToCurrentMove();
 }
 
 function adjustSidePanelSizes() {
-    // Note: It would be nice if this function could be replaced with CSS grid,
-    //       but it seems to have too much logic
-
     const boardWidth = getBoardWidth();
     const playerItemHeight = document.getElementById("TopPlayerItem").offsetHeight;
     const panelHeight = boardWidth + 2 * playerItemHeight;
@@ -725,7 +681,6 @@ function setEngineAnnotations(line, depth, score) {
     }
     document.getElementById("EngineVariationDiv").innerHTML = line;
     document.getElementById("Score").innerHTML = score;
-    adjustSidePanelSizes();
 }
 
 function setEvaluationBarValue(num, ignoreEngineStatus) {
@@ -1101,7 +1056,6 @@ function disableVideoDiv(divId) {
 
     videoDiv.style.display = "none";
     videoDiv.children[0].src = "";
-    adjustSidePanelSizes();
 }
 
 function enableVideoDiv(divId, link) {
@@ -1112,8 +1066,6 @@ function enableVideoDiv(divId, link) {
     videoDiv.style.display = "";
     if (videoDiv.children.length && videoDiv.children[0].src != link)
         videoDiv.children[0].src = link;
-
-    adjustSidePanelSizes();
 }
 
 function disableImageDiv(divId) {
@@ -1124,8 +1076,6 @@ function disableImageDiv(divId) {
     imageDiv.style.display = "none";
     if (imageDiv.children.length)
         imageDiv.children[0].src = "";
-
-    adjustSidePanelSizes();
 }
 
 function enableImageDiv(divId, link) {
@@ -1142,12 +1092,7 @@ function enableImageDiv(divId, link) {
         imageDiv.removeChild(imageDiv.lastChild);
 
     // Replace it with a new image
-    // Note: changing the "src" of the existing image does not correctly fire adjustSidePanelSize()
-    //   on the initial loading of the page, leading to an unadjusted side panel.
     let img = new Image();
-    img.addEventListener("load", function() {
-        adjustSidePanelSizes();
-    });
     img.src = link;
 
     imageDiv.appendChild(img);

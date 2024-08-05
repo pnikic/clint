@@ -28,6 +28,7 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
 * Engine analysis
 * Switching between different games and PGN files (rounds) on the same page
 * Support for embedding video (live stream) or image for each PGN file (round)
+* Placeholder for custom content on both sides of the board
 * Download PGN / FEN of the current game, round or whole tournament, sharing link to a specific game
 * Multiple boards view (e.g. 6 boards)
 * Responsive design - mobile phone friendly
@@ -114,6 +115,7 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
 ### Customization
 In `index.html` you can:
 * edit the general information about the tournament (e.g. header)
+* add custom content in sections `CustomItemLeft` and `CustomItemRight`
 
 In `assets/js/config.js` you can:
 * in `operatorSettings()` edit hyperlinks. Detailed explanation of all parameters is located through comments in the file itself. For instance:
@@ -204,7 +206,6 @@ I hereby sincerely thank all the people who helped make clint better by comments
 * Compact display of multiple tournaments (when there are too many PGN files, the dropdown menu is not a good option)
 * Resizable board
 * Multiple videos / images on each side
-* Placeholder for custom content on each side
 * Tournament table
 * Analysis board
 * Add landing page (with countdown to tournament start, description, overview - multiple boards)
