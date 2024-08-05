@@ -42,13 +42,13 @@
 
 /* Light theme example preset */
 :root {
-    --bg-color: #eee;
+    --bg-color: #fff;
     --bg-color-text: #111;
-    --bg-color-light: #ddd;
+    --bg-color-light: #eee;
     --bg-color-light-text: #111;
     --bg-color-text-light: #888;
     --bg-color-hover: #27c;
-    --bg-color-hover-text: #eee;
+    --bg-color-hover-text: #fff;
     --bg-color-active: #cde;
     --main-color-bg: #ddd;
     --main-color-text: #000;
@@ -87,7 +87,7 @@
  ************************************************************/
 body {
     background-color: var(--bg-color);
-    color: var(--bg-clor-text);
+    color: var(--bg-color-text);
     font-family: Verdana, Arial, Helvetica, sans-serif;
     text-align: center;
 }
@@ -124,6 +124,10 @@ input::placeholder {
 /* In order to remove flashing (transition) at startup time */
 .btn, .custom-select {
     transition: none;
+}
+
+#GameSelectionDiv, #GameText {
+    overscroll-behavior: none;
 }
 
 /* Normal colors */
@@ -181,7 +185,7 @@ a {
 }
 
 .dropdown-item:active {
-    background-color: var(--bg-color-light);;
+    background-color: var(--bg-color-light);
 }
 
 .dropdown-item {
@@ -230,10 +234,6 @@ textarea::-webkit-resizer {
     height: 40px;
 }
 
-.fa-caret-down, .fa-search {
-    color: var(--bg-color-text);
-}
-
 ::-webkit-scrollbar {
     width: 12px;
 }
@@ -264,7 +264,6 @@ textarea::-webkit-resizer {
 
 .modal-content {
     background-color: var(--bg-color);
-    color: var(--bg-color-text);
 }
 
 /* PGN text styles */
@@ -279,31 +278,6 @@ textarea::-webkit-resizer {
 
 #ShowPgnText {
     line-height: 1.2;
-}
-
-#GameSelectionDiv {
-    text-align: left;
-}
-
-/* Results on the right side of the game selection div */
-#GameSelectionDiv > div > h6 ~ span {
-    color: var(--bg-color-text);
-    font-size: 0.9em;
-    font-weight: 500;
-}
-
-#GameSelectionDiv > div, #GameText > span {
-    background-color: var(--bg-color);
-    color: var(--bg-color-text);
-}
-
-#GameSelectionDiv > div > span, span.move.notranslate {
-    color: var(--bg-color-text-light);
-    font-size: 90%;
-}
-
-#GameSelectionDiv, #GameText {
-    overscroll-behavior: none;
 }
 
 #GameSideToMove, #GameResult {
@@ -324,6 +298,7 @@ textarea::-webkit-resizer {
 #GameText a.move:hover {
     background-color: var(--bg-color-hover);
     color: var(--bg-color-hover-text);
+    text-decoration: none;
 }
 
 #GameText.lineFormNotation a.move {
@@ -468,10 +443,6 @@ textarea::-webkit-resizer {
 }
 
 /* Game selection styles*/
-#GameSelSelect {
-    width: 100% !important;
-}
-
 .custom-select {
     background-color:  var(--main-color-bg);
     background-image: none;
@@ -479,32 +450,41 @@ textarea::-webkit-resizer {
     border: 0px;
 }
 
-.custom-select:focus {
-    border-color:  var(--main-color-bg);
-    color: var(--main-color-text);
+#GameSelectionDiv {
+    text-align: left;
+}
+
+#GameSelectionDiv > div:not(:hover) > span:first-child, span.move.notranslate {
+    color: var(--bg-color-text-light);
+}
+
+#GameSelectionDiv > div > span, span.move.notranslate {
+    font-size: 90%;
+}
+
+#GameSelectionDiv span:first-child {
+    font-weight: 700;
 }
 
 #GameSelectionDiv span {
     text-align: center;
-    font-weight: 700;
-    padding: 8px;
+    padding: 0 8px;
 }
 
 #GameSelectionDiv h6 {
-    display: inline;
+    margin: .25rem 0;
 }
 
 #GameSelectionDiv > div {
-    display: flex;
     align-items: center;
 }
 
-#GameSelectionDiv > div:hover:not(.active) {
+#GameSelectionDiv > div:hover {
     background-color: var(--bg-color-hover);
     color: var(--bg-color-hover-text);
 }
 
-#GameSelectionDiv > div.active {
+#GameSelectionDiv > div.active:not(:hover) {
     background-color: var(--bg-color-active);
 }
 

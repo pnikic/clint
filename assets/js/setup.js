@@ -969,7 +969,7 @@ function customFunctionOnPgnTextLoad() {
         };
 
         let spanNum = document.createElement("span");
-        spanNum.className = "col-1 py-0";
+        spanNum.className = "col-1";
         spanNum.innerHTML = String(i + 1);
 
         let players = document.createElement("h6");
@@ -977,7 +977,7 @@ function customFunctionOnPgnTextLoad() {
         players.innerHTML = gameWhite[i] + " - " + gameBlack[i];
 
         let spanRes = document.createElement("span");
-        spanRes.className = "col-2 py-0";
+        spanRes.className = "col-2";
         spanRes.innerHTML = prettifyGameResult(gameResult[i]);
 
         optionDiv.appendChild(spanNum);
