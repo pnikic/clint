@@ -9,17 +9,23 @@
     <!-- Open Graph and Twitter tags - they control how URLs are displayed when shared -->
     <meta property="og:title" content="Clint - chess live interface">
     <meta property="og:description" content="Live broadcast of chess tournaments">
-    <meta property="og:image" content="https://raw.githubusercontent.com/pnikic/clint/master/assets/images/logo.png">
+    <meta property="og:image"
+          content="https://raw.githubusercontent.com/pnikic/clint/master/assets/images/logo.png">
     <meta property="og:url" content="https://github.com/pnikic/clint/">
-    <meta name="twitter:card" content="https://raw.githubusercontent.com/pnikic/clint/master/assets/images/logo.png">
+    <meta name="twitter:card"
+          content="https://raw.githubusercontent.com/pnikic/clint/master/assets/images/logo.png">
 
     <!-- =========================================================== -->
     <!--  Paths to styles -->
     <!-- =========================================================== -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/css/flag-icons.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/css/flag-icons.min.css">
     <link rel="stylesheet" type="text/css" href="assets/style.css">
 
     <!-- =========================================================== -->
@@ -27,11 +33,13 @@
     <!-- =========================================================== -->
     <!-- Optional Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"
         defer>
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"
+            integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+            crossorigin="anonymous"
         defer>
     </script>
 
@@ -65,9 +73,12 @@
 
     <!--  Paths to fonts. Font can be changed in assets/style.css on the line with elements: -->
     <!--  #GameText, #EngineVariationDiv { ... } -->
-    <link rel="stylesheet" type="text/css" href="../pgn4web-3.06/fonts/pgn4web-font-ChessSansUsual.css">
-    <link rel="stylesheet" type="text/css" href="../pgn4web-3.06/fonts/pgn4web-font-ChessSansMerida.css">
-    <link rel="stylesheet" type="text/css" href="../pgn4web-3.06/fonts/pgn4web-font-ChessSansPiratf.css">
+    <link rel="stylesheet" type="text/css"
+          href="../pgn4web-3.06/fonts/pgn4web-font-ChessSansUsual.css">
+    <link rel="stylesheet" type="text/css"
+          href="../pgn4web-3.06/fonts/pgn4web-font-ChessSansMerida.css">
+    <link rel="stylesheet" type="text/css"
+          href="../pgn4web-3.06/fonts/pgn4web-font-ChessSansPiratf.css">
     <!--  Note that pgn4web includes more fonts. Check the pgn4web-x.yz/fonts directory -->
     <!-- =========================================================== -->
 </head>
@@ -85,6 +96,7 @@
             <span translate-key="header-second-row"></span>
         </h3>
     </div>
+
     <div id="TranslateItem" class="dropdown">
         <button type="button" class="btn btn-custom w-100 dropdown-toggle"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -101,7 +113,8 @@
     <div id="SingleBoardView" class="flex-fill">
         <div id="LeftPanel">
             <div id="VideoDivLeft" class="mx-3" style="display:none;">
-                <iframe frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                <iframe frameborder="0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen>
                 </iframe>
             </div>
@@ -199,14 +212,16 @@
             <!-- =========================================================== -->
             <div id="GameBoard"></div>
 
-            <div class="modal fade" id="DownloadModal" tabindex="-1" role="dialog" aria-labelledby="DownloadModalLabel"
+            <div class="modal fade" id="DownloadModal" tabindex="-1" role="dialog"
+                 aria-labelledby="DownloadModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title mx-auto" id="DownloadModalLabel"
                                 translate-key="download-modal-title"></h5>
-                            <button type="button" class="close mx-1" data-dismiss="modal" aria-label="Close"
+                            <button type="button" class="close mx-1" data-dismiss="modal"
+                                    aria-label="Close"
                                 onclick="hideSnackbarMessage();">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -228,7 +243,8 @@
                             <h5 translate-key="pgn"></h5>
                             <div class="row align-items-center">
                                 <div class="col-8 col-lg-10">
-                                    <textarea id="PgnInput" rows="9" class="w-100" readonly="readonly">
+                                    <textarea id="PgnInput" rows="9" class="w-100"
+                                              readonly="readonly">
                                         </textarea>
                                 </div>
                                 <div class="col-4 col-lg-2">
@@ -247,7 +263,8 @@
                                         <div class="col-8" translate-key="active-pgn">
                                         </div>
                                         <div class="col-4">
-                                            <a id="CurrentPgnDownloadLink" class="btn btn-custom h-40p" href="#">
+                                            <a id="CurrentPgnDownloadLink"
+                                               class="btn btn-custom h-40p" href="#">
                                                 <i class="fas fa-download fa-lg"></i>
                                             </a>
                                         </div>
@@ -258,7 +275,8 @@
                                         <div class="col-8" translate-key="all-pgns">
                                         </div>
                                         <div class="col-4">
-                                            <a id="AllPgnDownloadLink" class="btn btn-custom h-40p" href="#">
+                                            <a id="AllPgnDownloadLink"
+                                               class="btn btn-custom h-40p" href="#">
                                                 <i class="fas fa-download fa-lg"></i>
                                             </a>
                                         </div>
@@ -308,7 +326,8 @@
                         <div class="col-5">
                             <span translate-key="engine-name"></span>
                             <br>
-                            <span id="DepthLabel" translate-key="engine-depth" style="display: none;"></span>
+                            <span id="DepthLabel" translate-key="engine-depth"
+                                  style="display: none;"></span>
                             <span id="DepthValue"></span>
                         </div>
                         <div class="col-4 h-75" onclick="toggleEngine();">
@@ -357,7 +376,8 @@
 
             <div id="SettingsItem" class="row mx-3">
                 <div class="col pl-0 pr-1">
-                    <button type="button" id="DownloadModalBtn" class="btn btn-custom" data-toggle="modal"
+                    <button type="button" id="DownloadModalBtn" class="btn btn-custom"
+                            data-toggle="modal"
                             data-target="#DownloadModal" onclick="modalOpen();">
                         <i class="fas fa-share-square"></i>
                     </button>
@@ -367,7 +387,8 @@
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-cog"></i>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right text-right p-0" aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-menu dropdown-menu-right text-right p-0"
+                         aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" onclick="toggleView(1);">
                             <span translate-key="multiple-boards"></span>
                             <i class="fas fa-th pl-2"></i>
@@ -428,7 +449,8 @@
                 </select>
             </div>
             <div class="col-9 col-lg-5">
-                <button type="button" id="MultiboardModalBtn" class="btn btn-custom m-0 w-100 h-40p" data-toggle="modal"
+                <button type="button" id="MultiboardModalBtn"
+                        class="btn btn-custom m-0 w-100 h-40p" data-toggle="modal"
                     data-target="#MultiboardModal">
                     <span translate-key="games-selection"></span>
                     <i class="fas fa-list-ul pl-2"></i>
@@ -437,16 +459,19 @@
             <div class="col-3 col-lg-2">
                 <div class="dropup d-inline">
                     <button type="button"
-                        class="btn btn-custom m-0 w-100 dropdown-toggle h-40p" data-toggle="dropdown"
+                            class="btn btn-custom m-0 w-100 dropdown-toggle h-40p"
+                            data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-cog"></i>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right text-right p-0" aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-menu dropdown-menu-right text-right p-0"
+                         aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" onclick="toggleView(0);">
                             <span translate-key="single-board"></span>
                             <i class="fas fa-chess-board pl-2"></i>
                         </a>
-                        <a class="dropdown-item" onclick="toggleTheme();" translate-key="color-scheme">
+                        <a class="dropdown-item" onclick="toggleTheme();"
+                           translate-key="color-scheme">
                             <i class="fas fa-adjust pl-2"></i>
                         </a>
                         <a class="dropdown-item" onclick="toggleMoveHighlight();">
@@ -465,7 +490,8 @@
         <!-- =========================================================== -->
         <!--  Multiboard Modal -->
         <!-- =========================================================== -->
-        <div class="modal fade" id="MultiboardModal" tabindex="-1" role="dialog" aria-labelledby="MultiboardModalLabel"
+        <div class="modal fade" id="MultiboardModal" tabindex="-1" role="dialog"
+             aria-labelledby="MultiboardModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -473,25 +499,29 @@
                         <h5 class="modal-title" id="MultiboardModalLabel">
                             <span translate-key="games-selection"></span>
                         </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="mx-3 mt-2">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <input id="MultiboardSearchInput" type="text" placeholder="Traži igrača..."
+                                <input id="MultiboardSearchInput" type="text"
+                                       placeholder="Traži igrača..."
                                        class="w-100 pl-3" onkeyup="applyGameSelectionFilters();"
                                        translate-key-placeholder="player-search-input"
                                 >
                             </div>
                             <div class="col-2">
-                                <input id="MultiboardOngoingCheckbox" class="position-static" type="checkbox" value="0"
+                                <input id="MultiboardOngoingCheckbox" class="position-static"
+                                       type="checkbox" value="0"
                                     onclick="applyGameSelectionFilters();">
                                 <span class="small" translate-key="in-progress"></span>
                             </div>
                             <div class="col-2">
-                                <input id="MultiboardSelectAllCheckbox" class="position-static" type="checkbox"
+                                <input id="MultiboardSelectAllCheckbox" class="position-static"
+                                       type="checkbox"
                                     value="0" onclick="gameSelectionModalSelectAllCheckbox(this);">
                                 <span class="small" translate-key="select-all"></span>
                             </div>
@@ -510,8 +540,10 @@
                                 <span translate-key="games"></span>
                             </h5>
                             <div class="col-4">
-                                <button type="button" id="MultiboardSaveBtn" class="btn btn-custom m-0"
-                                    data-dismiss="modal" aria-label="Save" onclick="onGameSelectionModalSave();">
+                                <button type="button" id="MultiboardSaveBtn"
+                                        class="btn btn-custom m-0"
+                                        data-dismiss="modal" aria-label="Save"
+                                        onclick="onGameSelectionModalSave();">
                                     <span translate-key="save"></span>
                                 </button>
                             </div>
