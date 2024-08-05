@@ -58,7 +58,8 @@
     --black-square: #b58863;
     --highlight-white-sq: #cdd26a;
     --highlight-black-sq: #aaa23a;
-    --bg-active-clock: #27c;
+    --bg-active-clock: #659d25;
+    --bg-active-clock-text: #fff;
 }
 
 /* Dark theme example preset */
@@ -79,7 +80,8 @@
     --black-square: #b58863;
     --highlight-white-sq: #cdd26a;
     --highlight-black-sq: #aaa23a;
-    --bg-active-clock: #3692e7;
+    --bg-active-clock: #659d25;
+    --bg-active-clock-text: #eee;
 }
 
 /************************************************************
@@ -386,10 +388,16 @@ textarea::-webkit-resizer {
 
 .clock {
     font-size: calc(14px + 2 * ((100vw - 320px) / 700));
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 .5rem 0 0;
+    height: 100%;
 }
 
 .clockActive {
     background-color: var(--bg-active-clock);
+    color: var(--bg-active-clock-text);
 }
 
 #ClockPlace1 {
@@ -576,6 +584,7 @@ iframe {
     height: 100%;
     border-radius: .25rem;
 }
+
 #ImageDivLeft img, #ImageDivRight img {
     max-width: 100%;
     max-height: 100%;
