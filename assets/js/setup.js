@@ -139,7 +139,7 @@ function generateFooterLinks(linksArray) {
         anchor.appendChild(title);
         if ("fa-icon" in link) {
             let icon = document.createElement("i");
-            icon.className = link["fa-icon"] + " my-auto h5 pl-2";
+            icon.className = link["fa-icon"] + " my-auto h5 ps-2";
             anchor.appendChild(icon);
         }
 

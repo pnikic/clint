@@ -124,7 +124,7 @@ input::placeholder {
 }
 
 /* In order to remove flashing (transition) at startup time */
-.btn, .custom-select {
+.btn, .form-select {
     transition: none;
 }
 
@@ -134,7 +134,7 @@ input::placeholder {
 
 /* Normal colors */
 #TournamentInfoItem, #TranslateItem, .badge-custom, .badge-custom[href]:focus,
-.btn-custom, .btn-custom:hover:focus /* mobile phone variant */ {
+.btn-custom {
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
 }
@@ -154,14 +154,16 @@ input::placeholder {
 /* Inverted colors */
 .badge-custom:not(:disabled):not(.disabled):active,
 .btn-custom:not(:disabled):not(.disabled):active,
-.show>.btn-custom.dropdown-toggle {
+.dropdown > .show.dropdown-toggle,
+.dropup > .show.dropdown-toggle {
     background-color: var(--main-color-text);
     color: var(--main-color-bg);
     border-color: transparent;
 }
 
 .btn-custom:not(:disabled):not(.disabled):active:focus,
-.show>.btn-custom.dropdown-toggle:focus {
+.dropdown > .show.dropdown-toggle:focus,
+.dropup > .show.dropdown-toggle:focus {
     box-shadow: none;
     border-color: transparent;
 }
@@ -250,18 +252,20 @@ textarea::-webkit-resizer {
     background-color: var(--main-color-bg);
 }
 
-.close, .close:not(:disabled):not(.disabled):focus {
-    color: var(--bg-color-text);
-    border-radius: .25rem;
-}
-
-.close:hover, .close:not(:disabled):not(.disabled):hover {
-    background-color: var(--main-color-hover);
+.btn-close {
     color: var(--bg-color-text);
 }
 
-.close:focus {
-    outline: none;
+.btn-close:focus {
+    box-shadow: none;
+}
+
+.btn-close:focus:not(:hover) {
+    opacity: .5;
+}
+
+body[data-theme="alternative"] .btn-close {
+    filter: invert(1);
 }
 
 .modal-content {
@@ -295,12 +299,12 @@ textarea::-webkit-resizer {
 #GameText a.move {
     padding: 2px 0px;
     white-space: nowrap;
+    text-decoration: none;
 }
 
 #GameText a.move:hover {
     background-color: var(--bg-color-hover);
     color: var(--bg-color-hover-text);
-    text-decoration: none;
 }
 
 #GameText.lineFormNotation a.move {
@@ -451,7 +455,7 @@ textarea::-webkit-resizer {
 }
 
 /* Game selection styles*/
-.custom-select {
+.form-select {
     background-color:  var(--main-color-bg);
     background-image: none;
     color: var(--main-color-text);
@@ -657,7 +661,7 @@ iframe {
     }
 
     #TranslateItem .dropdown-menu {
-        min-width: 98%;
+        min-width: 100%;
         text-align: center;
     }
 
