@@ -500,10 +500,6 @@ body[data-theme="alternative"] .btn-close {
     background-color: var(--bg-color-active);
 }
 
-#MultiboardSearchInput {
-    height: 2em;
-}
-
 .dropdown-toggle > i, #DownloadModalBtn > i, .fa-list-ul {
     font-size: 22px;
     vertical-align: middle;
@@ -907,7 +903,6 @@ iframe {
 
     #ControlsItem > button, #SettingsItem > button, #SearchInput, #PgnFileSelect {
         height: 50px;
-        padding: 9px;
     }
 }
 
@@ -935,10 +930,14 @@ iframe {
     justify-content: center;
 }
 
+#MultiboardSearchInput, #MultiboardSaveBtn {
+    height: 42px;
+}
+
 @media (max-width: 799px) {
-    #MultiboardSettingsItem button, #MultiboardSettingsItem select {
+    #MultiboardSettingsItem button, #MultiboardSettingsItem select,
+    #MultiboardSearchInput, #MultiboardSaveBtn {
         height: 50px;
-        padding: 9px;
     }
 }
 

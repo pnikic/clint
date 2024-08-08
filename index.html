@@ -111,7 +111,7 @@
             <div id="VideoDivLeft" class="mx-3" style="display:none;">
                 <iframe frameborder="0"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
+                        allowfullscreen>
                 </iframe>
             </div>
 
@@ -438,7 +438,7 @@
         <!-- =========================================================== -->
         <div id="MultiboardSettingsItem" class="row m-0">
             <div class="col-12 col-lg-5 mb-3 mb-lg-0">
-                <select id="MultiboardFileSelect" class="form-select  mx-auto shadow-none"
+                <select id="MultiboardFileSelect" class="form-select mx-auto shadow-none"
                     onChange="changeFramesPGN(this.value)">
                     <option value='-1' translate-key="pgn-file-selection"></option>
                 </select>
@@ -452,7 +452,7 @@
                 </button>
             </div>
             <div class="col-3 col-lg-2">
-                <div class="dropup d-inline">
+                <div class="dropup">
                     <button type="button"
                             class="btn btn-custom m-0 w-100 dropdown-toggle h-40p"
                             data-bs-toggle="dropdown"
@@ -498,6 +498,15 @@
                         </button>
                     </div>
                     <div class="mx-3 mt-2">
+                        <div class="row">
+                            <div class="col-8"></div>
+                            <div class="col-2 p-0">
+                                <span class="small" translate-key="in-progress"></span>
+                            </div>
+                            <div class="col-2 p-0">
+                                <span class="small" translate-key="select-all"></span>
+                            </div>
+                        </div>
                         <div class="row align-items-center">
                             <div class="col-8">
                                 <input id="MultiboardSearchInput" type="text"
@@ -510,13 +519,11 @@
                                 <input id="MultiboardOngoingCheckbox" class="position-static"
                                        type="checkbox" value="0"
                                     onclick="applyGameSelectionFilters();">
-                                <span class="small" translate-key="in-progress"></span>
                             </div>
                             <div class="col-2">
                                 <input id="MultiboardSelectAllCheckbox" class="position-static"
                                        type="checkbox"
                                     value="0" onclick="gameSelectionModalSelectAllCheckbox(this);">
-                                <span class="small" translate-key="select-all"></span>
                             </div>
                         </div>
                     </div>
@@ -525,7 +532,7 @@
                     </div>
                     <div class="modal-footer">
                         <div class="row w-100">
-                            <h5 class="col-8">
+                            <h5 class="col-8 m-0 align-self-center">
                                 <span translate-key="selected"></span>
                                 <b id="CountSelected"></b>
                                 <span> / </span>
