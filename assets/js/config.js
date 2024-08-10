@@ -182,7 +182,7 @@ function operatorSettings() {
     // Example 4: Operator's contact button
     navbarLinks.push({
         "id"   : "email-link",
-        "link" : "mailto:" + "operator@mailserver.com"
+        "link" : "mailto:" + "operator@mailserver.com",
         "fa-icon" : "fas fa-envelope"
     });
 
