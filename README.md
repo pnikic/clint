@@ -178,26 +178,27 @@ In `assets/style.css` you can configure all the colors used on the page. It come
 ### Credits and license
 * This website is based on [pgn4web][2]
 * The engine currently used is Stockfish compiled to JavaScript. The releases are obtained from [stockfish.js][3a] and [stockfish.wasm][3b]
-* Icons present on the website are from [Font Awesome][5]
+* Icons present on the website are from [Font Awesome][5] and [flag-icons][35]
 * The layout of components is inspired by [lichess][10]
 * The above items remains subject to their original licenses (if any)
-* Remaining clint code is Copyright (c) 2023 Patrick Nikić (see [LICENSE][7] file)
-* You are free to use clint for your website. You should give it a proper attribution, so that interested viewers can find this repository and possibly recommend it to others
+* Remaining clint code is Copyright (c) 2024 Patrick Nikić (see [LICENSE][7] file)
+* You are free to use clint for your website. You should give it a proper attribution, so that interested viewers can find this repository and also benefit from it
 
 I hereby sincerely thank all the people who helped make clint better by comments, suggestions and code contributions. Your feedback is much appreciated.  
 
 ### Deployments
+* Tournament of peace [2023][36], [2022][28], [2021][29]
+* [Elllobregat Open Chess][27] (2022, 2023)
+* [Salamanca chess festival][38]
 * [Bosnia and Herzegovina team championship][20]
 * Croatia team championship [2023][21], [2022][23], [2021][24]
 * [Spanish team championship of Honor 2023][25]
 * [Mitropa Cup 2023][26]
-* [Elllobregat Open Chess][27] (2022, 2023)
 * Bošnjaci Open [2023][31], [2022][32]
-* Tournament of peace [2022][28], [2021][29]
 * Several pages on [chesscout.info][11], e.g. [games from chess tournaments in BiH][12], Sarajevo club championship [2021][14] and [2022][22], [BiH Junior championships 2021][15]
 * [Croatia Grand Chess Tour 2021][16]
 * Schach-ticker - [viewer for collection of tournaments][33]
-* Croatian Individual Senior Championship [2022][30], [2020][13]
+* Croatian Individual Senior Championship [2023][37], [2022][30], [2020][13]
 * Croatian Individual Junior Championships [2021][17], [2020][18], [2019][19] -- here you can see the evolution of Clint over time
 
 ### Future work:
@@ -211,7 +212,7 @@ I hereby sincerely thank all the people who helped make clint better by comments
 * Link to a player's FIDE profile by clicking on the name
 * Placeholder for notifications (e.g. below header)
 * Show which games have new moves
-* Clock countdown enhancement (custom color, Fix interaction with board rotation - up to 1 second delay)
+* Clock countdown enhancement (fix interaction with board rotation - up to 1 second delay)
 * Clock countdown alternative in case "ReferenceTime" tag is not present in PGN. Store timestamps when each move is detected and use together with "%clk" comments with game moves.
 * Custom responsive design for mobile phones in landscape mode
 * More flexibile tiling algorithm for multiple boards view in case of bigger number of boards
@@ -267,3 +268,7 @@ Code contributions and translation are welcome.
 [32]: https://hrvatski-sahovski-savez.hr/ftp/bosnjaci2022/
 [33]: https://www.chess-international.com/clint/
 [34]: https://chess-results.com/
+[35]: https://github.com/lipis/flag-icons
+[36]: https://hrvatski-sahovski-savez.hr/ftp/turnir-mira2023/
+[37]: https://hrvatski-sahovski-savez.hr/ftp/pph2023/
+[38]: https://festival.mainchess.com/
