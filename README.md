@@ -22,7 +22,7 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
 
 
 ### Features
-* Header with general information (about the tournament) and footer with customizable buttons for hyperlinks (other websites, photo gallery, tournament regulations etc.) 
+* Header with general information (about the tournament) including navbar with customizable buttons for hyperlinks (other websites, photo gallery, tournament regulations etc.) 
 * Chess board with compactly displayed player names, clock times and ratings
 * PGN section for display and navigation
 * Engine analysis
@@ -53,7 +53,6 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
     │   ├── (...)
     └── 
     ```
-    _Note: To reduce storage, it's possible to only store the file `pgn4web.js` from pgn4web-x.yz. Clint doesn't use other files from pgn4web._
 * Edit the `pgn4web.js` path and the fonts path in `index.html` and in `mosaic-tile.html`  
 (in my case, pgn4web-3.06 is placed one directory up)
     ```html
@@ -114,13 +113,13 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
    
 ### Customization
 In `index.html` you can:
-* edit the general information about the tournament (e.g. header)
+* edit the general information about the tournament (e.g. header and navbar)
 * add custom content in sections `CustomItemLeft` and `CustomItemRight`
 
 In `assets/js/config.js` you can:
-* in `operatorSettings()` edit hyperlinks. Detailed explanation of all parameters is located through comments in the file itself. For instance:
+* in `operatorSettings()` list navbar hyperlinks. Detailed explanation of all parameters is located through comments in the file itself. For instance:
     ```javascript
-    footerLinks.push({
+    navbarLinks.push({
         "id"   : "photo-gallery-link",
         "link" : "https://www.example.com",
         "fa-icon" : "fas fa-images"

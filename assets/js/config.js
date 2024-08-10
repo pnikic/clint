@@ -53,9 +53,9 @@ function listPGNFiles() {
     // To generate JavaScript Date object the following function can be used:
     //   dateFromArray([Year, Month, Day, Hour, Minute])
     //
-    // Note: In this example, on each round (PGN file) we will have a different target for two
-    //   hyperlinks (i.e. `chess-results-link` and `custom-button`). Hyperlinks (buttons) with a
-    //   fixed target are configured below. See variable `footerLinks` in `operatorSettings()`.
+    // Note: In this example, on each round (PGN file) we will have a different target for one
+    //   hyperlink (i.e. `chess-results-link`). Hyperlinks (buttons) with a fixed target are
+    //   configured below. See variable `navbarLinks` in `operatorSettings()`.
     //
     // Example 1: video on the left and image on the right;  presence of "date" parameter disables
     //   selection of this round a number of minutes (`minsBeforeRound`) before its start
@@ -74,8 +74,7 @@ function listPGNFiles() {
         "video-left" : "https://www.youtube.com/embed/4jT0hUODzdQ",
         "image-right" : "https://tinyurl.com/y73a4vrz",
         "hyperlinks" : {
-            "chess-results-link" : "https://www.example.com/a1",
-            "custom-button" : "https://www.example.com/b1"
+            "chess-results-link" : "https://www.example.com/a1"
         }
     });
 
@@ -87,8 +86,7 @@ function listPGNFiles() {
         "date" : begin,
         "image-right" : "https://tinyurl.com/yc93gdrk",
         "hyperlinks" : {
-            "chess-results-link" : "https://www.example.com/a2",
-            "custom-button" : "https://www.example.com/b2"
+            "chess-results-link" : "https://www.example.com/a2"
         }
     });
 
@@ -99,8 +97,7 @@ function listPGNFiles() {
         "id" : "round-3",
         "date" : begin,
         "hyperlinks" : {
-            "chess-results-link" : "https://www.example.com/a3",
-            "custom-button" : "https://www.example.com/b3"
+            "chess-results-link" : "https://www.example.com/a3"
         }
     });
 
@@ -109,8 +106,7 @@ function listPGNFiles() {
         "pgn" : "pgn/all.pgn",
         "id" : "all-rounds",
         "hyperlinks" : {
-            "chess-results-link" : "https://www.example.com/a0",
-            "custom-button" : "https://www.example.com/b0"
+            "chess-results-link" : "https://www.example.com/a0"
         }
     });
 }
@@ -127,15 +123,13 @@ function operatorSettings() {
     // enableImageDiv("ImageDivLeft", "<link-to-image>");
     // enableImageDiv("ImageDivRight", "<link-to-image>");
 
-    let footerLinks = [];
-    // List all the footer hyperlinks. Footer will not be displayed if an empty list is provided.
-    // The format is as follows:
+    let navbarLinks = [];
+    // List all the navbar hyperlinks. The format is as follows:
     //
-    // footerLinks.push({
+    // navbarLinks.push({
     //     "id"      : <string>,
     //     "link"    : <string>,
-    //     "fa-icon" : <string>,
-    //     "size"    : <JavaScript Array> (5 elements)
+    //     "fa-icon" : <string>
     // });
     //
     // +-------------+---------------+------------------------------------------------------------+
@@ -151,26 +145,14 @@ function operatorSettings() {
     // |             |               | you can choose one from:                                   |
     // |             |               | https://fontawesome.com/icons?d=gallery&m=free             |
     // +-------------+---------------+------------------------------------------------------------+
-    // |   optional  |     "size"    | bootstrap grid breakpoint sizes for buttons - five values: |
-    // |             |               | [a, b, c, d, e], where                                     |
-    // |             |               | a = width for extra small screens (<576px),                |
-    // |             |               | b = width for small screens       (>=576px),               |
-    // |             |               | c = width for medium screens      (>=768px),               |
-    // |             |               | d = width for large screens       (>=992px),               |
-    // |             |               | e = width for extra large screens (>=1200px).              |
-    // |             |               |                                                            |
-    // |             |               | values range from 1 (small) to 12 (big, full row) button   |
-    // |             |               | default values are [12, 6, 4, 3, 2]                        |
-    // +-------------+---------------+------------------------------------------------------------+
     //
     // See below for examples
 
-    // Examples 1 & 2: for these elements, "link" will be provided from `allPGNs` using their "id"
+    // Examples 1: for this element, "link" will be provided from `allPGNs` using its "id"
     //
-    // Translation texts for these elements are specified in each JSON file using their "id".
+    // Translation text for this element is specified in each JSON file using its "id".
     // e.g. in file: en.json
     // {
-    //     "custom-button"       : "Translation of custom button",
     //     "chess-results-link"  : "Results and standings",
     //     ...
     // }
@@ -179,48 +161,39 @@ function operatorSettings() {
     //       languages. If translation for one language is not defined for a footer link,
     //       the link keeps its old name (before changing the language).
 
-    footerLinks.push({
-        "id"   : "custom-button",
-        "link" : ""
-    });
-
-    footerLinks.push({
+    navbarLinks.push({
         "id"   : "chess-results-link",
         "link" : ""
     });
 
-    // Example 3: footer link with FA icon
-    footerLinks.push({
+    // Example 2: footer link with FA icon
+    navbarLinks.push({
         "id"   : "photo-gallery-link",
         "link" : "https://www.example.com",
         "fa-icon" : "fas fa-images"
     });
 
-    // Examples 4 & 5: this button is smaller on extra large screens. The next button is
-    //   bigger (more text). The numbers are chosen so that the full xl-row sums up to 12.
-    //   Target for any button can also be a local file (from the server).
-    footerLinks.push({
+    // Example 3: link to tournament invitation (possibly a local file)
+    navbarLinks.push({
         "id"   : "invitation-link",
-        "link" : "https://www.example.com",
-        "size" : [12, 6, 6, 4, 1],
+        "link" : "https://www.example.com"
     });
 
-    // Operator's contact button
-    footerLinks.push({
+    // Example 4: Operator's contact button
+    navbarLinks.push({
         "id"   : "email-link",
-        "link" : "mailto:" + "operator@mailserver.com",
-        "size" : [12, 6, 6, 4, 3],
+        "link" : "mailto:" + "operator@mailserver.com"
         "fa-icon" : "fas fa-envelope"
     });
 
-    // Example 6: Link to clint GitHub page
-    footerLinks.push({
+    // Example 5: Link to clint GitHub page
+    navbarLinks.push({
         "id" : "clint-link",
         "link" : "https://www.github.com/pnikic/clint",
         "fa-icon" : "fab fa-github"
     });
 
-    generateFooterLinks(footerLinks);
+    generateNavbarLinks(navbarLinks);
 }
 
 //----------------------------------------------------------

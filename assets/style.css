@@ -69,7 +69,7 @@
     --bg-color-light: #333;
     --bg-color-light-text: #eee;
     --bg-color-text-light: #888;
-    --bg-color-hover: #3692e7;
+    --bg-color-hover: #27c;
     --bg-color-hover-text: #eee;
     --bg-color-active: #293a49;
     --main-color-bg: #444;
@@ -94,31 +94,6 @@ body {
     text-align: center;
 }
 
-#TournamentInfoItem h3 {
-    display: inline-block;
-    vertical-align: middle;
-    padding: 0 1rem;
-}
-
-#TournamentInfoItem img {
-    height: 100px;
-    padding: .5rem;
-}
-
-#HyperlinksItem {
-    background-color: var(--main-color-bg);
-}
-
-#HyperlinksItem .badge-custom, #HyperlinksItem .btn-custom,
-#TranslateItem button {
-    border-bottom: 0;
-    padding: 0;
-}
-
-#TranslateItem > button > i {
-    font-size: 1.75rem;
-}
-
 input::placeholder {
     color: var(--bg-color-light-text);
 }
@@ -132,48 +107,183 @@ input::placeholder {
     overscroll-behavior: none;
 }
 
-/* Normal colors */
-#TournamentInfoItem, #TranslateItem, .badge-custom, .badge-custom[href]:focus,
-.btn-custom {
+/************************************************************
+   Navigation bar
+ ************************************************************/
+.navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    padding: 0;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0 1rem;
+}
+
+nav ul > li {
+    list-style-type: none;
+}
+
+nav a > span, nav a > i {
+    font-size: 1.1rem;
+}
+
+nav a {
+    padding: 1rem .4rem;
+    margin: 0 .25rem;
+    border-radius: .25rem;
+    display:inline-block;
+}
+
+
+/* Note: Customize the navbar flexbox according to your needs */
+#MainBody {
+    padding-top: 8rem; /* adjust in order to accomodate navbar contents */
+}
+
+nav img {
+    height: 100px;
+    padding: .5rem;
+}
+
+nav h3, nav img {
+    margin-left: 1rem;
+}
+
+nav h3 {
+    /* Title should flex-grow, but not cause the nav to flex-wrap in a new line */
+    flex-basis: 5rem;
+    flex-grow: 1;
+    padding: 0 .5rem;
+    margin-bottom: 0;
+    text-align: left;
+}
+
+#NavbarContent {
+    flex-grow: 0;
+}
+
+nav > .container-fluid {
+    padding: 0;
+}
+
+#TranslateItem {
+    /* Centering dropdown menu in navbar has an issue. Workaround for smaller screens
+       See: https://github.com/twbs/bootstrap/issues/36897 */
+    display: inline;
+}
+
+.navbar-toggler {
+    border: 0;
+    padding: 0;
+    margin: .5rem;
+}
+
+.navbar-toggler-icon {
+    width: 2em;
+    height: 2em;
+}
+
+body[data-theme="alternative"] .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' \
+                      viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' \
+                      stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' \
+                      d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+body[data-theme="alternative"] .navbar-toggler {
+    border-color: rgba(255,255,255,0.1);
+}
+
+/* Navbar has class `navbar-expand-lg`, padding of items is adjusted on smaller screens */
+@media (max-width: 991px) {
+    nav a {
+        padding: .75rem .25rem;
+    }
+
+    nav ul {
+        background-color: var(--bg-color-light);
+        padding: .5rem 0;
+    }
+
+    nav h3 {
+        text-align: center;
+        margin: 0;
+    }
+}
+
+/************************************************************
+   Buttons
+ ************************************************************/
+/* Border for custom buttons */
+.btn-custom, .btn-custom:hover, .btn-custom:active, .btn-custom:active:focus,
+.btn:first-child:active, .btn.show {
+    border: 0;
+    border-bottom: 2.5px solid var(--main-color-border);
+}
+
+/* Normal colors
+   Note: hover colors are enabled only on devices supporting hovering */
+nav, .btn-custom, .btn-custom:hover, .btn:first-child:active {
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
 }
 
-/* Border for custom buttons */
-.badge-custom, .btn-custom {
-    border-bottom: 2.5px solid var(--main-color-border);
-    width: 100%;
-}
-
 /* Hover colors */
-.badge-custom[href]:hover, .btn-custom:hover {
+nav a:active, .btn-custom:not(:disabled):not(.disabled):active,
+.dropdown > .show.dropdown-toggle, .dropup > .show.dropdown-toggle {
     background-color: var(--main-color-hover);
     color: var(--main-color-text)
 }
 
-/* Inverted colors */
-.badge-custom:not(:disabled):not(.disabled):active,
-.btn-custom:not(:disabled):not(.disabled):active,
-.dropdown > .show.dropdown-toggle,
-.dropup > .show.dropdown-toggle {
-    background-color: var(--main-color-text);
-    color: var(--main-color-bg);
-    border-color: transparent;
-}
+@media (hover: hover) and (pointer: fine) {
+    /* Enable when user's primary input mechanism can hover elements and
+       user has an accurate pointing device (e.g. mouse, not a finger) */
+    nav a:hover, .btn-custom:hover {
+        background-color: var(--main-color-hover);
+        color: var(--main-color-text)
+    }
 
-.btn-custom:not(:disabled):not(.disabled):active:focus,
-.dropdown > .show.dropdown-toggle:focus,
-.dropup > .show.dropdown-toggle:focus {
-    box-shadow: none;
-    border-color: transparent;
+    .dropdown-menu > .dropdown-item:hover {
+        background-color: var(--bg-color-hover);
+        color: var(--bg-color-hover-text);
+    }
+
+    #GameText a.move:hover {
+        background-color: var(--bg-color-hover);
+        color: var(--bg-color-hover-text);
+    }
+
+    #GameSelectionDiv > div:hover {
+        background-color: var(--bg-color-hover);
+        color: var(--bg-color-hover-text);
+    }
+
+    #EngineToggleIcon:hover {
+        filter: drop-shadow(0px 0px 3px var(--main-color-text));
+    }
+
+    #GameSelectionDiv > div.active:not(:hover) {
+        background-color: var(--bg-color-active);
+    }
 }
 
 .btn-custom:focus {
     box-shadow: none;
 }
 
-a {
+/* Override bootstrap styling for anchors */
+a, a:hover {
     color: inherit;
+    text-decoration: none;
 }
 
 .dropdown-menu {
@@ -181,15 +291,12 @@ a {
     color: var(--bg-color-light-text);
     border: .1em solid var(--bg-color-light-text);
     font-size: 1.2rem;
-}
-
-.dropdown-menu > .dropdown-item:hover {
-    background-color: var(--bg-color);
-    color: var(--bg-color-light-text);
+    z-index: 1500;
 }
 
 .dropdown-item:active {
-    background-color: var(--bg-color-light);
+    background-color: inherit;
+    color: inherit;
 }
 
 .dropdown-item {
@@ -232,10 +339,6 @@ textarea::-webkit-resizer {
     border-width: 8px;
     border-style: solid;
     border-color: var(--bg-color-light) var(--main-color-bg) var(--main-color-bg) var(--bg-color-light);
-}
-
-.h-40p {
-    height: 40px;
 }
 
 ::-webkit-scrollbar {
@@ -299,12 +402,6 @@ body[data-theme="alternative"] .btn-close {
 #GameText a.move {
     padding: 2px 0px;
     white-space: nowrap;
-    text-decoration: none;
-}
-
-#GameText a.move:hover {
-    background-color: var(--bg-color-hover);
-    color: var(--bg-color-hover-text);
 }
 
 #GameText.lineFormNotation a.move {
@@ -491,12 +588,7 @@ body[data-theme="alternative"] .btn-close {
     align-items: center;
 }
 
-#GameSelectionDiv > div:hover {
-    background-color: var(--bg-color-hover);
-    color: var(--bg-color-hover-text);
-}
-
-#GameSelectionDiv > div.active:not(:hover) {
+#GameSelectionDiv > div.active {
     background-color: var(--bg-color-active);
 }
 
@@ -596,100 +688,20 @@ iframe {
     vertical-align: middle;
 }
 
-#EngineToggleIcon:hover {
-    filter: drop-shadow(0px 0px 3px var(--main-color-text));
-}
-
 /************************************************************
-   CSS Grid - Header, view and footer
+   CSS Grid
 ************************************************************/
-#TournamentInfoItem {
-    grid-area: info;
+#SingleBoardView, #MultiBoardView {
+    margin-bottom: 0.5rem;
 }
 
-#TranslateItem {
-    grid-area: translate;
-    display: flex;
-    align-items: center;
-    font-size: 2rem;
-    padding-right: 1rem;
-}
-
-#TranslateItem h5 {
-    display: none;
-}
-
-#HyperlinksItem {
-    grid-area: links;
-    margin: 0;
-}
-
-#MainBody {
-    --spacing: 1em;
-    display: grid;
-    grid-template-columns:
-        auto
-        80px;
-    grid-template-rows:
-        max-content
-        var(--spacing)
-        auto
-        auto
-        var(--spacing)
-        auto;
-    grid-template-areas:
-        "info  translate"
-        ".     .        "
-        "sbv   sbv      "
-        "mbv   mbv      "
-        ".     .        "
-        "links links    ";
-}
-
-@media (max-width: 799px) {
-    #TranslateItem {
-        display: inline;
-        padding: 0;
-    }
-
-    #TranslateItem h5 {
-        display: inline;
-    }
-
-    #TranslateItem .dropdown-menu {
-        min-width: 100%;
-        text-align: center;
-    }
-
-    #MainBody {
-        grid-template-columns: auto;
-        grid-template-rows:
-            max-content
-            var(--spacing)
-            auto
-            auto
-            var(--spacing)
-            auto
-            auto;
-        grid-template-areas:
-            "info     "
-            ".        "
-            "sbv      "
-            "mbv      "
-            ".        "
-            "links    "
-            "translate";
-    }
-}
-
-/************************************************************
-   CSS Grid - Single board view
-************************************************************/
 /* Notes:
      - side panels have a fixed height (set from JS) in order for the chessboard to be a square
      - items inside the flexbox can be reordered using the `order` property
      - height of each element can be customized using `flex-{basis/grow/shrink}` properties
 */
+
+/* Single board view */
 #RightPanel {
     grid-area: right;
 }
@@ -726,7 +738,8 @@ iframe {
     overflow-y: scroll;
 }
 
-#ControlsItem button, #SettingsItem button, #TranslateItem button, #SearchInput, #PgnFileSelect {
+#ControlsItem button, #SettingsItem button, #SearchInput, #PgnFileSelect, #DownloadModal button
+{
     height: 42px;
 }
 
@@ -760,8 +773,8 @@ iframe {
 }
 
 #SingleBoardView {
-    grid-area: sbv;
     display: grid;
+    --spacing: 1em;
     --player-names: 34px;
     grid-template-columns:
         minmax(350px, 45vw)
@@ -906,9 +919,7 @@ iframe {
     }
 }
 
-/************************************************************
-   CSS Grid - Multiple boards views
- ************************************************************/
+/* Multiple board view */
 #IframesContainer {
     grid-area: iframes;
 }
@@ -918,7 +929,6 @@ iframe {
 }
 
 #MultiBoardView {
-    grid-area: mbv;
     display: grid;
     --main-margin: 1vw;
     grid-template-columns: var(--main-margin) auto var(--main-margin);
@@ -926,11 +936,12 @@ iframe {
     grid-template-areas:
         ". iframes ."
         ". mbSettings .";
-    row-gap: 1rem;
+    row-gap: .5rem;
     justify-content: center;
 }
 
-#MultiboardSearchInput, #MultiboardSaveBtn {
+#MultiboardSearchInput, #MultiboardSaveBtn, #MultiboardSettingsItem button,
+#MultiboardFileSelect {
     height: 42px;
 }
 

@@ -102,49 +102,34 @@ if (localStorage.getItem("clint-notation") == "inline")
 //===========================================================
 // Main part of the program
 //===========================================================
-function generateFooterLinks(linksArray) {
-    if (linksArray.length == 0) {
-        let footer = document.getElementById("HyperlinksItem");
-        footer.style.display = "none";
-    }
+function generateNavbarLinks(linksArray) {
+    let navbar = document.getElementById("NavbarContent");
+    let translateItem = navbar.childNodes[0];
 
     for (link of linksArray) {
-        let div = document.createElement("div");
-        let size = [12, 6, 4, 3, 2];
-        let breaks = ["", "sm-", "md-", "lg-", "xl-"];
-        if ("size" in link && link["size"].length == 5)
-            size = link["size"];
-
-        // Generate a string of format "col-v col-sm-w col-md-x col-lg-y col-xl-z"
-        //   using [v, w, x, y, z] from link["size"]
-        let classString = size.map((a, b) => {return "col-" + breaks[b] + String(a)}).join(' ');
-        div.className = classString;
-
+        let item = document.createElement("li");
         let anchor = document.createElement("a");
         anchor.target = "_blank";
         anchor.rel = "noopener noreferrer";
-        anchor.className = "badge badge-custom my-1 p-2";
 
-        let title = document.createElement("h5");
-        title.className = "m-0 d-inline-block";
-
+        let span = document.createElement("span");
         if ("id" in link) {
             anchor.id = link["id"];
-            title.setAttribute("translate-key", link["id"]);
+            span.setAttribute("translate-key", link["id"]);
         }
 
         if ("link" in link)
             anchor.href = link["link"];
 
-        anchor.appendChild(title);
         if ("fa-icon" in link) {
             let icon = document.createElement("i");
-            icon.className = link["fa-icon"] + " my-auto h5 ps-2";
+            icon.className = link["fa-icon"] + " pe-2";
             anchor.appendChild(icon);
         }
 
-        div.appendChild(anchor);
-        document.getElementById("HyperlinksItem").appendChild(div);
+        anchor.appendChild(span);
+        item.appendChild(anchor);
+        navbar.insertBefore(item, translateItem);
     }
 }
 
