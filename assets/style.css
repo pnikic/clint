@@ -815,7 +815,6 @@ iframe {
 #EvaluationBar {
     background-color: #fff;
     width: 100%;
-    height: 50%;
     position: absolute;
     bottom: 0;
     transition: height 1s;

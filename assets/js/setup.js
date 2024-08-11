@@ -672,7 +672,8 @@ function setEvaluationBarValue(num, ignoreEngineStatus) {
     if (engineStatus || ignoreEngineStatus) {
         num *= IsRotated ? -1 : 1;
         num = Math.min(4, Math.max(-4, num));
-        document.getElementById("EvaluationBar").style.height = `${(((num + 4) / 8.0) * 100.0).toFixed(2)}%`;
+        const newHeight = `${(((num + 4) / 8.0) * 100.0).toFixed(2)}%`;
+        document.getElementById("EvaluationBar").style.height = newHeight;
     }
 }
 
