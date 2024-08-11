@@ -588,7 +588,7 @@ body[data-theme="alternative"] .btn-close {
     align-items: center;
 }
 
-#GameSelectionDiv > div.active {
+#GameSelectionDiv > div.active:not(:hover) {
     background-color: var(--bg-color-active);
 }
 
