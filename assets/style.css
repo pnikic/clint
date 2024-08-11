@@ -827,9 +827,9 @@ iframe {
             minmax(min(60vw, 60vh), min(80vw, 80vh))
             minmax(25vw, 45vw);
         grid-template-rows:
+            var(--player-names)
             min-content
-            min-content
-            min-content
+            var(--player-names)
             var(--spacing)
             min-content;
         grid-template-areas:
@@ -896,9 +896,9 @@ iframe {
             minmax(8px, 3vw)
             minmax(min(60vw, 60vh), min(100vw, 80vh));
         grid-template-rows:
+            var(--player-names)
             min-content
-            min-content
-            min-content
+            var(--player-names)
             var(--spacing)
             min-content
             var(--spacing)
