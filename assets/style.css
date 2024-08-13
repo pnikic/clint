@@ -716,6 +716,10 @@ iframe {
     gap: .4rem;
 }
 
+#LeftPanel > *, #RightPanel > * {
+    margin: 0 1rem;
+}
+
 #VideoDivLeft, #ImageDivLeft, #CustomItemLeft,
 #VideoDivRight, #ImageDivRight, #CustomItemRight {
     overflow: hidden;
