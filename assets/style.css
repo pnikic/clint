@@ -8,14 +8,14 @@
    --bg-color
    --bg-color-text
 
- * A variant of background color used for text-areas, input fields and dropdown-menus
-   --bg-color-light
-   --bg-color-light-text
-
  * Lighter text color used for games and move ordinal numbers
    --bg-color-text-light
 
- * Colors when hovering move or game elements for selection
+ * A light variant of background color (used for text-areas, input fields and dropdown-menus)
+   --bg-color-light
+   --bg-color-light-text
+
+ * Colors when hovering elements on background color (move or game selection)
    --bg-color-hover
    --bg-color-hover-text
 
@@ -23,13 +23,18 @@
    --bg-color-active
 
  *------------------------------------------------------------
-   Main color (for buttons, background of player names and more)
+   Main color (for buttons, navbar and more)
  *------------------------------------------------------------
    --main-color-bg
    --main-color-text
 
+ * A light variant of main color (used toggled nav background on smaller screens)
+   --bg-color-light
+   --bg-color-light-text
+
  * Color when hovering main-color elements
    --main-color-hover
+   --main-color-hover-text
 
  *------------------------------------------------------------
    Chess board colors
@@ -38,22 +43,35 @@
    --black-square
    --highlight-white-sq
    --highlight-black-sq
+
+ * Colors for row with player names
+   --player-item-color
+   --player-item-color-text
+
+ * Color for ticking clock (of player to move)
+   --bg-active-clock
+   --bg-active-clock-text
  */
 
 /* Light theme example preset */
 :root {
     --bg-color: #fff;
     --bg-color-text: #111;
+    --bg-color-text-light: #888;
     --bg-color-light: #eee;
     --bg-color-light-text: #111;
-    --bg-color-text-light: #888;
     --bg-color-hover: #27c;
     --bg-color-hover-text: #fff;
     --bg-color-active: #cde;
     --main-color-bg: #ddd;
-    --main-color-text: #000;
+    --main-color-text: #111;
+    --main-color-light: #eee;
+    --main-color-light-text: #111;
     --main-color-hover: #cccf;
+    --main-color-hover-text: #111;
     --main-color-border: #bbb;
+    --player-item-color: #ddd;
+    --player-item-color-text: #111;
     --white-square: #f0d9b5;
     --black-square: #b58863;
     --highlight-white-sq: #cdd26a;
@@ -66,16 +84,21 @@
 [data-theme="alternative"] {
     --bg-color: #111;
     --bg-color-text: #eee;
+    --bg-color-text-light: #888;
     --bg-color-light: #333;
     --bg-color-light-text: #eee;
-    --bg-color-text-light: #888;
     --bg-color-hover: #27c;
     --bg-color-hover-text: #eee;
     --bg-color-active: #293a49;
     --main-color-bg: #444;
     --main-color-text: #eee;
+    --main-color-light: #333;
+    --main-color-light-text: #eee;
     --main-color-hover: #333f;
+    --main-color-hover-text: #eee;
     --main-color-border: #222;
+    --player-item-color: #444;
+    --player-item-color-text: #eee;
     --white-square: #f0d9b5;
     --black-square: #b58863;
     --highlight-white-sq: #cdd26a;
@@ -204,8 +227,23 @@ body[data-theme="alternative"] .navbar-toggler {
     border-color: rgba(255,255,255,0.1);
 }
 
-/* Navbar has class `navbar-expand-lg`, padding of items is adjusted on smaller screens */
-@media (max-width: 991px) {
+/* Custom breakpoint for navbar aligned with clint sizes, toggle navbar below 1260px */
+@media (min-width: 1260px) {
+    nav {
+        justify-content: flex-start
+    }
+
+    nav .navbar-collapse {
+        display: flex!important;
+        flex-basis: auto
+    }
+
+    nav .navbar-toggler {
+        display: none
+    }
+}
+
+@media (max-width: 1259px) {
     nav a {
         padding: .75rem .25rem;
     }
@@ -219,6 +257,13 @@ body[data-theme="alternative"] .navbar-toggler {
     nav h3 {
         text-align: center;
         margin: 0;
+    }
+}
+
+@media (max-width: 799px) {
+    .navbar-toggler-icon {
+        width: 1.5em;
+        height: 1.5em;
     }
 }
 
@@ -243,7 +288,7 @@ nav, .btn-custom, .btn-custom:hover, .btn:first-child:active {
 nav a:active, .btn-custom:not(:disabled):not(.disabled):active,
 .dropdown > .show.dropdown-toggle, .dropup > .show.dropdown-toggle {
     background-color: var(--main-color-hover);
-    color: var(--main-color-text)
+    color: var(--main-color-hover-text)
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -251,7 +296,7 @@ nav a:active, .btn-custom:not(:disabled):not(.disabled):active,
        user has an accurate pointing device (e.g. mouse, not a finger) */
     nav a:hover, .btn-custom:hover {
         background-color: var(--main-color-hover);
-        color: var(--main-color-text)
+        color: var(--main-color-hover-text)
     }
 
     .dropdown-menu > .dropdown-item:hover {
