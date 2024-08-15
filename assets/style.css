@@ -107,6 +107,24 @@
     --bg-active-clock-text: #eee;
 }
 
+/* Override Bootstrap variables */
+.form-select {
+    border-radius: var(--border-radius);
+}
+
+.btn {
+    --bs-btn-border-radius: var(--border-radius);
+}
+
+.dropdown-menu {
+    --bs-dropdown-border-radius: var(--border-radius);
+}
+
+.modal {
+    --bs-modal-border-radius: var(--border-radius);
+}
+
+
 /************************************************************
    General
  ************************************************************/
@@ -115,15 +133,12 @@ body {
     color: var(--bg-color-text);
     font-family: Verdana, Arial, Helvetica, sans-serif;
     text-align: center;
+    /* Single place to set border-radius for whole page */
+    --border-radius: .25rem;
 }
 
 input::placeholder {
     color: var(--bg-color-light-text);
-}
-
-/* In order to remove flashing (transition) at startup time */
-.btn, .form-select {
-    transition: none;
 }
 
 #GameSelectionDiv, #GameText {
@@ -158,7 +173,7 @@ nav a > span, nav a > i {
 nav a {
     padding: 1rem .4rem;
     margin: 0 .25rem;
-    border-radius: .25rem;
+    border-radius: var(--border-radius);
     display:inline-block;
 }
 
@@ -363,6 +378,7 @@ a, a:hover {
     color: var(--main-color-text);
     padding: 0.25rem 0.75rem;
     margin: 0.25rem 0;
+    border-radius: var(--border-radius);
 }
 
 .dropdown-item > i {
@@ -387,7 +403,7 @@ textarea, input {
     font-family: monospace;
     font-size: 14px;
     border: 0;
-    border-radius: .25rem;
+    border-radius: var(--border-radius);
 }
 
 textarea:focus, input:focus {
@@ -407,11 +423,11 @@ textarea::-webkit-resizer {
 
 ::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 12px rgba(200,200,200,1);
-    border-radius: 10px;
+    border-radius: var(--border-radius);
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     background-color: var(--main-color-bg);
 }
 
@@ -462,6 +478,7 @@ body[data-theme="alternative"] .btn-close {
 #GameText a.move {
     padding: 2px 0px;
     white-space: nowrap;
+    border-radius: var(--border-radius);
 }
 
 #GameText.lineFormNotation a.move {
@@ -502,7 +519,7 @@ body[data-theme="alternative"] .btn-close {
     height: 3em;
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
-    border-radius: .25rem .25rem 0 0;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 #EngineVariationDiv {
@@ -562,26 +579,25 @@ body[data-theme="alternative"] .btn-close {
 }
 
 #ClockPlace1 {
-    border-radius: 0 .25rem 0 0;
+    border-radius: 0 var(--border-radius) 0 0;
 }
 
 #ClockPlace2 {
-    border-radius: 0 0 .25rem 0;
+    border-radius: 0 0 var(--border-radius) 0;
 }
 
 #TopPlayerItem, #BotPlayerItem {
     background-color: var(--player-item-color);
     color: var(--player-item-color-text);
-    border-radius: .25rem;
     align-items: center;
 }
 
 #TopPlayerItem {
-    border-radius: .25rem .25rem 0 0;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 #BotPlayerItem {
-    border-radius: 0 0 .25rem .25rem;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
 }
 
 #GameWhite, #GameBlack, #GameWhiteClock, #GameBlackClock {
@@ -646,6 +662,7 @@ body[data-theme="alternative"] .btn-close {
 
 #GameSelectionDiv > div {
     align-items: center;
+    border-radius: var(--border-radius);
 }
 
 #GameSelectionDiv > div.active:not(:hover) {
@@ -668,7 +685,7 @@ body[data-theme="alternative"] .btn-close {
     background-color: var(--main-color-text);
     color: var(--main-color-bg);
     text-align: center;
-    border-radius: .25rem;
+    border-radius: var(--border-radius);
     padding: 16px;
     position: fixed;
     z-index: 2000;
@@ -689,7 +706,10 @@ iframe {
 #Miniboard {
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
-    border-radius: .25rem;
+}
+
+#Miniboard * {
+    border-radius: 0;
 }
 
 .resultTile {
@@ -723,7 +743,6 @@ iframe {
 .controlPanelBtn {
     width: 20%;
     border: 0;
-    border-radius: 0;
 }
 
 .controlPanelBtn:focus {
@@ -734,13 +753,13 @@ iframe {
 #VideoDivLeft iframe, #VideoDivRight iframe {
     width: 100%;
     height: 100%;
-    border-radius: .25rem;
+    border-radius: var(--border-radius);
 }
 
 #ImageDivLeft img, #ImageDivRight img {
     max-width: 100%;
     max-height: 100%;
-    border-radius: .25rem;
+    border-radius: var(--border-radius);
 }
 
 #EngineToggleIcon {
