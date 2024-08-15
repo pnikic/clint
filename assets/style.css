@@ -180,7 +180,7 @@ nav a {
 
 /* Note: Customize the navbar flexbox according to your needs */
 #MainBody {
-    padding-top: 8rem; /* adjust in order to accomodate navbar contents */
+    padding-top: 7.5rem; /* adjust in order to accomodate navbar contents */
 }
 
 nav img {
