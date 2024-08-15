@@ -24,7 +24,10 @@
           crossorigin="anonymous">
 
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/css/flag-icons.min.css">
     <link rel="stylesheet" type="text/css" href="assets/style.css">
@@ -349,31 +352,31 @@
                 <div class="col ps-0 pe-1">
                     <button type="button" class="col-12 btn btn-custom"
                             onclick="GoToMove(StartPlyVar[0], 0);">
-                        <span>&lt;&lt;</span>
+                        <i class="fas fa-backward-fast" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div class="col px-1">
                     <button type="button" class="col-12 btn btn-custom"
                             onclick="GoToMove(CurrentPly - 1);">
-                        <span>&lt;</span>
+                        <i class="fas fa-backward-step" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div class="col px-1">
                     <button id="AutoPlayBtn" type="button" class="col-12 btn btn-custom"
                             onclick="toggleAutoplay();">
-                        <span>&#9655;</span>
+                        <i class="fas fa-play" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div class="col px-1">
                     <button type="button" class="col-12 btn btn-custom"
                             onclick="GoToMove(CurrentPly + 1);">
-                        <span>&gt;</span>
+                        <i class="fas fa-forward-step" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div class="col ps-1 pe-0">
                     <button type="button" class="col-12 btn btn-custom"
                             onclick="GoToMove(StartPlyVar[0] + PlyNumberVar[0], 0);">
-                        <span>&gt;&gt;</span>
+                        <i class="fas fa-forward-fast" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>

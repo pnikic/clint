@@ -18,8 +18,6 @@ let chessResultsPlayerData;    // Player's information from chess-results
 // Suppose the control panel is turned off by default (sync with mosaic-setup.js)
 let controlPanelOption = false;
 let chosenGames = [];
-const playChar = "&#9655;";
-const pauseChar = "|&nbsp;|";
 let inlineNotationOption = false;
 // Engine global variables
 let engine;
@@ -819,9 +817,19 @@ function snackbarMessage(translateKey) {
 }
 
 function setAutoplayButton() {
-    let play = playChar;
-    let pause = pauseChar;
-    document.getElementById("AutoPlayBtn").innerHTML = isAutoPlayOn ? pause : play;
+    const icons = document.getElementById("AutoPlayBtn").getElementsByTagName("i");
+    if (icons.length != 1)
+        return;
+
+    const icon = icons[0];
+    if (isAutoPlayOn) {
+        icon.classList.remove("fa-play");
+        icon.classList.add("fa-pause");
+    }
+    else {
+        icon.classList.remove("fa-pause");
+        icon.classList.add("fa-play");
+    }
 }
 
 function toggleAutoplay() {
