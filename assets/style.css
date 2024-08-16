@@ -587,6 +587,40 @@ body[data-theme="alternative"] .btn-close {
 }
 
 #TopPlayerItem, #BotPlayerItem {
+    display: flex;
+}
+
+#PlayerInfo1, #PlayerInfo2 {
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+#ResultPlace1, #ResultPlace2 {
+    flex-basis: 3rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+#ClockPlace1, #ClockPlace2 {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+#PlayerPlace1, #PlayerPlace2, #RatingPlace1, #RatingPlace2, #PlayerFlagBlack, #PlayerFlagWhite {
+    padding-left: .75rem;
+}
+
+@media (max-width: 799px) {
+    #ResultPlace1, #ResultPlace2 {
+        flex-basis: 2rem;
+    }
+
+    #PlayerPlace1, #PlayerPlace2, #RatingPlace1, #RatingPlace2, #PlayerFlagBlack, #PlayerFlagWhite {
+        padding-left: .5rem;
+    }
+}
+
+#TopPlayerItem, #BotPlayerItem {
     background-color: var(--player-item-color);
     color: var(--player-item-color-text);
     align-items: center;
@@ -604,11 +638,8 @@ body[data-theme="alternative"] .btn-close {
     white-space: nowrap;
 }
 
-.fi-fide {
-    background-image: url(images/FID.svg);
-}
-
-#TopPlayerItem > span, #BotPlayerItem > span{
+/* Double internal flexbox to handle long player names without overflow */
+#PlayerInfo1, #PlayerInfo2 {
     display: flex;
 }
 
@@ -617,14 +648,13 @@ body[data-theme="alternative"] .btn-close {
     overflow: hidden;
 }
 
-#SingleBoardView #GameBlack, #SingleBoardView #GameWhite {
-    margin-right: 10px;
-}
-
 #GameBlack, #GameWhite {
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.fi-fide {
+    background-image: url(images/FID.svg);
 }
 
 /* Game selection styles*/
@@ -720,15 +750,34 @@ iframe {
     font-weight: 600;
     padding: 0px 0px 0px 6px;
     overflow: hidden;
+    text-align: left;
 }
 
 .clockTile {
-    padding: 0px 2px 0px 0px;
+    padding: 0px 3px;
     overflow: hidden;
 }
 
-#BlackInfo, #WhiteInfo {
-    padding: 4px 0px;
+#MiniboardBlackInfo, #MiniboardWhiteInfo {
+    display: flex;
+}
+
+#ResultBlack, #ResultWhite {
+    flex: 1.875rem 0 0;
+}
+
+#GameBlack, #GameWhite {
+    flex-basis: 0;
+    flex-grow: 1;
+}
+
+#MiniboardBlackClock, #MiniboardWhiteClock {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+#MiniboardBlackInfo, #MiniboardWhiteInfo {
+    line-height: 2;
 }
 
 #GamesSelectionContainer{

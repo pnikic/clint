@@ -22,7 +22,7 @@ toggleControlPanel();
 function adjustBoardSize(boardWidth = undefined) {
     if (boardWidth == undefined) {
         // If no board width is given, fill the whole parent window
-        let nameHeight = document.getElementById("WhiteInfo").offsetHeight;
+        let nameHeight = document.getElementById("MiniboardWhiteInfo").offsetHeight;
         let cpHeight = document.getElementById("ControlPanel").offsetHeight;
         let mWidth = window.frameElement.width;
         let mHeight = window.frameElement.height - 2 * nameHeight - cpHeight;
@@ -131,8 +131,8 @@ function customFunctionOnPgnGameLoad() {
         referenceTime = customPgnHeaderTag("ReferenceTime");
 
         // Remove `clockActive` if set from previous game
-        document.getElementById("ClockPlace1").classList.remove("clockActive");
-        document.getElementById("ClockPlace2").classList.remove("clockActive");
+        document.getElementById("MiniboardBlackClock").classList.remove("clockActive");
+        document.getElementById("MiniboardWhiteClock").classList.remove("clockActive");
 
         if (clockCountdownTimer) {
             clearInterval(clockCountdownTimer);
@@ -155,9 +155,9 @@ function getDisplayedMinigame() {
 }
 
 function flipMiniboard() {
-    let wInfo = document.getElementById("WhiteInfo");
-    let bInfo = document.getElementById("BlackInfo");
-    let board = document.getElementById("GameBoard");
+    const wInfo = document.getElementById("MiniboardWhiteInfo");
+    const bInfo = document.getElementById("MiniboardBlackInfo");
+    const board = document.getElementById("GameBoard");
 
     wInfo.parentNode.insertBefore(bInfo, wInfo);
     if (IsRotated) {
