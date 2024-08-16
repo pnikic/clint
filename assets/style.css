@@ -553,7 +553,7 @@ body[data-theme="alternative"] .btn-close {
 }
 
 .playerName, .result, .rating {
-    font-size: calc(15px + 2 * ((100vw - 320px) / 800));
+    font-size: calc(17px + ((100vw - 320px) / 800));
 }
 
 .playerName, .result {
@@ -565,11 +565,11 @@ body[data-theme="alternative"] .btn-close {
 }
 
 .clock {
-    font-size: calc(14px + 2 * ((100vw - 320px) / 700));
+    font-size: calc(16px + ((100vw - 320px) / 700));
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 0 .5rem 0 0;
+    padding: 0 .5rem;
     height: 100%;
 }
 
@@ -1028,6 +1028,7 @@ iframe {
     }
 
     #SingleBoardView {
+        --player-names: 30px;
         grid-template-columns:
             minmax(8px, 3vw)
             minmax(min(60vw, 60vh), min(100vw, 80vh));
