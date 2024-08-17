@@ -206,10 +206,6 @@ SetImagePath("../pgn4web-3.06/images/svgchess");
 // SetImagePath("../pgn4web-3.06/images/igorsvg");
 // SetImagePath("../pgn4web-3.06/images/tilesvg");
 
-// Set default delay for autoplay of the game (in milliseconds)
-let autoplayDelay = 3000;
-SetAutoplayDelay(autoplayDelay);
-
 // Set starting value for move highlighting
 SetHighlightOption(true);
 

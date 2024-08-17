@@ -354,8 +354,12 @@ a, a:hover {
     text-decoration: none;
 }
 
-#ControlsItem .btn, #SettingsItem .btn {
+#ControlsItem .btn, #SettingsItem > div > .btn {
     padding: 0;
+}
+
+.dropdownItemBtn {
+    padding: 0 .375rem;
 }
 
 .btn > i {
@@ -384,17 +388,6 @@ a, a:hover {
 .dropdown-item > i {
     font-size: 22px;
     vertical-align: middle;
-}
-
-.dropdownItemBtn {
-    height: 100%;
-    width: 30px;
-    padding: 0;
-    font-size: 12px;
-}
-
-#AutoplayDelaySpan {
-    width: 2em;
 }
 
 textarea, input {
@@ -881,7 +874,7 @@ iframe {
     overflow-y: scroll;
 }
 
-#ControlsItem button, #SettingsItem button {
+#ControlsItem button, #SettingsItem > div > button {
     font-size: 1.5rem;
 }
 

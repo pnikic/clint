@@ -336,9 +336,6 @@ function customFunctionOnMove() {
     // Update engine evaluation
     useEngine();
 
-    // Update autoplay button (e.g. in case of clicking on move in PGN window)
-    setAutoplayButton();
-
     // Start clock countdown if enabled
     if (clockCountdownEnabled) {
         // Get reference time from pgn
@@ -822,45 +819,6 @@ function snackbarMessage(translateKey) {
     }
 }
 
-function setAutoplayButton() {
-    const icons = document.getElementById("AutoPlayBtn").getElementsByTagName("i");
-    if (icons.length != 1)
-        return;
-
-    const icon = icons[0];
-    if (isAutoPlayOn) {
-        icon.classList.remove("fa-play");
-        icon.classList.add("fa-pause");
-    }
-    else {
-        icon.classList.remove("fa-pause");
-        icon.classList.add("fa-play");
-    }
-}
-
-function toggleAutoplay() {
-    if (CurrentPly == PlyNumber)
-        return;
-
-    SetAutoPlay(!isAutoPlayOn);
-    setAutoplayButton();
-}
-
-function setAutoplayDelay(evt, change) {
-    // Do not close the parent dropodown menu
-    evt.stopPropagation();
-
-    // This function is called with +1 or -1, depending on the user input
-    let step = 500;
-    autoplayDelay += change * step;
-
-    // In pgn4web.js, minimum delay is 500, and maximum is 300000
-    autoplayDelay = Math.min(Math.max(autoplayDelay, minAutoplayDelay), maxAutoplayDelay);
-    // Calling the pgn4web function for setting autoplay
-    SetAutoplayDelay(autoplayDelay);
-    document.getElementById("AutoplayDelaySpan").innerHTML = String(autoplayDelay / 1000);
-}
-
 function setInlineNotation(value) {
     inlineNotationOption = value;
     let gameText = document.getElementById("GameText");
@@ -946,9 +904,6 @@ function customFunctionOnPgnTextLoad() {
             selectRoundElem.appendChild(option);
             mbSelectRoundElem.appendChild(option.cloneNode(true));
         }
-
-        // Display numbers in settings dropdown
-        document.getElementById("AutoplayDelaySpan").innerHTML = String(autoplayDelay / 1000);
     }
 
     // Update of options in "select game" grid area
@@ -1470,9 +1425,8 @@ function toggleView(ind) {
         // Turn off engine
         if (engineStatus)
             toggleEngine();
-        // Turn off autoplay
-        if (isAutoPlayOn)
-            toggleAutoplay();
+
+        SetAutoPlay(false);
     }
 
     if (!iframesGenerated) {

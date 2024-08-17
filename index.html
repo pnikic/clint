@@ -363,12 +363,6 @@
                     </button>
                 </div>
                 <div class="col px-1">
-                    <button id="AutoPlayBtn" type="button" class="col-12 btn btn-custom"
-                            onclick="toggleAutoplay();">
-                        <i class="fas fa-play" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="col px-1">
                     <button type="button" class="col-12 btn btn-custom"
                             onclick="GoToMove(CurrentPly + 1);">
                         <i class="fas fa-forward-step" aria-hidden="true"></i>
@@ -416,11 +410,12 @@
                         <a class="dropdown-item">
                             <span translate-key="autoplay-speed"></span>
                             <button type="button" class="btn btn-custom dropdownItemBtn ms-1"
-                                    onclick="setAutoplayDelay(event, -1);">-
+                                    onclick="SetAutoplayDelayAndStart(750);"
+                                    translate-key="autoplay-fast">
                             </button>
-                            <span id="AutoplayDelaySpan" class="d-inline-block text-center"></span>
                             <button type="button" class="btn btn-custom dropdownItemBtn"
-                                    onclick="setAutoplayDelay(event, 1);">+
+                                    onclick="SetAutoplayDelayAndStart(4000);"
+                                    translate-key="autoplay-slow">
                             </button>
                         </a>
                         <a class="dropdown-item" onclick="flipBoard();">
