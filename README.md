@@ -148,6 +148,7 @@ In `assets/js/config.js` you can:
     ```javascript
     let supportedLanguages = [
       "en",  // English
+      "es",  // Español (Spanish)
       "hr"   // Hrvatski (Croatian)
     ];
     ```

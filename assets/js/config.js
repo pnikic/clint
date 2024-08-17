@@ -237,6 +237,7 @@ let broadcastDelayMins = 0;
 // List of languages to be loaded. Make sure to update all translations in corresponding JSON files
 let supportedLanguages = [
     "en",  // English
+    "es",  // Español (Spanish)
     "hr"   // Hrvatski (Croatian)
 ];
 
