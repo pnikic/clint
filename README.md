@@ -216,6 +216,7 @@ I hereby sincerely thank all the people who helped make clint better by comments
 * Clock countdown alternative in case "ReferenceTime" tag is not present in PGN. Store timestamps when each move is detected and use together with "%clk" comments with game moves.
 * Custom responsive design for mobile phones in landscape mode
 * More flexibile tiling algorithm for multiple boards view in case of bigger number of boards
+* Upgrade Stockfish to NNUE version
 
 ### Contribute
 If you want to support my work, consider a donation via [PayPal][8]. Thank you!

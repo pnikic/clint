@@ -655,10 +655,12 @@ function setEngineAnnotations(line, depth, score) {
         line = depth = score = "";
 
     if (depth) {
+        document.getElementById("EngineNote").style.display = "none";
         document.getElementById("DepthLabel").style.display = "inline";
         document.getElementById("DepthValue").innerHTML = depth;
     }
     else {
+        document.getElementById("EngineNote").style.display = "inline";
         document.getElementById("DepthLabel").style.display = "none";
         document.getElementById("DepthValue").innerHTML = "";
     }
