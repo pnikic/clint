@@ -202,6 +202,9 @@ function operatorSettings() {
 // Path to /images folder of pgn4web
 SetImageType("svg");
 SetImagePath("../pgn4web-3.06/images/svgchess");
+// Alternative pieces (SVG images seem to lack some padding)
+// SetImagePath("../pgn4web-3.06/images/igorsvg");
+// SetImagePath("../pgn4web-3.06/images/tilesvg");
 
 // Set default delay for autoplay of the game (in milliseconds)
 let autoplayDelay = 3000;

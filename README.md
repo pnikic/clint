@@ -50,15 +50,26 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
     │   ├── (...)
     ├── pgn4web-3.06
     │   ├── pgn4web.js
+    │   ├── images
     │   ├── (...)
     └── 
     ```
+    <details>
+    <summary>Note: To reduce storage space, it's possible to only store the following files from pgn4web <i>(click to expand note)</i></summary>  
+
+    * `pgn4web-x.yz/pgn4web.js`
+    * folder with selected image assets _(e.g._ `pgn4web-x.yz/images/svgchess`_)_
+    * selected chess figurines font _(e.g. all files from_ `pgn4web-x.yz/fonts/` _containing_ `ChessSansPiratf` _in the file name)_
+
+    Clint doesn't use other files from pgn4web. See the following paragraph for setting the paths to these files.
+    </details>
+
 * Edit the `pgn4web.js` path and the fonts path in `index.html` and in `mosaic-tile.html`  
-(in my case, pgn4web-3.06 is placed one directory up)
+(in this case, pgn4web-3.06 is placed one directory up)
     ```html
     <script src="../pgn4web-3.06/pgn4web.js" defer></script>
     ...
-    <link rel="stylesheet" type="text/css" href="../pgn4web-3.06/fonts/pgn4web-font-ChessSansUsual.css">
+    <link rel="stylesheet" type="text/css" href="../pgn4web-3.06/fonts/pgn4web-font-ChessSansPiratf.css">
     ```
     and the image path for the pieces in `assets/js/config.js`
     ```javascript
@@ -149,22 +160,29 @@ In `assets/style.css` you can configure all the colors used on the page. It come
 ```css
 /* Light theme example preset */
 :root {
-    --bg-color: #eee;
+    --bg-color: #fff;
     --bg-color-text: #111;
-    --bg-color-light: #ddd;
-    --bg-color-light-text: #111;
     --bg-color-text-light: #888;
+    --bg-color-light: #eee;
+    --bg-color-light-text: #111;
     --bg-color-hover: #27c;
-    --bg-color-hover-text: #eee;
+    --bg-color-hover-text: #fff;
     --bg-color-active: #cde;
     --main-color-bg: #ddd;
-    --main-color-text: #000;
+    --main-color-text: #111;
+    --main-color-light: #eee;
+    --main-color-light-text: #111;
     --main-color-hover: #cccf;
+    --main-color-hover-text: #111;
     --main-color-border: #bbb;
+    --player-item-color: #ddd;
+    --player-item-color-text: #111;
     --white-square: #f0d9b5;
     --black-square: #b58863;
     --highlight-white-sq: #cdd26a;
     --highlight-black-sq: #aaa23a;
+    --bg-active-clock: #659d25;
+    --bg-active-clock-text: #fff;
 }
 ```
 

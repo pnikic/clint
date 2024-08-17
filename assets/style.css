@@ -457,7 +457,10 @@ body[data-theme="alternative"] .btn-close {
 }
 
 #GameText, #EngineVariationDiv {
+    /* Select chess figurines fonts */
     font-family: "pgn4web ChessSansPiratf";
+    /* font-family: "pgn4web ChessSansMerida"; */
+    /* font-family: "pgn4web ChessSansUsual"; */
     font-size: 18px;
 }
 
