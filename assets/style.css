@@ -617,6 +617,10 @@ body[data-theme="alternative"] .btn-close {
     padding-left: .75rem;
 }
 
+#RatingPlace1, #RatingPlace2 {
+    padding-right: .75rem;
+}
+
 @media (max-width: 799px) {
     #ResultPlace1, #ResultPlace2 {
         flex-basis: 2rem;
