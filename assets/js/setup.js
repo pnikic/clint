@@ -482,8 +482,17 @@ function flipBoard() {
 }
 
 function fetchTranslations() {
+    let htmlTranslateItem = document.getElementById("TranslateItem");
+    let translateMenu = htmlTranslateItem.getElementsByClassName("dropdown-menu")[0];
+
     for (lang of supportedLanguages) {
         translationFile = "assets/translations/" + lang + ".json";
+        let anchor = document.createElement("a");
+        anchor.id = lang;
+        anchor.innerHTML = lang;
+        anchor.className = "dropdown-item";
+        translateMenu.appendChild(anchor);
+
         fetch(translationFile)
             .then((response) => {
                 if (!response.ok) {
@@ -494,16 +503,11 @@ function fetchTranslations() {
             .then((data) => {
                 let isoCode = data["iso-639-code"]
                 translations.set(isoCode, data);
-
-                let htmlTranslateItem = document.getElementById("TranslateItem");
-                let translateMenu = htmlTranslateItem.getElementsByClassName("dropdown-menu")[0];
-                let anchor = document.createElement("a");
-                anchor.className = "dropdown-item";
+                let anchor = document.getElementById(isoCode);
                 anchor.innerHTML = data["langugage-name"];
                 anchor.onclick = (evt) => {
                     translatePage(isoCode);
                 };
-                translateMenu.appendChild(anchor);
 
                 if (isoCode == currentLanguage)
                     translatePage(isoCode);
