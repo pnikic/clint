@@ -9,7 +9,7 @@ let displayedGame = "";  // Currently displayed game (used for rotating the boar
 let viewType = 0;        // Variable for toggling single and multi board view
 let scaleOption = 1;     // TODO: Currently not used, to be considered when implementing resizing
 let numActiveSnackbarMessages = 0;  // Used for hiding snackbar element after showing notifications
-let currentPGN = 0       // Index of current PGN (used to generate a link for sharing)
+let currentPGN = 0       // Index of active PGN (from allPGNs)
 let initialPGNFile = "";
 let url = ""
 let iframesGenerated = false;
@@ -915,6 +915,9 @@ function customFunctionOnPgnTextLoad() {
     }
 
     // (Re)generate the game selection menu
+    const videoBoards = allPGNs[currentPGN]["video-boards"];
+    const hasVideoBoards = Boolean(videoBoards);
+
     for (let i = 0; i < numberOfGames; ++i) {
         let optionDiv = document.createElement("div");
         optionDiv.className = "row m-0";
@@ -928,16 +931,36 @@ function customFunctionOnPgnTextLoad() {
         spanNum.innerHTML = String(i + 1);
 
         let players = document.createElement("h6");
-        players.className = "col-9";
+        players.className = "col-" + (hasVideoBoards ? "7" : "8");
         players.innerHTML = gameWhite[i] + " - " + gameBlack[i];
 
         let spanRes = document.createElement("span");
         spanRes.className = "col-2";
         spanRes.innerHTML = prettifyGameResult(gameResult[i]);
 
+        let cameraDiv;
+        if (hasVideoBoards && i < videoBoards.length) {
+            // Store icon in a div with padding to create some space between button and scrollbar
+            cameraDiv = document.createElement("div");
+            cameraDiv.className = "col-2 p-0 pe-2";
+            const camera = document.createElement("button");
+            camera.className = "col-12 btn btn-custom";
+            const icon = document.createElement("i");
+            icon.className = "fas fa-video";
+            camera.appendChild(icon);
+            camera.onclick = (evt) => {
+                enableVideoDiv("VideoDivLeft", videoBoards[i]);
+            };
+            cameraDiv.appendChild(camera);
+        }
+
         optionDiv.appendChild(spanNum);
         optionDiv.appendChild(players);
         optionDiv.appendChild(spanRes);
+        if (cameraDiv) {
+            optionDiv.appendChild(cameraDiv);
+        }
+
         gameSel.appendChild(optionDiv);
     }
 

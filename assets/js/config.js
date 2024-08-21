@@ -8,59 +8,68 @@ function listPGNFiles() {
     // List all the PGN files and corresponding information. The format is as follows:
     //
     // allPGNs.push({
-    //     "pgn"         : <string>,
-    //     "id"          : <string>,
-    //     "date"        : <JavaScript Date object>,
-    //     "video-left"  : <string>,
-    //     "video-right" : <string>,
-    //     "image-left"  : <string>,
-    //     "image-right" : <string>,
-    //     "hyperlinks"  : <JavaScript object>
+    //     "pgn"          : <string>,
+    //     "id"           : <string>,
+    //     "date"         : <JavaScript Date object>,
+    //     "video-left"   : <string>,
+    //     "video-right"  : <string>,
+    //     "video-boards" : <Array>,
+    //     "image-left"   : <string>,
+    //     "image-right"  : <string>,
+    //     "hyperlinks"   : <JavaScript object>
     // });
     //
-    // +-------------+---------------+------------------------------------------------------------+
-    // | Optionality |      Key      |                         Description                        |
-    // +-------------+---------------+------------------------------------------------------------+
-    // |   required  |     "pgn"     | path to the PGN file                                       |
-    // +-------------+---------------+------------------------------------------------------------+
-    // |   required  |      "id"     | used to define label displayed in the game selection       |
-    // |             |               | dropdown menu for each language JSON file;                 |
-    // |             |               | it's the operator's task to ensure that all PGN files have |
-    // |             |               | translations for all languages                             |
-    // +-------------+---------------+------------------------------------------------------------+
-    // |   optional  |     "date"    | start date and time; used to disable selection of upcoming |
-    // |             |               | rounds (see also the variable `minsBeforeRound`)           |
-    // +-------------+---------------+------------------------------------------------------------+
-    // |   optional  | "video-left"  | link to a video to be displayed on the left-hand side      |
-    // +-------------+---------------+------------------------------------------------------------+
-    // |   optional  | "video-right" | link to a video to be displayed on the right-hand side     |
-    // +-------------+---------------+------------------------------------------------------------+
-    // |   optional  |  "image-left" | link to an image to be displayed on the left-hand side     |
-    // +-------------+---------------+------------------------------------------------------------+
-    // |   optional  | "image-right" | link to an image to be displayed on the right-hand side    |
-    // +-------------+---------------+------------------------------------------------------------+
-    // |   optional  |  "hyperlinks" | object which assigns custom hyperlink targets per round;   |
-    // |             |               | it's the operator's task to ensure that all PGN files have |
-    // |             |               | values for all custom buttons. If a value for a button is  |
-    // |             |               | not defined for a PGN file, the button keeps its old value |
-    // |             |               | (before changing the PGN file)                             |
-    // +-------------+---------------+------------------------------------------------------------+
+    // +-------------+----------------+------------------------------------------------------------+
+    // | Optionality |      Key       |                         Description                        |
+    // +-------------+----------------+------------------------------------------------------------+
+    // |   required  |     "pgn"      | path to the PGN file                                       |
+    // +-------------+----------------+------------------------------------------------------------+
+    // |   required  |      "id"      | used to define label displayed in the game selection       |
+    // |             |                | dropdown menu for each language JSON file;                 |
+    // |             |                | it's the operator's task to ensure that all PGN files have |
+    // |             |                | translations for all languages                             |
+    // +-------------+----------------+------------------------------------------------------------+
+    // |   optional  |     "date"     | start date and time; used to disable selection of upcoming |
+    // |             |                | rounds (see also the variable `minsBeforeRound`)           |
+    // +-------------+----------------+------------------------------------------------------------+
+    // |   optional  |  "video-left"  | link to a video to be displayed on the left-hand side      |
+    // +-------------+----------------+------------------------------------------------------------+
+    // |   optional  |  "video-right" | link to a video to be displayed on the right-hand side     |
+    // +-------------+----------------+------------------------------------------------------------+
+    // |   optional  | "video-boards" | array of video links (usually camera live streams) for the |
+    // |             |                | first boards; displayed on click in the left-hand side     |
+    // +-------------+----------------+------------------------------------------------------------+
+    // |   optional  |  "image-left"  | link to an image to be displayed on the left-hand side     |
+    // +-------------+----------------+------------------------------------------------------------+
+    // |   optional  |  "image-right" | link to an image to be displayed on the right-hand side    |
+    // +-------------+----------------+------------------------------------------------------------+
+    // |   optional  |  "hyperlinks"  | object which assigns custom hyperlink targets per round;   |
+    // |             |                | it's the operator's task to ensure that all PGN files have |
+    // |             |                | values for all custom buttons. If a value for a button is  |
+    // |             |                | not defined for a PGN file, the button keeps its old value |
+    // |             |                | (before changing the PGN file)                             |
+    // +-------------+----------------+------------------------------------------------------------+
+    // | Note: Displayed parts referred as "left-hand side" and "right-hand side" are arranged     |
+    // |       differently on smaller screens (e.g. for tablets and phones)                        |
+    // +-------------------------------------------------------------------------------------------+
     //
     // See below for examples
 
     let begin;  // A variable which will be re-used in this function
-
     // To generate JavaScript Date object the following function can be used:
     //   dateFromArray([Year, Month, Day, Hour, Minute])
     //
-    // Note: In this example, on each round (PGN file) we will have a different target for one
-    //   hyperlink (i.e. `chess-results-link`). Hyperlinks (buttons) with a fixed target are
-    //   configured below. See variable `navbarLinks` in `operatorSettings()`.
+    // Note: In this example, on each round (PGN file) we will have
+    //   * a different target for one hyperlink (i.e. `chess-results-link`).
+    //     Hyperlinks (buttons) with a fixed target are configured below.
+    //     See variable `navbarLinks` in `operatorSettings()`.
+    //   * video streams for the first three boards
     //
-    // Example 1: video on the left and image on the right;  presence of "date" parameter disables
-    //   selection of this round a number of minutes (`minsBeforeRound`) before its start
+    // Example 1: video on the left and image on the right
     //
-    // Translation text for this round is specified in each JSON file using their "id".
+    // Presence of "date" parameter disables round selection a number of minutes before its start.
+    //
+    // Translation text for round is specified in each JSON file using "id" attribute.
     // e.g. in file: en.json
     // {
     //     "round-1"       : "Round 1 - Nov 10th 15:00",
@@ -75,10 +84,15 @@ function listPGNFiles() {
         "image-right" : "https://tinyurl.com/y73a4vrz",
         "hyperlinks" : {
             "chess-results-link" : "https://www.example.com/a1"
-        }
+        },
+        "video-boards" : [
+            "https://www.youtube.com/embed/nBGNEQGYNBw?&autoplay=1",
+            "https://www.youtube.com/embed/R2q2sdAO2hw?&autoplay=1",
+            "https://www.youtube.com/embed/3Pj6JaqPSOg?&autoplay=1"
+        ]
     });
 
-    // Example 2: only image on the right
+    // Example 2: image only on the right
     begin = dateFromArray([2020, 11, 11, 15, 0]);
     allPGNs.push({
         "pgn" : "pgn/r2.pgn",
@@ -87,7 +101,12 @@ function listPGNFiles() {
         "image-right" : "https://tinyurl.com/yc93gdrk",
         "hyperlinks" : {
             "chess-results-link" : "https://www.example.com/a2"
-        }
+        },
+        "video-boards" : [
+            "https://www.youtube.com/embed/PzjP_1xvbcY?&autoplay=1",
+            "https://www.youtube.com/embed/IgcOI66xj4c?&autoplay=1",
+            "https://www.youtube.com/embed/BdXaWzziLC8?&autoplay=1"
+        ]
     });
 
     // Example 3: neither video nor image on any side
@@ -98,7 +117,12 @@ function listPGNFiles() {
         "date" : begin,
         "hyperlinks" : {
             "chess-results-link" : "https://www.example.com/a3"
-        }
+        },
+        "video-boards" : [
+            "https://www.youtube.com/embed/tsextmL6Tn4?&autoplay=1",
+            "https://www.youtube.com/embed/v7M-SHjfLbs?&autoplay=1",
+            "https://www.youtube.com/embed/H5tdDM80ilE?&autoplay=1"
+        ]
     });
 
     // Example 4: abscence of the "date" parameter implies this PGN can be opened anytime
