@@ -852,10 +852,10 @@ function updateButtonHyperlinks(val) {
 }
 
 function prettifyGameResult(res) {
-    if (res == "1/2-1/2")
-        return charOneHalf + "-" + charOneHalf;
+    if (res == "1/2")
+        return charOneHalf;
 
-    if (res == "1-0" || res == "0-1")
+    if (res == "1" || res == "0")
         return res;
 
     return charStar;
@@ -926,40 +926,59 @@ function customFunctionOnPgnTextLoad() {
             highlightSelectedGame();
         };
 
-        let spanNum = document.createElement("span");
-        spanNum.className = "col-1";
-        spanNum.innerHTML = String(i + 1);
+        let boardNumber = document.createElement("span");
+        boardNumber.className = "col-1";
+        boardNumber.innerHTML = String(i + 1);
 
-        let players = document.createElement("h6");
-        players.className = "col-" + (hasVideoBoards ? "7" : "8");
-        players.innerHTML = gameWhite[i] + " - " + gameBlack[i];
+        const hasThisBoardVideo = hasVideoBoards && i < videoBoards.length;
 
-        let spanRes = document.createElement("span");
-        spanRes.className = "col-2";
-        spanRes.innerHTML = prettifyGameResult(gameResult[i]);
+        let players = document.createElement("span");
+        players.className = "col-" + (hasThisBoardVideo ? "8" : "10");
+        let spanPlayerWhite = document.createElement("span");
+        let spanPlayerBlack = document.createElement("span");
+        spanPlayerWhite.innerHTML = gameWhite[i];
+        spanPlayerBlack.innerHTML = gameBlack[i];
+        players.appendChild(spanPlayerWhite);
+        players.appendChild(document.createElement("br"));
+        players.appendChild(spanPlayerBlack);
 
-        let cameraDiv;
-        if (hasVideoBoards && i < videoBoards.length) {
-            // Store icon in a div with padding to create some space between button and scrollbar
-            cameraDiv = document.createElement("div");
-            cameraDiv.className = "col-2 p-0 pe-2";
-            const camera = document.createElement("button");
-            camera.className = "col-12 btn btn-custom";
+        let results = document.createElement("span");
+        results.className = "col-1";
+        let spanResultWhite = document.createElement("span");
+        let spanResultBlack = document.createElement("span");
+        const gameResults = gameResult[i].split("-");
+        if (gameResults.length == 2) {
+            spanResultWhite.innerHTML = prettifyGameResult(gameResults[0]);
+            spanResultBlack.innerHTML = prettifyGameResult(gameResults[1]);
+        }
+        results.appendChild(spanResultWhite);
+        results.appendChild(document.createElement("br"));
+        results.appendChild(spanResultBlack);
+
+        let camera;
+        if (hasThisBoardVideo) {
+            camera = document.createElement("button");
+            camera.className = "col-2 btn btn-custom";
             const icon = document.createElement("i");
             icon.className = "fas fa-video";
             camera.appendChild(icon);
             camera.onclick = (evt) => {
                 enableVideoDiv("VideoDivLeft", videoBoards[i]);
+                // Update color of active camera
+                let query = document.querySelector("#GameSelectionDiv button.active");
+                if (query !== null) {
+                    query.classList.remove("active");
+                }
+                event.currentTarget.classList.add("active");
             };
-            cameraDiv.appendChild(camera);
         }
 
-        optionDiv.appendChild(spanNum);
+        optionDiv.appendChild(boardNumber);
         optionDiv.appendChild(players);
-        optionDiv.appendChild(spanRes);
-        if (cameraDiv) {
-            optionDiv.appendChild(cameraDiv);
+        if (camera) {
+            optionDiv.appendChild(camera);
         }
+        optionDiv.appendChild(results);
 
         gameSel.appendChild(optionDiv);
     }

@@ -360,11 +360,6 @@ a, a:hover {
     padding: 0;
 }
 
-#GameSelectionDiv .btn {
-    line-height: 1.5;
-    padding: 0;
-}
-
 .dropdownItemBtn {
     padding: 0 .375rem;
 }
@@ -472,6 +467,11 @@ body[data-theme="alternative"] .btn-close {
     margin-left: .5rem;
     margin-right: .5rem;
     margin-top: .2rem;
+}
+
+#GameText span.move.notranslate {
+    color: var(--bg-color-text-light);
+    font-size: 90%;
 }
 
 #GameText a.move {
@@ -676,34 +676,53 @@ body[data-theme="alternative"] .btn-close {
     text-align: left;
 }
 
-#GameSelectionDiv > div > span:first-child, span.move.notranslate {
+#GameSelectionDiv > div > span:first-child {
     color: var(--bg-color-text-light);
-}
-
-#GameSelectionDiv > div > span, span.move.notranslate {
     font-size: 90%;
-}
-
-#GameSelectionDiv span:first-child {
-    font-weight: 700;
-}
-
-#GameSelectionDiv span {
     text-align: center;
-    padding: 0 8px;
 }
 
-#GameSelectionDiv h6 {
-    margin: .25rem 0;
+#GameSelectionDiv {
+    font-size: calc(15px + ((100vw - 320px) / 700));
+}
+
+#GameSelectionDiv > div > * {
+    padding: 0 .25rem;
+}
+
+/* Display player names in game selection on a single line */
+#GameSelectionDiv span:nth-child(2) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#GameSelectionDiv span:nth-child(2) > span {
+    white-space: nowrap;
+}
+
+#GameSelectionDiv span:last-child {
+    text-align: center;
 }
 
 #GameSelectionDiv > div {
     align-items: center;
     border-radius: var(--border-radius);
+    border-bottom: 2px solid var(--bg-color-light);
 }
 
 #GameSelectionDiv > div.active {
     background-color: var(--bg-color-active);
+}
+
+#GameSelectionDiv .btn {
+    line-height: 2;
+    padding: 0;
+}
+
+#GameSelectionDiv .btn.active {
+    background-color: var(--bg-color-active);
+    color: var(--bg-color-text);
+    border-color: transparent;
 }
 
 .fa-list-ul {
