@@ -1003,6 +1003,10 @@ iframe {
 }
 
 @media (max-width: 799px) {
+    #LeftPanel > *, #RightPanel > * {
+        margin: 0;
+    }
+
     /* In mobile view, there is no limit on panel height */
     #LeftPanel > *, #RightPanel > *, #GameText {
         flex: initial;
