@@ -909,10 +909,13 @@ function flagEmojiByTeamName(teamName) {
 
 function flagEmojiByThreeLetterCode(threeLetterCode) {
     const alpha2Code = threeLetterCodeToTwoLetterCode[threeLetterCode];
-    if (alpha2Code) {
-        const country = twoLetterCodeToCountryName[alpha2Code];
-        return `<span title="${country}" class="fi fi-${alpha2Code.toLowerCase()}"></span>`;
-    }
+    if (alpha2Code)
+        return flagEmojiByTwoLetterCode(alpha2Code);
 
     return "";
+}
+
+function flagEmojiByTwoLetterCode(twoLetterCode) {
+    const country = twoLetterCodeToCountryName[twoLetterCode];
+    return `<span title="${country}" class="fi fi-${twoLetterCode.toLowerCase()}"></span>`;
 }

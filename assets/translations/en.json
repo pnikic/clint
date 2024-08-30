@@ -30,6 +30,7 @@
     "selected"             : "Selected",
     "games"                : "games",
     "save"                 : "Save",
+    "streams"              : "STREAMS",
     "player-search-input"  : "Search player",
     "snackbar-fen-copy"    : "FEN copied",
     "snackbar-pgn-copy"    : "PGN copied",

@@ -31,15 +31,15 @@ let translations = new Map();
 //===========================================================
 // Initialization code
 //===========================================================
-// Overrides CleanMove function from pgn4web.js if useAestheticNotation is true
 if (useAestheticNotation) {
+    // Overrides CleanMove function from pgn4web.js
     var CleanMove = function(move) {
         return move;
     }
 }
 
-// Fill the values in allPGNs
 listPGNFiles();
+listStreams();
 operatorSettings();
 fetchTranslations();
 fetchChessResultsPlayerData();
@@ -131,13 +131,107 @@ function generateNavbarLinks(linksArray) {
     }
 }
 
-function dateFromArray(arr) {
-        // Check if the input is an array of five numbers
-        if (arr.length != 5 || !((arr.map(x => typeof(x))).every(x => x == "number")))
-            return
+function enableVideoStream(url) {
+    enableVideoDiv("VideoDivLeft", url);
 
-        let date = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4]);
-        return date;
+    // Hide streams dropdown (not auto-closed due to allowed user interaction for nested dropdown)
+    const streamDiv = document.getElementById("StreamDiv");
+    const dropdownJs = new bootstrap.Dropdown(streamDiv);
+    dropdownJs.hide();
+
+    // (Optional) hide all stream lists in nested dropdown
+    // const streamerList = document.getElementById("StreamList");
+    // const streamLists = streamerList.getElementsByTagName("ul");
+    // for (list of streamLists)
+    //     list.style.display = "none";
+
+    removeActiveVideBoardCameraHighlight();
+}
+
+function toggleDisplay(element) {
+    if (element.style.display == "none")
+        element.style.display = "inline";
+    else
+        element.style.display = "none";
+}
+
+function generateStreamLinks(streamersArray) {
+    if (streamersArray.length == 0)
+        return;
+
+    document.getElementById("StreamDiv").style.display = "";
+    let streams = document.getElementById("StreamList");
+    for (streamer of streamersArray) {
+        let li = document.createElement("li");
+        let streamerDiv = document.createElement("div");
+        streamerDiv.classList.add("streamerEntry");
+        streamerDiv.classList.add("dropdown-item");
+
+        let templateFlag = document.createElement("template");
+        templateFlag.innerHTML = flagEmojiByTwoLetterCode(streamer["language"]);
+        const flagSpan = templateFlag.content.firstChild;
+        flagSpan.classList.add("streamerFlag");
+        streamerDiv.appendChild(flagSpan);
+
+        let nameSpan = document.createElement("span");
+        nameSpan.classList.add("streamerName");
+        nameSpan.classList.add("px-3");
+        nameSpan.innerHTML = streamer["name"];
+        streamerDiv.appendChild(nameSpan);
+
+        const webpage = streamer["webpage"];
+        if (webpage) {
+            let webpageLink = document.createElement("a");
+            webpageLink.classList.add("streamerLink");
+            webpageLink.classList.add("px-2");
+            webpageLink.href = webpage;
+            webpageLink.target = "_blank";
+            webpageLink.rel = "noopener noreferrer";
+            webpageLink.onclick = (evt) => {
+                evt.stopPropagation(); // don't toggle display of stream list
+            };
+
+            let webpageIcon = document.createElement("i");
+            webpageIcon.className = "fa-brands fa-youtube";
+            webpageLink.appendChild(webpageIcon);
+            streamerDiv.appendChild(webpageLink);
+        }
+
+        let submenu;
+        if (streamer.hasOwnProperty("stream-item")) {
+            streamerDiv.onclick = enableVideoStream.bind(this, streamer["stream-item"]);
+        }
+        else if (streamer.hasOwnProperty("stream-list")) {
+            submenu = document.createElement("ul");
+            submenu.style.display = "none";
+            for (video of streamer["stream-list"]) {
+                let subLi = document.createElement("li");
+                subLi.classList.add("streamItem");
+                let subAnchor = document.createElement("a");
+                subAnchor.innerHTML = video["title"];
+                subLi.onclick = enableVideoStream.bind(this, video["url"]);
+                subLi.appendChild(subAnchor);
+                submenu.appendChild(subLi);
+            }
+
+            streamerDiv.onclick = toggleDisplay.bind(this, submenu);
+        }
+
+        li.appendChild(streamerDiv);
+        if (submenu)
+            li.appendChild(submenu);
+
+        streams.appendChild(li);
+    }
+}
+
+function dateFromArray(arr) {
+    // Check if the input is an array of five numbers
+    if (arr.length != 5 || !((arr.map(x => typeof(x))).every(x => x == "number")))
+        return
+
+    let date = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4]);
+    return date;
 }
 
 function setWithIncreasingValues(length, initialValue = 0) {
@@ -965,10 +1059,7 @@ function customFunctionOnPgnTextLoad() {
             camera.onclick = (evt) => {
                 enableVideoDiv("VideoDivLeft", videoBoards[i]);
                 // Update color of active camera
-                let query = document.querySelector("#GameSelectionDiv button.active");
-                if (query !== null) {
-                    query.classList.remove("active");
-                }
+                removeActiveVideBoardCameraHighlight();
                 event.currentTarget.classList.add("active");
             };
         }
@@ -1021,6 +1112,13 @@ function customFunctionOnPgnTextLoad() {
 function changeGame(ind) {
     // Callback for the "select game" menu in single board view
     Init(ind);
+}
+
+function removeActiveVideBoardCameraHighlight() {
+    const query = document.querySelector("#GameSelectionDiv button.active");
+    if (query !== null) {
+        query.classList.remove("active");
+    }
 }
 
 function highlightSelectedGame() {

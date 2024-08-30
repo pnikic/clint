@@ -120,6 +120,16 @@
     <!-- =========================================================== -->
     <div id="SingleBoardView" class="flex-fill">
         <div id="LeftPanel">
+            <div id="StreamDiv" style="display:none;" class="dropdown">
+                <div class="panelTitle" role="button" type="button" class="dropdown-toggle"
+                     data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                     aria-haspopup="true" aria-expanded="false">
+                    <span translate-key="streams"></span>
+                    <i class="fa-solid fa-caret-down"></i>
+                </div>
+                <ul id="StreamList" class="dropdown-menu p-0"></ul>
+            </div>
+
             <div id="VideoDivLeft" style="display:none;">
                 <iframe frameborder="0"
                         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"

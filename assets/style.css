@@ -315,14 +315,12 @@ nav a:active, .btn-custom:not(:disabled):not(.disabled):active,
 @media (hover: hover) and (pointer: fine) {
     /* Enable when user's primary input mechanism can hover elements and
        user has an accurate pointing device (e.g. mouse, not a finger) */
-    nav a:hover, .btn-custom:hover {
+    #NavbarContent a:hover, .btn-custom:hover,
+    .dropdown-menu .dropdown-item:hover,
+    #StreamDiv > div:hover,
+    .streamItem:hover {
         background-color: var(--main-color-hover);
-        color: var(--main-color-hover-text)
-    }
-
-    .dropdown-menu > .dropdown-item:hover {
-        background-color: var(--bg-color-hover);
-        color: var(--bg-color-hover-text);
+        color: var(--main-color-hover-text);
     }
 
     #GameText a.move:hover {
@@ -343,6 +341,11 @@ nav a:active, .btn-custom:not(:disabled):not(.disabled):active,
 
     #GameSelectionDiv > div.active:not(:hover) {
         background-color: var(--bg-color-active);
+    }
+
+    .streamerLink:hover {
+        background-color: var(--main-color-bg);
+        color: var(--main-color-text);
     }
 }
 
@@ -822,6 +825,35 @@ iframe {
 
 .controlPanelBtn:focus {
     outline: none;
+}
+
+#StreamList {
+    width: 100%;
+}
+
+.streamerEntry {
+    display: flex;
+}
+
+.streamerName {
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.streamerFlag, .streamerLink {
+    flex-shrink: 0;
+}
+
+#StreamList ul {
+    padding: 0;
+    list-style: square none inside;
+    font-size: 90%;
+}
+
+.streamItem {
+    padding-left: 1rem;
 }
 
 /* Embedded video styles */

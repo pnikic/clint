@@ -220,6 +220,110 @@ function operatorSettings() {
     generateNavbarLinks(navbarLinks);
 }
 
+function listStreams() {
+    // List all the streams in an array. The format of each item is as follows:
+    //
+    // {
+    //     "language"    : <string>,
+    //     "name"        : <string>,
+    //     "webpage"     : <string>,
+    //     "stream-item" : <string>,
+    //     "stream-list" : <Array> of objects with format
+    //                     {
+    //                          "title" : <string>,
+    //                          "url"   : <string>
+    //                     }
+    // }
+    //
+    // +-------------+---------------+------------------------------------------------------------+
+    // | Optionality |      Key      |                         Description                        |
+    // +-------------+---------------+------------------------------------------------------------+
+    // |   required  |   "language"  | IS0 3166 2-letter code of flag shown before stream "name"; |
+    // |             |               | see demo page of flag-icons for possible flag options:     |
+    // |             |               | https://flagicons.lipis.dev/                               |
+    // +-------------+---------------+------------------------------------------------------------+
+    // |   required  |     "name"    | name of the stream item or stream list                     |
+    // +-------------+---------------+------------------------------------------------------------+
+    // |   optional  |   "webpage"   | hyperlink to the (YouTube) channel of the stream           |
+    // +-------------+---------------+------------------------------------------------------------+
+    // |             | "stream-item" | hyperlink to a single video stream                         |
+    // +    choice   +---------------+------------------------------------------------------------+
+    // |             | "stream-list" | array of objects with informations about video streams     |
+    // +-------------+---------------+------------------------------------------------------------+
+    //
+    // Format of objects in "stream-list" array
+    // +-------------+---------------+------------------------------------------------------------+
+    // | Optionality |      Key      |                         Description                        |
+    // +-------------+---------------+------------------------------------------------------------+
+    // |   required  |    "title"    | name of the stream item                                    |
+    // +-------------+---------------+------------------------------------------------------------+
+    // |   required  |     "url"     | hyperlink to the video stream                              |
+    // +-------------+---------------+------------------------------------------------------------+
+    //
+    // See below for examples
+
+    // Example 1: No streams
+    //  const streams = []
+
+    // Example 2: Two item streams and one stream list
+    // Note: You can add "?&autoplay=1" at the end of the YouTube link to enable autoplay
+    const streams = [
+        {
+            "language"    : "gb",
+            "name"        : "Official broadcast",
+            "webpage"     : "https://www.youtube.com/@FIDE_chess",
+            "stream-item" : "https://www.youtube.com/embed/2g3Htm8qZ5o"
+        },
+        {
+            "language"    : "gb",
+            "name"        : "Promotional video",
+            "webpage"     : "https://www.youtube.com/@FIDE_chess",
+            "stream-item" : "https://www.youtube.com/embed/JiYvr-VUeB8"
+        },
+        {
+            "language"    : "us",
+            "name"        : "IM Levy Rozman",
+            "webpage"     : "https://www.youtube.com/@GothamChess",
+            "stream-list" : [
+                {
+                    "title" : "Round 1",
+                    "url" : "https://www.youtube.com/embed/Nnq8Wf5QVd0?&autoplay=1"
+                },
+                {
+                    "title" : "Custom title for round 2",
+                    "url" : "https://www.youtube.com/embed/nhQiLLFWnAM?&autoplay=1"
+                },
+                {
+                    "title" : "WIN AGAINST GRANDMASTER!!!",
+                    "url" : "https://www.youtube.com/embed/XovnKCyo2-M?&autoplay=1"
+                },
+                {
+                    "title" : "Round 4",
+                    "url" : "https://www.youtube.com/embed/XAzwJ84iSJo?&autoplay=1"
+                },
+                {
+                    "title" : "Round 5",
+                    "url" : "https://www.youtube.com/embed/Jk0MySvXrNc?&autoplay=1"
+                },
+                {
+                    "title" : "Round 6",
+                    "url" : "https://www.youtube.com/embed/iBWT_vpq7mY?&autoplay=1"
+                },
+                {
+                    "title" : "Round 7",
+                    "url" : "https://www.youtube.com/embed/Lqs0L5tXJ-c?&autoplay=1"
+                },
+                {
+                    "title" : "Round 9",
+                    "url" : "https://www.youtube.com/embed/KLijt4nsmOs?&autoplay=1"
+                }
+            ]
+        }
+    ];
+
+    generateStreamLinks(streams);
+}
+
 //----------------------------------------------------------
 // General
 //----------------------------------------------------------
