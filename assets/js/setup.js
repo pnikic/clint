@@ -58,10 +58,12 @@ for (let i = 0; i < numberMiniboards; ++i) {
 url = new URLSearchParams(window.location.search);
 let ret = false;
 if (url.has("pgn")) {
-    let val = Number(url.get("pgn"));
-    if (typeof(val) == "number" && val >= 0 && val < allPGNs.length) {
-        currentPGN = val;
-        ret = selectPGN(allPGNs[val]["pgn"]);
+    let val = url.get("pgn");
+    for (let i = 0; i < allPGNs.length && !ret; ++i) {
+        if (allPGNs[i]["id"] == val) {
+            currentPGN = i;
+            ret = selectPGN(allPGNs[i]["pgn"]);
+        }
     }
 }
 // Otherwise, set a default PGN file
@@ -520,9 +522,9 @@ function linkToCurrentGame() {
     if (uriParamsStart != -1)
         href = href.substring(0, uriParamsStart);
 
-    let link = href + "?" +
-               encodeURIComponent("pgn") + "=" + encodeURIComponent(currentPGN) + "&" +
-               encodeURIComponent("game") + "=" + encodeURIComponent(currentGame);
+    const pgnUri = encodeURIComponent("pgn") + "=" + encodeURIComponent(allPGNs[currentPGN]["id"]);
+    const gameUri = encodeURIComponent("game") + "=" + encodeURIComponent(currentGame);
+    let link = href + "?" + pgnUri + "&" + gameUri;
 
     return link;
 }
