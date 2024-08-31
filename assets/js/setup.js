@@ -321,9 +321,6 @@ function customFunctionOnPgnGameLoad() {
 
         displayedGame = getDisplayedGame();
         highlightSelectedGame();
-
-        // Set custom tab title
-        document.title = gameWhite[currentGame] + " vs. " + gameBlack[currentGame] + " | Clint";
     }
 }
 
