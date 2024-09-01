@@ -14,6 +14,7 @@
     "autoplay-slow"        : "Lento",
     "flip-board"           : "Invertir",
     "download-modal-title" : "Exportar",
+    "lichess-pgn-link"     : "Analizar en lichess",
     "fen"                  : "FEN",
     "pgn"                  : "PGN",
     "pgn-download"         : "Descargar PGN",

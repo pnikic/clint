@@ -507,26 +507,47 @@ function fullPgnGameWithOptionalComments(gameNum) {
     return fullPgnGameWithoutComments(gameNum);
 }
 
-function fullPgnGameWithoutComments(gameNum) {
+function pgnGameHeaders(gameNum) {
     // Function adapted from pgn4web.js function `fullPgnGame`
-    let header = pgnHeader[gameNum] ? pgnHeader[gameNum].replace(/^[^[]*/g, "") : "";
-    header = header.replace(/\[\s*(\w+)\s*"([^"]*)"\s*\][^[]*/g, '[$1 "$2"]\n');
-    let game = pgnGame[gameNum] ? pgnGame[gameNum].replace(/(^[\s]*|[\s]*$)/g, "") : "";
+    const header = pgnHeader[gameNum] ? pgnHeader[gameNum].replace(/^[^[]*/g, "") : "";
+    return header.replace(/\[\s*(\w+)\s*"([^"]*)"\s*\][^[]*/g, '[$1 "$2"]\n');
+}
+
+function pgnGameTextWithComments(gameNum) {
+    // Function adapted from pgn4web.js function `fullPgnGame`
+    return pgnGame[gameNum] ? pgnGame[gameNum].replace(/(^[\s]*|[\s]*$)/g, "") : "";
+}
+
+function pgnGameTextWithoutComments(gameNum) {
+    const game = pgnGameTextWithComments(gameNum);
     const reComment = new RegExp("{.*?}", "sg")
     const reNewline = new RegExp("\\s+", "sg");
-    game = game.replace(reComment, "").replace(reNewline, " ")
-    return header + "\n" + game;
+    return game.replace(reComment, "").replace(reNewline, " ");
+}
+
+function fullPgnGameWithoutComments(gameNum) {
+    return pgnGameHeaders(gameNum) + "\n" + pgnGameTextWithoutComments(gameNum);
+}
+
+function lichessLinkPgn(gameNum) {
+    const lichessPrefix = "https://lichess.org/analysis/pgn/";
+    const pgnEscaped = pgnGameTextWithoutComments(gameNum).replaceAll(" ","_");
+    const ply = "#" + String(CurrentPly);
+    return lichessPrefix + pgnEscaped + ply;
 }
 
 function modalOpen() {
-    // Refresh FEN and PGN values in the "share" modal
-    let elemFEN = document.getElementById("FenInput");
-    elemFEN.value = CurrentFEN();
+    // Refresh values in the "share" modal
+    const elemFen = document.getElementById("FenInput");
+    elemFen.value = CurrentFEN();
 
-    let elemPGN = document.getElementById("PgnInput");
-    elemPGN.value = fullPgnGameWithOptionalComments(currentGame);
+    const lichessLink = document.getElementById("AnalyzeLichessLink");
+    lichessLink.href = lichessLinkPgn(currentGame);
 
-    let elemLink = document.getElementById("ShareGameInput");
+    const elemPgn = document.getElementById("PgnInput");
+    elemPgn.value = fullPgnGameWithOptionalComments(currentGame);
+
+    const elemLink = document.getElementById("ShareGameInput");
     elemLink.value = linkToCurrentGame();
 }
 

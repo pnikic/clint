@@ -753,6 +753,11 @@ body[data-theme="alternative"] .btn-close {
     font-size: 90%;
 }
 
+.modal a > i
+{
+    vertical-align: middle;
+}
+
 /* Snackbar styles */
 #Snackbar {
     visibility: hidden;

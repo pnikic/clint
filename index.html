@@ -359,12 +359,9 @@
                     </div>
 
                     <div class="modal-body">
-                        <h5 translate-key="share-game"></h5>
                         <div class="row align-items-center">
-                            <div class="d-none d-md-block col-md-1">
-                                <i class="fas fa-link fa-lg"></i>
-                            </div>
-                            <div class="col-10 col-md-9">
+                            <div class="col-10">
+                                <span translate-key="share-game"></span>
                                 <input id="ShareGameInput" type="text" class="w-100" readonly>
                             </div>
                             <div class="col-2">
@@ -377,9 +374,23 @@
                     </div>
 
                     <div class="modal-footer">
-                        <h5 translate-key="fen"></h5>
                         <div class="row align-items-center">
                             <div class="col-10">
+                                <span translate-key="lichess-pgn-link"></span>
+                            </div>
+                            <div class="col-2">
+                                <a id="AnalyzeLichessLink" class="btn btn-custom" href="#"
+                                   target="_blank" rel="noopener noreferrer">
+                                    <i class="fas fa-chess-knight fa-lg"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="row align-items-center">
+                            <div class="col-10">
+                                <span translate-key="fen"></span>
                                 <input id="FenInput" type="text" class="w-100" readonly>
                             </div>
                             <div class="col-2">
@@ -392,8 +403,12 @@
                     </div>
 
                     <div class="modal-footer">
-                        <h5 translate-key="pgn"></h5>
                         <div class="row w-100 mx-auto">
+                            <div class="col-12 mb-1">
+                                <div class="col-10">
+                                    <span translate-key="pgn"></span>
+                                </div>
+                            </div>
                             <div class="col-12 mb-1">
                                 <div class="row align-items-center">
                                     <div class="col-10">
