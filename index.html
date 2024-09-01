@@ -221,114 +221,7 @@
             </div>
         </div>
         <div id="BoardItem">
-            <!-- =========================================================== -->
-            <!--  Game Board -->
-            <!-- =========================================================== -->
             <div id="GameBoard"></div>
-
-            <div class="modal fade" id="DownloadModal" tabindex="-1" role="dialog"
-                 aria-labelledby="DownloadModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title mx-auto" id="DownloadModalLabel"
-                                translate-key="download-modal-title"></h5>
-                            <button type="button" class="btn-close mx-1" data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                    onclick="hideSnackbarMessage();">
-                            </button>
-                        </div>
-
-                        <div class="modal-body">
-                            <h5 translate-key="share-game"></h5>
-                            <div class="row align-items-center">
-                                <div class="d-none d-md-block col-md-1">
-                                    <i class="fas fa-link fa-lg"></i>
-                                </div>
-                                <div class="col-10 col-md-9">
-                                    <input id="ShareGameInput" type="text" class="w-100" readonly>
-                                </div>
-                                <div class="col-2">
-                                    <button class="btn btn-custom"
-                                            onclick="copyInput('ShareGameInput'); snackbarMessage('snackbar-link-copy');">
-                                        <i class="fas fa-copy fa-lg"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <h5 translate-key="fen"></h5>
-                            <div class="row align-items-center">
-                                <div class="col-10">
-                                    <input id="FenInput" type="text" class="w-100" readonly>
-                                </div>
-                                <div class="col-2">
-                                    <button class="btn btn-custom"
-                                            onclick="copyInput('FenInput'); snackbarMessage('snackbar-fen-copy');">
-                                        <i class="fas fa-copy fa-lg"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <h5 translate-key="pgn"></h5>
-                            <div class="row w-100 mx-auto">
-                                <div class="col-12 mb-1">
-                                    <div class="row align-items-center">
-                                        <div class="col-10">
-                                            <span translate-key="active-game"></span>
-                                            <br>
-                                            <span id="ClockTimes">
-                                                <input type="checkbox" checked
-                                                       onclick="onClockTimesCheckbox();">
-                                                <span translate-key="clock-times"></>
-                                                </span>
-
-                                                <textarea id="PgnInput" rows="6" class="w-100"
-                                                          readonly="readonly">
-                                                </textarea>
-                                        </div>
-                                        <div class="col-2">
-                                            <button class="btn btn-custom"
-                                                    onclick="copyInput('PgnInput'); snackbarMessage('snackbar-pgn-copy');">
-                                                <i class="fas fa-copy fa-lg"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 mb-1">
-                                    <div class="row align-items-center">
-                                        <div class="col-10" translate-key="active-pgn">
-                                        </div>
-                                        <div class="col-2">
-                                            <a id="CurrentPgnDownloadLink"
-                                               class="btn btn-custom" href="#">
-                                                <i class="fas fa-download fa-lg"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 mb-1">
-                                    <div class="row align-items-center">
-                                        <div class="col-10" translate-key="all-pgns">
-                                        </div>
-                                        <div class="col-2">
-                                            <a id="AllPgnDownloadLink"
-                                               class="btn btn-custom" href="#">
-                                                <i class="fas fa-download fa-lg"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <div id="RightPanel">
@@ -450,6 +343,110 @@
                 </p>
             </div>
         </div>
+
+        <div class="modal fade" id="DownloadModal" tabindex="-1" role="dialog"
+             aria-labelledby="DownloadModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mx-auto" id="DownloadModalLabel"
+                            translate-key="download-modal-title"></h5>
+                        <button type="button" class="btn-close mx-1" data-bs-dismiss="modal"
+                                aria-label="Close"
+                                onclick="hideSnackbarMessage();">
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <h5 translate-key="share-game"></h5>
+                        <div class="row align-items-center">
+                            <div class="d-none d-md-block col-md-1">
+                                <i class="fas fa-link fa-lg"></i>
+                            </div>
+                            <div class="col-10 col-md-9">
+                                <input id="ShareGameInput" type="text" class="w-100" readonly>
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-custom"
+                                        onclick="copyInput('ShareGameInput'); snackbarMessage('snackbar-link-copy');">
+                                    <i class="fas fa-copy fa-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <h5 translate-key="fen"></h5>
+                        <div class="row align-items-center">
+                            <div class="col-10">
+                                <input id="FenInput" type="text" class="w-100" readonly>
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-custom"
+                                        onclick="copyInput('FenInput'); snackbarMessage('snackbar-fen-copy');">
+                                    <i class="fas fa-copy fa-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <h5 translate-key="pgn"></h5>
+                        <div class="row w-100 mx-auto">
+                            <div class="col-12 mb-1">
+                                <div class="row align-items-center">
+                                    <div class="col-10">
+                                        <span translate-key="active-game"></span>
+                                        <br>
+                                        <span id="ClockTimes">
+                                            <input type="checkbox" checked
+                                                   onclick="onClockTimesCheckbox();">
+                                            <span translate-key="clock-times"></>
+                                            </span>
+
+                                            <textarea id="PgnInput" rows="6" class="w-100"
+                                                      readonly="readonly">
+                                            </textarea>
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-custom"
+                                                onclick="copyInput('PgnInput'); snackbarMessage('snackbar-pgn-copy');">
+                                            <i class="fas fa-copy fa-lg"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-1">
+                                <div class="row align-items-center">
+                                    <div class="col-10" translate-key="active-pgn">
+                                    </div>
+                                    <div class="col-2">
+                                        <a id="CurrentPgnDownloadLink"
+                                           class="btn btn-custom" href="#">
+                                            <i class="fas fa-download fa-lg"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-1">
+                                <div class="row align-items-center">
+                                    <div class="col-10" translate-key="all-pgns">
+                                    </div>
+                                    <div class="col-2">
+                                        <a id="AllPgnDownloadLink"
+                                           class="btn btn-custom" href="#">
+                                            <i class="fas fa-download fa-lg"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- =========================================================== -->
