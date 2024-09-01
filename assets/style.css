@@ -737,6 +737,22 @@ body[data-theme="alternative"] .btn-close {
     width: 100%;
 }
 
+/* Modal styles */
+#DownloadModal a.btn, #DownloadModal button.btn {
+    width: 42px;
+}
+
+.modal-footer {
+    display: block;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#ClockTimes span {
+    color: var(--bg-color-text-light);
+    font-size: 90%;
+}
+
 /* Snackbar styles */
 #Snackbar {
     visibility: hidden;

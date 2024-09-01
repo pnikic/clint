@@ -493,13 +493,38 @@ function changePGN(val) {
     }
 }
 
+function onClockTimesCheckbox() {
+    const elemPGN = document.getElementById("PgnInput");
+    elemPGN.value = fullPgnGameWithOptionalComments(currentGame);
+}
+
+function fullPgnGameWithOptionalComments(gameNum) {
+    const clockTimesChoice = document.getElementById("ClockTimes");
+    const clockTimesCheckbox = clockTimesChoice.getElementsByTagName("input")[0];
+    if (clockTimesCheckbox.checked)
+        return fullPgnGame(gameNum);
+
+    return fullPgnGameWithoutComments(gameNum);
+}
+
+function fullPgnGameWithoutComments(gameNum) {
+    // Function adapted from pgn4web.js function `fullPgnGame`
+    let header = pgnHeader[gameNum] ? pgnHeader[gameNum].replace(/^[^[]*/g, "") : "";
+    header = header.replace(/\[\s*(\w+)\s*"([^"]*)"\s*\][^[]*/g, '[$1 "$2"]\n');
+    let game = pgnGame[gameNum] ? pgnGame[gameNum].replace(/(^[\s]*|[\s]*$)/g, "") : "";
+    const reComment = new RegExp("{.*?}", "sg")
+    const reNewline = new RegExp("\\s+", "sg");
+    game = game.replace(reComment, "").replace(reNewline, " ")
+    return header + "\n" + game;
+}
+
 function modalOpen() {
-    // Refres FEN and PGN values in the "share" modal
+    // Refresh FEN and PGN values in the "share" modal
     let elemFEN = document.getElementById("FenInput");
     elemFEN.value = CurrentFEN();
 
     let elemPGN = document.getElementById("PgnInput");
-    elemPGN.value = fullPgnGame(currentGame);
+    elemPGN.value = fullPgnGameWithOptionalComments(currentGame);
 
     let elemLink = document.getElementById("ShareGameInput");
     elemLink.value = linkToCurrentGame();

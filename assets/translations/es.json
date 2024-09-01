@@ -17,6 +17,8 @@
     "fen"                  : "FEN",
     "pgn"                  : "PGN",
     "pgn-download"         : "Descargar PGN",
+    "clock-times"          : "Tiempos de reloj",
+    "active-game"          : "Partida seleccionada",
     "active-pgn"           : "Ronda seleccionada",
     "all-pgns"             : "Todas las rondas",
     "share-game"           : "Compartir",

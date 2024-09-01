@@ -17,6 +17,8 @@
     "fen"                  : "FEN",
     "pgn"                  : "PGN",
     "pgn-download"         : "Preuzimanje PGN",
+    "clock-times"          : "Vremena na satu",
+    "active-game"          : "Odabrana partija",
     "active-pgn"           : "Odabrano kolo",
     "all-pgns"             : "Sva kola",
     "share-game"           : "Podijeli ovu partiju",

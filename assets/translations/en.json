@@ -17,6 +17,8 @@
     "fen"                  : "FEN",
     "pgn"                  : "PGN",
     "pgn-download"         : "Download PGN",
+    "clock-times"          : "Clock times",
+    "active-game"          : "Current game",
     "active-pgn"           : "Current round",
     "all-pgns"             : "All rounds",
     "share-game"           : "Share this game",
