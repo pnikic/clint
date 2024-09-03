@@ -6,7 +6,7 @@
 let allPGNs = [];        // Array of PGN files to be filled
 let started = false;     // Boolean indicating whether a PGN file was loaded once
 let displayedGame = "";  // Currently displayed game (used for rotating the board back for a new game)
-let viewType = 0;        // Variable for toggling single and multi board view
+let viewType = -1;       // Variable for toggling single and multi board view
 let scaleOption = 1;     // TODO: Currently not used, to be considered when implementing resizing
 let numActiveSnackbarMessages = 0;  // Used for hiding snackbar element after showing notifications
 let currentPGN = 0       // Index of active PGN (from allPGNs)
@@ -90,8 +90,12 @@ if (!ret) {
 // Check preferences from local storage
 if (localStorage.getItem("clint-theme") == "alternative")
     toggleTheme();
-if (localStorage.getItem("clint-view") == "multiple-boards")
+if (localStorage.getItem("clint-view") == "multiple-boards") {
     toggleView(1);
+}
+else {
+    viewType = 0;
+}
 currentLanguage = localStorage.getItem("clint-language");
 if (currentLanguage === null)
     currentLanguage = "en";
@@ -1000,52 +1004,33 @@ function prettifyGameResult(res) {
     return charStar;
 }
 
-function customFunctionOnPgnTextLoad() {
-    // Overriding the function from pgn4web.js that will run after loading a PGN
+function setUpRoundSelectMenu() {
+    let selectRoundElem = document.getElementById("PgnFileSelect");
+    let mbSelectRoundElem = document.getElementById("MultiboardFileSelect");
+    let now = new Date();
 
-    if (!started) {
-        // Code in this block exectues only once
-        started = true;
-        document.getElementById("CurrentPgnDownloadLink").href = pgnUrl;
+    for (let i = 0; i < allPGNs.length; ++i) {
+        let option = document.createElement("option");
+        option.value = String(i);
 
-        // customFunctionOnPgnTextLoad() is called at the end of createBoard() in pgn4web.js
-        //   which is in turn trigerred by start_pgn4web() on startup. We hook to this chain
-        //   by immediately changing the game to the one defined in the URL parameter, if any.
-        if (url.has("game"))
-            changeGame(url.get("game"));
-
-        // Set up round select menu (for single- and multi-board view)
-        let selectRoundElem = document.getElementById("PgnFileSelect");
-        let mbSelectRoundElem = document.getElementById("MultiboardFileSelect");
-        let now = new Date();
-
-        for (let i = 0; i < allPGNs.length; ++i) {
-            let option = document.createElement("option");
-            option.value = String(i);
-
-            if (allPGNs[i]["name"])
-                option.innerHTML = allPGNs[i]["name"];
-            else
-                option.innerHTML = "Unknown PGN";
-
-            // If the round will start at later point in time, disable its selection
-            if (allPGNs[i]["date"] &&
-                new Date(allPGNs[i]["date"].getTime() - minsBeforeRound * 60000) > now) {
-                option.disabled = true;
-            }
-
-            if (allPGNs[i]["id"]) {
-                option.setAttribute("translate-key", allPGNs[i]["id"]);
-                if (translations.has(currentLanguage))
-                    translateInnerText(option);
-            }
-
-            selectRoundElem.appendChild(option);
-            mbSelectRoundElem.appendChild(option.cloneNode(true));
+        // If the round will start at later point in time, disable its selection
+        if (allPGNs[i]["date"] &&
+            new Date(allPGNs[i]["date"].getTime() - minsBeforeRound * 60000) > now) {
+            option.disabled = true;
         }
-    }
 
-    // Update of options in "select game" grid area
+        if (allPGNs[i]["id"]) {
+            option.setAttribute("translate-key", allPGNs[i]["id"]);
+            if (translations.has(currentLanguage))
+                translateInnerText(option);
+        }
+
+        selectRoundElem.appendChild(option);
+        mbSelectRoundElem.appendChild(option.cloneNode(true));
+    }
+}
+
+function updateGameSelectMenu() {
     let gameSel = document.getElementById("GameSelectionDiv");
 
     // Delete all options
@@ -1118,38 +1103,51 @@ function customFunctionOnPgnTextLoad() {
 
         gameSel.appendChild(optionDiv);
     }
+}
 
-    highlightSelectedGame();
+function customFunctionOnPgnTextLoad() {
+    // Overriding the function from pgn4web.js that will run after loading a PGN
+    if (!started) {
+        // Code in this block exectues only once
+        started = true;
 
-    // Keep active the input from the game search bar
-    applyGameSelectionFilters();
+        // customFunctionOnPgnTextLoad() is called at the end of createBoard() in pgn4web.js
+        //   which is in turn trigerred by start_pgn4web() on startup. We hook to this chain
+        //   by immediately changing the game to the one defined in the URL parameter, if any.
+        if (url.has("game"))
+            changeGame(url.get("game"));
 
-    // Update the video / image, if any is specified
-    let video_left = allPGNs[currentPGN]["video-left"];
-    let video_right = allPGNs[currentPGN]["video-right"];
+        setUpRoundSelectMenu();
+    }
 
-    if (video_left != undefined)
-        enableVideoDiv("VideoDivLeft", video_left);
-    else
-        disableVideoDiv("VideoDivLeft");
+    if (viewType == 0) {
+        updateGameSelectMenu();
+        highlightSelectedGame();
 
-    if (video_right != undefined)
-        enableVideoDiv("VideoDivRight", video_right)
-    else
-        disableVideoDiv("VideoDivRight");
+        // Keep active the input from the game search bar
+        applyGameSelectionFilters();
 
-    let image_left = allPGNs[currentPGN]["image-left"],
-        image_right = allPGNs[currentPGN]["image-right"];
+        // Update the video / image, if any is specified
+        for (video of [["video-left", "VideoDivLeft"], ["video-right", "VideoDivRight"]]) {
+            const videoLinkKey = video[0];
+            const videoDivId = video[1];
+            const videoLink = allPGNs[currentPGN][videoLinkKey];
+            if (videoLink != undefined)
+                enableVideoDiv(videoDivId, videoLink);
+            else
+                disableVideoDiv(videoDivId);
+        }
 
-    if (image_left != undefined)
-        enableImageDiv("ImageDivLeft", image_left);
-    else
-        disableImageDiv("ImageDivLeft");
-
-    if (image_right != undefined)
-        enableImageDiv("ImageDivRight", image_right);
-    else
-        disableImageDiv("ImageDivRight");
+        for (image of [["image-left", "ImageDivLeft"], ["image-right", "ImageDivRight"]]) {
+            const imageLinkKey = image[0];
+            const imageDivId = image[1];
+            const imageLink = allPGNs[currentPGN][imageLinkKey];
+            if (imageLink != undefined)
+                enableImageDiv(imageDivId, imageLink);
+            else
+                disableImageDiv(imageDivId);
+        }
+    }
 
     updateButtonHyperlinks(currentPGN);
 }
@@ -1251,7 +1249,7 @@ function filterSearchInputGames() {
         whitePlayers = gameWhite;
         blackPlayers = gameBlack;
     }
-    else {
+    else if (viewType == 1) {
         searchElementId = "MultiboardSearchInput";
         gameSelectionDivId = "GamesSelectionContainer";
         let frame0 = document.getElementById("Frame0");
@@ -1508,12 +1506,15 @@ function applyGameSelectionFilters() {
         let f1 = filterSearchInputGames()
         filteredGames = Array.from(f1)
     }
-    else {
+    else if (viewType == 1) {
         gameSelectionDivId = "GamesSelectionContainer";
         let f1 = filterSearchInputGames()
         let f2 = filterOngoingGames();
         filteredGames = [...f1].filter(i => f2.has(i))
     }
+
+    if (!gameSelectionDivId.length)
+        return;
 
     let gameSelectionDiv = document.getElementById(gameSelectionDivId);
     for (let i = 0; i < gameSelectionDiv.children.length; ++i) {
@@ -1666,12 +1667,10 @@ function setThemeMultiboard() {
 // Variable saving the value returned by setTimeout(...)
 let resizeTimeout;
 function resizeEnd() {
-    if (viewType == 0) {
+    if (viewType == 0)
         adjustSquareSize(scaleOption);
-    }
-    else {
+    else if (viewType == 1)
         maximizeIframesTiles(controlPanelOption);
-    }
 }
 
 function resizeCallback() {
