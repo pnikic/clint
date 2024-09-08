@@ -1556,20 +1556,20 @@ function maximizeIframesTiles(withPanel = true) {
     // Note: if there are fewer than 3 boards, these boards will be maximized on the screen
     let gamesPerRow = Math.min(3, chosenGames.length);
 
-    if (width < 768)
+    if (width <= 799)
         gamesPerRow = 2;
 
-    if (width < 576)
+    if (width <= 576)
         gamesPerRow = 1;
 
     // Variant for smaller devices (scrolling needed to see other boards)
-    let size = parseInt(.975 * width / gamesPerRow);
+    let size = parseInt(width / gamesPerRow);
 
-    if (width >= 768) {
+    if (width > 799) {
         // On bigger screens, force displaying of all boards on the screen (no scrolling needed)
         let rows = parseInt((chosenGames.length - 1) / gamesPerRow) + 1;
-        let optimalTileWidth = parseInt(.975 * width / gamesPerRow);
-        let optimalTileHeight = parseInt(.975 * height / rows);
+        let optimalTileWidth = parseInt(width / gamesPerRow);
+        let optimalTileHeight = parseInt(height / rows);
         size = Math.min(optimalTileHeight, optimalTileWidth);
     }
 

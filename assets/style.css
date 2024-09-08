@@ -731,6 +731,7 @@ body[data-theme="alternative"] .btn-close {
 .fa-list-ul {
     font-size: 22px;
     vertical-align: middle;
+    padding-bottom: .25rem;
 }
 
 #DownloadModalBtn {
@@ -1152,16 +1153,19 @@ iframe {
 
 #MultiboardSettingsItem {
     grid-area: mbSettings;
+    white-space: nowrap;
+}
+
+#MultiboardSettingsItem .btn {
+    overflow: hidden;
 }
 
 #MultiBoardView {
     display: grid;
-    --main-margin: 1vw;
-    grid-template-columns: var(--main-margin) auto var(--main-margin);
     grid-template-rows: auto;
     grid-template-areas:
-        ". iframes ."
-        ". mbSettings .";
+        "iframes"
+        "mbSettings";
     row-gap: .5rem;
     justify-content: center;
 }
@@ -1183,11 +1187,10 @@ iframe {
     text-align: center;
 }
 
-#MultiboardSettingsItem .btn {
-    padding: 0;
-}
-
 @media (max-width: 799px) {
+    #MultiBoardView {
+        grid-template-columns: 100vw;
+    }
     #MultiboardSettingsItem button, #MultiboardSettingsItem select,
     #MultiboardSearchInput, #MultiboardSaveBtn {
         height: 50px;
