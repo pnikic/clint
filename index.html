@@ -82,7 +82,7 @@
     <!-- =========================================================== -->
 </head>
 
-<body id="MainBody" class="min-vh-100" onresize="resizeCallback();">
+<body id="MainBody" class="min-vh-100" onresize="resizeCallback();" board-theme="brown">
     <!-- =========================================================== -->
     <!--  Header & navigation bar -->
     <!-- =========================================================== -->
@@ -301,7 +301,7 @@
                             aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-cog"></i>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right text-end p-0">
+                    <div class="dropdown-menu dropdown-menu-end text-end p-0">
                         <a class="dropdown-item" onclick="toggleView(1);">
                             <span translate-key="multiple-boards"></span>
                             <i class="fas fa-th ps-2"></i>
@@ -309,6 +309,11 @@
                         <a class="dropdown-item" onclick="toggleTheme();">
                             <span translate-key="color-scheme"></span>
                             <i class="fas fa-adjust ps-2"></i>
+                        </a>
+                        <a class="dropdown-item" onclick="toggleSelectBoardColors(event);">
+                            <i class="fas fa-angle-left pe-3"></i>
+                            <span translate-key="color-board"></span>
+                            <i class="fas fa-palette ps-2"></i>
                         </a>
                         <a class="dropdown-item" onclick="SetHighlight(!highlightOption);">
                             <span translate-key="highlight-move"></span>
@@ -333,6 +338,27 @@
                             <span translate-key="flip-board"></span>
                             <i class="fas fa-arrows-rotate ps-2"></i>
                         </a>
+
+                        <div class="board-colors-submenu"
+                             style="display: none;">
+                            <button class="btn btn-custom" board-theme="red"
+                                    onclick="onBoardColorSelect(event, this);">
+                                <span class="whiteSquare"></span><span class="blackSquare"></span>
+                            </button>
+                            <button class="btn btn-custom" board-theme="gray"
+                                    onclick="onBoardColorSelect(event, this);">
+                                <span class="whiteSquare"></span><span class="blackSquare"></span>
+                            </button>
+                            <br>
+                            <button class="btn btn-custom" board-theme="brown"
+                                    onclick="onBoardColorSelect(event, this);">
+                                <span class="whiteSquare"></span><span class="blackSquare"></span>
+                            </button>
+                            <button class="btn btn-custom" board-theme="green"
+                                    onclick="onBoardColorSelect(event, this);">
+                                <span class="whiteSquare"></span><span class="blackSquare"></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -497,7 +523,7 @@
                             aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-cog"></i>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right text-end p-0">
+                    <div class="dropdown-menu dropdown-menu-end text-end p-0">
                         <a class="dropdown-item" onclick="toggleView(0);">
                             <span translate-key="single-board"></span>
                             <i class="fas fa-chess-board ps-2"></i>
@@ -505,6 +531,11 @@
                         <a class="dropdown-item" onclick="toggleTheme();">
                             <span translate-key="color-scheme"></span>
                             <i class="fas fa-adjust ps-2"></i>
+                        </a>
+                        <a class="dropdown-item" onclick="toggleSelectBoardColors(event);">
+                            <i class="fas fa-angle-left pe-3"></i>
+                            <span translate-key="color-board"></span>
+                            <i class="fas fa-palette ps-2"></i>
                         </a>
                         <a class="dropdown-item" onclick="toggleMoveHighlight();">
                             <span translate-key="highlight-move"></span>
@@ -514,6 +545,27 @@
                             <span translate-key="navigation-bar"></span>
                             <i class="fas fa-window-minimize"></i>
                         </a>
+
+                        <div class="board-colors-submenu"
+                             style="display: none;">
+                            <button class="btn btn-custom" board-theme="red"
+                                    onclick="onBoardColorSelect(event, this);">
+                                <span class="whiteSquare"></span><span class="blackSquare"></span>
+                            </button>
+                            <button class="btn btn-custom" board-theme="gray"
+                                    onclick="onBoardColorSelect(event, this);">
+                                <span class="whiteSquare"></span><span class="blackSquare"></span>
+                            </button>
+                            <br>
+                            <button class="btn btn-custom" board-theme="brown"
+                                    onclick="onBoardColorSelect(event, this);">
+                                <span class="whiteSquare"></span><span class="blackSquare"></span>
+                            </button>
+                            <button class="btn btn-custom" board-theme="green"
+                                    onclick="onBoardColorSelect(event, this);">
+                                <span class="whiteSquare"></span><span class="blackSquare"></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

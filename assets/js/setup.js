@@ -90,15 +90,21 @@ if (!ret) {
 // Check preferences from local storage
 if (localStorage.getItem("clint-theme") == "alternative")
     toggleTheme();
+
+if (localStorage.hasOwnProperty("clint-board-theme"))
+    changeColorBoard(localStorage.getItem("clint-board-theme"));
+
 if (localStorage.getItem("clint-view") == "multiple-boards") {
     toggleView(1);
 }
 else {
     viewType = 0;
 }
+
 currentLanguage = localStorage.getItem("clint-language");
 if (currentLanguage === null)
     currentLanguage = "en";
+
 if (localStorage.getItem("clint-notation") == "inline")
     setInlineNotation(true);
 
@@ -1301,6 +1307,7 @@ function generateIframes() {
         // Set the alternative theme if needed
         frame.onload = function() {
             setThemeMultiboard();
+            changeColorMultiboard();
         }
 
         iframesDiv.appendChild(frame);
@@ -1661,6 +1668,59 @@ function setThemeMultiboard() {
             iframeBodies[0].setAttribute("data-theme", "alternative");
         else
             iframeBodies[0].setAttribute("data-theme", "");
+    }
+}
+
+function toggleSelectBoardColors(evt) {
+    const menu = evt.target.closest(".dropdown-menu");
+    const item = evt.target.closest(".dropdown-item");
+    const submenu = menu.getElementsByClassName("board-colors-submenu")[0];
+    if (item.classList.contains("dropdown-submenu-active-item")) {
+        menu.classList.remove("dropdown-submenu");
+        item.classList.remove("dropdown-submenu-active-item");
+        submenu.style.display = "none";
+    }
+    else {
+        menu.classList.add("dropdown-submenu");
+        item.classList.add("dropdown-submenu-active-item");
+        submenu.style.display = "inline";
+    }
+
+    evt.stopPropagation(); // don't close settings dropdown
+}
+
+function onBoardColorSelect(evt, elem) {
+    const theme = elem.getAttribute("board-theme");
+    localStorage.setItem("clint-board-theme", theme);
+    changeColorBoard(theme);
+
+    evt.stopPropagation(); // don't close board color menu
+}
+
+function changeColorBoard(theme) {
+    const bodies = document.getElementsByTagName("body");
+    if (bodies.length != 1)
+        return;
+
+    bodies[0].setAttribute("board-theme", theme);
+    changeColorMultiboard();
+}
+
+function changeColorMultiboard() {
+    let bodies = document.getElementsByTagName("body");
+    if (bodies.length != 1)
+        return;
+
+    let theme = bodies[0].getAttribute("board-theme");
+    let iframesDiv = document.getElementById("IframesContainer");
+    let iframes = iframesDiv.querySelectorAll("iframe");
+
+    for (let i = 0; i < iframes.length; i++) {
+        let iframeBodies = iframes[i].contentWindow.document.getElementsByTagName("body");
+        if (iframeBodies.length != 1)
+            continue;
+
+        iframeBodies[0].setAttribute("board-theme", theme);
     }
 }
 

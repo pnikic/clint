@@ -72,10 +72,6 @@
     --main-color-border: #bbb;
     --player-item-color: #ddd;
     --player-item-color-text: #111;
-    --white-square: #f0d9b5;
-    --black-square: #b58863;
-    --highlight-white-sq: #cdd26a;
-    --highlight-black-sq: #aaa23a;
     --bg-active-clock: #659d25;
     --bg-active-clock-text: #fff;
 }
@@ -99,12 +95,36 @@
     --main-color-border: #222;
     --player-item-color: #444;
     --player-item-color-text: #eee;
-    --white-square: #f0d9b5;
-    --black-square: #b58863;
-    --highlight-white-sq: #cdd26a;
-    --highlight-black-sq: #aaa23a;
     --bg-active-clock: #659d25;
     --bg-active-clock-text: #eee;
+}
+
+[board-theme=gray] {
+    --white-square: #d6d6d6;
+    --black-square: #8f8f8f;
+    --highlight-white-sq: #d6d6b3;
+    --highlight-black-sq: #bfbf88;
+}
+
+[board-theme=brown] {
+    --white-square: #f0d9b5;
+    --black-square: #b58863;
+    --highlight-white-sq: #ced26b;
+    --highlight-black-sq: #aba23a;
+}
+
+[board-theme=red] {
+    --white-square: #f7dac3;
+    --black-square: #bf584a;
+    --highlight-white-sq: #f7e9aa;
+    --highlight-black-sq: #dba86e;
+}
+
+[board-theme=green] {
+    --white-square: #ffffdd;
+    --black-square: #86a666;
+    --highlight-white-sq: #f6f879;
+    --highlight-black-sq: #b9cc36;
 }
 
 /* Override Bootstrap variables */
@@ -386,9 +406,18 @@ a, a:hover {
     border-radius: var(--border-radius);
 }
 
-.dropdown-item > i {
-    font-size: 22px;
-    vertical-align: middle;
+.dropdown-menu.dropdown-submenu a:not(.dropdown-submenu-active-item) {
+    display: none;
+}
+
+.dropdown-menu:not(.dropdown-submenu) .fa-angle-left {
+    display: none;
+}
+
+.board-colors-submenu span {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
 }
 
 textarea, input {

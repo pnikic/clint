@@ -7,6 +7,7 @@
     "single-board"         : "Jedna ploča",
     "multiple-boards"      : "Više ploča",
     "color-scheme"         : "Promjena teme",
+    "color-board"          : "Boja ploče",
     "highlight-move"       : "Istakni posljednji potez",
     "inline-notation"      : "Kompaktnija notacija",
     "autoplay-speed"       : "Repriza partije",
