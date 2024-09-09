@@ -1,6 +1,6 @@
 {
     "iso-639-code"         : "es",
-    "langugage-name"       : "Español",
+    "language-name"        : "Español",
     "header-first-row"     : "Nombre del torneo",
     "header-second-row"    : "Lugar, fecha de inicio/final",
     "pgn-file-selection"   : "Seleccionar ronda",

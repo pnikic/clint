@@ -1,6 +1,6 @@
 {
     "iso-639-code"         : "hr",
-    "langugage-name"       : "Hrvatski",
+    "language-name"        : "Hrvatski",
     "header-first-row"     : "Ime turnira",
     "header-second-row"    : "Mjesto, od.–do.mm.yyyy.",
     "pgn-file-selection"   : "Odabir kola",

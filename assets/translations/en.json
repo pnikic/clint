@@ -1,6 +1,6 @@
 {
     "iso-639-code"         : "en",
-    "langugage-name"       : "English",
+    "language-name"        : "English",
     "header-first-row"     : "Tournament name",
     "header-second-row"    : "Location, start/end date",
     "pgn-file-selection"   : "Select a round",

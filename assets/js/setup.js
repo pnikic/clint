@@ -650,7 +650,7 @@ function fetchTranslations() {
                 let isoCode = data["iso-639-code"]
                 translations.set(isoCode, data);
                 let anchor = document.getElementById(isoCode);
-                anchor.innerHTML = data["langugage-name"];
+                anchor.innerHTML = data["language-name"];
                 anchor.onclick = (evt) => {
                     translatePage(isoCode);
                 };

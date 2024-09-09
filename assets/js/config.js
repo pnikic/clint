@@ -362,6 +362,7 @@ let broadcastDelayMins = 0;
 let supportedLanguages = [
     "en",  // English
     "es",  // Español (Spanish)
+    "hi",  // हिन्दी (Hindi)
     "hr"   // Hrvatski (Croatian)
 ];
 
