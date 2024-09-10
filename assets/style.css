@@ -1230,3 +1230,7 @@ iframe {
     text-align: center;
 }
 
+.small-wrap {
+    font-size: .825em;
+    word-wrap: anywhere;
+}
