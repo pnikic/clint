@@ -40,6 +40,7 @@
     "snackbar-pgn-copy"    : "PGN copied",
     "snackbar-link-copy"   : "Link copied",
     "select-language"      : "Language",
+    "tooltip-profile"      : "Profile",
 
     "round-1"              : "1st round - November 11th 3 PM",
     "round-2"              : "2nd round - November 12th 3 PM",

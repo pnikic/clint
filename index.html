@@ -189,7 +189,11 @@
             </div>
             <span id="PlayerInfo1" class="text-start">
                 <span id="PlayerPlace1" class="playerName">
-                    <span id="GameBlack"></span>
+                    <span id="GameBlack"
+                          onmouseenter="tooltipPlayerNameMouseEnter(event);"
+                          onmouseleave="tooltipPlayerNameMouseLeave(event);"
+                          onclick="tooltipPlayerNameClick(event);">
+                    </span>
                     <span id="PlayerFlagBlack"></span>
                 </span>
                 <span id="RatingPlace1" class="rating">
@@ -209,7 +213,11 @@
             </div>
             <span id="PlayerInfo2" class="text-start">
                 <span id="PlayerPlace2" class="playerName">
-                    <span id="GameWhite"></span>
+                    <span id="GameWhite"
+                          onmouseenter="tooltipPlayerNameMouseEnter(event);"
+                          onmouseleave="tooltipPlayerNameMouseLeave(event);"
+                          onclick="tooltipPlayerNameClick(event);">
+                    </span>
                     <span id="PlayerFlagWhite"></span>
                 </span>
                 <span id="RatingPlace2" class="rating">
@@ -647,5 +655,9 @@
     <div id="Snackbar"></div>
     <div id="GameSideToMove"></div>
     <div id="GameResult"></div>
+    <div id="PlayerTooltip" style="display: none;"
+         onmouseenter="tooltipBodyMouseEnter(event);"
+         onmouseleave="tooltipBodyMouseLeave(event);">
+    </div>
 </body>
 </html>

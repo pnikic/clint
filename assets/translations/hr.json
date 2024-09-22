@@ -40,6 +40,7 @@
     "snackbar-pgn-copy"    : "PGN kopiran",
     "snackbar-link-copy"   : "Link kopiran",
     "select-language"      : "Jezik",
+    "tooltip-profile"      : "Profil",
 
     "round-1"              : "1. kolo - 10.11. 15:00",
     "round-2"              : "2. kolo - 11.11. 15:00",

@@ -27,6 +27,10 @@ const globalDepth = 21;
 // Translations
 let currentLanguage;
 let translations = new Map();
+// Tooltip
+let tooltipTimeout; // store timeout id returned by setTimeout(...)
+let tooltipPlayerColor; // player whose tooltip is displayed ("black" or "white")
+const tooltipToggleDelay = 200; // ms
 
 //===========================================================
 // Initialization code
@@ -107,7 +111,6 @@ if (currentLanguage === null)
 
 if (localStorage.getItem("clint-notation") == "inline")
     setInlineNotation(true);
-
 
 //===========================================================
 // Main part of the program
@@ -251,41 +254,43 @@ function setWithIncreasingValues(length, initialValue = 0) {
     return new Set(arr);
 }
 
-
 function clearPlayerFlags() {
     document.getElementById("PlayerFlagWhite").innerHTML = "";
     document.getElementById("PlayerFlagBlack").innerHTML = "";
 }
 
+function getPlayerIdentifier(color) {
+    isBlack = color == "black";
+    let identifier = customPgnHeaderTag(isBlack ? "BlackFideId" : "WhiteFideId");
+    if (identifier.length == 0)
+        identifier = isBlack ? gameBlack[currentGame] : gameWhite[currentGame];
+
+    return identifier;
+}
 
 function addPlayerFlagsFromChessResultsData() {
     if (!chessResultsPlayerData)
         return false;
 
-    let whiteIdentifier = customPgnHeaderTag("WhiteFideId");
-    if (whiteIdentifier.length == 0)
-        whiteIdentifier = gameWhite[currentGame];
-    let blackIdentifier = customPgnHeaderTag("BlackFideId");
-    if (blackIdentifier.length == 0)
-        blackIdentifier = gameBlack[currentGame];
+    let whiteIdentifier = getPlayerIdentifier("white");
+    let blackIdentifier = getPlayerIdentifier("black");
 
     let flagsFound = 0;
-    for (row of chessResultsPlayerData) {
-        if (row.includes(whiteIdentifier)) {
-            const fed = row.split(" ").slice(1, 2);
-            document.getElementById("PlayerFlagWhite").innerHTML = flagEmojiByThreeLetterCode(fed);
+    for (row of chessResultsPlayerData["players"]) {
+        if (row["fide-id"] == whiteIdentifier || row["name"] == whiteIdentifier) {
+            const flagEmoji = flagEmojiByThreeLetterCode(row["fed"]);
+            document.getElementById("PlayerFlagWhite").innerHTML = flagEmoji;
             flagsFound += 1;
         }
-        if (row.includes(blackIdentifier)) {
-            const fed = row.split(" ").slice(1, 2);
-            document.getElementById("PlayerFlagBlack").innerHTML = flagEmojiByThreeLetterCode(fed);
+        if (row["fide-id"] == blackIdentifier || row["name"] == blackIdentifier) {
+            const flagEmoji = flagEmojiByThreeLetterCode(row["fed"]);
+            document.getElementById("PlayerFlagBlack").innerHTML = flagEmoji;
             flagsFound += 1;
         }
     }
 
     return flagsFound == 2;
 }
-
 
 function addPlayerFlagsFromTeamNames() {
     const teamBlack = customPgnHeaderTag("BlackTeam");
@@ -303,7 +308,6 @@ function updatePlayerFlags() {
     if (!flagsAdded)
         addPlayerFlagsFromTeamNames();
 }
-
 
 function customFunctionOnPgnGameLoad() {
     // Overriding the function from pgn4web.js that will run after loading a PGN
@@ -704,7 +708,7 @@ function hasTranslation(key) {
 }
 
 function fetchChessResultsPlayerData() {
-    const chessResultsFile = "scripts/chess-results-flags";
+    const chessResultsFile = "scripts/chess-results-players.json";
     fetch(chessResultsFile)
         .then((response) => {
             if (!response.ok) {
@@ -713,12 +717,242 @@ function fetchChessResultsPlayerData() {
             return response.text();
         })
         .then((text) => {
-            chessResultsPlayerData = text.split('\n');
+            chessResultsPlayerData = JSON.parse(text);
             updatePlayerFlags();
         })
         .catch((e) => {
             console.error(e);
         });
+}
+
+function formatRtgDiff(rtgDiff) {
+    // chess-results appends '*)' for rating difference of more than 400 points
+    return rtgDiff.replace("-", "").replace("*)", "");
+}
+
+function fideIdLink(fideId) {
+    const anchor = document.createElement("a");
+    anchor.target = "_blank";
+    anchor.rel = "noopener noreferrer";
+    anchor.href = "https://ratings.fide.com/profile/" + fideId;
+    const icon = document.createElement("i");
+    icon.className = "fi fi-fide";
+    anchor.appendChild(icon);
+    return anchor;
+}
+
+function generateTooltipPlayerInfo(data) {
+    const playerInfo = document.createElement("div");
+    playerInfo.classList.add("tooltipPlayerInfo");
+
+    const closeButton = document.createElement("button");
+    closeButton.classList.add("btn-close");
+    closeButton.onclick = (evt) => { hidePlayerTooltip(); };
+    playerInfo.appendChild(closeButton);
+
+    const name = document.createElement("span");
+    name.classList.add("playerName");
+    if (data.hasOwnProperty("name")) {
+        name.innerHTML = data["name"];
+    }
+
+    const performance = document.createElement("div");
+    performance.classList.add("tooltipPerformance");
+
+    const flag = document.createElement("span");
+    if (data.hasOwnProperty("fed")) {
+        flag.innerHTML = flagEmojiByThreeLetterCode(data["fed"]);
+    }
+    const rtg = document.createElement("span");
+    if (data.hasOwnProperty("rtg")) {
+        rtg.innerHTML = data["rtg"];
+    }
+
+    const rtgDiff = document.createElement("span");
+    if (data.hasOwnProperty("rtg-diff")) {
+        rtgDiff.innerHTML = formatRtgDiff(data["rtg-diff"]);
+        const isNegative = data["rtg-diff"].includes("-");
+        if (isNegative) {
+            rtgDiff.classList.add("bad", "rtgLoss");
+        }
+        else {
+            rtgDiff.classList.add("good", "rtgGain");
+        }
+    }
+
+    const points = document.createElement("span");
+    if (data.hasOwnProperty("points")) {
+        points.innerHTML = data["points"];
+        if (data.hasOwnProperty("opponents")) {
+            points.innerHTML += " / " + String(data["opponents"].length);
+        }
+    }
+
+    performance.appendChild(flag);
+    performance.appendChild(rtg);
+    performance.appendChild(rtgDiff);
+    performance.appendChild(document.createElement("br"));
+    performance.appendChild(points);
+
+    playerInfo.appendChild(name);
+    playerInfo.appendChild(performance);
+    return playerInfo;
+}
+
+function addTooltipOpponentTableEntry(table, rowNumber, opponent) {
+    const tr = table.insertRow();
+    const cols = 7;
+    td = Array(cols);
+    for (let j = 0; j < cols; ++j)
+        td[j] = tr.insertCell();
+
+    td[0].innerHTML = String(rowNumber);
+    td[1].innerHTML = flagEmojiByThreeLetterCode(opponent["fed"]);
+    td[2].innerHTML = opponent["name"];
+
+    let hasPieceColor = false;
+    if (opponent.hasOwnProperty("player-color")) {
+        const color = opponent["player-color"];
+        if (color == "w") {
+            td[4].classList.add("colorIconWhite");
+            hasPieceColor = true;
+        }
+        else if (color == "b") {
+            td[4].classList.add("colorIconBlack");
+            hasPieceColor = true;
+        }
+    }
+
+    if (opponent.hasOwnProperty("res")) {
+        td[5].innerHTML = opponent["res"];
+        if (opponent["res"].includes("0")) {
+            td[5].classList.add("bad");
+        }
+        else if (opponent["res"].includes("1")) {
+            td[5].classList.add("good");
+        }
+    }
+
+    if (hasPieceColor) {
+        // Show additional information only if game was played
+        td[3].innerHTML = opponent["rtg"];
+        if (opponent.hasOwnProperty("rtg-diff")) {
+            td[6].innerHTML = formatRtgDiff(opponent["rtg-diff"]);
+            const isNegative = opponent["rtg-diff"].includes("-");
+            if (isNegative) {
+                td[6].classList.add("bad", "rtgLoss");
+            }
+            else {
+                td[6].classList.add("good", "rtgGain");
+            }
+        }
+    }
+
+    return tr;
+}
+
+function generateTooltipOpponents(data) {
+    const opponentsDiv = document.createElement("div");
+    opponentsDiv.classList.add("tooltipOpponents");
+    const table = document.createElement("table");
+    if (data.hasOwnProperty("opponents")) {
+        for (let i = 0; i < data["opponents"].length; ++i) {
+            const opponent = data["opponents"][i];
+            const rowNumber = i + 1;
+            const tr = addTooltipOpponentTableEntry(table, rowNumber,  opponent);
+            table.appendChild(tr);
+        }
+    }
+
+    opponentsDiv.appendChild(table);
+    return opponentsDiv;
+}
+
+function generateTooltipProfiles(data) {
+    const profilesDiv = document.createElement("div");
+    profilesDiv.setAttribute("translate-key", "tooltip-profile");
+    if (translations.has(currentLanguage)) {
+        translateInnerText(profilesDiv);
+    }
+    profilesDiv.classList.add("tooltipProfiles");
+    profilesDiv.appendChild(fideIdLink(row["fide-id"]));
+    return profilesDiv;
+}
+
+function updatePlayerTooltip(color) {
+    const identifier = getPlayerIdentifier(color);
+    let found = false;
+    for (let i = 0; !found && i < chessResultsPlayerData["players"].length; ++i) {
+        row = chessResultsPlayerData["players"][i];
+        if (row["fide-id"] == identifier || row["name"] == identifier) {
+            found = true;
+            const playerInfo = generateTooltipPlayerInfo(row);
+            const opponentsDiv = generateTooltipOpponents(row);
+            const profilesDiv = generateTooltipProfiles(row);
+            const tooltip = document.getElementById("PlayerTooltip");
+            tooltip.replaceChildren(playerInfo, opponentsDiv, profilesDiv);
+        }
+    }
+}
+
+function tooltipPlayerNameClick(evt) {
+    // Only for devices not supporting hover
+    if (tooltipTimeout)
+        return;
+
+    showPlayerTooltip(evt);
+}
+
+function tooltipPlayerNameMouseEnter(evt) {
+    clearTimeout(tooltipTimeout);
+    tooltipTimeout = setTimeout(() => { showPlayerTooltip(evt); }, tooltipToggleDelay);
+}
+
+function tooltipPlayerNameMouseLeave(evt) {
+    clearTimeout(tooltipTimeout);
+    tooltipTimeout = setTimeout(() => { hidePlayerTooltip(); }, tooltipToggleDelay);
+}
+
+function tooltipBodyMouseEnter(evt) {
+    clearTimeout(tooltipTimeout);
+}
+
+function tooltipBodyMouseLeave(evt) {
+    // tooltipTimeout is cleared in tooltipBodyMouseEnter
+    tooltipTimeout = setTimeout(() => { hidePlayerTooltip(); }, tooltipToggleDelay);
+}
+
+function showPlayerTooltip(evt) {
+    if (!chessResultsPlayerData)
+        return;
+
+    const tooltip = document.getElementById("PlayerTooltip");
+    const color = evt.target.id == "GameBlack" ? "black" : "white";
+    const displayOtherTooltip = tooltip.style.display != "none" && color != tooltipPlayerColor
+    if (tooltip.style.display != "none" && !displayOtherTooltip)
+        return;
+
+    tooltipPlayerColor = color;
+    updatePlayerTooltip(color);
+    tooltip.style.setProperty("display", "inline");
+    const isBottomPlace = evt.target.parentElement.id == "PlayerPlace2";
+    const rect = evt.target.getBoundingClientRect();
+    let fromTop = isBottomPlace ?
+                  String(rect.top + window.scrollY - tooltip.offsetHeight) + "px" :
+                  String(rect.bottom + window.scrollY) + "px";
+    let fromLeft = String(rect.left + window.scrollX) + "px";
+    if (isSmallScreen()) {
+        const navbarHeight = document.getElementsByTagName("nav")[0].offsetHeight;
+        fromTop = String(navbarHeight) + "px";
+        fromLeft = 0;
+    }
+    tooltip.style.setProperty("inset", `${fromTop} auto auto ${fromLeft}`);
+}
+
+function hidePlayerTooltip() {
+    tooltipPlayerColor = undefined;
+    const tooltip = document.getElementById("PlayerTooltip");
+    tooltip.style.setProperty("display", "none");
 }
 
 //===========================================================
@@ -1724,8 +1958,7 @@ function changeColorMultiboard() {
     }
 }
 
-// Variable saving the value returned by setTimeout(...)
-let resizeTimeout;
+let resizeTimeout; // store timeout id returned by setTimeout(...)
 function resizeEnd() {
     if (viewType == 0)
         adjustSquareSize(scaleOption);

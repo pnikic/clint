@@ -40,6 +40,7 @@
     "snackbar-pgn-copy"    : "PGN copiado",
     "snackbar-link-copy"   : "Enlace copiado",
     "select-language"      : "Idioma",
+    "tooltip-profile"      : "Perfil",
 
     "round-1"              : "Ronda 1 - 11/11 15:00",
     "round-2"              : "Ronda 2 - 12/11 15:00",

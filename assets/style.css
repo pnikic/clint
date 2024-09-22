@@ -127,6 +127,24 @@
     --highlight-black-sq: #b9cc36;
 }
 
+.bad {
+    color: #cc3333;
+}
+
+.rtgLoss::before {
+    content: "⬊";
+    padding-right: .25em;
+}
+
+.good {
+    color: #629924;
+}
+
+.rtgGain::before {
+    content: "⬈";
+    padding-right: .25em;
+}
+
 /* Override Bootstrap variables */
 .form-select {
     border-radius: var(--border-radius);
@@ -366,6 +384,18 @@ nav a:active, .btn-custom:not(:disabled):not(.disabled):active,
     .streamerLink:hover {
         background-color: var(--main-color-bg);
         color: var(--main-color-text);
+    }
+
+    #PlayerTooltip .btn-close {
+        display: none;
+    }
+}
+
+@media (not (hover: hover)) or (not (pointer: fine)) {
+    #GameWhite, #GameBlack {
+        /* Disable selection of text on first touch in mobile */
+        -webkit-user-select: none;
+        user-select: none;
     }
 }
 
@@ -788,7 +818,7 @@ body[data-theme="alternative"] .btn-close {
     vertical-align: middle;
 }
 
-/* Snackbar styles */
+/* Snackbar & player tooltip styles */
 #Snackbar {
     visibility: hidden;
     min-width: 250px;
@@ -806,6 +836,88 @@ body[data-theme="alternative"] .btn-close {
 
 #Snackbar.show {
     visibility: visible;
+}
+
+.tooltipPlayerInfo, .tooltipProfiles {
+    padding: 1.5em 2em;
+    font-size: 1.1em;
+}
+
+.tooltipPerformance span {
+    padding-left: 1em;
+}
+
+.colorIconWhite::before {
+    content: "○";
+}
+
+.colorIconBlack::before {
+    content: "●";
+}
+
+.tooltipOpponents td {
+    padding: .2rem .4rem;
+}
+
+.tooltipOpponents td:first-child {
+    padding-inline-start: 1rem;
+}
+
+.tooltipOpponents td:last-child {
+    padding-inline-end: 1rem;
+}
+
+.tooltipProfiles a {
+    padding: .5rem;
+    font-size: 1.4rem;
+}
+
+.tooltipPlayerInfo {
+    background-color: var(--bg-color-light);
+    color: var(--bg-color-light-text);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+#PlayerTooltip {
+    text-align: left;
+    position: absolute;
+    background-color: var(--bg-color);
+    color: var(--bg-color-text);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--main-color-bg);
+}
+
+#PlayerTooltip tr {
+    border-bottom: 1px solid var(--bg-color-light);
+}
+
+#PlayerTooltip .btn-close {
+    position: absolute;
+    top: 3%;
+    right: 3%;
+}
+
+@media (max-width: 799px) {
+    #PlayerTooltip {
+        width: 100%;
+    }
+
+    #PlayerTooltip table {
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .tooltipOpponents td {
+        padding: .2rem .2rem;
+    }
+
+    .tooltipOpponents td:first-child {
+        padding-inline-start: .5rem;
+    }
+
+    .tooltipOpponents td:last-child {
+        padding-inline-end: .5rem;
+    }
 }
 
 /* Miniboard styles */
