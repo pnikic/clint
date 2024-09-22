@@ -34,7 +34,7 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
 * Responsive design - mobile phone friendly
 * Full color customization support, predefined light and dark theme
 * Translation to multiple languages
-* Support for player's federation flags
+* Display player's federation flag and information about opponents from previous rounds
 
 ## Usage
 ### Setup
@@ -116,11 +116,21 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
         "last-year"            : "Tournament (last year's edition)",
     }
     ```
-* _(Optional)_ If you want to display flags of player's federation, you can fetch this data from [chess-results.com][34] using the script `scripts/flags-from-chess-results.py`. Make sure to pass a link to a page containing this information (like _Starting rank_ or _Alphabetical list_).  Example (execute in `scripts` folder):
+* _(Optional)_ Display additional information about players:
+  * flag of player's federation (displayed close to the player's name)
+  * additional player information and results of previous rounds (displayed on hover or touch over player's name)
+  
+  It is possible to fetch this additional information from [chess-results.com][34] using the script `scripts/fetch-chess-results.py`. Make sure to pass a link to a page containing the list of players (like _Starting rank_ or _Alphabetical list_).  Examples (execute in `scripts` folder):
+  * Use option `flag` to only fetch flags of player's federation. 
     ```bash
-    python flags-from-chess-results.py 'https://chess-results.com/tnr752588.aspx?lan=1'
+    python fetch-chess-results.py flag 'https://chess-results.com/tnr752588.aspx?lan=1'
     ```
-    This will generate a file named `chess-results-flags` from which the client will read the federation for each player. Do not move or rename this file.
+  * Use option `full` to fetch both flags of player's federation and information about each player's opponents from previous rounds. 
+    ```bash
+    python fetch-chess-results.py full 'https://chess-results.com/tnr752588.aspx?lan=1'
+    ```
+    
+  Both options will generate a file named `chess-results-players.json` from which the client will read informations about players. Do not move or rename this file.  
    
 ### Customization
 In `index.html` you can:
@@ -229,7 +239,6 @@ I hereby sincerely thank all the people who helped make clint better by comments
 * Tournament table
 * Analysis board
 * Add landing page (with countdown to tournament start, description, overview - multiple boards)
-* Link to a player's FIDE profile by clicking on the name
 * Placeholder for notifications (e.g. below header)
 * Show which games have new moves
 * Clock countdown enhancement (fix interaction with board rotation - up to 1 second delay)
