@@ -838,14 +838,21 @@ body[data-theme="alternative"] .btn-close {
     visibility: visible;
 }
 
-.tooltipPlayerInfo, .tooltipProfiles {
-    padding: 1.5em 2em;
+.tooltipPlayerInfo {
+    padding: 1.5em 1em;
     font-size: 1.1em;
 }
 
-.tooltipPerformance span {
+.tooltipPlayerInfo > div {
     padding-left: 1em;
+    margin-top: auto;
+    margin-bottom: auto;
 }
+
+.tooltipPlayerInfo span {
+    padding: 0 .25em;
+}
+
 
 .colorIconWhite::before {
     content: "○";
@@ -867,6 +874,11 @@ body[data-theme="alternative"] .btn-close {
     padding-inline-end: 1rem;
 }
 
+.tooltipProfiles {
+    padding: 1.5em 2em;
+    font-size: 1.1em;
+}
+
 .tooltipProfiles a {
     padding: .5rem;
     font-size: 1.4rem;
@@ -876,6 +888,7 @@ body[data-theme="alternative"] .btn-close {
     background-color: var(--bg-color-light);
     color: var(--bg-color-light-text);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
+    display: flex;
 }
 
 #PlayerTooltip {
@@ -895,6 +908,15 @@ body[data-theme="alternative"] .btn-close {
     position: absolute;
     top: 3%;
     right: 3%;
+}
+
+#PlayerTooltip img {
+    height: 150px;
+}
+
+#PlayerTooltip img[src=""] {
+    width: 0;
+    height: 0;
 }
 
 @media (max-width: 799px) {

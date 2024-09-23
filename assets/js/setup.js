@@ -29,7 +29,7 @@ let currentLanguage;
 let translations = new Map();
 // Tooltip
 let tooltipTimeout; // store timeout id returned by setTimeout(...)
-let tooltipPlayerColor; // player whose tooltip is displayed ("black" or "white")
+let tooltipPlayerTarget; // id of player name element for tooltip ("GameBlack" or "GameWhite")
 const tooltipToggleDelay = 200; // ms
 
 //===========================================================
@@ -111,6 +111,11 @@ if (currentLanguage === null)
 
 if (localStorage.getItem("clint-notation") == "inline")
     setInlineNotation(true);
+
+// Add backslash to path
+if ((playerImagesPath.length > 0) && (playerImagesPath[playerImagesPath.length - 1] != '/')) {
+    playerImagesPath += '/';
+}
 
 //===========================================================
 // Main part of the program
@@ -741,6 +746,25 @@ function fideIdLink(fideId) {
     return anchor;
 }
 
+function createPlayerPhotoElement(fideId) {
+    const img = document.createElement("img");
+    const suffix = [".jpg", ".png"];
+    let i = 0;
+    img.src = playerImagesPath + fideId + suffix[i];
+    img.onerror = function () {
+        i += 1
+        if (i < suffix.length) {
+            img.src = playerImagesPath + fideId + suffix[i];
+        }
+        else if (i == suffix.length) {
+            img.src = "";
+            updatePlayerTooltipPosition();
+        }
+    }
+
+    return img;
+}
+
 function generateTooltipPlayerInfo(data) {
     const playerInfo = document.createElement("div");
     playerInfo.classList.add("tooltipPlayerInfo");
@@ -750,6 +774,8 @@ function generateTooltipPlayerInfo(data) {
     closeButton.onclick = (evt) => { hidePlayerTooltip(); };
     playerInfo.appendChild(closeButton);
 
+    const photo = createPlayerPhotoElement(row["fide-id"]);
+    const details = document.createElement("div");
     const name = document.createElement("span");
     name.classList.add("playerName");
     if (data.hasOwnProperty("name")) {
@@ -758,7 +784,6 @@ function generateTooltipPlayerInfo(data) {
 
     const performance = document.createElement("div");
     performance.classList.add("tooltipPerformance");
-
     const flag = document.createElement("span");
     if (data.hasOwnProperty("fed")) {
         flag.innerHTML = flagEmojiByThreeLetterCode(data["fed"]);
@@ -767,7 +792,6 @@ function generateTooltipPlayerInfo(data) {
     if (data.hasOwnProperty("rtg")) {
         rtg.innerHTML = data["rtg"];
     }
-
     const rtgDiff = document.createElement("span");
     if (data.hasOwnProperty("rtg-diff")) {
         rtgDiff.innerHTML = formatRtgDiff(data["rtg-diff"]);
@@ -779,9 +803,9 @@ function generateTooltipPlayerInfo(data) {
             rtgDiff.classList.add("good", "rtgGain");
         }
     }
-
-    const points = document.createElement("span");
+    let points;
     if (data.hasOwnProperty("points")) {
+        points = document.createElement("span");
         points.innerHTML = data["points"];
         if (data.hasOwnProperty("opponents")) {
             points.innerHTML += " / " + String(data["opponents"].length);
@@ -791,11 +815,14 @@ function generateTooltipPlayerInfo(data) {
     performance.appendChild(flag);
     performance.appendChild(rtg);
     performance.appendChild(rtgDiff);
-    performance.appendChild(document.createElement("br"));
-    performance.appendChild(points);
-
-    playerInfo.appendChild(name);
-    playerInfo.appendChild(performance);
+    if (points) {
+        performance.appendChild(document.createElement("br"));
+        performance.appendChild(points);
+    }
+    playerInfo.appendChild(photo);
+    details.appendChild(name);
+    details.appendChild(performance);
+    playerInfo.appendChild(details);
     return playerInfo;
 }
 
@@ -879,7 +906,8 @@ function generateTooltipProfiles(data) {
     return profilesDiv;
 }
 
-function updatePlayerTooltip(color) {
+function updatePlayerTooltip() {
+    const color = tooltipPlayerTarget == "GameBlack" ? "black" : "white";
     const identifier = getPlayerIdentifier(color);
     let found = false;
     for (let i = 0; !found && i < chessResultsPlayerData["players"].length; ++i) {
@@ -893,6 +921,8 @@ function updatePlayerTooltip(color) {
             tooltip.replaceChildren(playerInfo, opponentsDiv, profilesDiv);
         }
     }
+
+    return found;
 }
 
 function tooltipPlayerNameClick(evt) {
@@ -922,21 +952,11 @@ function tooltipBodyMouseLeave(evt) {
     tooltipTimeout = setTimeout(() => { hidePlayerTooltip(); }, tooltipToggleDelay);
 }
 
-function showPlayerTooltip(evt) {
-    if (!chessResultsPlayerData)
-        return;
-
+function updatePlayerTooltipPosition() {
     const tooltip = document.getElementById("PlayerTooltip");
-    const color = evt.target.id == "GameBlack" ? "black" : "white";
-    const displayOtherTooltip = tooltip.style.display != "none" && color != tooltipPlayerColor
-    if (tooltip.style.display != "none" && !displayOtherTooltip)
-        return;
-
-    tooltipPlayerColor = color;
-    updatePlayerTooltip(color);
-    tooltip.style.setProperty("display", "inline");
-    const isBottomPlace = evt.target.parentElement.id == "PlayerPlace2";
-    const rect = evt.target.getBoundingClientRect();
+    const target = document.getElementById(tooltipPlayerTarget);
+    const isBottomPlace = target.parentElement.id == "PlayerPlace2";
+    const rect = target.getBoundingClientRect();
     let fromTop = isBottomPlace ?
                   String(rect.top + window.scrollY - tooltip.offsetHeight) + "px" :
                   String(rect.bottom + window.scrollY) + "px";
@@ -949,8 +969,25 @@ function showPlayerTooltip(evt) {
     tooltip.style.setProperty("inset", `${fromTop} auto auto ${fromLeft}`);
 }
 
+function showPlayerTooltip(evt) {
+    if (!chessResultsPlayerData)
+        return;
+
+    const tooltip = document.getElementById("PlayerTooltip");
+    const displayOtherTooltip = evt.target.id != tooltipPlayerTarget
+    if (tooltip.style.display != "none" && !displayOtherTooltip)
+        return;
+
+    tooltipPlayerTarget = evt.target.id;
+    if (!updatePlayerTooltip())
+        return;
+
+    tooltip.style.setProperty("display", "inline");
+    updatePlayerTooltipPosition();
+}
+
 function hidePlayerTooltip() {
-    tooltipPlayerColor = undefined;
+    tooltipPlayerTarget = undefined;
     const tooltip = document.getElementById("PlayerTooltip");
     tooltip.style.setProperty("display", "none");
 }
