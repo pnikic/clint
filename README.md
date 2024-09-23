@@ -132,6 +132,22 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
     
   Both options will generate a file named `chess-results-players.json` from which the client will read informations about players. Do not move or rename this file.  
    
+* _(Optional)_ Display player photos inside player tooltip.  
+  Path to images folder is defined in `assets/js/config.js`
+    ```javascript
+  let playerImagesPath = "scripts/players"
+  ```
+  A few notes:
+  * image filename must be FIDE Id; supported extensions are `.jpg` and `.png`.
+      * For example, photo of Magnus Carlsen can be named `1503014.jpg`
+  * manual import of images is possible. Images must follow naming convention above
+  * for automatic download of images from FIDE webpage, use script in `scripts/fetch-fide-images.py`. In order to do so, the file `chess-results-players.json` (containing FIDE IDs) from the previous step is a prerequisite. Example (execute in `scripts` folder):
+    ```bash
+      python fetch-fide-images.py
+    ```
+     This will store images in the folder `scripts/players`. You can move them in another folder (e.g. `assets/images`), but don't forget to update `playerImagesPath` in `config.js`.
+
+
 ### Customization
 In `index.html` you can:
 * edit the general information about the tournament (e.g. header and navbar)
