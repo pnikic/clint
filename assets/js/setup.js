@@ -982,12 +982,14 @@ function showPlayerTooltip(evt) {
     if (!updatePlayerTooltip())
         return;
 
+    // First add to DOM, but hidden to avoid flickering until the tooltip is positioned
+    tooltip.style.setProperty("visibility", "hidden");
     tooltip.style.setProperty("display", "inline");
     updatePlayerTooltipPosition();
+    tooltip.style.removeProperty("visibility");
 }
 
 function hidePlayerTooltip() {
-    tooltipPlayerTarget = undefined;
     const tooltip = document.getElementById("PlayerTooltip");
     tooltip.style.setProperty("display", "none");
 }
