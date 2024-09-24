@@ -581,11 +581,23 @@ body[data-theme="alternative"] .btn-close {
 }
 
 #EngineEvalDiv {
-    line-height: 1.5em;
-    height: 3em;
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+#Score {
+    font-size: 175%;
+}
+
+#EngineToggleIcon {
+    font-size: 200%;
+}
+
+@media (min-width: 800px) and (max-width: 1259px) {
+    #EngineEvalDiv {
+        font-size: calc(10px + ((100vw - 800px) / 100));
+    }
 }
 
 #EngineNote {
@@ -1057,11 +1069,6 @@ iframe {
     max-width: 100%;
     max-height: 100%;
     border-radius: var(--border-radius);
-}
-
-#EngineToggleIcon {
-    font-size: 30px;
-    vertical-align: middle;
 }
 
 /************************************************************
