@@ -140,6 +140,11 @@
     color: #629924;
 }
 
+/* Result and rating changes usually have small space in player tooltip table - prevent line wrap */
+.good, .bad {
+    white-space: nowrap;
+}
+
 .rtgGain::before {
     content: "⬈";
     padding-right: .25em;

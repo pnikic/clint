@@ -750,7 +750,13 @@ function createPlayerPhotoElement(fideId) {
     const img = document.createElement("img");
     const suffix = [".jpg", ".png"];
     let i = 0;
+    // Preload the image, display it only when loaded to avoid flickering
     img.src = playerImagesPath + fideId + suffix[i];
+    img.style.setProperty("display", "none");
+    img.onload = function () {
+        img.style.removeProperty("display");
+        updatePlayerTooltipPosition();
+    }
     img.onerror = function () {
         i += 1
         if (i < suffix.length) {
@@ -758,7 +764,6 @@ function createPlayerPhotoElement(fideId) {
         }
         else if (i == suffix.length) {
             img.src = "";
-            updatePlayerTooltipPosition();
         }
     }
 
