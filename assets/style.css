@@ -300,7 +300,7 @@ body[data-theme="alternative"] .navbar-toggler {
 
 /* Normal colors
    Note: hover colors are enabled only on devices supporting hovering */
-nav, .btn-custom, .btn-custom:hover, .btn:first-child:active {
+nav, .btn-custom, .btn-custom:hover, .btn:first-child:active, .panelTitle {
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
 }
@@ -922,6 +922,13 @@ iframe {
     overflow: hidden;
     flex-basis: 10rem;
     flex-grow: 1;
+}
+
+.panelTitle {
+    height: 50px;
+    line-height: 50px;
+    font-weight: 700;
+    border-radius: var(--border-radius);
 }
 
 #CustomItemLeft, #CustomItemRight, #GameSelectionDiv, #GameText {
