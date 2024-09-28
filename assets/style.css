@@ -1128,8 +1128,14 @@ iframe {
     border-radius: var(--border-radius);
 }
 
-#CustomItemLeft, #CustomItemRight, #GameSelectionDiv, #GameText {
+#GameSelectionDiv, #GameText {
     overflow-y: scroll;
+}
+
+@media (min-width: 800px) {
+    #CustomItemLeft, #CustomItemRight {
+        overflow-y: auto;
+    }
 }
 
 #ControlsItem button, #SettingsItem > div > button {
