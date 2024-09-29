@@ -455,6 +455,11 @@ a, a:hover {
     height: 30px;
 }
 
+.board-colors-submenu .btn,
+.board-colors-submenu .btn:active {
+    border: 0;
+}
+
 textarea, input {
     background-color: var(--bg-color-light);
     color: var(--bg-color-light-text);
@@ -1142,8 +1147,7 @@ iframe {
     font-size: 1.5rem;
 }
 
-#ControlsItem button, #SettingsItem button, #SearchInput, #DownloadModal .btn
-{
+#ControlsItem button, #SettingsItem button, #SearchInput, #DownloadModal .btn, #PgnFileSelect {
     height: 42px;
 }
 
