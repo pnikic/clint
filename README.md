@@ -1,9 +1,9 @@
 # clint - chess live interface
 clint is a complete website for live broadcasting of a chess tournament based on [pgn4web][2]. It is inspired by many chess websites and strives to offer their best functionalities to any chess broadcast operator. It can also be used simply as a viewer for PGN files.
 
-Single board view | Multiple boards view
-:---:|:---:
-![interface screenshot][1a] | ![interface screenshot][1b]
+Single board view | Multiple boards view | Mobile view
+:---:|:---:|:---:
+![interface screenshot][1a] | ![interface screenshot][1b] | ![interface screenshot][1c]
 
 Check out the [demo page][6] to see clint in action.
 
@@ -22,19 +22,19 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
 
 
 ### Features
-* Header with general information (about the tournament) including navbar with customizable buttons for hyperlinks (other websites, photo gallery, tournament regulations etc.) 
-* Chess board with compactly displayed player names, clock times and ratings
+* Header with general information (about the tournament) including navbar with customizable hyperlinks
+* Chess board with compactly displayed player names, ratings and clock times
+* Display player's federation flag and information about opponents from previous rounds
 * PGN section for display and navigation
 * Engine analysis
 * Switching between different games and PGN files (rounds) on the same page
 * Support for embedding video (live stream) or image for each PGN file (round)
 * Placeholder for custom content on both sides of the board
-* Download PGN / FEN of the current game, round or whole tournament, sharing link to a specific game
+* Download PGN / FEN, share link to a specific game, link to analyze position in lichess
 * Multiple boards view (e.g. 6 boards)
 * Responsive design - mobile phone friendly
 * Full color customization support, predefined light and dark theme
 * Translation to multiple languages
-* Display player's federation flag and information about opponents from previous rounds
 
 ## Usage
 ### Setup
@@ -132,26 +132,35 @@ Check out the [contribute](https://github.com/pnikic/clint#contribute) section.
     
   Both options will generate a file named `chess-results-players.json` from which the client will read informations about players. Do not move or rename this file.  
    
-* _(Optional)_ Display player photos inside player tooltip.  
-  Path to images folder is defined in `assets/js/config.js`
+* _(Optional)_ Display player photos inside player tooltip:  
+  * path to photos folder is defined in `assets/js/config.js`
     ```javascript
-  let playerImagesPath = "scripts/players"
-  ```
-  A few notes:
-  * image filename must be FIDE Id; supported extensions are `.jpg` and `.png`.
-      * For example, photo of Magnus Carlsen can be named `1503014.jpg`
-  * manual import of images is possible. Images must follow naming convention above
+    let playerImagesPath = "scripts/players"
+    ```
+  * supported extensions are `.jpg` and `.png`
+  * image filename for a player must be his FIDE ID
+      * for example, photo of [Magnus Carlsen][39] can be named either `1503014.jpg` or `1503014.png`
+  * manual import of images is possible; images must follow naming convention above
   * for automatic download of images from FIDE webpage, use script in `scripts/fetch-fide-images.py`. In order to do so, the file `chess-results-players.json` (containing FIDE IDs) from the previous step is a prerequisite. Example (execute in `scripts` folder):
     ```bash
       python fetch-fide-images.py
     ```
      This will store images in the folder `scripts/players`. You can move them in another folder (e.g. `assets/images`), but don't forget to update `playerImagesPath` in `config.js`.
 
+    <img src="https://i.imgur.com/y9YrrTA.png" width="420">|
+    :---:|
+    Player information displayed on mouse hover over player's name|
+
 
 ### Customization
 In `index.html` you can:
 * edit the general information about the tournament (e.g. header and navbar)
+* set tab title
+  ```html
+      <title>Clint</title>
+  ```
 * add custom content in sections `CustomItemLeft` and `CustomItemRight`
+* edit Open Graph and Twitter tags
 
 In `assets/js/config.js` you can:
 * in `operatorSettings()` list navbar hyperlinks. Detailed explanation of all parameters is located through comments in the file itself. For instance:
@@ -168,6 +177,17 @@ In `assets/js/config.js` you can:
         "photo-gallery-link"   : "Photo Gallery",
     }
     ```
+* in `listStreams()` define a single video stream or multiple video streams (from same channel). Detailed explanation of all parameters is located through comments in the file itself. For instance:
+   ```javascript
+   const streams = [
+       {
+           "language"    : "gb",
+           "name"        : "Official broadcast",
+           "webpage"     : "https://www.youtube.com/@FIDE_chess",
+           "stream-item" : "https://www.youtube.com/embed/2g3Htm8qZ5o"
+       }
+   ];
+   ```
 * set some default options (such as autoplay delay, move highlighting etc.)
 * set expected round duration (used for automatically choosing the initial PGN file to be opened)
 * set languages to be used (from a set of supported languages)
@@ -184,35 +204,40 @@ In `assets/js/config.js` you can:
     let numberMiniboards = 6;
     ```
 
-In `assets/style.css` you can configure all the colors used on the page. It comes with a predefined light and dark theme.
-```css
-/* Light theme example preset */
-:root {
-    --bg-color: #fff;
-    --bg-color-text: #111;
-    --bg-color-text-light: #888;
-    --bg-color-light: #eee;
-    --bg-color-light-text: #111;
-    --bg-color-hover: #27c;
-    --bg-color-hover-text: #fff;
-    --bg-color-active: #cde;
-    --main-color-bg: #ddd;
-    --main-color-text: #111;
-    --main-color-light: #eee;
-    --main-color-light-text: #111;
-    --main-color-hover: #cccf;
-    --main-color-hover-text: #111;
-    --main-color-border: #bbb;
-    --player-item-color: #ddd;
-    --player-item-color-text: #111;
-    --white-square: #f0d9b5;
-    --black-square: #b58863;
-    --highlight-white-sq: #cdd26a;
-    --highlight-black-sq: #aaa23a;
-    --bg-active-clock: #659d25;
-    --bg-active-clock-text: #fff;
-}
-```
+In `assets/style.css` you can:
+* configure all the colors used on the page; it comes with a predefined light and dark theme
+    ```css
+    /* Light theme example preset */
+    :root {
+        --bg-color: #fff;
+        --bg-color-text: #111;
+        --bg-color-text-light: #888;
+        --bg-color-light: #eee;
+        --bg-color-light-text: #111;
+        --bg-color-hover: #27c;
+        --bg-color-hover-text: #fff;
+        --bg-color-active: #cde;
+        --main-color-bg: #ddd;
+        --main-color-text: #111;
+        --main-color-light: #eee;
+        --main-color-light-text: #111;
+        --main-color-hover: #cccf;
+        --main-color-hover-text: #111;
+        --main-color-border: #bbb;
+        --player-item-color: #ddd;
+        --player-item-color-text: #111;
+        --bg-active-clock: #659d25;
+        --bg-active-clock-text: #fff;
+    }
+    ```
+* choose figurines font for moves notation
+    ```css
+    #GameText, #EngineVariationDiv {
+        font-family: "pgn4web ChessSansPiratf";
+        /* font-family: "pgn4web ChessSansMerida"; */
+        /* font-family: "pgn4web ChessSansUsual"; */
+    }
+    ```
 
 ## Notes
 * The repository includes sample PGN files from the [42nd Chess Olympiad][4], which are present only for illustrational and testing purposes. PGN files include
@@ -279,8 +304,9 @@ Code contributions and translation are welcome.
   </tr>
 </table>
 
-[1a]: https://i.imgur.com/Pr5YkqY.png
-[1b]: https://i.imgur.com/anwWrzE.png
+[1a]: https://i.imgur.com/D4pfS7V.png
+[1b]: https://i.imgur.com/nWbX44L.png
+[1c]: https://i.imgur.com/lP1WsqP.png
 [2]: http://pgn4web.casaschi.net/
 [3a]: https://github.com/lichess-org/stockfish.js
 [3b]: https://github.com/lichess-org/stockfish.wasm
@@ -318,3 +344,4 @@ Code contributions and translation are welcome.
 [36]: https://hrvatski-sahovski-savez.hr/ftp/turnir-mira2023/
 [37]: https://hrvatski-sahovski-savez.hr/ftp/pph2023/
 [38]: https://festival.mainchess.com/
+[39]: https://ratings.fide.com/profile/1503014
