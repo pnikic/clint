@@ -169,6 +169,7 @@ attributeNameToJsonKey = {
     "Title"                : "title",
     "Rating international" : "rtg",
     "RtgI"                 : "rtg",
+    "Rtg"                  : "rtg",
     "Performance rating"   : "perf-rtg",
     "FIDE rtg +/-"         : "rtg-diff",
     "rtg+/-"               : "rtg-diff",
@@ -199,7 +200,8 @@ def playerInfo(playerTables):
     rows = opponentsTable.find_all("tr", recursive = False) # only direct children
     # Note: there seems to be a mistake that the table header for 'K' is a `td`
     legend = rows[0].find_all(["th", "td"])
-    legendSubset = {"Rd.": -1, "FED" : -1, "Name" : -1, "RtgI" : -1, "Res." : -1, "rtg+/-" : -1}
+    legendSubset = {"Rd.": -1, "FED" : -1, "Name" : -1, "RtgI" : -1, "Rtg" : -1,
+                    "Res." : -1, "rtg+/-" : -1}
     legendSubset = legendSubsetIndices(legendSubset, legend)
 
     for i in range(1, len(rows)):

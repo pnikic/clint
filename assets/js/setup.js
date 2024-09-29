@@ -867,7 +867,10 @@ function addTooltipOpponentTableEntry(table, rowNumber, opponent) {
 
     if (hasPieceColor) {
         // Show additional information only if game was played
-        td[3].innerHTML = opponent["rtg"];
+        if (opponent.hasOwnProperty("rtg")) {
+            td[3].innerHTML = opponent["rtg"];
+        }
+
         if (opponent.hasOwnProperty("rtg-diff")) {
             td[6].innerHTML = formatRtgDiff(opponent["rtg-diff"]);
             const isNegative = opponent["rtg-diff"].includes("-");

@@ -367,7 +367,7 @@ let supportedLanguages = [
 ];
 
 // Path to player images
-let playerImagesPath = "assets/images/players"
+let playerImagesPath = "scripts/players"
 // Note #1: filenames should be FIDE Id, supported extensions ".jpg", ".png"
 //   For example photo of Magnus Carlsen can be named 1503014.jpg
 // Note #2: For automatic download of images from FIDE, use script in `scripts/fetch-fide-images.py`
