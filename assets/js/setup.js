@@ -121,14 +121,12 @@ if ((playerImagesPath.length > 0) && (playerImagesPath[playerImagesPath.length -
 // Main part of the program
 //===========================================================
 function generateNavbarLinks(linksArray) {
-    let navbar = document.getElementById("NavbarContent");
-    let translateItem = navbar.childNodes[0];
+    const navbar = document.getElementById("NavbarContent");
+    const translateItem = navbar.childNodes[0];
 
     for (link of linksArray) {
         let item = document.createElement("li");
-        let anchor = document.createElement("a");
-        anchor.target = "_blank";
-        anchor.rel = "noopener noreferrer";
+        const anchor = createAnchorForNewTab()
 
         let span = document.createElement("span");
         if ("id" in link) {
@@ -136,8 +134,32 @@ function generateNavbarLinks(linksArray) {
             span.setAttribute("translate-key", link["id"]);
         }
 
-        if ("link" in link)
+        if ("link" in link) {
             anchor.href = link["link"];
+        }
+        else if ("link-list" in link) {
+            item.classList.add("dropdown");
+            anchor.classList.add("dropdown-toggle");
+            anchor.setAttribute("role", "button");
+            anchor.setAttribute("data-bs-toggle", "dropdown");
+            anchor.setAttribute("aria-haspopup", "true");
+            anchor.setAttribute("aria-expanded", "false");
+            const dropdownMenu = document.createElement("div");
+            dropdownMenu.className = "dropdown-menu p-0";
+            for (entry of link["link-list"]) {
+                const dropdownAnchor = createAnchorForNewTab()
+                dropdownAnchor.classList.add("dropdown-item");
+                if ("id" in entry) {
+                    dropdownAnchor.setAttribute("translate-key", entry["id"]);
+                }
+                if ("url" in entry) {
+                    dropdownAnchor.href = entry["url"];
+                }
+                dropdownMenu.appendChild(dropdownAnchor);
+            }
+
+            item.appendChild(dropdownMenu);
+        }
 
         if ("fa-icon" in link) {
             let icon = document.createElement("i");
@@ -201,12 +223,10 @@ function generateStreamLinks(streamersArray) {
 
         const webpage = streamer["webpage"];
         if (webpage) {
-            let webpageLink = document.createElement("a");
+            let webpageLink = createAnchorForNewTab()
             webpageLink.classList.add("streamerLink");
             webpageLink.classList.add("px-2");
             webpageLink.href = webpage;
-            webpageLink.target = "_blank";
-            webpageLink.rel = "noopener noreferrer";
             webpageLink.onclick = (evt) => {
                 evt.stopPropagation(); // don't toggle display of stream list
             };
@@ -257,6 +277,13 @@ function dateFromArray(arr) {
 function setWithIncreasingValues(length, initialValue = 0) {
     let arr = Array.from({length: length}, (_, i) => i + initialValue);
     return new Set(arr);
+}
+
+function createAnchorForNewTab() {
+    const anchor = document.createElement("a");
+    anchor.target = "_blank";
+    anchor.rel = "noopener noreferrer";
+    return anchor;
 }
 
 function clearPlayerFlags() {
@@ -736,9 +763,7 @@ function formatRtgDiff(rtgDiff) {
 }
 
 function fideIdLink(fideId) {
-    const anchor = document.createElement("a");
-    anchor.target = "_blank";
-    anchor.rel = "noopener noreferrer";
+    const anchor = createAnchorForNewTab()
     anchor.href = "https://ratings.fide.com/profile/" + fideId;
     const icon = document.createElement("i");
     icon.className = "fi fi-fide";
@@ -1267,7 +1292,6 @@ function setInlineNotation(value) {
 
 function updateButtonHyperlinks(val) {
     // Update hyperlink references of buttons, if any are specified
-
     if (val >= 0 && val < allPGNs.length) {
         let links = allPGNs[val]["hyperlinks"];
         if (links != undefined) {

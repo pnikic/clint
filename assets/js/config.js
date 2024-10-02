@@ -151,9 +151,14 @@ function operatorSettings() {
     // List all the navbar hyperlinks. The format is as follows:
     //
     // navbarLinks.push({
-    //     "id"      : <string>,
-    //     "link"    : <string>,
-    //     "fa-icon" : <string>
+    //     "id"        : <string>,
+    //     "link"      : <string>,
+    //     "link-list" : <Array> of objects with format
+    //                   {
+    //                        "id"  : <string>,
+    //                        "url" : <string>
+    //                   },
+    //     "fa-icon"   : <string>
     // });
     //
     // +-------------+---------------+------------------------------------------------------------+
@@ -163,11 +168,24 @@ function operatorSettings() {
     // |             |               | 1) label of the button (displayed text) for each language  |
     // |             |               | 2) "hyperlinks" option in `allPGNs`                        |
     // +-------------+---------------+------------------------------------------------------------+
-    // |   required  |     "link"    | hyperlink reference (e.g. URI) of the button               |
+    // |             |     "link"    | hyperlink reference (e.g. URI) of the button               |
+    // |             +---------------+------------------------------------------------------------+
+    // |    choice   |  "link-list"  | list of hyperlink references (e.g. URI) of the button;     |
+    // |             |               | links will be displayed in a dropdown menu                 |
+    // |             |               | Note: no support for "hyperlinks" option in `allPgns` here |
     // +-------------+---------------+------------------------------------------------------------+
     // |   optional  |   "fa-icon"   | font-awesome class of the icon displayed near the button;  |
     // |             |               | you can choose one from:                                   |
     // |             |               | https://fontawesome.com/icons?d=gallery&m=free             |
+    // +-------------+---------------+------------------------------------------------------------+
+    //
+    // Format of objects in "link-list" array
+    // +-------------+---------------+------------------------------------------------------------+
+    // | Optionality |      Key      |                         Description                        |
+    // +-------------+---------------+------------------------------------------------------------+
+    // |   required  |      "id"     | "id" attribute of the HTML element. Used for translation   |
+    // +-------------+---------------+------------------------------------------------------------+
+    // |   required  |     "url"     | hyperlink reference (e.g. URI) of the dropdown item link   |
     // +-------------+---------------+------------------------------------------------------------+
     //
     // See below for examples
@@ -181,8 +199,8 @@ function operatorSettings() {
     //     ...
     // }
     //
-    // Note: It's the operator's task to ensure that a footer link has translations for all
-    //       languages. If translation for one language is not defined for a footer link,
+    // Note: It's the operator's task to ensure that a navbar link has translations for all
+    //       languages. If translation for one language is not defined for a navbar link,
     //       the link keeps its old name (before changing the language).
 
     navbarLinks.push({
@@ -190,7 +208,7 @@ function operatorSettings() {
         "link" : ""
     });
 
-    // Example 2: footer link with FA icon
+    // Example 2: link with FA icon
     navbarLinks.push({
         "id"   : "photo-gallery-link",
         "link" : "https://www.example.com",
@@ -203,10 +221,19 @@ function operatorSettings() {
         "link" : "https://www.example.com"
     });
 
-    // Example 4: Operator's contact button
+    // Example 4: Operator's contact button with multiple links (shown in dropdown menu)
     navbarLinks.push({
         "id"   : "email-link",
-        "link" : "mailto:" + "operator@mailserver.com",
+        "link-list" : [
+            {
+                "id"  : "email-link-1",
+                "url" : "mailto:" + "operator1@mailserver.com"
+            },
+            {
+                "id"  : "email-link-2",
+                "url" : "mailto:" + "operator2@mailserver.com"
+            }
+        ],
         "fa-icon" : "fas fa-envelope"
     });
 
@@ -247,7 +274,7 @@ function listStreams() {
     // |   optional  |   "webpage"   | hyperlink to the (YouTube) channel of the stream           |
     // +-------------+---------------+------------------------------------------------------------+
     // |             | "stream-item" | hyperlink to a single video stream                         |
-    // +    choice   +---------------+------------------------------------------------------------+
+    // |    choice   +---------------+------------------------------------------------------------+
     // |             | "stream-list" | array of objects with informations about video streams     |
     // +-------------+---------------+------------------------------------------------------------+
     //

@@ -50,6 +50,8 @@
     "chess-results-link"   : "Chess-Results",
     "photo-gallery-link"   : "Galería",
     "invitation-link"      : "Invitación",
-    "email-link"           : "operador: Nombre del operador",
+    "email-link"           : "Operador",
+    "email-link-1"         : "Operador #1",
+    "email-link-2"         : "Operador #2",
     "clint-link"           : "Clint"
 }

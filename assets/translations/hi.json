@@ -50,6 +50,8 @@
     "chess-results-link"   : "चेस-रिजल्ट्स",
     "photo-gallery-link"   : "गैलरी",
     "invitation-link"      : "आमंत्रण",
-    "email-link"           : "ऑपरेटर: ऑपरेटर का नाम",
+    "email-link"           : "ऑपरेटर",
+    "email-link-1"         : "ऑपरेटर #1",
+    "email-link-2"         : "ऑपरेटर #2",
     "clint-link"           : "Clint"
 }

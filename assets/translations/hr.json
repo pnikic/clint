@@ -50,6 +50,8 @@
     "chess-results-link"   : "Rezultati",
     "photo-gallery-link"   : "Fotogalerija",
     "invitation-link"      : "Raspis",
-    "email-link"           : "operater: Ime operatera",
+    "email-link"           : "Operater",
+    "email-link-1"         : "Operater #1",
+    "email-link-2"         : "Operater #2",
     "clint-link"           : "Clint"
 }

@@ -253,7 +253,7 @@ nav > .container-fluid {
     padding: 0;
 }
 
-#TranslateItem {
+nav .dropdown {
     /* Centering dropdown menu in navbar has an issue. Workaround for smaller screens
        See: https://github.com/twbs/bootstrap/issues/36897 */
     display: inline;
