@@ -190,7 +190,8 @@ In `assets/js/config.js` you can:
    ```
 * set some default options (such as autoplay delay, move highlighting etc.)
 * set expected round duration (used for automatically choosing the initial PGN file to be opened)
-* set languages to be used (from a set of supported languages)
+* set languages to be used (from a set of supported languages)  
+  _Note: all custom text (name of PGN files, navbar hyperlinks etc.) needs to be defined in each supported language_
     ```javascript
     let supportedLanguages = [
       "en",  // English
