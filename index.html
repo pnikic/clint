@@ -245,23 +245,26 @@
             <!--  PGN text-->
             <div id="GameTextDiv">
                 <div id="EngineEvalDiv">
-                    <div class="row h-100 align-items-center">
-                        <div class="col-3">
-                            <span id="Score" class="p-2 m-0"></span>
-                        </div>
-                        <div class="col-5">
-                            <span translate-key="engine-name"></span>
-                            <br>
-                            <span id="EngineNote" translate-key="engine-note"></span>
-                            <span id="DepthLabel" translate-key="engine-depth"
-                                  style="display: none;"></span>
-                            <span id="DepthValue"></span>
-                        </div>
-                        <div class="col-4" onclick="toggleEngine();">
-                            <i id="EngineToggleIcon" class="fas fa-toggle-off">
-                            </i>
-                        </div>
+                    <div onclick="toggleEngine();">
+                        <i id="EngineToggleIcon" class="fas fa-toggle-off"></i>
                     </div>
+                    <span id="Score"></span>
+                    <div id="EngineInfo">
+                        <span translate-key="engine-name"></span>
+                        <br>
+                        <span id="EngineNote" translate-key="engine-note"></span>
+                        <span id="DepthLabel" translate-key="engine-depth"
+                              style="display: none;"></span>
+                        <span id="DepthValue"></span>
+                    </div>
+                    <i id="EngineSettingsIcon" class="fas fa-cog"
+                       onclick="toggleEngineSettings();"></i>
+                </div>
+                <div id="EngineSettings" style="display: none;">
+                    <span>Multiple variations</span>
+                    <input type="range" min="1" max="3" step="1" value="1"
+                           onchange="setNumberOfEngineVariations(this.value)">
+                    <span id="NumberOfEngineVariations">1/3</span>
                 </div>
                 <div id="EngineVariationDiv" class="text-center">
                 </div>

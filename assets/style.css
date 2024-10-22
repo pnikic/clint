@@ -211,6 +211,7 @@ nav ul > li {
 
 nav a > span, nav a > i {
     font-size: 1.1rem;
+    font-weight: bold;
 }
 
 nav a {
@@ -378,8 +379,8 @@ nav a:active, .btn-custom:not(:disabled):not(.disabled):active,
         color: var(--bg-color-hover-text);
     }
 
-    #EngineToggleIcon:hover {
-        filter: drop-shadow(0px 0px 3px var(--main-color-text));
+    #EngineToggleIcon:hover, #EngineSettingsIcon:hover {
+        filter: drop-shadow(0px 0px 2px var(--main-color-text));
     }
 
     #GameSelectionDiv > div.active:not(:hover) {
@@ -393,6 +394,10 @@ nav a:active, .btn-custom:not(:disabled):not(.disabled):active,
 
     #PlayerTooltip .btn-close {
         display: none;
+    }
+
+    #EngineSettingsIcon, #EngineToggleIcon {
+        cursor: pointer;
     }
 }
 
@@ -585,23 +590,86 @@ body[data-theme="alternative"] .btn-close {
     flex-shrink: 0;
 }
 
+#EngineVariationDiv {
+    background-color: var(--bg-color-light);
+    color: var(--bg-color-light-text);
+    overflow: hidden;
+    display: none;
+}
+
+#EngineVariationDiv .engineVariation {
+    display: flex;
+}
+
+#EngineVariationDiv .engineVariation > * {
+    padding: 0 .25rem;
+}
+
+#EngineVariationDiv .engineVariation span.inlineScore {
+    flex: 0 0 4rem;
+}
+
+#EngineVariationDiv .engineVariation:only-child span.inlineScore {
+    /* No need to display inline score in case of single variation */
+    display: none;
+}
+
+#EngineVariationDiv .engineVariation span.engineLine {
+    flex-grow: 1;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: normal;
+}
+
+#EngineVariationDiv .engineVariation.showFullLine span.engineLine {
+    white-space: normal;
+}
+
+#EngineVariationDiv .engineVariation i {
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+#EngineVariationDiv .engineVariation:not(:last-child) {
+    border-bottom: 1px solid var(--bg-color-text-light);
+}
+
+/* Engine constrols flexbox */
 #EngineEvalDiv {
+    display: flex;
     background-color: var(--main-color-bg);
     color: var(--main-color-text);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 #Score {
-    font-size: 175%;
+    flex-grow: 1;
+}
+
+#EngineInfo {
+    text-align: left;
+    flex-grow: 2;
+}
+
+#EngineEvalDiv > * {
+    padding: 0 .5rem;
 }
 
 #EngineToggleIcon {
     font-size: 200%;
+    line-height: 1.5;
+}
+
+#EngineSettingsIcon, #Score {
+    font-size: 150%;
+    line-height: 2;
 }
 
 @media (min-width: 800px) and (max-width: 1259px) {
     #EngineEvalDiv {
-        font-size: calc(10px + ((100vw - 800px) / 100));
+        font-size: calc(14px + ((100vw - 800px) / 200));
     }
 }
 
@@ -609,13 +677,28 @@ body[data-theme="alternative"] .btn-close {
     white-space: nowrap;
 }
 
-#EngineVariationDiv {
-    background-color: var(--bg-color-light);
-    color: var(--bg-color-light-text);
-    line-height: 1.5em;
-    height: 3em;
+/* Engine settings flexbox */
+#EngineSettings {
+    display: flex;
+}
+
+#EngineSettings span:first-child {
+    white-space: nowrap;
+    flex: 4 1 0;
+}
+
+#EngineSettings input {
+    flex: 4 1 0;
     overflow: hidden;
-    display: none;
+}
+
+#EngineSettings span:last-child {
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+#EngineSettings > * {
+    margin: 0 0.5rem;
 }
 
 /* Game board styles */
@@ -983,7 +1066,7 @@ iframe {
 }
 
 .playerNameTile {
-    font-weight: 600;
+    font-weight: bold;
     padding: 0px 0px 0px 6px;
     overflow: hidden;
     text-align: left;
@@ -1232,8 +1315,8 @@ iframe {
     #SingleBoardView {
         grid-template-columns:
             minmax(12px, 1.5vw)
-            minmax(min(60vw, 60vh), min(80vw, 80vh))
-            minmax(25vw, 45vw);
+            minmax(min(55vw, 55vh), min(90vw, 90vh))
+            minmax(40vw, 45vw);
         grid-template-rows:
             var(--player-names)
             min-content
@@ -1390,3 +1473,4 @@ iframe {
     font-size: .825em;
     word-wrap: anywhere;
 }
+

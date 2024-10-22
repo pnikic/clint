@@ -1,5 +1,6 @@
 const charStar = "✻";
 const charOneHalf = "½";
+const charNonBreakableSpace = "\xa0";
 
 function updateResult() {
     let resultElem = document.getElementById("GameResult");

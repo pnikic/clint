@@ -22,6 +22,7 @@ let inlineNotationOption = false;
 // Engine global variables
 let engine;
 let toMove;
+let numberOfVariations = "1";
 let engineStatus = false;
 const globalDepth = 21;
 // Translations
@@ -190,9 +191,10 @@ function enableVideoStream(url) {
     removeActiveVideBoardCameraHighlight();
 }
 
-function toggleDisplay(element) {
+function toggleDisplay(element, displayPropertyValue = "inline") {
+    // Use `displayPropertyValue` to use display "flex", "block", "inline" etc.
     if (element.style.display == "none")
-        element.style.display = "inline";
+        element.style.display = displayPropertyValue;
     else
         element.style.display = "none";
 }
@@ -368,6 +370,8 @@ function customFunctionOnPgnGameLoad() {
         displayedGame = getDisplayedGame();
         highlightSelectedGame();
     }
+
+    setEvaluationBarValue(0);
 }
 
 function getDisplayedGame() {
@@ -1032,14 +1036,15 @@ function hidePlayerTooltip() {
 //===========================================================
 
 function initializeEngine() {
-
     engine = wasmSupported()
-        ? new Worker("assets/js/stockfish.wasm.js")
-        : new Worker("assets/js/stockfish.js");
+           ? new Worker("assets/js/stockfish.wasm.js")
+           : new Worker("assets/js/stockfish.js");
+
+    setNumberOfEngineVariations(numberOfVariations);
 
     // Callback from engine
     engine.onmessage = function onmessage(event) {
-        let msg = event.data;
+        const msg = event.data;
 
         // Evaluation message from engine
         if (msg.indexOf("info depth") !== -1 &&
@@ -1048,49 +1053,58 @@ function initializeEngine() {
             tokens = msg.split(" ");
 
             // Reconstruct variation
-            let game = new Chess(CurrentFEN());
             let moves = "";
-            for (let i = tokens.indexOf("pv") + 1; i < tokens.length; ++i) {
-                let move = tokens[i];
-                try {
-                    // Get move number
-                    let FENtokens = game.fen().split(" ");
-                    let mvNum = FENtokens[FENtokens.length - 1]
-                    // Simulate the move and get SAN
-                    let san = game.move({
-                        from: move.substring(0, 2),
-                        to: move.substring(2, 4),
-                        promotion: move.substring(4)
-                    }).san;
+            const principalVariationToken = tokens.indexOf("pv");
+            const hasPrincipalVariation = principalVariationToken !== -1;
+            if (hasPrincipalVariation) {
+                const game = new Chess(CurrentFEN());
+                for (let i = principalVariationToken + 1; i < tokens.length; ++i) {
+                    let move = tokens[i];
+                    try {
+                        // Get move number
+                        const fenTokens = game.fen().split(" ");
+                        const moveNumber = fenTokens[fenTokens.length - 1]
+                        // Simulate the move and get SAN
+                        const san = game.move({
+                            from: move.substring(0, 2),
+                            to: move.substring(2, 4),
+                            promotion: move.substring(4)
+                        }).san;
 
-                    // If black is to have the first move in the variation
-                    if (moves == "" && game.turn() == "w")
-                        moves += mvNum + "... ";
+                        // A move was just played with the game.move(...) - side to move is changed
+                        if (game.turn() == "w") {
+                            moves += moveNumber + "... ";
+                        }
+                        else {
+                            moves += moveNumber + ". ";
+                        }
 
-                    // We check if it is black to move, because a move was just played with the
-                    //   game.move(...) function call
-                    moves += (game.turn() == "b" ? mvNum + ". " : "") + san + " ";
-                }
-                catch (e) {
-                    // Game has changed in the meantime, and the current FEN does not correspond
-                    //   to the moves received in this event
-                    return;
+                        moves += san + " ";
+                    }
+                    catch (e) {
+                        // Game has changed in the meantime, and the current FEN does not correspond
+                        // to the moves received in this event
+                        return;
+                    }
                 }
             }
 
             // Score and depth
-            let depth = tokens[2];
+            const depth = tokens[2];
             let score;
             let barValue;
 
-            let isCheckmate = msg.indexOf("mate") !== -1;
+            const isCheckmate = msg.indexOf("mate") !== -1;
             if (isCheckmate) {
+                // Get number of moves leading to forced checkmate
                 score = Number(tokens[tokens.indexOf("mate") + 1]);
-                barValue = score * 100;
+                barValue = (score != 0) ?
+                           score * 10 : // Exceed maximum bar value
+                           -10;         // Opponent delivering mate
             }
             else {
-                // Centipawn loss (from engine's point of view)
-                score = Number(tokens[tokens.indexOf("cp") + 1]) / 100.0;
+                const cp = tokens[tokens.indexOf("cp") + 1]; // centipawn loss (from engine's POV)
+                score = Math.round(Number(cp) / 10) / 10.0;
                 barValue = score;
             }
 
@@ -1099,38 +1113,74 @@ function initializeEngine() {
                 barValue *= -1;
             }
 
-            setEvaluationBarValue(barValue, false);
-            score = (isCheckmate ? "#" : "") + String(score);
-            setEngineAnnotations(moves, depth, score);
+            const isStalemate = !hasPrincipalVariation && score == 0;
+            const isGameOver = isStalemate || (isCheckmate && score == 0);
+            if (isGameOver) {
+                score = "-";
+            }
+            else if (isCheckmate) {
+                score = "#" + String(score)
+            }
+            else {
+                score = String(score);
+            }
+
+            const multipvToken = tokens.indexOf("multipv");
+            let multipv = 0;
+            if (multipvToken !== -1) {
+                multipv = Number(tokens[multipvToken + 1]);
+            }
+
+            setEngineAnnotations(moves, multipv, depth, score, barValue);
         }
     };
 }
 
-function setEngineAnnotations(line, depth, score) {
-    if (!engineStatus)
-        line = depth = score = "";
+function setEngineAnnotations(line, multipv, depth, score, barValue) {
+    if (!engineStatus) {
+        // Ignore engine callbacks after turning off the analysis
+        return;
+    }
 
-    if (depth) {
-        document.getElementById("EngineNote").style.display = "none";
-        document.getElementById("DepthLabel").style.display = "inline";
-        document.getElementById("DepthValue").innerHTML = depth;
+    // Display depth of deepest variation
+    document.getElementById("EngineNote").style.display = "none";
+    document.getElementById("DepthLabel").style.display = "inline";
+    const depthValueElem = document.getElementById("DepthValue");
+    const newDepth = Math.max(Number(depth), Number(depthValueElem.innerText));
+    depthValueElem.innerText = String(newDepth);
+
+    const variations = document.getElementById("EngineVariationDiv");
+    if (multipv > 0) {
+        const variationChildren = variations.children[multipv - 1].children;
+        variationChildren[0].innerText = score;
+        variationChildren[1].innerText = line;
     }
-    else {
-        document.getElementById("EngineNote").style.display = "inline";
-        document.getElementById("DepthLabel").style.display = "none";
-        document.getElementById("DepthValue").innerHTML = "";
+
+    if (multipv <= 1) {
+        // Score only for best line
+        document.getElementById("Score").innerHTML = score;
+        setEvaluationBarValue(barValue);
     }
-    document.getElementById("EngineVariationDiv").innerHTML = line;
-    document.getElementById("Score").innerHTML = score;
 }
 
-function setEvaluationBarValue(num, ignoreEngineStatus) {
-    if (engineStatus || ignoreEngineStatus) {
-        num *= IsRotated ? -1 : 1;
-        num = Math.min(4, Math.max(-4, num));
-        const newHeight = `${(((num + 4) / 8.0) * 100.0).toFixed(2)}%`;
-        document.getElementById("EvaluationBar").style.height = newHeight;
+function clearEngineAnnotations() {
+    document.getElementById("EngineNote").style.display = "inline";
+    document.getElementById("DepthLabel").style.display = "none";
+    document.getElementById("DepthValue").innerHTML = "";
+    document.getElementById("Score").innerHTML = "";
+
+    const variations = document.getElementById("EngineVariationDiv");
+    for (let v of variations.children) {
+        v.children[0].innerText = "";
+        v.children[1].innerText = charNonBreakableSpace;
     }
+}
+
+function setEvaluationBarValue(num) {
+    num *= IsRotated ? -1 : 1;
+    num = Math.min(4, Math.max(-4, num));
+    const newHeight = `${(((num + 4) / 8.0) * 100.0).toFixed(2)}%`;
+    document.getElementById("EvaluationBar").style.height = newHeight;
 }
 
 function useEngine() {
@@ -1140,10 +1190,12 @@ function useEngine() {
 
     // Stop previous calculations and evaluate new position
     engine.postMessage("stop");
-    setEngineAnnotations("...", "", "...");
+    clearEngineAnnotations();
 
     if (engineStatus) {
+        document.getElementById("Score").innerHTML = "...";
         // Analyze current position
+        engine.postMessage("setoption name multipv value " + numberOfVariations);
         engine.postMessage("position fen " + CurrentFEN());
         // Get current side to move, so that engine lines can be displayed correctly
         toMove = document.getElementById("GameSideToMove").innerHTML;
@@ -1153,20 +1205,24 @@ function useEngine() {
 
 function toggleEngine() {
     engineStatus = Number(!engineStatus);
-    let engineIcon = document.getElementById("EngineToggleIcon");
+    const engineIcon = document.getElementById("EngineToggleIcon");
     engineIcon.className = engineStatus ? "fas fa-toggle-on" : "fas fa-toggle-off";
 
-    if (engineStatus && !engine)
+    if (engineStatus && !engine) {
         initializeEngine();
+    }
 
-    let variationDiv = document.getElementById("EngineVariationDiv");
+    const settingsDiv = document.getElementById("EngineSettings");
+    settingsDiv.style.display = "none";
+
+    const variationDiv = document.getElementById("EngineVariationDiv");
     if (engineStatus) {
-        variationDiv.style.display = "block";
+        variationDiv.style.display = "inline";
     }
     else {
-        setEvaluationBarValue(0, true);
         variationDiv.style.display = "none";
-        setEngineAnnotations("", "", "");
+        document.getElementById("Score").innerHTML = "";
+        setEvaluationBarValue(0);
     }
 
     useEngine();
@@ -1183,6 +1239,40 @@ function wasmSupported() {
     } catch (e) {}
 
     return false;
+}
+
+function toggleEngineSettings() {
+    const variationDiv = document.getElementById("EngineVariationDiv");
+    if (engineStatus)
+        toggleDisplay(variationDiv);
+
+    const settingsDiv = document.getElementById("EngineSettings");
+    toggleDisplay(settingsDiv, "flex");
+}
+
+function setNumberOfEngineVariations(value) {
+    document.getElementById("NumberOfEngineVariations").innerHTML = value + "/3";
+    numberOfVariations = value;
+
+    let variations = document.getElementById("EngineVariationDiv");
+    variations.replaceChildren();
+
+    for (let i = 0; i < numberOfVariations; ++i) {
+        const newVariation = document.createElement("div");
+        newVariation.classList.add("engineVariation");
+        const scoreText = document.createElement("span");
+        scoreText.classList.add("inlineScore");
+        const lineText = document.createElement("span");
+        lineText.classList.add("engineLine");
+        lineText.innerText = charNonBreakableSpace;
+        const showFullLine = document.createElement("i");
+        showFullLine.classList = "fas fa-sort-down";
+        showFullLine.onclick = (evt) => { newVariation.classList.toggle("showFullLine") };
+        newVariation.replaceChildren(scoreText, lineText, showFullLine);
+        variations.appendChild(newVariation);
+    }
+
+    useEngine();
 }
 
 //===========================================================
