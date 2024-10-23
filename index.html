@@ -262,9 +262,10 @@
                 </div>
                 <div id="EngineSettings" style="display: none;">
                     <span>Multiple variations</span>
-                    <input type="range" min="1" max="3" step="1" value="1"
+                    <input id="NumberOfEngineVariationsInput"
+                           type="range" min="1" max="3" step="1" value="1"
                            onchange="setNumberOfEngineVariations(this.value)">
-                    <span id="NumberOfEngineVariations">1/3</span>
+                    <span id="NumberOfEngineVariationsText">1/3</span>
                 </div>
                 <div id="EngineVariationDiv" class="text-center">
                 </div>

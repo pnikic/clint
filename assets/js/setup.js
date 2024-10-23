@@ -113,6 +113,13 @@ if (currentLanguage === null)
 if (localStorage.getItem("clint-notation") == "inline")
     setInlineNotation(true);
 
+if (localStorage.hasOwnProperty("clint-number-of-variations")) {
+    const value = localStorage.getItem("clint-number-of-variations");
+    numberOfVariations = value;
+    document.getElementById("NumberOfEngineVariationsInput").setAttribute("value", value);
+    document.getElementById("NumberOfEngineVariationsText").innerHTML = value + "/3";
+}
+
 // Add backslash to path
 if ((playerImagesPath.length > 0) && (playerImagesPath[playerImagesPath.length - 1] != '/')) {
     playerImagesPath += '/';
@@ -1251,8 +1258,9 @@ function toggleEngineSettings() {
 }
 
 function setNumberOfEngineVariations(value) {
-    document.getElementById("NumberOfEngineVariations").innerHTML = value + "/3";
+    document.getElementById("NumberOfEngineVariationsText").innerHTML = value + "/3";
     numberOfVariations = value;
+    localStorage.setItem("clint-number-of-variations", value);
 
     let variations = document.getElementById("EngineVariationDiv");
     variations.replaceChildren();
