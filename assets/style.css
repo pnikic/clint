@@ -151,7 +151,7 @@
 }
 
 /* Override Bootstrap variables */
-.form-select {
+select {
     border-radius: var(--border-radius);
 }
 
@@ -832,11 +832,13 @@ body[data-theme="alternative"] .btn-close {
 }
 
 /* Game selection styles*/
-.form-select {
+#PgnFileSelect, #MultiboardFileSelect {
     background-color:  var(--main-color-bg);
-    background-image: none;
     color: var(--main-color-text);
+    width: 100%;
     border: 0px;
+    border-right: 1rem solid transparent;
+    padding-left: 1rem;
 }
 
 #GameSelectionDiv {
@@ -896,6 +898,11 @@ body[data-theme="alternative"] .btn-close {
     font-size: 22px;
     vertical-align: middle;
     padding-bottom: .25rem;
+}
+
+#SearchInput, #MultiboardSearchInput {
+    width: 100%;
+    padding-left: 1rem;
 }
 
 #DownloadModalBtn {

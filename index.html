@@ -143,8 +143,7 @@
             <div id="PgnSelectionDiv">
                 <div class="row">
                     <div class="col-12">
-                        <select id="PgnFileSelect" class="form-select shadow-none"
-                                onChange="changePGN(this.value)">
+                        <select id="PgnFileSelect" onChange="changePGN(this.value)">
                             <option value='-1' translate-key="pgn-file-selection"></option>
                         </select>
                     </div>
@@ -152,8 +151,7 @@
             </div>
 
             <div id="PlayerSearchDiv">
-                <input id="SearchInput" type="text" class="w-100 ps-3"
-                       onkeyup="applyGameSelectionFilters();"
+                <input id="SearchInput" type="text" onkeyup="applyGameSelectionFilters();"
                        translate-key-placeholder="player-search-input">
             </div>
 
@@ -514,7 +512,7 @@
         <!-- =========================================================== -->
         <div id="MultiboardSettingsItem" class="row m-0">
             <div class="col-12 col-lg-5 mb-2 mb-lg-0 ps-lg-0 pe-lg-1">
-                <select id="MultiboardFileSelect" class="form-select mx-auto shadow-none"
+                <select id="MultiboardFileSelect"
                     onChange="changeFramesPGN(this.value)">
                     <option value='-1' translate-key="pgn-file-selection"></option>
                 </select>
@@ -612,8 +610,7 @@
                         <div class="row align-items-center">
                             <div class="col-8">
                                 <input id="MultiboardSearchInput" type="text"
-                                       placeholder="Traži igrača..."
-                                       class="w-100 ps-3" onkeyup="applyGameSelectionFilters();"
+                                       onkeyup="applyGameSelectionFilters();"
                                        translate-key-placeholder="player-search-input"
                                 >
                             </div>
