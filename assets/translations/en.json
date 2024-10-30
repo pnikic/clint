@@ -42,9 +42,9 @@
     "select-language"      : "Language",
     "tooltip-profile"      : "Profile",
 
-    "round-1"              : "1st round - November 11th 3 PM",
-    "round-2"              : "2nd round - November 12th 3 PM",
-    "round-3"              : "3rd round - November 13th 9:30 AM",
+    "round-1"              : "1st round - November 10th 3 PM",
+    "round-2"              : "2nd round - November 11th 3 PM",
+    "round-3"              : "3rd round - November 12th 9:30 AM",
     "all-rounds"           : "All rounds",
 
     "chess-results-link"   : "Results",

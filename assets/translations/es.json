@@ -42,9 +42,9 @@
     "select-language"      : "Idioma",
     "tooltip-profile"      : "Perfil",
 
-    "round-1"              : "Ronda 1 - 11/11 15:00",
-    "round-2"              : "Ronda 2 - 12/11 15:00",
-    "round-3"              : "Ronda 3 - 13/11  9:30",
+    "round-1"              : "Ronda 1 - 10/11 15:00",
+    "round-2"              : "Ronda 2 - 11/11 15:00",
+    "round-3"              : "Ronda 3 - 12/11  9:30",
     "all-rounds"           : "Todos las rondas",
 
     "chess-results-link"   : "Chess-Results",
