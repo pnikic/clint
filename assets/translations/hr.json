@@ -27,6 +27,7 @@
     "engine-name"          : "Stockfish 9",
     "engine-note"          : "u lokalnom pregledniku",
     "engine-depth"         : "Dubina",
+    "engine-num-lines"     : "Višestrukih varijanti",
     "games-selection"      : "Odabir partija",
     "navigation-bar"       : "Prikaz navigacijske trake",
     "in-progress"          : "U tijeku",

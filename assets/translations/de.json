@@ -27,6 +27,7 @@
     "engine-name"          : "Stockfish 9",
     "engine-note"          : "im lokalen Browser",
     "engine-depth"         : "Tiefe",
+    "engine-num-lines"     : "Mehrere Varianten",
     "games-selection"      : "Spieleauswahl",
     "navigation-bar"       : "Navigationsleiste umschalten",
     "in-progress"          : "In Bearbeitung",

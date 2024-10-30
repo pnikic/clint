@@ -27,6 +27,7 @@
     "engine-name"          : "Stockfish 9",
     "engine-note"          : "dans le navigateur local",
     "engine-depth"         : "Profondeur",
+    "engine-num-lines"     : "Lignes d'analyse",
     "games-selection"      : "Sélection des parties",
     "navigation-bar"       : "Basculer la barre de navigation",
     "in-progress"          : "En cours",
