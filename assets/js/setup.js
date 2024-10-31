@@ -263,7 +263,7 @@ function generateStreamLinks(streamersArray) {
                 submenu.appendChild(subLi);
             }
 
-            streamerDiv.onclick = toggleDisplay.bind(this, submenu);
+            streamerDiv.onclick = toggleDisplay.bind(this, submenu, "inline");
         }
 
         li.appendChild(streamerDiv);
