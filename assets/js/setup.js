@@ -227,7 +227,7 @@ function generateStreamLinks(streamersArray) {
         let nameSpan = document.createElement("span");
         nameSpan.classList.add("streamerName");
         nameSpan.classList.add("px-3");
-        nameSpan.innerHTML = streamer["name"];
+        nameSpan.setAttribute("translate-key", streamer["id"]);
         streamerDiv.appendChild(nameSpan);
 
         const webpage = streamer["webpage"];
@@ -257,7 +257,7 @@ function generateStreamLinks(streamersArray) {
                 let subLi = document.createElement("li");
                 subLi.classList.add("streamItem");
                 let subAnchor = document.createElement("a");
-                subAnchor.innerHTML = video["title"];
+                subAnchor.setAttribute("translate-key", video["id"]);
                 subLi.onclick = enableVideoStream.bind(this, video["url"]);
                 subLi.appendChild(subAnchor);
                 submenu.appendChild(subLi);

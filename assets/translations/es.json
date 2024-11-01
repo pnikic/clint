@@ -54,5 +54,14 @@
     "email-link"           : "Operador",
     "email-link-1"         : "Operador #1",
     "email-link-2"         : "Operador #2",
-    "clint-link"           : "Clint"
+    "clint-link"           : "Clint",
+
+    "official-broadcast"   : "Transmisión oficial",
+    "promotional-video"    : "Video promocional",
+    "streamer-1"           : "IM Levy Rozman",
+    "streamer-1-video-1"   : "Ronda 1",
+    "streamer-1-video-2"   : "Título personalizado para la ronda 2",
+    "streamer-1-video-3"   : "¡GANA CONTRA GRANDMASTER!",
+    "streamer-1-video-4"   : "Ronda 4",
+    "streamer-1-video-5"   : "Ronda 5"
 }

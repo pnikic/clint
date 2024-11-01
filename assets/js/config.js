@@ -252,13 +252,13 @@ function listStreams() {
     //
     // {
     //     "language"    : <string>,
-    //     "name"        : <string>,
+    //     "id"          : <string>,
     //     "webpage"     : <string>,
     //     "stream-item" : <string>,
     //     "stream-list" : <Array> of objects with format
     //                     {
-    //                          "title" : <string>,
-    //                          "url"   : <string>
+    //                          "id"  : <string>,
+    //                          "url" : <string>
     //                     }
     // }
     //
@@ -269,7 +269,7 @@ function listStreams() {
     // |             |               | see demo page of flag-icons for possible flag options:     |
     // |             |               | https://flagicons.lipis.dev/                               |
     // +-------------+---------------+------------------------------------------------------------+
-    // |   required  |     "name"    | name of the stream item or stream list                     |
+    // |   required  |     "id"      | identifier for translation of the stream item or list      |
     // +-------------+---------------+------------------------------------------------------------+
     // |   optional  |   "webpage"   | hyperlink to the (YouTube) channel of the stream           |
     // +-------------+---------------+------------------------------------------------------------+
@@ -282,7 +282,7 @@ function listStreams() {
     // +-------------+---------------+------------------------------------------------------------+
     // | Optionality |      Key      |                         Description                        |
     // +-------------+---------------+------------------------------------------------------------+
-    // |   required  |    "title"    | name of the stream item                                    |
+    // |   required  |     "id"      | identifier for translation of the stream item              |
     // +-------------+---------------+------------------------------------------------------------+
     // |   required  |     "url"     | hyperlink to the video stream                              |
     // +-------------+---------------+------------------------------------------------------------+
@@ -297,52 +297,40 @@ function listStreams() {
     const streams = [
         {
             "language"    : "gb",
-            "name"        : "Official broadcast",
+            "id"          : "official-broadcast",
             "webpage"     : "https://www.youtube.com/@FIDE_chess",
             "stream-item" : "https://www.youtube.com/embed/2g3Htm8qZ5o"
         },
         {
             "language"    : "gb",
-            "name"        : "Promotional video",
+            "id"          : "promotional-video",
             "webpage"     : "https://www.youtube.com/@FIDE_chess",
             "stream-item" : "https://www.youtube.com/embed/JiYvr-VUeB8"
         },
         {
             "language"    : "us",
-            "name"        : "IM Levy Rozman",
+            "id"          : "streamer-1",
             "webpage"     : "https://www.youtube.com/@GothamChess",
             "stream-list" : [
                 {
-                    "title" : "Round 1",
+                    "id" : "streamer-1-video-1",
                     "url" : "https://www.youtube.com/embed/Nnq8Wf5QVd0?&autoplay=1"
                 },
                 {
-                    "title" : "Custom title for round 2",
+                    "id" : "streamer-1-video-2",
                     "url" : "https://www.youtube.com/embed/nhQiLLFWnAM?&autoplay=1"
                 },
                 {
-                    "title" : "WIN AGAINST GRANDMASTER!!!",
+                    "id" : "streamer-1-video-3",
                     "url" : "https://www.youtube.com/embed/XovnKCyo2-M?&autoplay=1"
                 },
                 {
-                    "title" : "Round 4",
+                    "id" : "streamer-1-video-4",
                     "url" : "https://www.youtube.com/embed/XAzwJ84iSJo?&autoplay=1"
                 },
                 {
-                    "title" : "Round 5",
+                    "id" : "streamer-1-video-5",
                     "url" : "https://www.youtube.com/embed/Jk0MySvXrNc?&autoplay=1"
-                },
-                {
-                    "title" : "Round 6",
-                    "url" : "https://www.youtube.com/embed/iBWT_vpq7mY?&autoplay=1"
-                },
-                {
-                    "title" : "Round 7",
-                    "url" : "https://www.youtube.com/embed/Lqs0L5tXJ-c?&autoplay=1"
-                },
-                {
-                    "title" : "Round 9",
-                    "url" : "https://www.youtube.com/embed/KLijt4nsmOs?&autoplay=1"
                 }
             ]
         }

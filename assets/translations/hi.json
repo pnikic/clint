@@ -54,5 +54,14 @@
     "email-link"           : "ऑपरेटर",
     "email-link-1"         : "ऑपरेटर #1",
     "email-link-2"         : "ऑपरेटर #2",
-    "clint-link"           : "Clint"
+    "clint-link"           : "Clint",
+
+    "official-broadcast"   : "आधिकारिक प्रसारण",
+    "promotional-video"    : "प्रचार वीडियो",
+    "streamer-1"           : "IM Levy Rozman",
+    "streamer-1-video-1"   : "राउंड 1",
+    "streamer-1-video-2"   : "राउंड 2 के लिए कस्टम शीर्षक",
+    "streamer-1-video-3"   : "GRANDMASTER के खिलाफ जीतें!!!",
+    "streamer-1-video-4"   : "राउंड 4",
+    "streamer-1-video-5"   : "राउंड 5"
 }

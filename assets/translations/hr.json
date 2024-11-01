@@ -35,7 +35,7 @@
     "selected"             : "Odabrano",
     "games"                : "partija",
     "save"                 : "Spremi",
-    "streams"              : "VIDEO KOMENTAR",
+    "streams"              : "VIDEO PRIJENOS",
     "player-search-input"  : "Traži igrača",
     "snackbar-fen-copy"    : "FEN kopiran",
     "snackbar-pgn-copy"    : "PGN kopiran",
@@ -54,5 +54,14 @@
     "email-link"           : "Operater",
     "email-link-1"         : "Operater #1",
     "email-link-2"         : "Operater #2",
-    "clint-link"           : "Clint"
+    "clint-link"           : "Clint",
+
+    "official-broadcast"   : "Službeni komentar",
+    "promotional-video"    : "Promotivni video",
+    "streamer-1"           : "IM Levy Rozman",
+    "streamer-1-video-1"   : "1. kolo",
+    "streamer-1-video-2"   : "Prilagođeni naslov za 2. kolo",
+    "streamer-1-video-3"   : "POBJEDA VELEMAJSTORA!!!",
+    "streamer-1-video-4"   : "4. kolo",
+    "streamer-1-video-5"   : "5. kolo"
 }
