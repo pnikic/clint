@@ -7,7 +7,7 @@
     "single-board"         : "सिंगल बोर्ड",
     "multiple-boards"      : "मल्टीपल बोर्ड्स",
     "color-scheme"         : "कलर स्कीम बदलें",
-    "color-board"          : "Board color",
+    "color-board"          : "बोर्ड का रंग",
     "highlight-move"       : "अंतिम चाल हाइलाइट करें",
     "inline-notation"      : "इनलाइन नोटेशन",
     "autoplay-speed"       : "रीप्ले मोड",
@@ -41,7 +41,7 @@
     "snackbar-pgn-copy"    : "PGN कॉपी हुआ",
     "snackbar-link-copy"   : "लिंक कॉपी हुआ",
     "select-language"      : "भाषा चुनें",
-    "tooltip-profile"      : "Profile",
+    "tooltip-profile"      : "प्रोफाइल",
 
     "round-1"              : "राउंड 1 - 10/11 15:00",
     "round-2"              : "राउंड 2 - 11/11 15:00",
