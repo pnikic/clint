@@ -17,7 +17,8 @@ let iframesLoaded = [];
 let chessResultsPlayerData;    // Player's information from chess-results
 // Suppose the control panel is turned off by default (sync with mosaic-setup.js)
 let controlPanelOption = false;
-let chosenGames = [];
+let chosenGames = [];          // Array of displayed games, used for choose games modal
+let chosenGamesUnsaved = [];
 let inlineNotationOption = false;
 // Engine global variables
 let engine;
@@ -52,12 +53,7 @@ fetchChessResultsPlayerData();
 // Multiple boards setup
 iframesLoaded = Array(numberMiniboards).fill(0);
 
-// Array of displayed games, used for choose games modal
-// By default, the first games are loaded
-chosenGames = Array(numberMiniboards);
-for (let i = 0; i < numberMiniboards; ++i) {
-    chosenGames[i] = i;
-}
+resetChosenGames();
 
 // Set the PGN from the URI parameter, if applicable
 url = new URLSearchParams(window.location.search);
@@ -293,6 +289,15 @@ function createAnchorForNewTab() {
     anchor.target = "_blank";
     anchor.rel = "noopener noreferrer";
     return anchor;
+}
+
+function resetChosenGames() {
+    // By default, the first games are loaded
+    chosenGames = Array(numberMiniboards);
+    for (let i = 0; i < numberMiniboards; ++i) {
+        chosenGames[i] = i;
+    }
+    chosenGamesUnsaved = chosenGames.slice();
 }
 
 function clearPlayerFlags() {
@@ -1722,11 +1727,7 @@ function changeFramesPGN(val) {
     val = Number(val);
 
     if (val >= 0 && val < allPGNs.length && allPGNs[val]["pgn"]) {
-        // Readjust chosenGames array to select the first games
-        chosenGames = Array(numberMiniboards);
-        for (let i = 0; i < numberMiniboards; ++i) {
-            chosenGames[i] = i;
-        }
+        resetChosenGames();
 
         // `numberMiniboards` games will now be displayed, so resize all the miniboards.
         //   For instance, if the number of prevously displayed boards was < `numberMiniboards`,
@@ -1819,7 +1820,7 @@ function updateGameSelectionModalOnFirstIframeLoaded() {
 }
 
 function onGameSelectionModalSave() {
-    // Reorder games chosen for display
+    chosenGames = chosenGamesUnsaved.slice();
     chosenGames.sort(function(a,b){ return a-b; });
 
     // Render chosen games in order of appearing in the PGN file
@@ -1846,15 +1847,15 @@ function onGameSelectionModalSave() {
 
 function handleGameSelectionModalCheckboxClick(evt) {
     let ind = Number(evt.target.value);
-    if (chosenGames.includes(ind)) {
-        chosenGames.splice(chosenGames.indexOf(ind), 1);
+    if (chosenGamesUnsaved.includes(ind)) {
+        chosenGamesUnsaved.splice(chosenGamesUnsaved.indexOf(ind), 1);
     }
     else {
-        chosenGames.push(ind);
+        chosenGamesUnsaved.push(ind);
     }
 
     let chosenCount = document.getElementById("CountSelected");
-    let cnt = chosenGames.length;
+    let cnt = chosenGamesUnsaved.length;
     chosenCount.innerHTML = cnt;
     if (cnt > numberMiniboards || cnt == 0) {
         chosenCount.style.setProperty("color", "red");
