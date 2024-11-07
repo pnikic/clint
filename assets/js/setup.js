@@ -25,7 +25,7 @@ let engine;
 let toMove;
 let numberOfVariations = "1";
 let engineStatus = false;
-const globalDepth = 21;
+const globalDepth = 31;
 // Translations
 let currentLanguage;
 let translations = new Map();
@@ -1162,7 +1162,7 @@ function setEngineAnnotations(line, multipv, depth, score, barValue) {
     depthValueElem.innerText = String(newDepth);
 
     const variations = document.getElementById("EngineVariationDiv");
-    if (multipv > 0) {
+    if (multipv > 0 && multipv <= variations.children.length) {
         const variationChildren = variations.children[multipv - 1].children;
         variationChildren[0].innerText = score;
         variationChildren[1].innerText = line;
