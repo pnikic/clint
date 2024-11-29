@@ -10,6 +10,7 @@ let viewType = -1;       // Variable for toggling single and multi board view
 let scaleOption = 1;     // TODO: Currently not used, to be considered when implementing resizing
 let numActiveSnackbarMessages = 0;  // Used for hiding snackbar element after showing notifications
 let currentPGN = 0       // Index of active PGN (from allPGNs)
+let currentPGNVideo = -1  // Index of PGN (from allPGNs) playing video (if any)
 let initialPGNFile = "";
 let url = ""
 let iframesGenerated = false;
@@ -1541,15 +1542,18 @@ function customFunctionOnPgnTextLoad() {
         // Keep active the input from the game search bar
         applyGameSelectionFilters();
 
-        // Update the video / image, if any is specified
-        for (video of [["video-left", "VideoDivLeft"], ["video-right", "VideoDivRight"]]) {
-            const videoLinkKey = video[0];
-            const videoDivId = video[1];
-            const videoLink = allPGNs[currentPGN][videoLinkKey];
-            if (videoLink != undefined)
-                enableVideoDiv(videoDivId, videoLink);
-            else
-                disableVideoDiv(videoDivId);
+        // In case a different PGN file is loaded
+        if (currentPGNVideo != currentPGN) {
+            // Update the video / image, if any is specified
+            for (video of [["video-left", "VideoDivLeft"], ["video-right", "VideoDivRight"]]) {
+                const videoLinkKey = video[0];
+                const videoDivId = video[1];
+                const videoLink = allPGNs[currentPGN][videoLinkKey];
+                if (videoLink != undefined)
+                    enableVideoDiv(videoDivId, videoLink);
+                else
+                    disableVideoDiv(videoDivId);
+            }
         }
 
         for (image of [["image-left", "ImageDivLeft"], ["image-right", "ImageDivRight"]]) {
@@ -1618,6 +1622,8 @@ function enableVideoDiv(divId, link) {
     videoDiv.style.display = "";
     if (videoDiv.children.length && videoDiv.children[0].src != link)
         videoDiv.children[0].src = link;
+
+    currentPGNVideo = currentPGN;
 }
 
 function disableImageDiv(divId) {
