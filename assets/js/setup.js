@@ -6,13 +6,12 @@
 let allPGNs = [];        // Array of PGN files to be filled
 let started = false;     // Boolean indicating whether a PGN file was loaded once
 let displayedGame = "";  // Currently displayed game (used for rotating the board back for a new game)
-let viewType = -1;       // Variable for toggling single and multi board view
-let scaleOption = 1;     // TODO: Currently not used, to be considered when implementing resizing
+let viewType = undefined;  // Variable for toggling single and multi board view
+let scaleOption = 1;       // TODO: Currently not used, to be considered when implementing resizing
 let numActiveSnackbarMessages = 0;  // Used for hiding snackbar element after showing notifications
-let currentPGN = 0;        // Index of active PGN (from allPGNs)
-let currentPGNVideo = -1;  // Index of PGN (from allPGNs) playing video (if any)
-let initialPGNFile = "";
-let url = "";
+let currentPgn = 0;                 // Index of active PGN (from allPGNs)
+let currentPgnVideo = undefined;    // Index of PGN (from allPGNs) playing video (if any)
+let url = ""
 let iframesGenerated = false;
 let iframesLoaded = [];
 let chessResultsPlayerData;    // Player's information from chess-results
@@ -63,7 +62,7 @@ if (url.has("pgn")) {
     let val = url.get("pgn");
     for (let i = 0; i < allPGNs.length && !ret; ++i) {
         if (allPGNs[i]["id"] == val) {
-            currentPGN = i;
+            currentPgn = i;
             ret = selectPGN(allPGNs[i]["pgn"]);
         }
     }
@@ -192,7 +191,7 @@ function enableVideoStream(url) {
     // for (list of streamLists)
     //     list.style.display = "none";
 
-    removeActiveVideBoardCameraHighlight();
+    removeActiveVideoBoardCameraHighlight();
 }
 
 function toggleDisplay(element, displayPropertyValue = "inline") {
@@ -551,7 +550,7 @@ function changePGN(val) {
 
         SetPgnUrl(allPGNs[val]["pgn"]);
         document.getElementById("CurrentPgnDownloadLink").href = pgnUrl;
-        currentPGN = val;
+        currentPgn = val;
         restartBroadcast();
     }
 }
@@ -628,7 +627,7 @@ function linkToCurrentGame() {
     if (uriParamsStart != -1)
         href = href.substring(0, uriParamsStart);
 
-    const pgnUri = encodeURIComponent("pgn") + "=" + encodeURIComponent(allPGNs[currentPGN]["id"]);
+    const pgnUri = encodeURIComponent("pgn") + "=" + encodeURIComponent(allPGNs[currentPgn]["id"]);
     const gameUri = encodeURIComponent("game") + "=" + encodeURIComponent(currentGame);
     let link = href + "?" + pgnUri + "&" + gameUri;
 
@@ -1454,7 +1453,7 @@ function updateGameSelectMenu() {
     }
 
     // (Re)generate the game selection menu
-    const videoBoards = allPGNs[currentPGN]["video-boards"];
+    const videoBoards = allPGNs[currentPgn]["video-boards"];
     const hasVideoBoards = Boolean(videoBoards);
 
     for (let i = 0; i < numberOfGames; ++i) {
@@ -1504,7 +1503,7 @@ function updateGameSelectMenu() {
             camera.onclick = (evt) => {
                 enableVideoDiv("VideoDivLeft", videoBoards[i]);
                 // Update color of active camera
-                removeActiveVideBoardCameraHighlight();
+                removeActiveVideoBoardCameraHighlight();
                 event.currentTarget.classList.add("active");
             };
         }
@@ -1542,13 +1541,13 @@ function customFunctionOnPgnTextLoad() {
         // Keep active the input from the game search bar
         applyGameSelectionFilters();
 
-        // In case a different PGN file is loaded
-        if (currentPGNVideo != currentPGN) {
-            // Update the video / image, if any is specified
+        if (currentPgnVideo != currentPgn) {
+            // In case a different PGN file is loaded, update the video (if any is specified), i.e.
+            // avoid interrupting non-default video playing during update of current round PGN
             for (video of [["video-left", "VideoDivLeft"], ["video-right", "VideoDivRight"]]) {
                 const videoLinkKey = video[0];
                 const videoDivId = video[1];
-                const videoLink = allPGNs[currentPGN][videoLinkKey];
+                const videoLink = allPGNs[currentPgn][videoLinkKey];
                 if (videoLink != undefined)
                     enableVideoDiv(videoDivId, videoLink);
                 else
@@ -1559,7 +1558,7 @@ function customFunctionOnPgnTextLoad() {
         for (image of [["image-left", "ImageDivLeft"], ["image-right", "ImageDivRight"]]) {
             const imageLinkKey = image[0];
             const imageDivId = image[1];
-            const imageLink = allPGNs[currentPGN][imageLinkKey];
+            const imageLink = allPGNs[currentPgn][imageLinkKey];
             if (imageLink != undefined)
                 enableImageDiv(imageDivId, imageLink);
             else
@@ -1567,7 +1566,7 @@ function customFunctionOnPgnTextLoad() {
         }
     }
 
-    updateButtonHyperlinks(currentPGN);
+    updateButtonHyperlinks(currentPgn);
 }
 
 function changeGame(ind) {
@@ -1575,7 +1574,7 @@ function changeGame(ind) {
     Init(ind);
 }
 
-function removeActiveVideBoardCameraHighlight() {
+function removeActiveVideoBoardCameraHighlight() {
     const query = document.querySelector("#GameSelectionDiv button.active");
     if (query !== null) {
         query.classList.remove("active");
@@ -1623,7 +1622,7 @@ function enableVideoDiv(divId, link) {
     if (videoDiv.children.length && videoDiv.children[0].src != link)
         videoDiv.children[0].src = link;
 
-    currentPGNVideo = currentPGN;
+    currentPgnVideo = currentPgn;
 }
 
 function disableImageDiv(divId) {
