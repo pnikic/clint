@@ -11,6 +11,7 @@ let scaleOption = 1;       // TODO: Currently not used, to be considered when im
 let numActiveSnackbarMessages = 0;  // Used for hiding snackbar element after showing notifications
 let currentPgn = 0;                 // Index of active PGN (from allPGNs)
 let currentPgnVideo = undefined;    // Index of PGN (from allPGNs) playing video (if any)
+let currentBoardVideo = undefined;  // Index of game with active video board (if any)
 let url = ""
 let iframesGenerated = false;
 let iframesLoaded = [];
@@ -1497,11 +1498,15 @@ function updateGameSelectMenu() {
         if (hasThisBoardVideo) {
             camera = document.createElement("button");
             camera.className = "col-2 btn btn-custom";
+            if (currentBoardVideo == i) {
+                camera.classList.add("active");
+            }
             const icon = document.createElement("i");
             icon.className = "fas fa-video";
             camera.appendChild(icon);
             camera.onclick = (evt) => {
                 enableVideoDiv("VideoDivLeft", videoBoards[i]);
+                currentBoardVideo = i;
                 // Update color of active camera
                 removeActiveVideoBoardCameraHighlight();
                 event.currentTarget.classList.add("active");
@@ -1623,6 +1628,7 @@ function enableVideoDiv(divId, link) {
         videoDiv.children[0].src = link;
 
     currentPgnVideo = currentPgn;
+    currentBoardVideo = undefined;
 }
 
 function disableImageDiv(divId) {
