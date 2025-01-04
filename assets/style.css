@@ -116,8 +116,8 @@
 [board-theme=red] {
     --white-square: #f7dac3;
     --black-square: #bf584a;
-    --highlight-white-sq: #f7e9aa;
-    --highlight-black-sq: #dba86e;
+    --highlight-white-sq: #ced26b;
+    --highlight-black-sq: #aba23a;
 }
 
 [board-theme=green] {
