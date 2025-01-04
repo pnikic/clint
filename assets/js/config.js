@@ -310,7 +310,7 @@ function listStreams() {
         {
             "language"    : "us",
             "id"          : "streamer-1",
-            "webpage"     : "https://www.youtube.com/@GothamChess",
+            "webpage"     : "https://www.twitch.tv/gothamchess",
             "stream-list" : [
                 {
                     "id" : "streamer-1-video-1",

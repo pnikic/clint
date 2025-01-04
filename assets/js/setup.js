@@ -238,7 +238,21 @@ function generateStreamLinks(streamersArray) {
             };
 
             let webpageIcon = document.createElement("i");
-            webpageIcon.className = "fa-brands fa-youtube";
+            if (webpage.includes("youtube.com")) {
+                webpageIcon.className = "fa-brands fa-youtube";
+            }
+            else if (webpage.includes("twitch.tv")) {
+                webpageIcon.className = "fa-brands fa-twitch";
+            }
+            else if (webpage.includes("instagram.com")) {
+                webpageIcon.className = "fa-brands fa-instagram";
+            }
+            else if (webpage.includes("x.com") || webpage.includes("twitter.com")) {
+                webpageIcon.className = "fa-brands fa-x-twitter";
+            }
+            else {
+                webpageIcon.className = "fa-solid fa-globe";
+            }
             webpageLink.appendChild(webpageIcon);
             streamerDiv.appendChild(webpageLink);
         }
