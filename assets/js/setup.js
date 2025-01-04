@@ -1469,7 +1469,10 @@ function updateGameSelectMenu() {
 
     // (Re)generate the game selection menu
     const videoBoards = allPGNs[currentPgn]["video-boards"];
-    const hasVideoBoards = Boolean(videoBoards);
+    let videoBoardsMap = new Map();
+    for (videoBoard of videoBoards) {
+        videoBoardsMap.set(videoBoard["num"], videoBoard["url"]);
+    }
 
     for (let i = 0; i < numberOfGames; ++i) {
         let optionDiv = document.createElement("div");
@@ -1481,9 +1484,10 @@ function updateGameSelectMenu() {
 
         let boardNumber = document.createElement("span");
         boardNumber.className = "col-1";
-        boardNumber.innerHTML = String(i + 1);
+        const boardNo = i + 1;
+        boardNumber.innerHTML = String(boardNo);
 
-        const hasThisBoardVideo = hasVideoBoards && i < videoBoards.length;
+        const hasThisBoardVideo = videoBoardsMap.has(boardNo);
 
         let players = document.createElement("span");
         players.className = "col-" + (hasThisBoardVideo ? "8" : "10");
@@ -1519,7 +1523,7 @@ function updateGameSelectMenu() {
             icon.className = "fas fa-video";
             camera.appendChild(icon);
             camera.onclick = (evt) => {
-                enableVideoDiv("VideoDivLeft", videoBoards[i]);
+                enableVideoDiv("VideoDivLeft", videoBoardsMap.get(boardNo));
                 currentBoardVideo = i;
                 // Update color of active camera
                 removeActiveVideoBoardCameraHighlight();

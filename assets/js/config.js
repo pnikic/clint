@@ -13,7 +13,11 @@ function listPGNFiles() {
     //     "date"         : <JavaScript Date object>,
     //     "video-left"   : <string>,
     //     "video-right"  : <string>,
-    //     "video-boards" : <Array>,
+    //     "video-boards" : <Array> of objects with format
+    //                      {
+    //                           "num" : <number>,
+    //                           "url" : <string>
+    //                      },
     //     "image-left"   : <string>,
     //     "image-right"  : <string>,
     //     "hyperlinks"   : <JavaScript object>
@@ -36,8 +40,8 @@ function listPGNFiles() {
     // +-------------+----------------+------------------------------------------------------------+
     // |   optional  |  "video-right" | link to a video to be displayed on the right-hand side     |
     // +-------------+----------------+------------------------------------------------------------+
-    // |   optional  | "video-boards" | array of video links (usually camera live streams) for the |
-    // |             |                | first boards; displayed on click in the left-hand side     |
+    // |   optional  | "video-boards" | array of video links (e.g. camera streams) for selected    |
+    // |             |                | games; upon click video is displayed on the left-hand side |
     // +-------------+----------------+------------------------------------------------------------+
     // |   optional  |  "image-left"  | link to an image to be displayed on the left-hand side     |
     // +-------------+----------------+------------------------------------------------------------+
@@ -53,6 +57,15 @@ function listPGNFiles() {
     // |       differently on smaller screens (e.g. for tablets and phones)                        |
     // +-------------------------------------------------------------------------------------------+
     //
+    // Format of objects in "video-boards" array
+    // +-------------+----------------+------------------------------------------------------------+
+    // | Optionality |      Key       |                         Description                        |
+    // +-------------+----------------+------------------------------------------------------------+
+    // |   required  |     "num"      | game number for this video (value 1 for 1st board, etc.)   |
+    // +-------------+----------------+------------------------------------------------------------+
+    // |   required  |     "url"      | hyperlink to the video stream                              |
+    // +-------------+----------------+------------------------------------------------------------+
+    //
     // See below for examples
 
     let begin;  // A variable which will be re-used in this function
@@ -63,7 +76,7 @@ function listPGNFiles() {
     //   * a different target for one hyperlink (i.e. `chess-results-link`).
     //     Hyperlinks (buttons) with a fixed target are configured below.
     //     See variable `navbarLinks` in `operatorSettings()`.
-    //   * video streams for the first three boards
+    //   * video streams for some of the first boards
     //
     // Example 1: video on the left and image on the right
     //
@@ -76,6 +89,7 @@ function listPGNFiles() {
     //     ...
     // }
     begin = dateFromArray([2020, 11, 10, 15, 0]);
+
     allPGNs.push({
         "pgn" : "pgn/r1.pgn",
         "id" : "round-1",
@@ -86,9 +100,9 @@ function listPGNFiles() {
             "chess-results-link" : "https://www.example.com/a1"
         },
         "video-boards" : [
-            "https://www.youtube.com/embed/nBGNEQGYNBw?&autoplay=1",
-            "https://www.youtube.com/embed/R2q2sdAO2hw?&autoplay=1",
-            "https://www.youtube.com/embed/3Pj6JaqPSOg?&autoplay=1"
+            {"num" : 1, "url" : "https://www.youtube.com/embed/nBGNEQGYNBw?&autoplay=1"},
+            {"num" : 2, "url" : "https://www.youtube.com/embed/R2q2sdAO2hw?&autoplay=1"},
+            {"num" : 3, "url" : "https://www.youtube.com/embed/3Pj6JaqPSOg?&autoplay=1"}
         ]
     });
 
@@ -103,9 +117,9 @@ function listPGNFiles() {
             "chess-results-link" : "https://www.example.com/a2"
         },
         "video-boards" : [
-            "https://www.youtube.com/embed/PzjP_1xvbcY?&autoplay=1",
-            "https://www.youtube.com/embed/IgcOI66xj4c?&autoplay=1",
-            "https://www.youtube.com/embed/BdXaWzziLC8?&autoplay=1"
+            {"num" : 2, "url" : "https://www.youtube.com/embed/PzjP_1xvbcY?&autoplay=1"},
+            {"num" : 3, "url" : "https://www.youtube.com/embed/IgcOI66xj4c?&autoplay=1"},
+            {"num" : 4, "url" : "https://www.youtube.com/embed/BdXaWzziLC8?&autoplay=1"}
         ]
     });
 
@@ -119,9 +133,9 @@ function listPGNFiles() {
             "chess-results-link" : "https://www.example.com/a3"
         },
         "video-boards" : [
-            "https://www.youtube.com/embed/tsextmL6Tn4?&autoplay=1",
-            "https://www.youtube.com/embed/v7M-SHjfLbs?&autoplay=1",
-            "https://www.youtube.com/embed/H5tdDM80ilE?&autoplay=1"
+            {"num" : 1, "url" : "https://www.youtube.com/embed/tsextmL6Tn4?&autoplay=1"},
+            {"num" : 2, "url" :  "https://www.youtube.com/embed/v7M-SHjfLbs?&autoplay=1"},
+            {"num" : 4, "url" : "https://www.youtube.com/embed/H5tdDM80ilE?&autoplay=1"}
         ]
     });
 
