@@ -9,10 +9,10 @@ let displayedGame = "";  // Currently displayed game (used for rotating the boar
 let viewType = -1;       // Variable for toggling single and multi board view
 let scaleOption = 1;     // TODO: Currently not used, to be considered when implementing resizing
 let numActiveSnackbarMessages = 0;  // Used for hiding snackbar element after showing notifications
-let currentPGN = 0       // Index of active PGN (from allPGNs)
-let currentPGNVideo = -1  // Index of PGN (from allPGNs) playing video (if any)
+let currentPGN = 0;        // Index of active PGN (from allPGNs)
+let currentPGNVideo = -1;  // Index of PGN (from allPGNs) playing video (if any)
 let initialPGNFile = "";
-let url = ""
+let url = "";
 let iframesGenerated = false;
 let iframesLoaded = [];
 let chessResultsPlayerData;    // Player's information from chess-results
