@@ -1470,8 +1470,10 @@ function updateGameSelectMenu() {
     // (Re)generate the game selection menu
     const videoBoards = allPGNs[currentPgn]["video-boards"];
     let videoBoardsMap = new Map();
-    for (videoBoard of videoBoards) {
-        videoBoardsMap.set(videoBoard["num"], videoBoard["url"]);
+    if (videoBoards != undefined) {
+        for (videoBoard of videoBoards) {
+            videoBoardsMap.set(videoBoard["num"], videoBoard["url"]);
+        }
     }
 
     for (let i = 0; i < numberOfGames; ++i) {
