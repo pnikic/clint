@@ -865,11 +865,12 @@ function generateTooltipPlayerInfo(data) {
         }
     }
     let points;
-    if (data.hasOwnProperty("points")) {
+    if (data.hasOwnProperty("points") && data["points"] != "0") {
         points = document.createElement("span");
         points.innerHTML = data["points"];
         if (data.hasOwnProperty("opponents")) {
-            points.innerHTML += " / " + String(data["opponents"].length);
+            const playedGames = data["opponents"].filter(entry => entry["res"].length > 0)
+            points.innerHTML += " / " + String(playedGames.length);
         }
     }
 
