@@ -394,7 +394,8 @@ let supportedLanguages = [
     "fr",  // Français (French)
     "de",  // Deutsch (German)
     "hi",  // हिन्दी (Hindi)
-    "hr"   // Hrvatski (Croatian)
+    "hr",  // Hrvatski (Croatian)
+    "eu"   // Euskara (Basque)
 ];
 
 // Path to player images
